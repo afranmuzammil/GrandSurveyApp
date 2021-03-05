@@ -65,8 +65,15 @@ class _FormsState extends State<Forms> {
       print(latitudeData);
     });
   }
-
-
+  String  unitValue = "MOULALI@HYD";
+  List unitNameList = [
+    "MOULALI@HYD",
+    "LALAGUDA@HYD",
+  ];
+  List unitPassWordList = [
+    "est@hyd40",
+    "est@hyd17",
+  ];
 
   String placeValue;
   List placesList = [
@@ -910,6 +917,35 @@ class _FormsState extends State<Forms> {
 
                                 ],
                               ),
+                            SizedBox(height: 10.0,),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                               SizedBox(height: 20.0,),
                               //location upload
                               Column(
@@ -1151,6 +1187,34 @@ class _FormsState extends State<Forms> {
                                 ),
 
                               ],
+                            ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
                             ),
                             SizedBox(height: 20.0,),
                             //location upload
@@ -1490,6 +1554,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -1812,6 +1904,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -2030,6 +2150,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -2247,6 +2395,34 @@ class _FormsState extends State<Forms> {
                                 ),
 
                               ],
+                            ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
                             ),
                             SizedBox(height: 20.0,),
                             //location upload
@@ -2484,6 +2660,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -2720,6 +2924,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -2938,6 +3170,34 @@ class _FormsState extends State<Forms> {
 
                               ],
                             ),
+                            //upload Image button
+                            Builder(
+                              builder: (context) => FlatButton(
+                                color: Theme.of(context).primaryColor,
+                                onPressed: () async {
+                                  await uploadImageToFirebase(context);
+                                  print("upload done : $imageLink");
+                                  if(imageLink!= null){
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    Scaffold.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+
+                                },
+                                child: Text(
+                                    'upload image',
+                                    style: TextStyle(color: Colors.white)
+                                ),
+                              ),
+                            ),
                             SizedBox(height: 20.0,),
                             //location upload
                             Column(
@@ -3037,59 +3297,100 @@ class _FormsState extends State<Forms> {
    });
  }
 void submitFunc(){
-  Scaffold.of(context).showSnackBar(
-    SnackBar(
-      content: Text("Submit Scuss"),
-    ),
-  );
+  // Scaffold.of(context).showSnackBar(
+  //   SnackBar(
+  //     content: Text("Submit Scuss"),
+  //   ),
+  // );
   setState(() {
     //:TODO: write firebase update script
+    print("code run");
     switch(placeValue){
       case "RELIGIOUS PLACES":{
         switch(placeTypeReligiousValue){
           case "MASJID":{
             Map<String, dynamic> data = {
-              "PlaceValue":placeValue,
-              "PlaceType":placeTypeReligiousValue,
-              "PlaceName":NameOfPlace,
-              "HeadOfplace":HeadOfplace,
-              "ContactNO":Contact,
-              "FikerType":FikerType,
-              "Libraries":Libraries,
-              "Capacity":Capacity,
-              "Address":Address,
-              "Details":Details,
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
+              "PlaceName":NameOfPlace.text,
+              "HeadOfplace":HeadOfplace.text,
+              "ContactNO":Contact.text,
+              "FikerType":FikerType.text,
+              "Libraries":Libraries.text,
+              "Capacity":Capacity.text,
+              "Address":Address.text,
+              "Details":Details.text,
               "PlaceImage": imageLink,
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
-
-
-
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("RELIGIOUS PLACES").collection("MASJID")
+                .add(data);
           }break;
           case "CHURCH":{
             Map<String, dynamic> data = {
-              // "email": placeTypeReligiousValue.toString(),
-              // "password": passCon.text,
-              // "photo": imageLink,
-              // "List": afran.toString(),
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
+              "PlaceName":NameOfPlace.text,
+              "HeadOfplace":HeadOfplace.text,
+              "ContactNO":Contact.text,
+              "FikerType":FikerType.text,
+              "Libraries":Libraries.text,
+              "Capacity":Capacity.text,
+              "Address":Address.text,
+              "Details":Details.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("RELIGIOUS PLACES").collection("CHURCH")
+                .add(data);
           }break;
           case "GURUDWARS":{
             Map<String, dynamic> data = {
-              // "email": placeTypeReligiousValue.toString(),
-              // "password": passCon.text,
-              // "photo": imageLink,
-              // "List": afran.toString(),
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
+              "PlaceName":NameOfPlace.text,
+              "HeadOfplace":HeadOfplace.text,
+              "ContactNO":Contact.text,
+              "FikerType":FikerType.text,
+              "Libraries":Libraries.text,
+              "Capacity":Capacity.text,
+              "Address":Address.text,
+              "Details":Details.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("RELIGIOUS PLACES").collection("GURUDWARS")
+                .add(data);
           }break;
           case "TEMPLE":{
             Map<String, dynamic> data = {
-              // "email": placeTypeReligiousValue.toString(),
-              // "password": passCon.text,
-              // "photo": imageLink,
-              // "List": afran.toString(),
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
+              "PlaceName":NameOfPlace.text,
+              "HeadOfplace":HeadOfplace.text,
+              "ContactNO":Contact.text,
+              "FikerType":FikerType.text,
+              "Libraries":Libraries.text,
+              "Capacity":Capacity.text,
+              "Address":Address.text,
+              "Details":Details.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("RELIGIOUS PLACES").collection("TEMPLE")
+                .add(data);
           }break;
         }
       }
@@ -3124,6 +3425,163 @@ void submitFunc(){
         }
       }
       break;
+
+      case"YOUTH SPOTS":{
+        switch(placeTypeYouthValue){
+          case"GYM":{
+
+          }break;
+          case"PLAY GROUND":{
+
+          }break;
+          case"GAME ROOMS":{
+
+          }break;
+          case"SPORTS CLUB":{
+
+          }break;
+        }
+
+      }
+      break;
+
+      case"PUBLIC SPOTS":{
+        switch(placeTypePublicValue){
+          case"HOTELS & RESTAURANT'S":{
+
+          }break;
+          case"BUS STOPS":{
+
+          }break;
+          case"PAN SHOP/TEA STALL":{
+
+          }break;
+          case"THEATERS":{
+
+          }break;
+          case"TOURIST PLACES":{
+
+          }break;
+          case"GARDENS":{
+
+          }break;
+          case"PARKS":{
+
+          }break;
+          case"YOGA CENTRES":{
+
+          }break;
+          case"FITNESS CENTRES":{
+
+          }break;
+        }
+
+      }
+      break;
+
+      case"OFFICES":{
+        switch(placeTypeOfficesValue){
+          case"ELECTRICITY":{
+
+          }break;
+          case"POLICE STATION'S":{
+
+          }break;
+          case"POST OFFICES":{
+
+          }break;
+          case"MRO":{
+
+          }break;
+          case"MPDO":{
+
+          }break;
+          case"WATER":{
+
+          }break;
+          case"TAHSILDAAR":{
+
+          }break;
+          case"MLA":{
+
+          }break;
+          case"MP":{
+
+          }break;
+          case"CORPORATOR":{
+
+          }break;
+
+        }
+      }
+      break;
+
+      case"NGOS/ORGANISATIONS":{
+        switch(placeTypeNgosValue){
+          case"OLD AGE":{
+
+          }break;
+          case"ORPHAN AGE":{
+
+          }break;
+          case"SOCIAL WELFARE":{
+
+          }break;
+          case"CAREER GUIDANCE ":{
+
+          }break;
+          case"COUNSELING CENTRES":{
+
+          }break;
+          case"STUDENT&RELIGIOUS&CHARITY":{
+
+          }break;
+          case"YOUTH ORGANISATIONS":{
+
+          }break;
+          case"HWF CENTRES":{
+
+          }break;
+          case"CHILD CARE":{
+
+          }break;
+          case"ASSOCIATIONS":{
+
+          }break;
+          case"FORUMS":{
+
+          }break;
+
+        }
+      }
+      break;
+
+      case"HALLS":{
+        switch(placeTypeHallsValue){
+          case"COMMUNITY HALLS":{
+
+          }break;
+          case"FUNCTION HALLS":{
+
+          }break;
+          case"MEETING HALLS":{
+
+          }break;
+          case"MELAS ":{
+
+          }break;
+          case"EXHIBITION ":{
+
+          }break;
+          case"PRESS HALLS":{
+
+          }break;
+
+        }
+      }
+      break;
+
+
     }
   });
 }

@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "704359014015",
+    "project_id": "grand-survey-app",
+    "storage_bucket": "grand-survey-app.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:704359014015:android:d4dc8dc811079cce87e94a",
+        "android_client_info": {
+          "package_name": "com.afran.form_app"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "704359014015-rmolj8t0faf1u2q71m820cl7746loddj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD7ZjZxTk2i-__oiTuYLgyc6wTk2iKH-MU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "704359014015-rmolj8t0faf1u2q71m820cl7746loddj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

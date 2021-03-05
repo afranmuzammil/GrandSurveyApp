@@ -1,6 +1,10 @@
 import 'dart:io';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
+import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
 
 
@@ -12,6 +16,7 @@ class Forms extends StatefulWidget {
 class _FormsState extends State<Forms> {
 
   final formKey = GlobalKey<FormState>();
+  firebase_storage.Reference ref;
 
   //function's
   //To get a image
@@ -23,6 +28,24 @@ class _FormsState extends State<Forms> {
       userImage = image;
     });
   }
+
+  String imageLink;
+
+  Future uploadImageToFirebase(BuildContext context) async {
+    String fileName = userImage.path;
+    ref = firebase_storage.FirebaseStorage.instance
+        .ref()
+        .child('uploads/${Path.basename(fileName)}');
+    await ref.putFile(userImage).whenComplete(() async {
+      ref.getDownloadURL().then((value) {
+        imageLink = value;
+      });
+    });
+    return imageLink;
+  }
+
+
+
 
   //To get the location
   String latitudeData ="";
@@ -67,6 +90,15 @@ class _FormsState extends State<Forms> {
     "TEMPLE",
   ];
   //controllers
+  final NameOfPlace = new TextEditingController();
+  final HeadOfplace = new TextEditingController();
+  final Contact = new TextEditingController();
+  final FikerType = new TextEditingController();
+  final Libraries = new TextEditingController();
+  final Capacity = new TextEditingController();
+  final Address = new TextEditingController();
+  final Details = new TextEditingController();
+
 
   //EDUCATIONAL INSTITUTIONS
   String placeTypeEducationValue;
@@ -76,7 +108,33 @@ class _FormsState extends State<Forms> {
     "COLLAGE",
     "INSTITUTION",
   ];
-  //controllers
+  //controllers SCHOOL
+  final schoolName = new TextEditingController();
+  final schoolPrinciple = new TextEditingController();
+  final schoolContact = new TextEditingController();
+  final schoolStrength = new TextEditingController();
+  final schoolOpportunities = new TextEditingController();
+  final schoolRemarks = new TextEditingController();
+  final schoolAddress = new TextEditingController();
+  //controllers COLLAGE
+  final collageName = new TextEditingController();
+  final collageCourses = new TextEditingController();
+  final collageContact = new TextEditingController();
+  final collageStrength = new TextEditingController();
+  final collageOpportunities = new TextEditingController();
+  final collageRemarks = new TextEditingController();
+  final collageAddress = new TextEditingController();
+  List typeOfCollegeList = [];
+  //controllers INSTITUTION
+  final institutionName = new TextEditingController();
+  final institutionCourses = new TextEditingController();
+  final institutionContact = new TextEditingController();
+  final institutionStrength = new TextEditingController();
+  final institutionOpportunities = new TextEditingController();
+  final institutionRemarks = new TextEditingController();
+  final institutionAddress = new TextEditingController();
+  List typeOfInstitutionList = [];
+
 
 
   //YOUTH SPOTS
@@ -89,6 +147,12 @@ class _FormsState extends State<Forms> {
     "SPORTS CLUB",
   ];
   //controllers
+  final youthPlaceName = new TextEditingController();
+  final youthHeadOfPlace = new TextEditingController();
+  final youthContact = new TextEditingController();
+  final youthCapacity = new TextEditingController();
+  final youthAddress = new TextEditingController();
+  final youthDetails = new TextEditingController();
 
   //PUBLIC SPOTS
   String placeTypePublicValue;
@@ -105,6 +169,12 @@ class _FormsState extends State<Forms> {
     "FITNESS CENTRES",
   ];
   //controllers
+  final publicPlaceName = new TextEditingController();
+  final publicHeadOfPlace = new TextEditingController();
+  final publicContact = new TextEditingController();
+  final publicCapacity = new TextEditingController();
+  final publicAddress = new TextEditingController();
+  final publicDetails = new TextEditingController();
 
   //OFFICES
   String placeTypeOfficesValue;
@@ -122,6 +192,14 @@ class _FormsState extends State<Forms> {
     "CORPORATOR",
   ];
   //controllers
+  final officePlaceName = new TextEditingController();
+  final officeHeadOfPlace = new TextEditingController();
+  final officeContact = new TextEditingController();
+  final officeTiming = new TextEditingController();
+  final officeCapacity = new TextEditingController();
+  final officeAddress = new TextEditingController();
+  final officeDetails = new TextEditingController();
+
 
   //NGOS/ORGANISATIONS
   String placeTypeNgosValue;
@@ -140,6 +218,13 @@ class _FormsState extends State<Forms> {
     "FORUMS",
   ];
   //controllers
+  final ngosPlaceName = new TextEditingController();
+  final ngosHeadOfPlace = new TextEditingController();
+  final ngosContact = new TextEditingController();
+  final ngosTiming = new TextEditingController();
+  final ngosCapacity = new TextEditingController();
+  final ngosAddress = new TextEditingController();
+  final ngosDetails = new TextEditingController();
 
   //HALLS
   String placeTypeHallsValue;
@@ -153,6 +238,13 @@ class _FormsState extends State<Forms> {
     "PRESS HALLS"
   ];
   //controllers
+  final hallsPlaceName = new TextEditingController();
+  final hallsHeadOfPlace = new TextEditingController();
+  final hallsContact = new TextEditingController();
+  final hallsCapacity = new TextEditingController();
+  final hallsAddress = new TextEditingController();
+  final hallsDetails = new TextEditingController();
+
 
 //Details visibility Values
  bool religiousDetailsVisible = false;
@@ -167,11 +259,17 @@ class _FormsState extends State<Forms> {
   // int _Value = 1;
 
   //Check boxes Values
+  //collage
   bool valueInter = false;
   bool valuePG = false;
   bool valueUG = false;
   bool valueVoc = false;
   bool valueUni = false;
+//Institution
+  bool valueMadrsa = false;
+  bool valueTut = false;
+  bool valueLibraris = false;
+  bool valueHostal = false;
 
   bool isButtonVisible = true;
   bool isEnabled = false;
@@ -626,7 +724,7 @@ class _FormsState extends State<Forms> {
                           children: [
                             //Name of the Place
                             TextFormField(
-                              //controller: idCon,
+                              controller: NameOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -644,7 +742,7 @@ class _FormsState extends State<Forms> {
                             ),
                             // head of the place
                             TextFormField(
-                              //controller: idCon,
+                              controller: HeadOfplace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -662,7 +760,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: Contact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -681,7 +779,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Type of Fiker
                             TextFormField(
-                              //controller: idCon,
+                              controller: FikerType,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -699,7 +797,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //ASSOCIATED LIBRARIES/CENTRES
                             TextFormField(
-                              //controller: idCon,
+                              controller: Libraries,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -721,7 +819,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: Capacity,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -741,7 +839,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: Address,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -763,7 +861,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: Details,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -864,6 +962,7 @@ class _FormsState extends State<Forms> {
                                         ),
                                       );
                                       setState(() {
+                                        print(NameOfPlace);
                                         pressedFunc();
                                       });
                                     }
@@ -885,7 +984,7 @@ class _FormsState extends State<Forms> {
                           children: [
                             // Name of the School
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -903,7 +1002,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Name of the principle
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolPrinciple,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -921,7 +1020,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Strength
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolStrength,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -941,7 +1040,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -960,7 +1059,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -982,7 +1081,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Opportunities
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolOpportunities,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1004,7 +1103,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Remarks
                             TextFormField(
-                              //controller: idCon,
+                              controller: schoolRemarks,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1105,6 +1204,7 @@ class _FormsState extends State<Forms> {
                                         ),
                                       );
                                       setState(() {
+                                        print(schoolName);
                                         pressedFunc();
                                       });
                                     }
@@ -1125,7 +1225,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             //Name of the Collage
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1158,6 +1258,11 @@ class _FormsState extends State<Forms> {
                                 setState(() {
                                   this.valueInter = value;
                                 });
+                                if(valueInter == true){
+                                  typeOfCollegeList.add("INTERMEDIATE");
+                                }else if(valueInter == false){
+                                  typeOfCollegeList.remove("INTERMEDIATE");
+                                }
                               },
                             ),
                             //UG
@@ -1170,6 +1275,11 @@ class _FormsState extends State<Forms> {
                                 setState(() {
                                   this.valueUG = value;
                                 });
+                                if(valueUG == true){
+                                  typeOfCollegeList.add("UNDER GRADUATION/DEGREE");
+                                }else if(valueUG == false){
+                                  typeOfCollegeList.remove("UNDER GRADUATION/DEGREE");
+                                }
                               },
                             ),
                             //PG
@@ -1182,6 +1292,11 @@ class _FormsState extends State<Forms> {
                                 setState(() {
                                   this.valuePG = value;
                                 });
+                                if(valuePG == true){
+                                  typeOfCollegeList.add("POST GRADUATION");
+                                }else if(valuePG == false){
+                                  typeOfCollegeList.remove("POST GRADUATION");
+                                }
                               },
                             ),
                             //VOCATIONAL
@@ -1194,6 +1309,11 @@ class _FormsState extends State<Forms> {
                                 setState(() {
                                   this.valueVoc = value;
                                 });
+                                if(valueVoc == true){
+                                  typeOfCollegeList.add("VOCATIONAL");
+                                }else if(valueVoc == false){
+                                  typeOfCollegeList.remove("VOCATIONAL");
+                                }
                               },
                             ),
                             //UNIVERSITY
@@ -1206,12 +1326,17 @@ class _FormsState extends State<Forms> {
                                 setState(() {
                                   this.valueUni = value;
                                 });
+                                if(valueUni == true){
+                                  typeOfCollegeList.add("UNIVERSITY");
+                                }else if(valueUni == false){
+                                  typeOfCollegeList.remove("UNIVERSITY");
+                                }
                               },
                             ),
                             SizedBox(height: 20.0,),
                             //Courses
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageCourses,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1233,7 +1358,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Strength
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageStrength,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1253,7 +1378,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -1272,7 +1397,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1294,7 +1419,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Opportunities
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageOpportunities,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1316,7 +1441,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Remarks
                             TextFormField(
-                              //controller: idCon,
+                              controller: collageRemarks,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1417,6 +1542,8 @@ class _FormsState extends State<Forms> {
                                         ),
                                       );
                                       setState(() {
+                                        print(collageName);
+                                        print("list is $typeOfCollegeList");
                                         pressedFunc();
                                       });
                                     }
@@ -1437,7 +1564,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             //Name of the INSTITUTIONS
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1465,11 +1592,16 @@ class _FormsState extends State<Forms> {
                               secondary: const Icon(Icons.school_outlined),
                               title: const Text('MADRSA'),
                               //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueInter,
+                              value: this.valueMadrsa,
                               onChanged: (bool value) {
                                 setState(() {
-                                  this.valueInter = value;
+                                  this.valueMadrsa = value;
                                 });
+                                if(valueMadrsa == true){
+                                  typeOfInstitutionList.add("MADRSA");
+                                }else if(valueMadrsa == false){
+                                  typeOfInstitutionList.remove("MADRSA");
+                                }
                               },
                             ),
                             //TUTORIAL
@@ -1477,11 +1609,16 @@ class _FormsState extends State<Forms> {
                               secondary: const Icon(Icons.school_outlined),
                               title: const Text('TUTORIAL'),
                               //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueUG,
+                              value: this.valueTut,
                               onChanged: (bool value) {
                                 setState(() {
-                                  this.valueUG = value;
+                                  this.valueTut = value;
                                 });
+                                if(valueTut == true){
+                                  typeOfInstitutionList.add("TUTORIAL");
+                                }else if(valueTut == false){
+                                  typeOfInstitutionList.remove("TUTORIAL");
+                                }
                               },
                             ),
                             //LIBRARIES
@@ -1489,11 +1626,16 @@ class _FormsState extends State<Forms> {
                               secondary: const Icon(Icons.school_outlined),
                               title: const Text('LIBRARIES'),
                               //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valuePG,
+                              value: this.valueLibraris,
                               onChanged: (bool value) {
                                 setState(() {
-                                  this.valuePG = value;
+                                  this.valueLibraris = value;
                                 });
+                                if(valueLibraris == true){
+                                  typeOfInstitutionList.add("LIBRARIES");
+                                }else if(valueLibraris == false){
+                                  typeOfInstitutionList.remove("LIBRARIES");
+                                }
                               },
                             ),
                             //HOSTELS
@@ -1501,17 +1643,22 @@ class _FormsState extends State<Forms> {
                               secondary: const Icon(Icons.school_outlined),
                               title: const Text('HOSTELS'),
                               //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueUni,
+                              value: this.valueHostal,
                               onChanged: (bool value) {
                                 setState(() {
-                                  this.valueUni = value;
+                                  this.valueHostal = value;
                                 });
+                                if(valueHostal == true){
+                                  typeOfInstitutionList.add("HOSTELS");
+                                }else if(valueHostal == false){
+                                  typeOfInstitutionList.remove("HOSTELS");
+                                }
                               },
                             ),
                             SizedBox(height: 6.0,),
                             //Courses
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionCourses,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1533,7 +1680,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Strength
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionStrength,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1553,7 +1700,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -1572,7 +1719,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1594,7 +1741,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Opportunities
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionOpportunities,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1616,7 +1763,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Remarks
                             TextFormField(
-                              //controller: idCon,
+                              controller: institutionRemarks,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1737,7 +1884,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             //Name of the Place
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthPlaceName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1755,7 +1902,7 @@ class _FormsState extends State<Forms> {
                             ),
                             // head of the place
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthHeadOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1773,7 +1920,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -1792,7 +1939,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthCapacity,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1812,7 +1959,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1834,7 +1981,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: youthDetails,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -1955,7 +2102,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             //Name of the Place
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicPlaceName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1973,7 +2120,7 @@ class _FormsState extends State<Forms> {
                             ),
                             // head of the place
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicHeadOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -1991,7 +2138,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -2010,7 +2157,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicCapacity,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2030,7 +2177,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2052,7 +2199,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: publicDetails,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2173,7 +2320,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             // name of the office
                             TextFormField(
-                              //controller: idCon,
+                              controller: officePlaceName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2191,7 +2338,7 @@ class _FormsState extends State<Forms> {
                             ),
                           //  Head of the Office
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeHeadOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2209,7 +2356,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -2228,7 +2375,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Timings
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeTiming,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2246,7 +2393,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeCapacity,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2266,7 +2413,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2288,7 +2435,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: officeDetails,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2409,7 +2556,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             // name of the office
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosPlaceName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2427,7 +2574,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //  Head of the Office
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosHeadOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2445,7 +2592,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -2464,7 +2611,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Timings
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosTiming,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2482,7 +2629,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosCapacity,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2502,7 +2649,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2524,7 +2671,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: ngosDetails,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2645,7 +2792,7 @@ class _FormsState extends State<Forms> {
                           children: <Widget>[
                             //Name of the Halls
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsPlaceName,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2663,7 +2810,7 @@ class _FormsState extends State<Forms> {
                             ),
                             // head of the place
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsHeadOfPlace,
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
@@ -2681,7 +2828,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Contact num
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsContact,
                               keyboardType: TextInputType.number,
                               keyboardAppearance: Brightness.light,
                               decoration: InputDecoration(
@@ -2700,7 +2847,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Capacity
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsContact,
                               keyboardType: TextInputType.number,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2720,7 +2867,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Address
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsAddress,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2742,7 +2889,7 @@ class _FormsState extends State<Forms> {
                             ),
                             //Details
                             TextFormField(
-                              //controller: idCon,
+                              controller: hallsDetails,
                               keyboardType: TextInputType.multiline,
                               minLines: 1,//Normal textInputField will be displayed
                               maxLines: 5,
@@ -2897,6 +3044,87 @@ void submitFunc(){
   );
   setState(() {
     //:TODO: write firebase update script
+    switch(placeValue){
+      case "RELIGIOUS PLACES":{
+        switch(placeTypeReligiousValue){
+          case "MASJID":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue,
+              "PlaceType":placeTypeReligiousValue,
+              "PlaceName":NameOfPlace,
+              "HeadOfplace":HeadOfplace,
+              "ContactNO":Contact,
+              "FikerType":FikerType,
+              "Libraries":Libraries,
+              "Capacity":Capacity,
+              "Address":Address,
+              "Details":Details,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+
+            };
+          }break;
+          case "CHURCH":{
+            Map<String, dynamic> data = {
+              // "email": placeTypeReligiousValue.toString(),
+              // "password": passCon.text,
+              // "photo": imageLink,
+              // "List": afran.toString(),
+            };
+          }break;
+          case "GURUDWARS":{
+            Map<String, dynamic> data = {
+              // "email": placeTypeReligiousValue.toString(),
+              // "password": passCon.text,
+              // "photo": imageLink,
+              // "List": afran.toString(),
+            };
+          }break;
+          case "TEMPLE":{
+            Map<String, dynamic> data = {
+              // "email": placeTypeReligiousValue.toString(),
+              // "password": passCon.text,
+              // "photo": imageLink,
+              // "List": afran.toString(),
+            };
+          }break;
+        }
+      }
+      break;
+
+      case "EDUCATIONAL INSTITUTIONS":{
+        switch(placeTypeEducationValue){
+          case "SCHOOL":{
+          Map<String, dynamic> data = {
+            // "email": placeTypeReligiousValue.toString(),
+            // "password": passCon.text,
+            // "photo": imageLink,
+            // "List": afran.toString(),
+          };
+        }break;
+          case "COLLAGE":{
+            Map<String, dynamic> data = {
+              // "email": placeTypeReligiousValue.toString(),
+              // "password": passCon.text,
+              // "photo": imageLink,
+              // "List": afran.toString(),
+            };
+          }break;
+          case "INSTITUTION":{
+            Map<String, dynamic> data = {
+              // "email": placeTypeReligiousValue.toString(),
+              // "password": passCon.text,
+              // "photo": imageLink,
+              // "List": afran.toString(),
+            };
+          }break;
+        }
+      }
+      break;
+    }
   });
 }
 

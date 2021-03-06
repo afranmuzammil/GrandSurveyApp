@@ -4,20 +4,22 @@ import 'package:form_app/pages/form.dart';
 import 'package:form_app/pages/loading.dart';
 import 'package:form_app/pages/login.dart';
 
+import 'pages/home.dart';
+
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-      //MyForm()
-    MaterialApp(
-      debugShowCheckedModeBanner: false,
-      initialRoute: '/',
-      routes: {
-        '/':(context) =>Loading(),
-        '/login':(context) =>LoginForm(),
-        '/form':(context) => Forms(),
-      },
-   )
+      MyForm()
+   //  MaterialApp(
+   //    debugShowCheckedModeBanner: false,
+   //    initialRoute: '/',
+   //    routes: {
+   //      '/':(context) =>Loading(),
+   //      '/login':(context) =>LoginForm(),
+   //      '/form':(context) => Forms(),
+   //    },
+   // )
   );
 }
 class MyForm extends StatelessWidget {
@@ -28,7 +30,7 @@ class MyForm extends StatelessWidget {
 
     return MaterialApp(
       debugShowCheckedModeBanner: false,
-      home: Forms(),
+      home: MyHomePage(),
 
     );
   }

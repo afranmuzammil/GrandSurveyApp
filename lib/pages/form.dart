@@ -82,7 +82,7 @@ class _FormsState extends State<Forms> {
     "YOUTH SPOTS",
     "PUBLIC SPOTS",
     "OFFICES",
-    "NGOS/ORGANISATIONS",
+    "NGOSorORGANISATIONS",
     "HALLS",
   ];
   //controllers
@@ -167,7 +167,7 @@ class _FormsState extends State<Forms> {
   List placesTypePublicList = [
     "HOTELS & RESTAURANT'S",
     "BUS STOPS",
-    "PAN SHOP/TEA STALL",
+    "PAN SHOPorTEA STALL",
     "THEATERS",
     "TOURIST PLACES",
     "GARDENS",
@@ -406,7 +406,7 @@ class _FormsState extends State<Forms> {
                          // officeDetailsVisible = false;
                           ngosDetailsVisible = false;
                           hallsDetailsVisible = false;
-                        } else if (placeValue == "NGOS/ORGANISATIONS") {
+                        } else if (placeValue == "NGOSorORGANISATIONS") {
                           isVisibleNgos = !isVisibleNgos;
                           isVisibleReligious = false;
                           isVisibleEducation = false;
@@ -3323,6 +3323,8 @@ void submitFunc(){
               "PlaceImage": imageLink,
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
+
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3344,6 +3346,8 @@ void submitFunc(){
               "PlaceImage": imageLink,
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
+
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3365,6 +3369,8 @@ void submitFunc(){
               "PlaceImage": imageLink,
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
+
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3386,6 +3392,8 @@ void submitFunc(){
               "PlaceImage": imageLink,
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
+
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3413,7 +3421,7 @@ void submitFunc(){
             "latitudeData":latitudeData,
             "longitudeData":longitudeData,
 
-
+            "unitName":unitValue,
           };
           FirebaseFirestore.instance
               .collection("MOULALI@HYD")
@@ -3436,7 +3444,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3460,7 +3468,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3488,7 +3496,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3510,7 +3518,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3532,7 +3540,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3554,7 +3562,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3583,6 +3591,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3605,6 +3614,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3612,7 +3622,7 @@ void submitFunc(){
                 .add(data);
 
           }break;
-          case"PAN SHOP/TEA STALL":{
+          case"PAN SHOPorTEA STALL":{
             Map<String, dynamic> data = {
               "PlaceValue":placeValue.toLowerCase().toString(),
               "PlaceType":placeTypePublicValue.toLowerCase().toString(),
@@ -3626,11 +3636,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("PUBLIC SPOTS").collection("PAN SHOP/TEA STALL")
+                .doc("PUBLIC SPOTS").collection("PAN SHOPorTEA STALL")
                 .add(data);
 
           }break;
@@ -3648,7 +3658,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3670,7 +3680,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3692,7 +3702,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3714,7 +3724,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3736,7 +3746,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3758,7 +3768,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3788,7 +3798,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3811,7 +3821,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3834,7 +3844,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3857,7 +3867,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3880,7 +3890,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3903,7 +3913,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3926,7 +3936,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3949,7 +3959,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3972,7 +3982,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -3995,7 +4005,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4008,7 +4018,7 @@ void submitFunc(){
       }
       break;
 
-      case"NGOS/ORGANISATIONS":{
+      case"NGOSorORGANISATIONS":{
         switch(placeTypeNgosValue){
           case"OLD AGE":{
             Map<String, dynamic> data = {
@@ -4025,10 +4035,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("OLD AGE")
+                .doc("NGOSorORGANISATIONS").collection("OLD AGE")
                 .add(data);
 
           }break;
@@ -4047,10 +4058,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("ORPHAN AGE")
+                .doc("NGOSorORGANISATIONS").collection("ORPHAN AGE")
                 .add(data);
 
           }break;
@@ -4069,10 +4081,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("SOCIAL WELFARE")
+                .doc("NGOSorORGANISATIONS").collection("SOCIAL WELFARE")
                 .add(data);
 
           }break;
@@ -4091,10 +4104,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("CAREER GUIDANCE")
+                .doc("NGOSorORGANISATIONS").collection("CAREER GUIDANCE")
                 .add(data);
 
           }break;
@@ -4113,10 +4127,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("COUNSELING CENTRES")
+                .doc("NGOSorORGANISATIONS").collection("COUNSELING CENTRES")
                 .add(data);
 
           }break;
@@ -4135,10 +4150,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
+                .doc("NGOSorORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
                 .add(data);
 
           }break;
@@ -4157,10 +4173,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("YOUTH ORGANISATIONS")
+                .doc("NGOSorORGANISATIONS").collection("YOUTH ORGANISATIONS")
                 .add(data);
 
           }break;
@@ -4179,10 +4196,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("HWF CENTRES")
+                .doc("NGOSorORGANISATIONS").collection("HWF CENTRES")
                 .add(data);
 
           }break;
@@ -4201,10 +4219,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("CHILD CARE")
+                .doc("NGOSorORGANISATIONS").collection("CHILD CARE")
                 .add(data);
           }break;
           case"ASSOCIATIONS":{
@@ -4222,10 +4241,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("ASSOCIATIONS")
+                .doc("NGOSorORGANISATIONS").collection("ASSOCIATIONS")
                 .add(data);
 
           }break;
@@ -4244,10 +4264,11 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
-                .doc("NGOS/ORGANISATIONS").collection("FORUMS")
+                .doc("NGOSorORGANISATIONS").collection("FORUMS")
                 .add(data);
 
           }break;
@@ -4272,7 +4293,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4294,7 +4315,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4316,7 +4337,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4338,7 +4359,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4360,7 +4381,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")
@@ -4382,7 +4403,7 @@ void submitFunc(){
               "latitudeData":latitudeData,
               "longitudeData":longitudeData,
 
-
+              "unitName":unitValue,
             };
             FirebaseFirestore.instance
                 .collection("MOULALI@HYD")

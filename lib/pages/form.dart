@@ -3400,27 +3400,73 @@ void submitFunc(){
         switch(placeTypeEducationValue){
           case "SCHOOL":{
           Map<String, dynamic> data = {
-            // "email": placeTypeReligiousValue.toString(),
-            // "password": passCon.text,
-            // "photo": imageLink,
-            // "List": afran.toString(),
+            "PlaceValue":placeValue.toLowerCase().toString(),
+            "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+            "schoolName":schoolName.text,
+            "schoolPrinciple":schoolPrinciple.text,
+            "schoolContact":schoolContact.text,
+            "schoolStrength":schoolStrength.text,
+            "schoolOpportunities":schoolOpportunities.text,
+            "schoolRemarks":schoolRemarks.text,
+            "schoolAddress":schoolAddress.text,
+            "PlaceImage": imageLink,
+            "latitudeData":latitudeData,
+            "longitudeData":longitudeData,
+
+
           };
+          FirebaseFirestore.instance
+              .collection("MOULALI@HYD")
+              .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
+              .add(data);
         }break;
           case "COLLAGE":{
             Map<String, dynamic> data = {
-              // "email": placeTypeReligiousValue.toString(),
-              // "password": passCon.text,
-              // "photo": imageLink,
-              // "List": afran.toString(),
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+              "collageName":collageName.text,
+              "collageCourses":collageCourses.text,
+              "collageContact":collageContact.text,
+              "collageStrength":collageStrength.text,
+              "collageOpportunities":collageOpportunities.text,
+              "collageRemarks":collageRemarks.text,
+              "collageAddress":collageAddress.text,
+              "typeOfCollegeList":typeOfCollegeList.toString(),
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("EDUCATIONAL INSTITUTIONS").collection("COLLAGE")
+                .add(data);
+
           }break;
           case "INSTITUTION":{
             Map<String, dynamic> data = {
-              // "email": placeTypeReligiousValue.toString(),
-              // "password": passCon.text,
-              // "photo": imageLink,
-              // "List": afran.toString(),
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+              "institutionName":institutionName.text,
+              "institutionCourses":institutionCourses.text,
+              "institutionContact":institutionContact.text,
+              "institutionStrength":institutionStrength.text,
+              "institutionOpportunities":institutionOpportunities.text,
+              "institutionRemarks":institutionRemarks.text,
+              "institutionAddress":institutionAddress.text,
+              "typeOfInstitutionList":typeOfInstitutionList.toString(),
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
             };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("EDUCATIONAL INSTITUTIONS").collection("INSTITUTION")
+                .add(data);
+
           }break;
         }
       }
@@ -3429,15 +3475,91 @@ void submitFunc(){
       case"YOUTH SPOTS":{
         switch(placeTypeYouthValue){
           case"GYM":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+              "youthPlaceName":youthPlaceName.text,
+              "youthHeadOfPlace":youthHeadOfPlace.text,
+              "youthContact":youthContact.text,
+              "youthCapacity":youthCapacity.text,
+              "youthAddress":youthAddress.text,
+              "youthDetails":youthDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("YOUTH SPOTS").collection("GYM")
+                .add(data);
 
           }break;
           case"PLAY GROUND":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+              "youthPlaceName":youthPlaceName.text,
+              "youthHeadOfPlace":youthHeadOfPlace.text,
+              "youthContact":youthContact.text,
+              "youthCapacity":youthCapacity.text,
+              "youthAddress":youthAddress.text,
+              "youthDetails":youthDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("YOUTH SPOTS").collection("PLAY GROUND")
+                .add(data);
 
           }break;
           case"GAME ROOMS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+              "youthPlaceName":youthPlaceName.text,
+              "youthHeadOfPlace":youthHeadOfPlace.text,
+              "youthContact":youthContact.text,
+              "youthCapacity":youthCapacity.text,
+              "youthAddress":youthAddress.text,
+              "youthDetails":youthDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("YOUTH SPOTS").collection("GAME ROOMS")
+                .add(data);
 
           }break;
           case"SPORTS CLUB":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+              "youthPlaceName":youthPlaceName.text,
+              "youthHeadOfPlace":youthHeadOfPlace.text,
+              "youthContact":youthContact.text,
+              "youthCapacity":youthCapacity.text,
+              "youthAddress":youthAddress.text,
+              "youthDetails":youthDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("YOUTH SPOTS").collection("SPORTS CLUB")
+                .add(data);
 
           }break;
         }
@@ -3448,30 +3570,200 @@ void submitFunc(){
       case"PUBLIC SPOTS":{
         switch(placeTypePublicValue){
           case"HOTELS & RESTAURANT'S":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("HOTELS & RESTAURANT'S")
+                .add(data);
+
 
           }break;
           case"BUS STOPS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("BUS STOPS")
+                .add(data);
 
           }break;
           case"PAN SHOP/TEA STALL":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("PAN SHOP/TEA STALL")
+                .add(data);
 
           }break;
           case"THEATERS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("THEATERS")
+                .add(data);
 
           }break;
           case"TOURIST PLACES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("TOURIST PLACES")
+                .add(data);
 
           }break;
           case"GARDENS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("GARDENS")
+                .add(data);
 
           }break;
           case"PARKS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("PARKS")
+                .add(data);
 
           }break;
           case"YOGA CENTRES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("YOGA CENTRES")
+                .add(data);
 
           }break;
           case"FITNESS CENTRES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("PUBLIC SPOTS").collection("FITNESS CENTRES")
+                .add(data);
 
           }break;
         }
@@ -3482,33 +3774,233 @@ void submitFunc(){
       case"OFFICES":{
         switch(placeTypeOfficesValue){
           case"ELECTRICITY":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("ELECTRICITY")
+                .add(data);
 
           }break;
           case"POLICE STATION'S":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("POLICE STATION'S")
+                .add(data);
 
           }break;
           case"POST OFFICES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("POST OFFICES")
+                .add(data);
 
           }break;
           case"MRO":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("MRO")
+                .add(data);
 
           }break;
           case"MPDO":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("MPDO")
+                .add(data);
 
           }break;
           case"WATER":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("WATER")
+                .add(data);
 
           }break;
           case"TAHSILDAAR":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("TAHSILDAAR")
+                .add(data);
 
           }break;
           case"MLA":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("MLA")
+                .add(data);
 
           }break;
           case"MP":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("MP")
+                .add(data);
 
           }break;
           case"CORPORATOR":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+              "officePlaceName":officePlaceName.text,
+              "officeHeadOfPlace":officeHeadOfPlace.text,
+              "officeContact":officeContact.text,
+              "officeTiming":officeTiming.text,
+              "officeCapacity":officeCapacity.text,
+              "officeAddress":officeAddress.text,
+              "officeDetails":officeDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("OFFICES").collection("CORPORATOR")
+                .add(data);
 
           }break;
 
@@ -3519,36 +4011,244 @@ void submitFunc(){
       case"NGOS/ORGANISATIONS":{
         switch(placeTypeNgosValue){
           case"OLD AGE":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("OLD AGE")
+                .add(data);
 
           }break;
           case"ORPHAN AGE":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("ORPHAN AGE")
+                .add(data);
 
           }break;
           case"SOCIAL WELFARE":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("SOCIAL WELFARE")
+                .add(data);
 
           }break;
           case"CAREER GUIDANCE ":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("CAREER GUIDANCE")
+                .add(data);
 
           }break;
           case"COUNSELING CENTRES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("COUNSELING CENTRES")
+                .add(data);
 
           }break;
           case"STUDENT&RELIGIOUS&CHARITY":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
+                .add(data);
 
           }break;
           case"YOUTH ORGANISATIONS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("YOUTH ORGANISATIONS")
+                .add(data);
 
           }break;
           case"HWF CENTRES":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("HWF CENTRES")
+                .add(data);
 
           }break;
           case"CHILD CARE":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
 
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("CHILD CARE")
+                .add(data);
           }break;
           case"ASSOCIATIONS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("ASSOCIATIONS")
+                .add(data);
 
           }break;
           case"FORUMS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+              "ngosPlaceName":ngosPlaceName.text,
+              "ngosHeadOfPlace":ngosHeadOfPlace.text,
+              "ngosContact":ngosContact.text,
+              "ngosTiming":ngosTiming.text,
+              "ngosCapacity":ngosCapacity.text,
+              "ngosAddress":ngosAddress.text,
+              "ngosDetails":ngosDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("NGOS/ORGANISATIONS").collection("FORUMS")
+                .add(data);
 
           }break;
 
@@ -3559,21 +4259,135 @@ void submitFunc(){
       case"HALLS":{
         switch(placeTypeHallsValue){
           case"COMMUNITY HALLS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("COMMUNITY HALLS")
+                .add(data);
 
           }break;
           case"FUNCTION HALLS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("FUNCTION HALLS")
+                .add(data);
 
           }break;
           case"MEETING HALLS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("MEETING HALLS")
+                .add(data);
 
           }break;
           case"MELAS ":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("MELAS")
+                .add(data);
 
           }break;
           case"EXHIBITION ":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("EXHIBITION")
+                .add(data);
 
           }break;
           case"PRESS HALLS":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+              "hallsPlaceName":hallsPlaceName.text,
+              "hallsHeadOfPlace":hallsHeadOfPlace.text,
+              "hallsContact":hallsContact.text,
+              "hallsCapacity":hallsCapacity.text,
+              "hallsAddress":hallsAddress.text,
+              "hallsDetails":hallsDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+
+            };
+            FirebaseFirestore.instance
+                .collection("MOULALI@HYD")
+                .doc("HALLS").collection("PRESS HALLS")
+                .add(data);
 
           }break;
 

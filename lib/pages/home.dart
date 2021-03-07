@@ -50,7 +50,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //EDUCATIONAL INSTITUTIONS
-  String placeTypeEducationValue;
+  String placeTypeEducationValue = "SCHOOL";
   bool isVisibleEducation = false;
   List placesTypeEducationList = [
     "SCHOOL",
@@ -60,7 +60,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
   //YOUTH SPOTS
-  String placeTypeYouthValue;
+  String placeTypeYouthValue = "GYM";
   bool isVisibleYouth = false;
   List placesTypeYouthList = [
     "GYM",
@@ -70,7 +70,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //PUBLIC SPOTS
-  String placeTypePublicValue;
+  String placeTypePublicValue = "HOTELS & RESTAURANT'S";
   bool isVisiblePublic = false;
   List placesTypePublicList = [
     "HOTELS & RESTAURANT'S",
@@ -85,7 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //OFFICES
-  String placeTypeOfficesValue;
+  String placeTypeOfficesValue = "POLICE STATION'S";
   bool isVisibleOffices = false;
   List placesTypeOfficesList = [
     "POLICE STATION'S",
@@ -101,7 +101,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //NGOS/ORGANISATIONS
-  String placeTypeNgosValue;
+  String placeTypeNgosValue = "OLD AGE";
   bool isVisibleNgos = false;
   List placesTypeNgosList = [
     "OLD AGE",
@@ -118,7 +118,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //HALLS
-  String placeTypeHallsValue;
+  String placeTypeHallsValue = "COMMUNITY HALLS" ;
   bool isVisibleHalls = false;
   List placesTypeHallsList = [
     "COMMUNITY HALLS",
@@ -129,6 +129,33 @@ class _MyHomePageState extends State<MyHomePage> {
     "PRESS HALLS"
   ];
   bool isVisible = false;
+  String selectedPlaceType;
+  String selectType(){
+    if(placeValue == "RELIGIOUS PLACES"){
+      selectedPlaceType = placeTypeReligiousValue;
+      return selectedPlaceType;
+    }else if(placeValue == "EDUCATIONAL INSTITUTIONS"){
+      selectedPlaceType = placeTypeEducationValue;
+      return selectedPlaceType;
+    }else if(placeValue == "YOUTH SPOTS"){
+      selectedPlaceType = placeTypeYouthValue;
+      return selectedPlaceType;
+    }else if(placeValue == "PUBLIC SPOTS"){
+      selectedPlaceType = placeTypePublicValue;
+      return selectedPlaceType;
+    }else if(placeValue == "OFFICES"){
+      selectedPlaceType = placeTypeOfficesValue;
+      return selectedPlaceType;
+    }else if(placeValue == "NGOSorORGANISATIONS"){
+      selectedPlaceType = placeTypeNgosValue;
+      return selectedPlaceType;
+    }else if(placeValue == "HALLS"){
+      selectedPlaceType = placeTypeHallsValue;
+      return selectedPlaceType;
+    }
+
+    return selectedPlaceType;
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -169,7 +196,7 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Container(
         padding: EdgeInsets.all(5.0),
         child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(placeTypeReligiousValue).snapshots(),
+          stream: FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).snapshots(),
           //stream: documentStream,
           builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
@@ -180,107 +207,517 @@ class _MyHomePageState extends State<MyHomePage> {
               return ListView(
               children: snapshot.data.docs.map((document) {
                 var UserDoc = document.id;
-                // switch(placeValue){
-                //   case"RELIGIOUS PLACES":{
-                //     return  Card(
-                //       elevation: 5.0,
-                //       child: Column(
-                //         children: [
-                //           ListTile(
-                //             onTap:(){
-                //               print(UserDoc);
-                //             },
-                //             leading: CircleAvatar(
-                //               backgroundImage: NetworkImage(document['PlaceImage']),
-                //             ),
-                //             // crossAxisAlignment: CrossAxisAlignment.start,
-                //             // children: <Widget>[
-                //             title:Text(document['PlaceName']),
-                //
-                //             //   Text(document['PlaceType']),
-                //             // ],
-                //           ),
-                //           Row(
-                //             mainAxisAlignment: MainAxisAlignment.end,
-                //             children: <Widget>[
-                //               TextButton(
-                //                 child: const Text('More'),
-                //                 onPressed: () {isVisible = !isVisible;},
-                //               ),
-                //             ],
-                //           ),
-                //           Visibility(
-                //               visible: isVisible,
-                //               child: Column(
-                //                 children: [
-                //                   Text("hello sir"),
-                //                 ],
-                //               )
-                //           )
-                //         ],
-                //       ),
-                //       borderOnForeground: true,
-                //     );
-                //   }
-                // }
-                return  Card(
-                  elevation: 5.0,
-                  child: Container(
-                    padding: EdgeInsets.all(10.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Image(
-                          image: NetworkImage(document['PlaceImage']),
-                          fit: BoxFit.cover,
-                          width: double.infinity,
-                          height: 200,
-                        ) ,
-                        SizedBox(height: 10.0,),
-                        Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
-                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
-                        SizedBox(height: 10.0,),
-                        // ListTile(
-                        //     // onTap:(){
-                        //     //   print(UserDoc);
-                        //     // },
-                        //   leading: Text(document['PlaceName']),
-                        //   // crossAxisAlignment: CrossAxisAlignment.start,
-                        //   // children: <Widget>[
-                        //   title:Text(document['PlaceType']),
-                        //   //   Text(document['PlaceType']),
-                        //   // ],
-                        // ),
-                        // Row(
-                        //   mainAxisAlignment: MainAxisAlignment.end,
-                        //   children: <Widget>[
-                        //     TextButton(
-                        //       child: const Text('More'),
-                        //       onPressed: () {isVisible = !isVisible;},
-                        //     ),
-                        //   ],
-                        // ),
-                        ClipRect(
-                          child: SingleChildScrollView(
-                            physics:BouncingScrollPhysics(),
-                            child: Column(
-                              mainAxisAlignment: MainAxisAlignment.start,
-                              children: [
-                                ExpansionTile(
-                                  childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
-                                  children: [
-                                    Text("Address: ${document["Address"]}")
-                                  ],
-                                )
-                              ],
-                            ),
+                switch(placeValue){
+                  case"RELIGIOUS PLACES":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
                         ),
-                      ],
-                    ),
-                  ),
-                  borderOnForeground: true,
-                );
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  case"EDUCATIONAL INSTITUTIONS":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+
+                  }break;
+                  case"YOUTH SPOTS":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  case"PUBLIC SPOTS":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  case"OFFICES":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  case"NGOSorORGANISATIONS":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  case"HALLS":{
+                    try {
+                      return Card(
+                        elevation: 5.0,
+                        child: Container(
+                          padding: EdgeInsets.all(10.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Image(
+                                image: NetworkImage(document['PlaceImage']),
+                                fit: BoxFit.cover,
+                                width: double.infinity,
+                                height: 200,
+                              ),
+                              SizedBox(height: 10.0,),
+                              Text(
+                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                style: TextStyle(fontSize: 15,
+                                    fontWeight: FontWeight.w500),),
+                              SizedBox(height: 10.0,),
+                              // ListTile(
+                              //     // onTap:(){
+                              //     //   print(UserDoc);
+                              //     // },
+                              //   leading: Text(document['PlaceName']),
+                              //   // crossAxisAlignment: CrossAxisAlignment.start,
+                              //   // children: <Widget>[
+                              //   title:Text(document['PlaceType']),
+                              //   //   Text(document['PlaceType']),
+                              //   // ],
+                              // ),
+                              // Row(
+                              //   mainAxisAlignment: MainAxisAlignment.end,
+                              //   children: <Widget>[
+                              //     TextButton(
+                              //       child: const Text('More'),
+                              //       onPressed: () {isVisible = !isVisible;},
+                              //     ),
+                              //   ],
+                              // ),
+                              ClipRect(
+                                child: SingleChildScrollView(
+                                  physics: BouncingScrollPhysics(),
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.start,
+                                    children: [
+                                      religiousDetailsDisplay(document)
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        borderOnForeground: true,
+                      );
+                    }catch(e){
+                      return Center(
+                        child: Text("NO DATA PRESENT"),
+                      );
+                    }
+
+                  }break;
+                  default:{
+                    return Center(
+                      child: Text("NO DATA PRESENT"),
+                    );
+                  }
+
+
+                }
+                // return  Card(
+                //   elevation: 5.0,
+                //   child: Container(
+                //     padding: EdgeInsets.all(10.0),
+                //     child: Column(
+                //       crossAxisAlignment: CrossAxisAlignment.center,
+                //       children: [
+                //         Image(
+                //           image: NetworkImage(document['PlaceImage']),
+                //           fit: BoxFit.cover,
+                //           width: double.infinity,
+                //           height: 200,
+                //         ) ,
+                //         SizedBox(height: 10.0,),
+                //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                //         SizedBox(height: 10.0,),
+                //         // ListTile(
+                //         //     // onTap:(){
+                //         //     //   print(UserDoc);
+                //         //     // },
+                //         //   leading: Text(document['PlaceName']),
+                //         //   // crossAxisAlignment: CrossAxisAlignment.start,
+                //         //   // children: <Widget>[
+                //         //   title:Text(document['PlaceType']),
+                //         //   //   Text(document['PlaceType']),
+                //         //   // ],
+                //         // ),
+                //         // Row(
+                //         //   mainAxisAlignment: MainAxisAlignment.end,
+                //         //   children: <Widget>[
+                //         //     TextButton(
+                //         //       child: const Text('More'),
+                //         //       onPressed: () {isVisible = !isVisible;},
+                //         //     ),
+                //         //   ],
+                //         // ),
+                //         ClipRect(
+                //           child: SingleChildScrollView(
+                //             physics:BouncingScrollPhysics(),
+                //             child: Column(
+                //               mainAxisAlignment: MainAxisAlignment.start,
+                //               children: [
+                //                 religiousDetailsDisplay(document)
+                //               ],
+                //             ),
+                //           ),
+                //         ),
+                //       ],
+                //     ),
+                //   ),
+                //   borderOnForeground: true,
+                // );
               }).toList(),
             );
             }//else
@@ -653,6 +1090,15 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
+    );
+  }
+
+  ExpansionTile religiousDetailsDisplay(QueryDocumentSnapshot document) {
+    return ExpansionTile(
+      childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
+      children: [
+        Text("Address: ${document["Address"]}")
+      ],
     );
   }
 }

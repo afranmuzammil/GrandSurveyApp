@@ -87,7 +87,7 @@ class _LoginFormState extends State<LoginForm> {
                             ),
                           );
                           setState(() {
-                            Navigator.pushReplacementNamed(context, '/form', arguments: {
+                            Navigator.pushReplacementNamed(context, '/home', arguments: {
 
                             });
                           });

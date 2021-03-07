@@ -30,6 +30,7 @@ dependencies:
   firebase_storage: ^7.0.0
   permission_handler: ^5.1.0+2
   firebase_core: ^0.7.0
+  bottom_drawer: ^0.0.2
   flutter_map:
 
 

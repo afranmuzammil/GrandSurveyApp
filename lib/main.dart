@@ -10,16 +10,17 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
-      MyForm()
-   //  MaterialApp(
-   //    debugShowCheckedModeBanner: false,
-   //    initialRoute: '/',
-   //    routes: {
-   //      '/':(context) =>Loading(),
-   //      '/login':(context) =>LoginForm(),
-   //      '/form':(context) => Forms(),
-   //    },
-   // )
+      //MyForm()
+    MaterialApp(
+      debugShowCheckedModeBanner: false,
+      initialRoute: '/',
+      routes: {
+        '/':(context) =>Loading(),
+        '/login':(context) =>LoginForm(),
+        '/home':(context)=>MyHomePage(),
+        '/form':(context) => Forms(),
+      },
+   )
   );
 }
 class MyForm extends StatelessWidget {

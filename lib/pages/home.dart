@@ -1,3 +1,4 @@
+import 'dart:ffi';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -6,6 +7,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
+import 'package:bottom_drawer/bottom_drawer.dart';
 import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -14,52 +16,573 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+
+  String  unitValue = "MOULALI@HYD";
+  List unitNameList = [
+    "MOULALI@HYD",
+    "LALAGUDA@HYD",
+  ];
+  List unitPassWordList = [
+    "est@hyd40",
+    "est@hyd17",
+  ];
+
+  String placeValue = "RELIGIOUS PLACES";
+  List placesList = [
+    "RELIGIOUS PLACES",
+    "EDUCATIONAL INSTITUTIONS",
+    "YOUTH SPOTS",
+    "PUBLIC SPOTS",
+    "OFFICES",
+    "NGOSorORGANISATIONS",
+    "HALLS",
+  ];
+
+  //RELIGIOUS PLACES
+  String placeTypeReligiousValue = "CHURCH";
+  bool isVisibleReligious = false;
+  List placesTypeReligiousList = [
+    "MASJID",
+    "CHURCH",
+    "GURUDWARS",
+    "TEMPLE",
+  ];
+
+  //EDUCATIONAL INSTITUTIONS
+  String placeTypeEducationValue;
+  bool isVisibleEducation = false;
+  List placesTypeEducationList = [
+    "SCHOOL",
+    "COLLAGE",
+    "INSTITUTION",
+  ];
+
+
+  //YOUTH SPOTS
+  String placeTypeYouthValue;
+  bool isVisibleYouth = false;
+  List placesTypeYouthList = [
+    "GYM",
+    "PLAY GROUND",
+    "GAME ROOMS",
+    "SPORTS CLUB",
+  ];
+
+  //PUBLIC SPOTS
+  String placeTypePublicValue;
+  bool isVisiblePublic = false;
+  List placesTypePublicList = [
+    "HOTELS & RESTAURANT'S",
+    "BUS STOPS",
+    "PAN SHOPorTEA STALL",
+    "THEATERS",
+    "TOURIST PLACES",
+    "GARDENS",
+    "PARKS",
+    "YOGA CENTRES",
+    "FITNESS CENTRES",
+  ];
+
+  //OFFICES
+  String placeTypeOfficesValue;
+  bool isVisibleOffices = false;
+  List placesTypeOfficesList = [
+    "POLICE STATION'S",
+    "POST OFFICES",
+    "MRO",
+    "MPDO",
+    "WATER",
+    "ELECTRICITY",
+    "TAHSILDAAR",
+    "MLA",
+    "MP",
+    "CORPORATOR",
+  ];
+
+  //NGOS/ORGANISATIONS
+  String placeTypeNgosValue;
+  bool isVisibleNgos = false;
+  List placesTypeNgosList = [
+    "OLD AGE",
+    "ORPHAN AGE",
+    "SOCIAL WELFARE",
+    "CAREER GUIDANCE ",
+    "COUNSELING CENTRES",
+    "STUDENT&RELIGIOUS&CHARITY",
+    "YOUTH ORGANISATIONS",
+    "HWF CENTRES",
+    "CHILD CARE",
+    "ASSOCIATIONS",
+    "FORUMS",
+  ];
+
+  //HALLS
+  String placeTypeHallsValue;
+  bool isVisibleHalls = false;
+  List placesTypeHallsList = [
+    "COMMUNITY HALLS",
+    "FUNCTION HALLS",
+    "MEETING HALLS",
+    "MELAS ",
+    "EXHIBITION ",
+    "PRESS HALLS"
+  ];
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: Theme.of(context).secondaryHeaderColor,
         appBar: AppBar(
           backgroundColor: Theme.of(context).primaryColor,
-          title: Text(
-            'PLACES',
-            style:
-            TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+          title: DropdownButton(
+            hint: Text("SELECT PLACE NAME",textAlign:TextAlign.center),
+            dropdownColor: Theme.of(context).secondaryHeaderColor,
+            icon: Icon(Icons.arrow_drop_down,color: Colors.black12,),
+            iconSize: 36,
+            isExpanded: true,
+            underline: SizedBox(),
+            style: TextStyle(color: Colors.black87, fontSize: 22),
+            value: unitValue,
+            onChanged: (newValue) {
+              setState(() {
+                unitValue = newValue;
+                // if(placeTypeReligiousValue != null){
+                //   religiousDetailsVisible = true;
+                // }else{
+                //   religiousDetailsVisible = false;
+                // }
+
+              });
+            },
+            items: unitNameList.map((valueItem) {
+              return DropdownMenuItem(
+                value: valueItem,
+                child: Text(valueItem,textAlign: TextAlign.center,),
+              );
+            }).toList(),
           ),
           centerTitle: true,
           elevation: 0,
         ),
-      body: StreamBuilder(
-        stream: FirebaseFirestore.instance.collection('MOULALI@HYD').doc("RELIGIOUS PLACES").collection("CHURCH").snapshots(),
-        //stream: documentStream,
-        builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-
-          return ListView(
-            children: snapshot.data.docs.map((document) {
-              return  Card(
-                child: ListTile(
-                    onTap:(){
-
-                    },
-                  leading: CircleAvatar(
-                    backgroundImage: NetworkImage(document['PlaceImage']),
-                  ),
-                  // crossAxisAlignment: CrossAxisAlignment.start,
-                  // children: <Widget>[
-                  title:Text(document['PlaceName']),
-                  //   Text(document['PlaceType']),
-                  // ],
-                ),
-                borderOnForeground: true,
+      body: Container(
+        padding: EdgeInsets.all(5.0),
+        child: StreamBuilder(
+          stream: FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(placeTypeReligiousValue).snapshots(),
+          //stream: documentStream,
+          builder: (BuildContext context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            if (!snapshot.hasData) {
+              return Center(
+                child: CircularProgressIndicator(),
               );
-            }).toList(),
-          );
-        },
+            }
+
+            return ListView(
+              children: snapshot.data.docs.map((document) {
+                return  Card(
+                  child: Column(
+                    children: [
+                      ListTile(
+                          onTap:(){
+
+
+                          },
+                        leading: CircleAvatar(
+                          backgroundImage: NetworkImage(document['PlaceImage']),
+                        ),
+                        // crossAxisAlignment: CrossAxisAlignment.start,
+                        // children: <Widget>[
+                        title:Text(document['PlaceName']),
+                        //   Text(document['PlaceType']),
+                        // ],
+                      ),
+                      Visibility(
+                        visible: true,
+                          child: Column(
+                            children: [
+                              Text("hello sir"),
+                            ],
+                          )
+                      )
+                    ],
+                  ),
+                  borderOnForeground: true,
+                );
+              }).toList(),
+            );
+          },
+        ),
+
       ),
+        floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.pushNamed(context, '/form', arguments: {
+
+          });
+        },
+        child: Icon(Icons.add,color: Colors.white70,),
+      ),
+      floatingActionButtonLocation:FloatingActionButtonLocation.endDocked,
+        bottomNavigationBar:BottomAppBar(
+          color: Colors.blue,
+          child: Row(
+            children: [
+              Builder(
+                builder: (context) =>  IconButton(
+                  tooltip: 'Filter the bar',
+                  icon: const Icon(Icons.filter_list_outlined),
+                  onPressed: () {
+                    // BottomBar();
+                    // controller.open();
+                    Scaffold.of(context).showBottomSheet<void>(
+                          (BuildContext context) {
+                        return Container(
+                          height: 200,
+                          color: Colors.blue,
+                          child: Center(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              crossAxisAlignment: CrossAxisAlignment.center,
+                              //mainAxisSize: MainAxisSize.min,
+                              children: <Widget>[
+                                //const Text('BottomSheet'),
+                                IconButton(
+                                    icon: const Icon(Icons.arrow_downward_rounded),
+                                    onPressed: (){
+                                      Navigator.pop(context);
+                                    }),
+
+                                Container(
+                                  padding: EdgeInsets.only(left: 16, right: 16),
+                                  decoration: BoxDecoration(
+                                      border: Border.all(color: Colors.white60, width: 1),
+                                      borderRadius: BorderRadius.circular(15)),
+                                  child: Column(
+                                    children:[
+                                      DropdownButton(
+                                        hint: Text("SELECT PLACE TYPE"),
+                                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                        icon: Icon(Icons.arrow_drop_down),
+                                        iconSize: 36,
+                                        isExpanded: true,
+                                        underline: SizedBox(),
+                                      style: TextStyle(color: Colors.black, fontSize: 22),
+                                      value: placeValue,
+                                      onChanged: (newValue) {
+                                        setState(() {
+                                          placeValue = newValue;
+                                          if (placeValue == "RELIGIOUS PLACES") {
+                                            isVisibleReligious = !isVisibleReligious;
+                                            isVisibleEducation = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          } else if (placeValue == "EDUCATIONAL INSTITUTIONS") {
+                                            isVisibleEducation = !isVisibleEducation;
+                                            isVisibleReligious = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          }else if (placeValue == "YOUTH SPOTS") {
+                                            isVisibleYouth = !isVisibleYouth;
+                                            isVisibleReligious = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleEducation = false;
+
+
+                                          } else if (placeValue == "PUBLIC SPOTS") {
+                                            isVisiblePublic = !isVisiblePublic;
+                                            isVisibleReligious = false;
+                                            isVisibleEducation = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          } else if (placeValue == "OFFICES") {
+                                            isVisibleOffices = !isVisibleOffices;
+                                            isVisibleReligious = false;
+                                            isVisibleEducation = false;
+                                            isVisiblePublic = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          } else if (placeValue == "NGOSorORGANISATIONS") {
+                                            isVisibleNgos = !isVisibleNgos;
+                                            isVisibleReligious = false;
+                                            isVisibleEducation = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          }
+                                          else if (placeValue == "HALLS") {
+                                            isVisibleHalls = !isVisibleHalls;
+                                            isVisibleReligious = false;
+                                            isVisibleEducation = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleYouth = false;
+
+
+                                          } else {
+                                            isVisibleReligious = false;
+                                            isVisibleEducation = false;
+                                            isVisiblePublic = false;
+                                            isVisibleOffices = false;
+                                            isVisibleNgos = false;
+                                            isVisibleHalls = false;
+                                            isVisibleYouth = false;
+
+
+                                          }
+                                        });
+                                      },
+                                      items: placesList.map((valueItem) {
+                                        return DropdownMenuItem(
+                                          value: valueItem,
+                                          child: Text(valueItem),
+                                        );
+                                      }).toList(),
+                                    ),
+                                      Divider(
+                                        height: 20,
+                                        thickness: 5,
+                                        color: Colors.white60,
+                                       // indent: 20,
+                                       // endIndent: 20,
+                                      ),
+
+                                      //RELIGIOUS PLACES
+                                      Visibility(
+                                        visible: isVisibleReligious,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeReligiousValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeReligiousValue = newValue;
+                                              // if(placeTypeReligiousValue != null){
+                                              //   religiousDetailsVisible = true;
+                                              // }else{
+                                              //   religiousDetailsVisible = false;
+                                              // }
+
+                                            });
+                                          },
+                                          items: placesTypeReligiousList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //EDUCATIONAL INSTITUTIONS
+                                      Visibility(
+                                        visible: isVisibleEducation,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeEducationValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeEducationValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypeEducationList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //YOUTH SPOTS
+                                      Visibility(
+                                        visible: isVisibleYouth,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeYouthValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeYouthValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypeYouthList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //PUBLIC SPOTS
+                                      Visibility(
+                                        visible: isVisiblePublic,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypePublicValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypePublicValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypePublicList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //OFFICES
+                                      Visibility(
+                                        visible: isVisibleOffices,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeOfficesValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeOfficesValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypeOfficesList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //NGOS/ORGANISATIONS
+                                      Visibility(
+                                        visible: isVisibleNgos,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeNgosValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeNgosValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypeNgosList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                      //HALLS
+                                      Visibility(
+                                        visible: isVisibleHalls,
+                                        child: DropdownButton(
+                                          hint: Text("SELECT PLACE NAME"),
+                                          dropdownColor: Theme.of(context).secondaryHeaderColor,
+                                          icon: Icon(Icons.arrow_drop_down),
+                                          iconSize: 36,
+                                          isExpanded: true,
+                                          underline: SizedBox(),
+                                          style: TextStyle(color: Colors.black, fontSize: 22),
+                                          value: placeTypeHallsValue,
+                                          onChanged: (newValue) {
+                                            setState(() {
+                                              placeTypeHallsValue = newValue;
+
+                                            });
+                                          },
+                                          items: placesTypeHallsList.map((valueItem) {
+                                            return DropdownMenuItem(
+                                              value: valueItem,
+                                              child: Text(valueItem),
+                                            );
+                                          }).toList(),
+                                        ),
+                                      ),
+                                   ],
+                                  ),
+                                ),
+
+
+                              ],
+                            ),
+                          ),
+                        );
+                      },
+                    );
+                  },
+                ),
+              ),
+              // Visibility(child:Container(
+              //
+              // )),
+
+
+            ],
+          ),
+        ),
+
+
     );
   }
+
 }

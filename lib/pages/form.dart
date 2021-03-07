@@ -15,6 +15,11 @@ class Forms extends StatefulWidget {
 
 class _FormsState extends State<Forms> {
 
+  void back(){Navigator.pop(context,{
+
+  });
+  }
+
   final formKey = GlobalKey<FormState>();
   firebase_storage.Reference ref;
 
@@ -3302,7 +3307,7 @@ void submitFunc(){
   //     content: Text("Submit Scuss"),
   //   ),
   // );
-  setState(() {
+   setState((){
     //:TODO: write firebase update script
     print("code run");
     switch(placeValue){
@@ -4418,6 +4423,9 @@ void submitFunc(){
 
 
     }
+    Navigator.pop(context,{
+
+    });
   });
 }
 

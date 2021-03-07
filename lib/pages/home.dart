@@ -128,7 +128,7 @@ class _MyHomePageState extends State<MyHomePage> {
     "EXHIBITION ",
     "PRESS HALLS"
   ];
-
+  bool isVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -176,44 +176,117 @@ class _MyHomePageState extends State<MyHomePage> {
               return Center(
                 child: CircularProgressIndicator(),
               );
-            }
-
-            return ListView(
+            }else{
+              return ListView(
               children: snapshot.data.docs.map((document) {
+                var UserDoc = document.id;
+                // switch(placeValue){
+                //   case"RELIGIOUS PLACES":{
+                //     return  Card(
+                //       elevation: 5.0,
+                //       child: Column(
+                //         children: [
+                //           ListTile(
+                //             onTap:(){
+                //               print(UserDoc);
+                //             },
+                //             leading: CircleAvatar(
+                //               backgroundImage: NetworkImage(document['PlaceImage']),
+                //             ),
+                //             // crossAxisAlignment: CrossAxisAlignment.start,
+                //             // children: <Widget>[
+                //             title:Text(document['PlaceName']),
+                //
+                //             //   Text(document['PlaceType']),
+                //             // ],
+                //           ),
+                //           Row(
+                //             mainAxisAlignment: MainAxisAlignment.end,
+                //             children: <Widget>[
+                //               TextButton(
+                //                 child: const Text('More'),
+                //                 onPressed: () {isVisible = !isVisible;},
+                //               ),
+                //             ],
+                //           ),
+                //           Visibility(
+                //               visible: isVisible,
+                //               child: Column(
+                //                 children: [
+                //                   Text("hello sir"),
+                //                 ],
+                //               )
+                //           )
+                //         ],
+                //       ),
+                //       borderOnForeground: true,
+                //     );
+                //   }
+                // }
                 return  Card(
-                  child: Column(
-                    children: [
-                      ListTile(
-                          onTap:(){
-
-
-                          },
-                        leading: CircleAvatar(
-                          backgroundImage: NetworkImage(document['PlaceImage']),
+                  elevation: 5.0,
+                  child: Container(
+                    padding: EdgeInsets.all(10.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        Image(
+                          image: NetworkImage(document['PlaceImage']),
+                          fit: BoxFit.cover,
+                          width: double.infinity,
+                          height: 200,
+                        ) ,
+                        SizedBox(height: 10.0,),
+                        Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                          style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                        SizedBox(height: 10.0,),
+                        // ListTile(
+                        //     // onTap:(){
+                        //     //   print(UserDoc);
+                        //     // },
+                        //   leading: Text(document['PlaceName']),
+                        //   // crossAxisAlignment: CrossAxisAlignment.start,
+                        //   // children: <Widget>[
+                        //   title:Text(document['PlaceType']),
+                        //   //   Text(document['PlaceType']),
+                        //   // ],
+                        // ),
+                        // Row(
+                        //   mainAxisAlignment: MainAxisAlignment.end,
+                        //   children: <Widget>[
+                        //     TextButton(
+                        //       child: const Text('More'),
+                        //       onPressed: () {isVisible = !isVisible;},
+                        //     ),
+                        //   ],
+                        // ),
+                        ClipRect(
+                          child: SingleChildScrollView(
+                            physics:BouncingScrollPhysics(),
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                ExpansionTile(
+                                  childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
+                                  children: [
+                                    Text("Address: ${document["Address"]}")
+                                  ],
+                                )
+                              ],
+                            ),
+                          ),
                         ),
-                        // crossAxisAlignment: CrossAxisAlignment.start,
-                        // children: <Widget>[
-                        title:Text(document['PlaceName']),
-                        //   Text(document['PlaceType']),
-                        // ],
-                      ),
-                      Visibility(
-                        visible: true,
-                          child: Column(
-                            children: [
-                              Text("hello sir"),
-                            ],
-                          )
-                      )
-                    ],
+                      ],
+                    ),
                   ),
                   borderOnForeground: true,
                 );
               }).toList(),
             );
+            }//else
+
           },
         ),
-
       ),
         floatingActionButton: FloatingActionButton(
         onPressed: () {
@@ -580,9 +653,6 @@ class _MyHomePageState extends State<MyHomePage> {
             ],
           ),
         ),
-
-
     );
   }
-
 }

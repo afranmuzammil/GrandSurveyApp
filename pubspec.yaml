@@ -31,6 +31,7 @@ dependencies:
   permission_handler: ^5.1.0+2
   firebase_core: ^0.7.0
   bottom_drawer: ^0.0.2
+  url_launcher: ^5.1.2
   flutter_map:
 
 

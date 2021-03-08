@@ -8,7 +8,7 @@ class Loading extends StatefulWidget {
 
 class _LoadingState extends State<Loading> {
   void loadingScreen(){
-    Navigator.pushReplacementNamed(context, '/login', arguments: {
+    Navigator.pushReplacementNamed(context, '/Auth', arguments: {
 
     });
   }

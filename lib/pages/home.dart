@@ -10,6 +10,8 @@ import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
 import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:provider/provider.dart';
+import 'package:form_app/services/autentication_service.dart';
 import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -18,7 +20,7 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-
+  firebase_storage.Reference ref;
 
   String  unitValue = "MOULALI@HYD";
   List unitNameList = [
@@ -130,7 +132,7 @@ class _MyHomePageState extends State<MyHomePage> {
     "EXHIBITION ",
     "PRESS HALLS"
   ];
-  bool isVisible = false;
+  bool isVisibleButtons = true;
 
 
   String selectedPlaceType;
@@ -179,6 +181,8 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -214,6 +218,38 @@ class _MyHomePageState extends State<MyHomePage> {
           ),
           centerTitle: true,
           elevation: 0,
+        ),
+        drawer: Drawer(
+          child: ListView(
+            padding: EdgeInsets.zero,
+            children: <Widget>[
+              DrawerHeader(
+                decoration: BoxDecoration(
+                  color: Colors.blue,
+                ),
+                child: Text(
+                  'Grand Survey App',
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 16,
+                  ),
+                ),
+              ),
+              RaisedButton(
+                  onPressed: (){
+                    context.read<AuthenticationService>().signOut();
+                  },
+                  child: Text("signOut")
+              ),
+              ListTile(
+                onTap: (){
+
+                },
+                leading: Icon(Icons.info_outline_rounded),
+                title: Text("about"),
+              )
+            ],
+          ),
         ),
       body: Container(
         padding: EdgeInsets.all(5.0),
@@ -1257,7 +1293,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Head of The Place: ${document["HeadOfplace"].toString().toUpperCase()}"),
             SizedBox(height: 5.0),
             Text("Contact NO: ${document["ContactNO"]}"),
-            FlatButton(onPressed: ()=>customLunch("tel:${document["ContactNO"]}"), child: Text("Call"),color: Colors.white24,),
+            FlatButton(onPressed: ()=>customLunch("tel:${document["ContactNO"]}"), child: Text("Call"),color: Colors.grey,),
             SizedBox(height: 5.0),
             Text("FikerType: ${document["FikerType"].toString().toUpperCase()}"),
             SizedBox(height: 5.0),
@@ -1280,7 +1316,44 @@ class _MyHomePageState extends State<MyHomePage> {
                     child: Center(
                         child:  Icon(Icons.navigation_rounded,color: Colors.white,),
                     ))
-            )
+            ),
+            Visibility(
+              visible: isVisibleButtons,
+              child: Row(
+                children: [
+                  //DELETE BUTTON
+                  Builder(
+                      builder: (context) => FlatButton(
+                          color: Colors.redAccent,
+                          onPressed: () async{
+                            //:TODO: WRITE THE DELETE SCRIPT
+                           await firebase_storage.FirebaseStorage.instance
+                              .ref()
+                              .child(document["PlaceImage"]).delete().then(
+                                   (_) => print("File deleted successfully")
+                           );
+                           // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+
+                          },
+                          child: Center(
+                            child:  Icon(Icons.delete_forever_rounded,color: Colors.white,),
+                          ))
+                  ),
+                  SizedBox(width: 195.0,),
+                  //EDIT BUTTON
+                  Builder(
+                      builder: (context) => FlatButton(
+                          color: Colors.blue,
+                          onPressed: () {
+                            //:TODO: WRITE THE EDIT SCRIPT
+                          },
+                          child: Center(
+                            child:  Icon(Icons.edit_outlined,color: Colors.white,),
+                          ))
+                  ),
+                ],
+              ),
+            ),
           ],
         ),
 

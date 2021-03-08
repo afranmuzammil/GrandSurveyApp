@@ -1,7 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
+import 'package:form_app/services/autentication_service.dart';
 
+bool isHiddenPassWord = true;
 class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
@@ -47,9 +50,10 @@ class _LoginFormState extends State<LoginForm> {
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter the Id u where provided';
-                  } else if (value != realId) {
-                    return "please enter the right pass word";
                   }
+                  // else if (value != realId) {
+                  //   return "please enter the right pass word";
+                  // }
                   return null;
                 },
               ),
@@ -62,16 +66,15 @@ class _LoginFormState extends State<LoginForm> {
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: InkWell(
                       onTap: _togglePassWordView,
-                      child: Icon(
-                        Icons.visibility,
-                      ),
+                      child: Visibility(),
                     )),
                 validator: (value) {
                   if (value.isEmpty) {
                     return 'Please enter the PassWord u where provided';
-                  } else if (value != realPass) {
-                    return "please enter the right pass word";
                   }
+                  // else if (value != realPass) {
+                  //   return "please enter the right pass word";
+                  // }
                   return null;
                 },
               ),
@@ -80,7 +83,17 @@ class _LoginFormState extends State<LoginForm> {
                   builder: (context) => FlatButton(
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
+
+                        // context.read()<AuthenticationService>().signIn(
+                        //   email : idCon.text.trim(),
+                        //   passWord : passCon.text.trim(),
+                        // );
                         if (formkey.currentState.validate()) {
+                          //Provider.of<Object>(context, listen: false);
+                          context.read<AuthenticationService>().signIn(
+                            email: idCon.text,
+                            password: passCon.text,
+                          );
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Login success"),
@@ -124,5 +137,24 @@ class _LoginFormState extends State<LoginForm> {
         Icons.visibility_off,
       );
     });
+  }
+}
+
+class Visibility extends StatelessWidget {
+  const Visibility({
+    Key key,
+  }) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    if (isHiddenPassWord == true) {
+    return Icon(
+      Icons.visibility,
+    );
+  }else if(isHiddenPassWord == false){
+      return Icon(
+        Icons.visibility_off,
+      );
+    }
   }
 }

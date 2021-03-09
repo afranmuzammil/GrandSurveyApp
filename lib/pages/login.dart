@@ -8,6 +8,8 @@ import 'package:form_app/services/autentication_service.dart';
 
 bool isHiddenPassWord = true;
 class LoginForm extends StatefulWidget {
+  final String userIdSave;
+  LoginForm({Key key,@required this.userIdSave}) : super(key :key);
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -17,11 +19,11 @@ class _LoginFormState extends State<LoginForm> {
 
   final formkey = GlobalKey<FormState>();
   final appTitle = "Grand survey From";
+  String passWord;
+  var userIdSave ;
 
-  String userIdSave;
-  //LoginForm(this.userIdSave);
 
-  var passWord;
+
 
   var realId = "afran";
   var realPass = "1234";
@@ -69,7 +71,7 @@ class _LoginFormState extends State<LoginForm> {
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: InkWell(
                       onTap: _togglePassWordView,
-                      child: Visibility(),
+                      child: visibility(),
                     )),
                 validator: (value) {
                   if (value.isEmpty) {
@@ -98,7 +100,7 @@ class _LoginFormState extends State<LoginForm> {
                             password: passCon.text,
                           );
                           userIdSave = idCon.toString();
-                          print(userIdSave);
+                          print(LoginForm(userIdSave: userIdSave ));
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Login success"),
@@ -106,6 +108,7 @@ class _LoginFormState extends State<LoginForm> {
                           );
                           MyHomePage(userIdSave: userIdSave);
                           setState(()   {
+                            LoginForm(userIdSave: userIdSave );
                              // Navigator.push(
                              //    context,
                              //    MaterialPageRoute(
@@ -148,8 +151,8 @@ class _LoginFormState extends State<LoginForm> {
   }
 }
 
-class Visibility extends StatelessWidget {
-  const Visibility({
+class visibility extends StatelessWidget {
+  const visibility({
     Key key,
   }) : super(key: key);
 

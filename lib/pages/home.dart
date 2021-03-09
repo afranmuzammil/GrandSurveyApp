@@ -4,6 +4,8 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:form_app/pages/about.dart';
+import 'package:form_app/pages/developerinfo.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -21,14 +23,15 @@ class MyHomePage extends StatefulWidget {
   MyHomePage({Key key,@required this.userIdSave}) : super(key :key);
   
   @override
-  _MyHomePageState createState() => _MyHomePageState();
+  _MyHomePageState createState() => _MyHomePageState(userIdSave);
 }
 
 class _MyHomePageState extends State<MyHomePage> {
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
-  String userId = LoginForm().userIdSave;
+  String userIdSave ;
+  _MyHomePageState(this.userIdSave);
 
 
   firebase_storage.Reference ref;
@@ -89,6 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isVisiblePublic = false;
   List placesTypePublicList = [
     "HOTELS & RESTAURANT'S",
+    "HOSPITAL'S",
     "BUS STOPS",
     "PAN SHOPorTEA STALL",
     "THEATERS",
@@ -248,9 +252,9 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Grand Survey App',
+                      'Grand Survey App'.toUpperCase(),
                       style: TextStyle(
-                        color: Colors.white,
+                        color: Colors.white70,
                         fontSize: 16,
                       ),
                     ),
@@ -261,28 +265,47 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.account_circle_rounded, color: Colors.white,),
                         SizedBox(width: 10.0,),
-                        Text("$userId;", style: TextStyle(color: Colors.white),)
+                        Text("$userIdSave", style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ]
               ),
             ),
-            RaisedButton(
-                onPressed: () {
-                  context.read<AuthenticationService>().signOut();
-                },
-                child: Text("signOut")
+            Container(
+              padding: EdgeInsets.all(5.0),
+              child: RaisedButton(
+                  onPressed: () {
+                    context.read<AuthenticationService>().signOut();
+                    setState(() {
+                      Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => LoginForm(),
+                          ));
+                    });
+                  },
+                  color: Colors.grey,
+                  child: Text("signOut",style: TextStyle(color: Colors.white),)
+              ),
             ),
             ListTile(
               onTap: () {
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => About(),
+                    ));
               },
               leading: Icon(Icons.info_outline_rounded),
               title: Text("About"),
             ),
             ListTile(
               onTap: () {
-
+                Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => devInfo(),
+                    ));
               },
               leading: Icon(Icons.code_rounded),
               title: Text("Developer Info"),
@@ -1113,7 +1136,10 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.pushNamed(context, '/form', arguments: {
+          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          //Navigator.pushNamed(context, '/form', arguments: unitValue);
+          setState(() {
+           // unitValue = unitValue;
           });
         },
         child: Icon(Icons.add, color: Colors.white70,),

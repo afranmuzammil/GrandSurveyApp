@@ -8,8 +8,7 @@ import 'package:form_app/services/autentication_service.dart';
 
 bool isHiddenPassWord = true;
 class LoginForm extends StatefulWidget {
-  final String userIdSave;
-  LoginForm({Key key,@required this.userIdSave}) : super(key :key);
+
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -20,7 +19,8 @@ class _LoginFormState extends State<LoginForm> {
   final formkey = GlobalKey<FormState>();
   final appTitle = "Grand survey From";
   String passWord;
-  var userIdSave ;
+  String userIdSave;
+
 
 
 
@@ -99,21 +99,20 @@ class _LoginFormState extends State<LoginForm> {
                             email: idCon.text,
                             password: passCon.text,
                           );
-                          userIdSave = idCon.toString();
-                          print(LoginForm(userIdSave: userIdSave ));
+                          userIdSave = idCon.text.trim().toString();
+                          print("user name : $userIdSave");
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Login success"),
                             ),
                           );
-                          MyHomePage(userIdSave: userIdSave);
+                          print(userIdSave);
                           setState(()   {
-                            LoginForm(userIdSave: userIdSave );
-                             // Navigator.push(
-                             //    context,
-                             //    MaterialPageRoute(
-                             //      builder: (context) => MyHomePage(userIdSave: userIdSave),
-                             //    ));
+                             Navigator.push(
+                                context,
+                                MaterialPageRoute(
+                                  builder: (context) => MyHomePage(userIdSave: userIdSave),
+                                ));
                           });
                         }
 

@@ -9,15 +9,21 @@ import 'package:geolocator/geolocator.dart';
 
 
 class Forms extends StatefulWidget {
+  final String unitName;
+  Forms({Key key,@required this.unitName}) : super(key :key);
   @override
-  _FormsState createState() => _FormsState();
+  _FormsState createState() => _FormsState(unitName);
 }
 
 class _FormsState extends State<Forms> {
 
-  void back(){Navigator.pop(context,{
+  String  unitValue ;
+  _FormsState(this.unitValue);
 
-  });
+  void back(){
+
+    Navigator.pop(context,Forms().unitName);
+
   }
 
   final formKey = GlobalKey<FormState>();
@@ -70,7 +76,7 @@ class _FormsState extends State<Forms> {
       print(latitudeData);
     });
   }
-  String  unitValue = "MOULALI@HYD";
+
   List unitNameList = [
     "MOULALI@HYD",
     "LALAGUDA@HYD",
@@ -171,6 +177,7 @@ class _FormsState extends State<Forms> {
   bool isVisiblePublic = false;
   List placesTypePublicList = [
     "HOTELS & RESTAURANT'S",
+    "HOSPITAL'S",
     "BUS STOPS",
     "PAN SHOPorTEA STALL",
     "THEATERS",
@@ -1003,7 +1010,6 @@ class _FormsState extends State<Forms> {
                                         ),
                                       );
                                       setState(() {
-                                        print(NameOfPlace);
                                         pressedFunc();
                                       });
                                     }
@@ -3332,7 +3338,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("RELIGIOUS PLACES").collection("MASJID")
                 .add(data);
           }break;
@@ -3355,7 +3361,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("RELIGIOUS PLACES").collection("CHURCH")
                 .add(data);
           }break;
@@ -3378,7 +3384,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("RELIGIOUS PLACES").collection("GURUDWARS")
                 .add(data);
           }break;
@@ -3401,7 +3407,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("RELIGIOUS PLACES").collection("TEMPLE")
                 .add(data);
           }break;
@@ -3429,7 +3435,7 @@ void submitFunc(){
             "unitName":unitValue,
           };
           FirebaseFirestore.instance
-              .collection("MOULALI@HYD")
+              .collection(unitValue)
               .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
               .add(data);
         }break;
@@ -3452,7 +3458,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("EDUCATIONAL INSTITUTIONS").collection("COLLAGE")
                 .add(data);
 
@@ -3476,7 +3482,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("EDUCATIONAL INSTITUTIONS").collection("INSTITUTION")
                 .add(data);
 
@@ -3504,7 +3510,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("YOUTH SPOTS").collection("GYM")
                 .add(data);
 
@@ -3526,7 +3532,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("YOUTH SPOTS").collection("PLAY GROUND")
                 .add(data);
 
@@ -3548,7 +3554,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("YOUTH SPOTS").collection("GAME ROOMS")
                 .add(data);
 
@@ -3570,7 +3576,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("YOUTH SPOTS").collection("SPORTS CLUB")
                 .add(data);
 
@@ -3599,8 +3605,31 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("HOTELS & RESTAURANT'S")
+                .add(data);
+
+
+          }break;
+          case"HOSPITAL'S":{
+            Map<String, dynamic> data = {
+              "PlaceValue":placeValue.toLowerCase().toString(),
+              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+              "publicPlaceName":publicPlaceName.text,
+              "publicHeadOfPlace":publicHeadOfPlace.text,
+              "publicContact":publicContact.text,
+              "publicCapacity":publicCapacity.text,
+              "publicAddress":publicAddress.text,
+              "publicDetails":publicDetails.text,
+              "PlaceImage": imageLink,
+              "latitudeData":latitudeData,
+              "longitudeData":longitudeData,
+
+              "unitName":unitValue,
+            };
+            FirebaseFirestore.instance
+                .collection(unitValue)
+                .doc("PUBLIC SPOTS").collection("HOSPITAL'S")
                 .add(data);
 
 
@@ -3622,7 +3651,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("BUS STOPS")
                 .add(data);
 
@@ -3644,7 +3673,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("PAN SHOPorTEA STALL")
                 .add(data);
 
@@ -3666,7 +3695,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("THEATERS")
                 .add(data);
 
@@ -3688,7 +3717,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("TOURIST PLACES")
                 .add(data);
 
@@ -3710,7 +3739,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("GARDENS")
                 .add(data);
 
@@ -3732,7 +3761,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("PARKS")
                 .add(data);
 
@@ -3754,7 +3783,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("YOGA CENTRES")
                 .add(data);
 
@@ -3776,7 +3805,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("PUBLIC SPOTS").collection("FITNESS CENTRES")
                 .add(data);
 
@@ -3806,7 +3835,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("ELECTRICITY")
                 .add(data);
 
@@ -3829,7 +3858,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("POLICE STATION'S")
                 .add(data);
 
@@ -3852,7 +3881,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("POST OFFICES")
                 .add(data);
 
@@ -3875,7 +3904,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("MRO")
                 .add(data);
 
@@ -3898,7 +3927,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("MPDO")
                 .add(data);
 
@@ -3921,7 +3950,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("WATER")
                 .add(data);
 
@@ -3944,7 +3973,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("TAHSILDAAR")
                 .add(data);
 
@@ -3967,7 +3996,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("MLA")
                 .add(data);
 
@@ -3990,7 +4019,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("MP")
                 .add(data);
 
@@ -4013,7 +4042,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("OFFICES").collection("CORPORATOR")
                 .add(data);
 
@@ -4043,7 +4072,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("OLD AGE")
                 .add(data);
 
@@ -4066,7 +4095,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("ORPHAN AGE")
                 .add(data);
 
@@ -4089,7 +4118,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("SOCIAL WELFARE")
                 .add(data);
 
@@ -4112,7 +4141,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("CAREER GUIDANCE")
                 .add(data);
 
@@ -4135,7 +4164,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("COUNSELING CENTRES")
                 .add(data);
 
@@ -4158,7 +4187,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
                 .add(data);
 
@@ -4181,7 +4210,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("YOUTH ORGANISATIONS")
                 .add(data);
 
@@ -4204,7 +4233,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("HWF CENTRES")
                 .add(data);
 
@@ -4227,7 +4256,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("CHILD CARE")
                 .add(data);
           }break;
@@ -4249,7 +4278,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("ASSOCIATIONS")
                 .add(data);
 
@@ -4272,7 +4301,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("NGOSorORGANISATIONS").collection("FORUMS")
                 .add(data);
 
@@ -4301,7 +4330,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("COMMUNITY HALLS")
                 .add(data);
 
@@ -4323,7 +4352,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("FUNCTION HALLS")
                 .add(data);
 
@@ -4345,7 +4374,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("MEETING HALLS")
                 .add(data);
 
@@ -4367,7 +4396,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("MELAS")
                 .add(data);
 
@@ -4389,7 +4418,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("EXHIBITION")
                 .add(data);
 
@@ -4411,7 +4440,7 @@ void submitFunc(){
               "unitName":unitValue,
             };
             FirebaseFirestore.instance
-                .collection("MOULALI@HYD")
+                .collection(unitValue)
                 .doc("HALLS").collection("PRESS HALLS")
                 .add(data);
 

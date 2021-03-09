@@ -4,6 +4,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -15,11 +16,19 @@ import 'package:form_app/services/autentication_service.dart';
 import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
+  final String userIdSave;
+  MyHomePage({Key key,@required this.userIdSave}) : super(key :key);
+  
   @override
   _MyHomePageState createState() => _MyHomePageState();
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+
+  final style = TextStyle(fontSize: 300,fontWeight: FontWeight.normal);
+
+  String userId = MyHomePage().userIdSave;
+
   firebase_storage.Reference ref;
 
   String  unitValue = "MOULALI@HYD";
@@ -183,6 +192,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
 
 
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -227,12 +237,26 @@ class _MyHomePageState extends State<MyHomePage> {
                 decoration: BoxDecoration(
                   color: Colors.blue,
                 ),
-                child: Text(
-                  'Grand Survey App',
-                  style: TextStyle(
-                    color: Colors.white,
-                    fontSize: 16,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                    'Grand Survey App',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 16,
+                    ),
                   ),
+                    SizedBox(height: 10.0,),
+                    Row(
+                      children: [
+                        SizedBox(width: 10.0,),
+                        Icon(Icons.account_circle_rounded,color: Colors.white,),
+                        SizedBox(width: 10.0,),
+                        Text("$userId",style: TextStyle(color: Colors.white),)
+                      ],
+                    ),
+                ]
                 ),
               ),
               RaisedButton(
@@ -246,8 +270,19 @@ class _MyHomePageState extends State<MyHomePage> {
 
                 },
                 leading: Icon(Icons.info_outline_rounded),
-                title: Text("about"),
-              )
+                title: Text("About"),
+              ),
+              ListTile(
+                onTap: (){
+
+                },
+                leading: Icon(Icons.code_rounded),
+                title: Text("Developer Info"),
+              ),
+              ListTile(
+                leading:  Icon(Icons.swap_vert_rounded),
+                title:  Text("V: a0.1"),
+              ),
             ],
           ),
         ),
@@ -283,9 +318,11 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
                               SizedBox(height: 10.0,),
                               Text(
-                                "Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
-                                style: TextStyle(fontSize: 15,
-                                    fontWeight: FontWeight.w500),),
+                                "Name of the ${document["PlaceType"]} ",
+                                  style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black87))),
+                              Text(
+                                  "${document['PlaceName']}",
+                                  style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black87))),
                               SizedBox(height: 10.0,),
                               // ListTile(
                               //     // onTap:(){
@@ -1290,22 +1327,61 @@ class _MyHomePageState extends State<MyHomePage> {
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            Text("Head of The Place: ${document["HeadOfplace"].toString().toUpperCase()}"),
+            Text("Head of The Place: ${document["HeadOfplace"].toString().toUpperCase()}" ,
+              style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 20,fontWeight: FontWeight.w500,color: Colors.black87)),
+            ),
             SizedBox(height: 5.0),
-            Text("Contact NO: ${document["ContactNO"]}"),
-            FlatButton(onPressed: ()=>customLunch("tel:${document["ContactNO"]}"), child: Text("Call"),color: Colors.grey,),
+            Row(
+              mainAxisAlignment: MainAxisAlignment.start,
+              children: [
+                Text(
+                  "ContactNO:  ${document["ContactNO"]}",
+                  style: GoogleFonts.poppins(
+                      textStyle:TextStyle(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87
+                      )
+                  ),
+                ),
+                SizedBox(width: 50.0),
+                FlatButton(
+                  onPressed: ()=>customLunch("tel:${document["ContactNO"]}",),
+                  child: Text(
+                    "Call",
+                    style: TextStyle(
+                        color: Colors.white
+                    ),
+                  ),
+                  color: Colors.blue,
+                ),
+              ],
+            ),
             SizedBox(height: 5.0),
-            Text("FikerType: ${document["FikerType"].toString().toUpperCase()}"),
+            Text("FikerType :  ${document["FikerType"].toString().toUpperCase()}",
+                style: GoogleFonts.poppins(
+                    textStyle:TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500)
+                )),
             SizedBox(height: 5.0),
-            Text("Libraries: ${document["Libraries"]}"),
+            Text("Libraries :  ${document["Libraries"]}",
+                style: GoogleFonts.poppins(
+                    textStyle:TextStyle(
+                        fontSize: 16,
+                        fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Capacity: ${document["Capacity"]}"),
+            Text("Capacity :  ${document["Capacity"]}",
+                style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 16,fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Address: ${document["Address"]}"),
+            Text("Address :   ${document["Address"]}",
+                style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 16,fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Details: ${document["Details"]}"),
+            Text("Details :  ${document["Details"]}",
+                style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 16,fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Unit Name: ${document["unitName"]}"),
+            Text("Unit Name :  ${document["unitName"]}",
+                style: GoogleFonts.poppins(textStyle:TextStyle(fontSize: 16,fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) => FlatButton(

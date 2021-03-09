@@ -48,7 +48,7 @@ class MyForm extends StatelessWidget {
 
           '/':(context) =>Loading(),
           '/Auth':(context) =>AuthWrapper(),
-          '/home':(context)=>MyHomePage(),
+          //'/home':(context)=>MyHomePage(),
           '/form':(context) => Forms(),
         },
 

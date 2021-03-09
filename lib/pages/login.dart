@@ -1,8 +1,10 @@
 import 'dart:ui';
 
 import 'package:flutter/material.dart';
+import 'package:form_app/pages/home.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
+
 
 bool isHiddenPassWord = true;
 class LoginForm extends StatefulWidget {
@@ -16,7 +18,8 @@ class _LoginFormState extends State<LoginForm> {
   final formkey = GlobalKey<FormState>();
   final appTitle = "Grand survey From";
 
-  var userId;
+  String userIdSave;
+  //LoginForm(this.userIdSave);
 
   var passWord;
 
@@ -94,15 +97,20 @@ class _LoginFormState extends State<LoginForm> {
                             email: idCon.text,
                             password: passCon.text,
                           );
+                          userIdSave = idCon.toString();
+                          print(userIdSave);
                           Scaffold.of(context).showSnackBar(
                             SnackBar(
                               content: Text("Login success"),
                             ),
                           );
-                          setState(() {
-                            Navigator.pushReplacementNamed(context, '/home', arguments: {
-
-                            });
+                          MyHomePage(userIdSave: userIdSave);
+                          setState(()   {
+                             // Navigator.push(
+                             //    context,
+                             //    MaterialPageRoute(
+                             //      builder: (context) => MyHomePage(userIdSave: userIdSave),
+                             //    ));
                           });
                         }
 

@@ -34,7 +34,7 @@ class _FormsState extends State<Forms> {
   File userImage;
 
   Future getImage() async{
-    final image = await ImagePicker.pickImage(source: ImageSource.gallery);
+    final image = await ImagePicker.pickImage(source: ImageSource.gallery,imageQuality: 65,);
     setState(() {
       userImage = image;
     });

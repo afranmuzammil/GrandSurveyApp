@@ -6,16 +6,17 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:form_app/pages/about.dart';
 import 'package:form_app/pages/developerinfo.dart';
+import 'package:form_app/pages/edit.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
-import 'package:bottom_drawer/bottom_drawer.dart';
 import 'package:url_launcher/url_launcher.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'form.dart';
 
 class MyHomePage extends StatefulWidget {
@@ -27,12 +28,36 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+ // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
    final String userIdSave ;
   _MyHomePageState(this.userIdSave);
-   //String userMail = userIdSave;
+  String userMail;
+
+  @override
+  void initState() {
+    super.initState();
+    _saveData();
+  }
+
+  void _saveData() async {
+   SharedPreferences prefs = await SharedPreferences.getInstance();
+    setState(() {
+      userMail = prefs.getString("displayMail");
+    });
+  }
+  // Future<String> _readData() async {
+  //   final SharedPreferences prefs = await _prefs;
+  //   final userMail = prefs.getString (userIdSave)??"";
+  //   setState(() {
+  //     return userMail;
+  //   });
+  //   return userMail;
+  // }
+
+
 
 
   firebase_storage.Reference ref;
@@ -1733,7 +1758,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ))
                   ),
 
-                 // SizedBox(width: 178.0,),
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
@@ -1759,10 +1783,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                       actions: <Widget>[
                                         TextButton(
                                           child: Text('Yes'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("deleted");
+                                          onPressed: () async {
+                                          await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
 
+                                            print("deleted");
                                           },
                                           // style: TextButton.styleFrom(
                                           //   primary: Colors.white,

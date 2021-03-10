@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:form_app/pages/home.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 
 bool isHiddenPassWord = true;
@@ -18,11 +19,9 @@ class _LoginFormState extends State<LoginForm> {
 
   final formkey = GlobalKey<FormState>();
   final appTitle = "Grand survey From";
+
   String passWord;
   String userIdSave;
-
-
-
 
 
   var realId = "afran";
@@ -88,32 +87,55 @@ class _LoginFormState extends State<LoginForm> {
                   builder: (context) => FlatButton(
                       color: Theme.of(context).primaryColor,
                       onPressed: () {
-
-                        // context.read()<AuthenticationService>().signIn(
-                        //   email : idCon.text.trim(),
-                        //   passWord : passCon.text.trim(),
-                        // );
+                        // context.read<AuthenticationService>().signIn(
+                        //   email: idCon.text,
+                        //   password: passCon.text,
+                        // ).then((value) => print("Error :$value"));
                         if (formkey.currentState.validate()) {
                           //Provider.of<Object>(context, listen: false);
-                          context.read<AuthenticationService>().signIn(
-                            email: idCon.text,
-                            password: passCon.text,
-                          );
+                          try{
+                            context.read<AuthenticationService>().signIn(
+                              email: idCon.text,
+                              password: passCon.text,
+                            ).then((value) {if(value=="signed in"){
+                              setState(()   {
+                                Navigator.push(
+                                    context,
+                                    MaterialPageRoute(
+                                      builder: (context) => MyHomePage(userIdSave: userIdSave),
+                                    ));
+                              });
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Login success"),
+                                ),
+                              );
+                            }
+                            else{
+                              Scaffold.of(context).showSnackBar(
+                                SnackBar(
+                                  content: Text("Login Failed try again"),
+                                ),
+                              );
+                            }});
+
+                          }catch(e){
+                            Scaffold.of(context).showSnackBar(
+                              SnackBar(
+                                content: Text("Login Failed try again"),
+                              ),
+                            );
+                          }
                           userIdSave = idCon.text.trim().toString();
-                          print("user name : $userIdSave");
-                          Scaffold.of(context).showSnackBar(
-                            SnackBar(
-                              content: Text("Login success"),
-                            ),
-                          );
-                          print(userIdSave);
-                          setState(()   {
-                             Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                  builder: (context) => MyHomePage(userIdSave: userIdSave),
-                                ));
-                          });
+                        //  print("user name : $userIdSave");
+
+                          // setState(()   {
+                          //    Navigator.push(
+                          //       context,
+                          //       MaterialPageRoute(
+                          //         builder: (context) => MyHomePage(userIdSave: userIdSave),
+                          //       ));
+                          // });
                         }
 
                       },

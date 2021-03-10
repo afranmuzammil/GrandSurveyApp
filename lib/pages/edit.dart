@@ -87,7 +87,7 @@ class _EditPageState extends State<EditPage> {
                            children: [
                              TextFormField(
                               // controller: NameOfPlace,
-                                initialValue: "Life is pie",
+                                initialValue: "Ya Rabbi",
                                keyboardType: TextInputType.text,
                                decoration: InputDecoration(
                                  //border: InputBorder.none,

@@ -15,6 +15,8 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
+  //Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+
   bool isHiddenPassWord = true;
 
   final formkey = GlobalKey<FormState>();
@@ -112,8 +114,8 @@ class _LoginFormState extends State<LoginForm> {
                                 userIdSave = idCon.text.trim().toString();
 
                                // _saveData();
-                               //  SharedPreferences prefs = await SharedPreferences.getInstance();
-                               //  prefs.setString("displayMail", userIdSave);
+                                 SharedPreferences prefs = await SharedPreferences.getInstance();
+                                 prefs.setString("displayMail", userIdSave);
 
                                 Scaffold.of(context).showSnackBar(
                                   SnackBar(

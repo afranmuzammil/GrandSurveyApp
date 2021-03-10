@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class About extends StatefulWidget {
   @override
@@ -6,6 +7,7 @@ class About extends StatefulWidget {
 }
 
 class _AboutState extends State<About> {
+  final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -13,26 +15,31 @@ class _AboutState extends State<About> {
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          'Developer Info',
+          'About',
           style:
-          TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+          TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,
       ),
       body: Container(
           padding: EdgeInsets.all(10.0),
-          decoration: BoxDecoration(
-            border: Border.all(
-              color: Colors.black,
-              width: 5,
-            ),
-            borderRadius: BorderRadius.vertical(),
-          ),
+          decoration:  BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+              borderRadius: BorderRadius.circular(15)),
           child: Column(
             children: [
-              Text("This app was made for Students Islamic Organisation of India as a Grand Survey App"
-                  "and the Code is all open Source in Git hub ripo")
+              Container(
+                padding: EdgeInsets.all(10.0),
+                decoration:  BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.vertical()),
+                child: Text("This app was made for Students Islamic Organisation of India as a Grand Survey App"
+                    " and the Code is all open Source in Github repo",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                ),
+              )
             ],
           )
       ),

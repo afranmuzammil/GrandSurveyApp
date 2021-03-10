@@ -303,7 +303,7 @@ class _FormsState extends State<Forms> {
           title: Text(
             'GRAND SURVEY',
             style:
-                TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+                TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
           elevation: 0,

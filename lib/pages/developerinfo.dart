@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:url_launcher/url_launcher.dart';
 
 class devInfo extends StatefulWidget {
@@ -7,7 +8,7 @@ class devInfo extends StatefulWidget {
 }
 
 class _devInfoState extends State<devInfo> {
-
+  final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
   void back()
   {
@@ -32,23 +33,37 @@ class _devInfoState extends State<devInfo> {
         title: Text(
           'Developer Info',
           style:
-          TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+          TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,
       ),
       body: Container(
         padding: EdgeInsets.all(10.0),
-        decoration: BoxDecoration(
-          border: Border.all(
-            color: Colors.black,
-            width: 5,
-          ),
-          borderRadius: BorderRadius.vertical(),
-        ),
+          decoration:  BoxDecoration(
+              border: Border.all(color: Colors.grey, width: 1),
+              borderRadius: BorderRadius.circular(15)),
           child: Column(
             children: [
-              Text("Open Source Application git link is Given Below Click the Button"),
+              Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration:  BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.vertical()),
+                  child: Text("This is Open Source gitHub Application  which was built for,"
+                      " Islamic Organisation of India as a Grand Survey App, feel free to Contribute ,"
+                      " More info is in About section of GitHub Repo Please Click the Button to Visit it.  "
+                      "                                                                                "
+                      "          Thank You, "
+                      "                                                                                 "
+                      "                   Shaik Muzammil Ahmed",
+                      style: GoogleFonts.poppins(textStyle: TextStyle(
+                          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                  )),
+              Divider(
+                height: 20,
+                thickness: 2,
+              ),
               FlatButton(
                 onPressed: () => customLunch("https://github.com/afranmuzammil/GrandSurveyApp/tree/master"),
                 child: Text(

@@ -7,6 +7,7 @@ import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:form_app/pages/about.dart';
 import 'package:form_app/pages/developerinfo.dart';
 import 'package:form_app/pages/edit.dart';
+import 'package:form_app/pages/help.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
@@ -38,8 +39,8 @@ class _MyHomePageState extends State<MyHomePage> {
 
   @override
   void initState() {
-    super.initState();
     _saveData();
+    super.initState();
    // _readData();
   }
 
@@ -63,9 +64,11 @@ class _MyHomePageState extends State<MyHomePage> {
 
  displayMail(){
     if(userMail != null){
-      return Text("$userMail");
+      return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
     }else{
-      return Text("Welcome user");
+      return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
     }
  }
 
@@ -256,12 +259,13 @@ class _MyHomePageState extends State<MyHomePage> {
           hint: Text("SELECT PLACE NAME", textAlign: TextAlign.center),
           dropdownColor: Theme
               .of(context)
-              .secondaryHeaderColor,
+              .primaryColor,
           icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
           iconSize: 36,
           isExpanded: true,
           underline: SizedBox(),
-          style: TextStyle(color: Colors.black87, fontSize: 22),
+          style: GoogleFonts.poppins(textStyle: TextStyle(
+              fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
           value: unitValue,
           onChanged: (newValue) {
             setState(() {
@@ -297,10 +301,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   children: [
                     Text(
                       'Grand Survey App'.toUpperCase(),
-                      style: TextStyle(
-                        color: Colors.white70,
-                        fontSize: 16,
-                      ),
+                        style: GoogleFonts.poppins(textStyle: TextStyle(
+                            fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white70))
                     ),
                     SizedBox(height: 10.0,),
                     Row(
@@ -309,8 +311,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.account_circle_rounded, color: Colors.white,),
                         SizedBox(width: 10.0,),
-                        //displayMail(),
-                       Text("$userIdSave", style: TextStyle(color: Colors.white),)
+                        displayMail(),
+                      // Text("$userIdSave", style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ]
@@ -330,8 +332,13 @@ class _MyHomePageState extends State<MyHomePage> {
                     });
                   },
                   color: Colors.grey,
-                  child: Text("signOut",style: TextStyle(color: Colors.white),)
+                  child: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
               ),
+            ),
+            Divider(
+              height: 2,
+              thickness: 2,
             ),
             ListTile(
               onTap: () {
@@ -342,7 +349,12 @@ class _MyHomePageState extends State<MyHomePage> {
                     ));
               },
               leading: Icon(Icons.info_outline_rounded),
-              title: Text("About"),
+              title: Text("About",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+            ),
+            Divider(
+              height: 2,
+              thickness: 2,
             ),
             ListTile(
               onTap: () {
@@ -353,11 +365,35 @@ class _MyHomePageState extends State<MyHomePage> {
                     ));
               },
               leading: Icon(Icons.code_rounded),
-              title: Text("Developer Info"),
+              title: Text("Developer Info",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
             ),
-            ListTile(
-              leading: Icon(Icons.swap_vert_rounded),
-              title: Text("V: a0.1"),
+            Divider(
+              height: 2,
+              thickness: 2,
+            ),
+            Column(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                ListTile(
+                  onTap: () {
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => Help(),
+                        ));
+                  },
+                  leading: Icon(Icons.help_outline_rounded),
+                  title: Text("Help & feedBack",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                ),
+                ListTile(
+                  leading: Icon(Icons.swap_vert_rounded),
+                  title: Text("V: a0.1",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                ),
+              ],
             ),
           ],
         ),
@@ -1190,7 +1226,7 @@ class _MyHomePageState extends State<MyHomePage> {
            // unitValue = unitValue;
           });
         },
-        child: Icon(Icons.add_outlined, color: Colors.white70,),
+        child: Icon(Icons.add_outlined, color: Colors.white70,size: 25,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
@@ -1201,7 +1237,7 @@ class _MyHomePageState extends State<MyHomePage> {
               builder: (context) =>
                   IconButton(
                     tooltip: 'Filter the bar',
-                    icon: const Icon(Icons.filter_list_outlined),
+                    icon: const Icon(Icons.filter_list_outlined, size: 28,),
                     color: Colors.white,
                     onPressed: () {
                       // BottomBar();
@@ -1221,6 +1257,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   IconButton(
                                       icon: const Icon(
                                           Icons.arrow_downward_rounded),
+                                      color: Colors.white70,
                                       onPressed: () {
                                         Navigator.pop(context);
                                       }),
@@ -1242,9 +1279,10 @@ class _MyHomePageState extends State<MyHomePage> {
                                               .secondaryHeaderColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
+                                          iconEnabledColor: Colors.white70,
                                           isExpanded: true,
                                           underline: SizedBox(),
-                                          style: TextStyle(color: Colors.black,
+                                          style: TextStyle(color: Colors.black54,
                                               fontSize: 22),
                                           value: placeValue,
                                           onChanged: (newValue) {
@@ -2020,6 +2058,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -2222,6 +2307,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -2424,6 +2556,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -2612,6 +2791,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -2800,6 +3026,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -2997,6 +3270,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -3194,6 +3514,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -3382,6 +3749,53 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async {
+                                            await  Navigator.push(
+                                                context,
+                                                MaterialPageRoute(
+                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                )).then((value) => Navigator.of(context).pop());
+
+                                            print("deleted");
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(

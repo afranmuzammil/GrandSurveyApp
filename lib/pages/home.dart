@@ -30,8 +30,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
-  String userIdSave ;
+   final String userIdSave ;
   _MyHomePageState(this.userIdSave);
+   //String userMail = userIdSave;
 
 
   firebase_storage.Reference ref;
@@ -72,7 +73,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isVisibleEducation = false;
   List placesTypeEducationList = [
     "SCHOOL",
-    "COLLAGE",
+    "COLLEGE",
     "INSTITUTION",
   ];
 
@@ -195,6 +196,14 @@ class _MyHomePageState extends State<MyHomePage> {
     } else {
       throw 'Could not open the map.';
     }
+  }
+  // Future<Null> refreshList()async{
+  //   await Future.delayed(Duration(seconds: 2));
+  // }
+  Future<void> refreshList()async{
+    await Future.delayed(Duration(seconds: 2));
+    FirebaseFirestore.instance.collection(unitValue).doc(
+        placeValue).collection(selectType()).snapshots();
   }
 
 
@@ -330,804 +339,807 @@ class _MyHomePageState extends State<MyHomePage> {
                 child: CircularProgressIndicator(),
               );
             } else {
-              return ListView(
-                children: snapshot.data.docs.map((document) {
-                  var UserDoc = document.id;
-                  switch (placeValue) {
-                    case"RELIGIOUS PLACES":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]} ",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['PlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          // crossAxisAlignment: CrossAxisAlignment.start,
-                                          children: [
-                                            religiousDetailsDisplay(document)
-                                          ],
+              return RefreshIndicator(
+                onRefresh:refreshList ,
+                child: ListView(
+                  children: snapshot.data.docs.map((document) {
+                    var UserDoc = document.id;
+                    switch (placeValue) {
+                      case"RELIGIOUS PLACES":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]} ",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['PlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            // crossAxisAlignment: CrossAxisAlignment.start,
+                                            children: [
+                                              religiousDetailsDisplay(document)
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
-                          return Center(
-                            child: Text("NO DATA PRESENT"),
-                          );
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
                         }
-                      }
-                      break;
+                        break;
 
 
-                    case"EDUCATIONAL INSTITUTIONS":
-                      {
-                        switch (placeTypeEducationValue) {
-                          case"SCHOOL":
-                            {
-                              try {
-                                return Card(
-                                  elevation: 5.0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
-                                      children: [
-                                        Image(
-                                          image: NetworkImage(
-                                              document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 200,
-                                        ),
-                                        SizedBox(height: 10.0,),
-                                        Text(
-                                          "Name of the ${document["PlaceType"]} ",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54)),),
-                                        Text(
-                                          " ${document['schoolName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87)),),
-                                        SizedBox(height: 10.0,),
-                                        // ListTile(
-                                        //     // onTap:(){
-                                        //     //   print(UserDoc);
-                                        //     // },
-                                        //   leading: Text(document['PlaceName']),
-                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                        //   // children: <Widget>[
-                                        //   title:Text(document['PlaceType']),
-                                        //   //   Text(document['PlaceType']),
-                                        //   // ],
-                                        // ),
-                                        // Row(
-                                        //   mainAxisAlignment: MainAxisAlignment.end,
-                                        //   children: <Widget>[
-                                        //     TextButton(
-                                        //       child: const Text('More'),
-                                        //       onPressed: () {isVisible = !isVisible;},
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        ClipRect(
-                                          child: SingleChildScrollView(
-                                            physics: BouncingScrollPhysics(),
-                                            child: Container(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  schoolDetailsDisplay(document)
-                                                ],
-                                              ),
-                                            ),
+                      case"EDUCATIONAL INSTITUTIONS":
+                        {
+                          switch (placeTypeEducationValue) {
+                            case"SCHOOL":
+                              {
+                                try {
+                                  return Card(
+                                    elevation: 5.0,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Image(
+                                            image: NetworkImage(
+                                                document['PlaceImage']),
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: 200,
                                           ),
-                                        ),
-                                      ],
-                                    ),
-                                  ),
-                                  borderOnForeground: true,
-                                );
-                              } catch (e) {
-                                return Center(
-                                  child: Text("NO DATA PRESENT"),
-                                );
-                              }
-                            }
-                            break;
-                          case"COLLAGE":
-                            {
-                              try {
-                                return Card(
-                                  elevation: 5.0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
-                                      children: [
-                                        Image(
-                                          image: NetworkImage(
-                                              document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 200,
-                                        ),
-                                        SizedBox(height: 10.0,),
-                                        Text(
+                                          SizedBox(height: 10.0,),
+                                          Text(
                                             "Name of the ${document["PlaceType"]} ",
-                                            style: GoogleFonts.poppins(
-                                                textStyle:
-                                                TextStyle(fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black54))),
-                                        Text(
-                                            " ${document['collageName']
+                                            style: GoogleFonts.poppins(textStyle:
+                                            TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black54)),),
+                                          Text(
+                                            " ${document['schoolName']
                                                 .toString()
                                                 .toUpperCase()}",
-                                            style: GoogleFonts.poppins(
-                                                textStyle:
-                                                TextStyle(fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black87))),
-                                        SizedBox(height: 10.0,),
-                                        // ListTile(
-                                        //     // onTap:(){
-                                        //     //   print(UserDoc);
-                                        //     // },
-                                        //   leading: Text(document['PlaceName']),
-                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                        //   // children: <Widget>[
-                                        //   title:Text(document['PlaceType']),
-                                        //   //   Text(document['PlaceType']),
-                                        //   // ],
-                                        // ),
-                                        // Row(
-                                        //   mainAxisAlignment: MainAxisAlignment.end,
-                                        //   children: <Widget>[
-                                        //     TextButton(
-                                        //       child: const Text('More'),
-                                        //       onPressed: () {isVisible = !isVisible;},
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        ClipRect(
-                                          child: SingleChildScrollView(
-                                            physics: BouncingScrollPhysics(),
-                                            child: Container(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  collageDetailsDisplay(
-                                                      document)
-                                                ],
+                                            style: GoogleFonts.poppins(textStyle:
+                                            TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.black87)),),
+                                          SizedBox(height: 10.0,),
+                                          // ListTile(
+                                          //     // onTap:(){
+                                          //     //   print(UserDoc);
+                                          //     // },
+                                          //   leading: Text(document['PlaceName']),
+                                          //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                          //   // children: <Widget>[
+                                          //   title:Text(document['PlaceType']),
+                                          //   //   Text(document['PlaceType']),
+                                          //   // ],
+                                          // ),
+                                          // Row(
+                                          //   mainAxisAlignment: MainAxisAlignment.end,
+                                          //   children: <Widget>[
+                                          //     TextButton(
+                                          //       child: const Text('More'),
+                                          //       onPressed: () {isVisible = !isVisible;},
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          ClipRect(
+                                            child: SingleChildScrollView(
+                                              physics: BouncingScrollPhysics(),
+                                              child: Container(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    schoolDetailsDisplay(document)
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  borderOnForeground: true,
-                                );
-                              } catch (e) {
-                                return Center(
-                                  child: Text("NO DATA PRESENT"),
-                                );
+                                    borderOnForeground: true,
+                                  );
+                                } catch (e) {
+                                  return Center(
+                                    child: Text("NO DATA PRESENT"),
+                                  );
+                                }
                               }
-                            }
-                            break;
-                          case"INSTITUTION":
-                            {
-                              try {
-                                return Card(
-                                  elevation: 5.0,
-                                  child: Container(
-                                    padding: EdgeInsets.all(10.0),
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment
-                                          .center,
-                                      children: [
-                                        Image(
-                                          image: NetworkImage(
-                                              document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: 200,
-                                        ),
-                                        SizedBox(height: 10.0,),
-                                        Text(
-                                            "Name of the ${document["PlaceType"]}",
-                                            style: GoogleFonts.poppins(
-                                                textStyle:
-                                                TextStyle(fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black54))),
-                                        Text(
-                                            "${document['institutionName']
-                                                .toString()
-                                                .toUpperCase()}",
-                                            style: GoogleFonts.poppins(
-                                                textStyle:
-                                                TextStyle(fontSize: 20,
-                                                    fontWeight: FontWeight.w500,
-                                                    color: Colors.black87))),
-                                        SizedBox(height: 10.0,),
-                                        // ListTile(
-                                        //     // onTap:(){
-                                        //     //   print(UserDoc);
-                                        //     // },
-                                        //   leading: Text(document['PlaceName']),
-                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                        //   // children: <Widget>[
-                                        //   title:Text(document['PlaceType']),
-                                        //   //   Text(document['PlaceType']),
-                                        //   // ],
-                                        // ),
-                                        // Row(
-                                        //   mainAxisAlignment: MainAxisAlignment.end,
-                                        //   children: <Widget>[
-                                        //     TextButton(
-                                        //       child: const Text('More'),
-                                        //       onPressed: () {isVisible = !isVisible;},
-                                        //     ),
-                                        //   ],
-                                        // ),
-                                        ClipRect(
-                                          child: SingleChildScrollView(
-                                            physics: BouncingScrollPhysics(),
-                                            child: Container(
-                                              padding: EdgeInsets.all(8.0),
-                                              child: Column(
-                                                mainAxisAlignment: MainAxisAlignment
-                                                    .start,
-                                                children: [
-                                                  instituteDetailsDisplay(document)
-                                                ],
+                              break;
+                            case"COLLEGE":
+                              {
+                                try {
+                                  return Card(
+                                    elevation: 5.0,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Image(
+                                            image: NetworkImage(
+                                                document['PlaceImage']),
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: 200,
+                                          ),
+                                          SizedBox(height: 10.0,),
+                                          Text(
+                                              "Name of the ${document["PlaceType"]} ",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle:
+                                                  TextStyle(fontSize: 20,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black54))),
+                                          Text(
+                                              " ${document['collageName']
+                                                  .toString()
+                                                  .toUpperCase()}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle:
+                                                  TextStyle(fontSize: 20,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black87))),
+                                          SizedBox(height: 10.0,),
+                                          // ListTile(
+                                          //     // onTap:(){
+                                          //     //   print(UserDoc);
+                                          //     // },
+                                          //   leading: Text(document['PlaceName']),
+                                          //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                          //   // children: <Widget>[
+                                          //   title:Text(document['PlaceType']),
+                                          //   //   Text(document['PlaceType']),
+                                          //   // ],
+                                          // ),
+                                          // Row(
+                                          //   mainAxisAlignment: MainAxisAlignment.end,
+                                          //   children: <Widget>[
+                                          //     TextButton(
+                                          //       child: const Text('More'),
+                                          //       onPressed: () {isVisible = !isVisible;},
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          ClipRect(
+                                            child: SingleChildScrollView(
+                                              physics: BouncingScrollPhysics(),
+                                              child: Container(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    collageDetailsDisplay(
+                                                        document)
+                                                  ],
+                                                ),
                                               ),
                                             ),
                                           ),
-                                        ),
-                                      ],
+                                        ],
+                                      ),
                                     ),
-                                  ),
-                                  borderOnForeground: true,
-                                );
-                              } catch (e) {
-                                return Center(
-                                  child: Text("NO DATA PRESENT"),
-                                );
+                                    borderOnForeground: true,
+                                  );
+                                } catch (e) {
+                                  return Center(
+                                    child: Text("NO DATA PRESENT"),
+                                  );
+                                }
                               }
-                            }
-                            break;
+                              break;
+                            case"INSTITUTION":
+                              {
+                                try {
+                                  return Card(
+                                    elevation: 5.0,
+                                    child: Container(
+                                      padding: EdgeInsets.all(10.0),
+                                      child: Column(
+                                        crossAxisAlignment: CrossAxisAlignment
+                                            .center,
+                                        children: [
+                                          Image(
+                                            image: NetworkImage(
+                                                document['PlaceImage']),
+                                            fit: BoxFit.cover,
+                                            width: double.infinity,
+                                            height: 200,
+                                          ),
+                                          SizedBox(height: 10.0,),
+                                          Text(
+                                              "Name of the ${document["PlaceType"]}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle:
+                                                  TextStyle(fontSize: 20,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black54))),
+                                          Text(
+                                              "${document['institutionName']
+                                                  .toString()
+                                                  .toUpperCase()}",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle:
+                                                  TextStyle(fontSize: 20,
+                                                      fontWeight: FontWeight.w500,
+                                                      color: Colors.black87))),
+                                          SizedBox(height: 10.0,),
+                                          // ListTile(
+                                          //     // onTap:(){
+                                          //     //   print(UserDoc);
+                                          //     // },
+                                          //   leading: Text(document['PlaceName']),
+                                          //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                          //   // children: <Widget>[
+                                          //   title:Text(document['PlaceType']),
+                                          //   //   Text(document['PlaceType']),
+                                          //   // ],
+                                          // ),
+                                          // Row(
+                                          //   mainAxisAlignment: MainAxisAlignment.end,
+                                          //   children: <Widget>[
+                                          //     TextButton(
+                                          //       child: const Text('More'),
+                                          //       onPressed: () {isVisible = !isVisible;},
+                                          //     ),
+                                          //   ],
+                                          // ),
+                                          ClipRect(
+                                            child: SingleChildScrollView(
+                                              physics: BouncingScrollPhysics(),
+                                              child: Container(
+                                                padding: EdgeInsets.all(8.0),
+                                                child: Column(
+                                                  mainAxisAlignment: MainAxisAlignment
+                                                      .start,
+                                                  children: [
+                                                    instituteDetailsDisplay(document)
+                                                  ],
+                                                ),
+                                              ),
+                                            ),
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                    borderOnForeground: true,
+                                  );
+                                } catch (e) {
+                                  return Center(
+                                    child: Text("NO DATA PRESENT"),
+                                  );
+                                }
+                              }
+                              break;
+                          }
                         }
-                      }
-                      break;
+                        break;
 
 
-                    case"YOUTH SPOTS":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['youthPlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            youthDetailsDisplay(document)
-                                          ],
+                      case"YOUTH SPOTS":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['youthPlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            children: [
+                                              youthDetailsDisplay(document)
+                                            ],
+                                          ),
                                         ),
                                       ),
                                     ),
-                                  ),
-                                ],
+                                  ],
+                                ),
                               ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
+                        }
+                        break;
+                      case"PUBLIC SPOTS":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['publicPlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            children: [
+                                              publicDetailsDisplay(document)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
+                        }
+                        break;
+                      case"OFFICES":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['officePlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            children: [
+                                              officeDetailsDisplay(document)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
+                        }
+                        break;
+                      case"NGOSorORGANISATIONS":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['ngosPlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            children: [
+                                              ngosDetailsDisplay(document)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
+                        }
+                        break;
+                      case"HALLS":
+                        {
+                          try {
+                            return Card(
+                              elevation: 5.0,
+                              child: Container(
+                                padding: EdgeInsets.all(10.0),
+                                child: Column(
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    Image(
+                                      image: NetworkImage(document['PlaceImage']),
+                                      fit: BoxFit.cover,
+                                      width: double.infinity,
+                                      height: 200,
+                                    ),
+                                    SizedBox(height: 10.0,),
+                                    Text(
+                                        "Name of the ${document["PlaceType"]}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black54))),
+                                    Text(
+                                        "${document['hallsPlaceName']
+                                            .toString()
+                                            .toUpperCase()}",
+                                        style: GoogleFonts.poppins(textStyle:
+                                        TextStyle(fontSize: 20,
+                                            fontWeight: FontWeight.w500,
+                                            color: Colors.black87))),
+                                    SizedBox(height: 10.0,),
+                                    // ListTile(
+                                    //     // onTap:(){
+                                    //     //   print(UserDoc);
+                                    //     // },
+                                    //   leading: Text(document['PlaceName']),
+                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                    //   // children: <Widget>[
+                                    //   title:Text(document['PlaceType']),
+                                    //   //   Text(document['PlaceType']),
+                                    //   // ],
+                                    // ),
+                                    // Row(
+                                    //   mainAxisAlignment: MainAxisAlignment.end,
+                                    //   children: <Widget>[
+                                    //     TextButton(
+                                    //       child: const Text('More'),
+                                    //       onPressed: () {isVisible = !isVisible;},
+                                    //     ),
+                                    //   ],
+                                    // ),
+                                    ClipRect(
+                                      child: SingleChildScrollView(
+                                        physics: BouncingScrollPhysics(),
+                                        child: Container(
+                                          padding: EdgeInsets.all(8.0),
+                                          child: Column(
+                                            mainAxisAlignment: MainAxisAlignment
+                                                .start,
+                                            children: [
+                                              hallsDetailsDisplay(document)
+                                            ],
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              borderOnForeground: true,
+                            );
+                          } catch (e) {
+                            return Center(
+                              child: Text("NO DATA PRESENT"),
+                            );
+                          }
+                        }
+                        break;
+                      default:
+                        {
                           return Center(
                             child: Text("NO DATA PRESENT"),
                           );
                         }
-                      }
-                      break;
-                    case"PUBLIC SPOTS":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['publicPlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            publicDetailsDisplay(document)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
-                          return Center(
-                            child: Text("NO DATA PRESENT"),
-                          );
-                        }
-                      }
-                      break;
-                    case"OFFICES":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['officePlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            officeDetailsDisplay(document)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
-                          return Center(
-                            child: Text("NO DATA PRESENT"),
-                          );
-                        }
-                      }
-                      break;
-                    case"NGOSorORGANISATIONS":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['ngosPlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            ngosDetailsDisplay(document)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
-                          return Center(
-                            child: Text("NO DATA PRESENT"),
-                          );
-                        }
-                      }
-                      break;
-                    case"HALLS":
-                      {
-                        try {
-                          return Card(
-                            elevation: 5.0,
-                            child: Container(
-                              padding: EdgeInsets.all(10.0),
-                              child: Column(
-                                crossAxisAlignment: CrossAxisAlignment.center,
-                                children: [
-                                  Image(
-                                    image: NetworkImage(document['PlaceImage']),
-                                    fit: BoxFit.cover,
-                                    width: double.infinity,
-                                    height: 200,
-                                  ),
-                                  SizedBox(height: 10.0,),
-                                  Text(
-                                      "Name of the ${document["PlaceType"]}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black54))),
-                                  Text(
-                                      "${document['hallsPlaceName']
-                                          .toString()
-                                          .toUpperCase()}",
-                                      style: GoogleFonts.poppins(textStyle:
-                                      TextStyle(fontSize: 20,
-                                          fontWeight: FontWeight.w500,
-                                          color: Colors.black87))),
-                                  SizedBox(height: 10.0,),
-                                  // ListTile(
-                                  //     // onTap:(){
-                                  //     //   print(UserDoc);
-                                  //     // },
-                                  //   leading: Text(document['PlaceName']),
-                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                  //   // children: <Widget>[
-                                  //   title:Text(document['PlaceType']),
-                                  //   //   Text(document['PlaceType']),
-                                  //   // ],
-                                  // ),
-                                  // Row(
-                                  //   mainAxisAlignment: MainAxisAlignment.end,
-                                  //   children: <Widget>[
-                                  //     TextButton(
-                                  //       child: const Text('More'),
-                                  //       onPressed: () {isVisible = !isVisible;},
-                                  //     ),
-                                  //   ],
-                                  // ),
-                                  ClipRect(
-                                    child: SingleChildScrollView(
-                                      physics: BouncingScrollPhysics(),
-                                      child: Container(
-                                        padding: EdgeInsets.all(8.0),
-                                        child: Column(
-                                          mainAxisAlignment: MainAxisAlignment
-                                              .start,
-                                          children: [
-                                            hallsDetailsDisplay(document)
-                                          ],
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ],
-                              ),
-                            ),
-                            borderOnForeground: true,
-                          );
-                        } catch (e) {
-                          return Center(
-                            child: Text("NO DATA PRESENT"),
-                          );
-                        }
-                      }
-                      break;
-                    default:
-                      {
-                        return Center(
-                          child: Text("NO DATA PRESENT"),
-                        );
-                      }
-                  }
-                  // return  Card(
-                  //   elevation: 5.0,
-                  //   child: Container(
-                  //     padding: EdgeInsets.all(10.0),
-                  //     child: Column(
-                  //       crossAxisAlignment: CrossAxisAlignment.center,
-                  //       children: [
-                  //         Image(
-                  //           image: NetworkImage(document['PlaceImage']),
-                  //           fit: BoxFit.cover,
-                  //           width: double.infinity,
-                  //           height: 200,
-                  //         ) ,
-                  //         SizedBox(height: 10.0,),
-                  //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
-                  //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
-                  //         SizedBox(height: 10.0,),
-                  //         // ListTile(
-                  //         //     // onTap:(){
-                  //         //     //   print(UserDoc);
-                  //         //     // },
-                  //         //   leading: Text(document['PlaceName']),
-                  //         //   // crossAxisAlignment: CrossAxisAlignment.start,
-                  //         //   // children: <Widget>[
-                  //         //   title:Text(document['PlaceType']),
-                  //         //   //   Text(document['PlaceType']),
-                  //         //   // ],
-                  //         // ),
-                  //         // Row(
-                  //         //   mainAxisAlignment: MainAxisAlignment.end,
-                  //         //   children: <Widget>[
-                  //         //     TextButton(
-                  //         //       child: const Text('More'),
-                  //         //       onPressed: () {isVisible = !isVisible;},
-                  //         //     ),
-                  //         //   ],
-                  //         // ),
-                  //         ClipRect(
-                  //           child: SingleChildScrollView(
-                  //             physics:BouncingScrollPhysics(),
-                  //             child: Column(
-                  //               mainAxisAlignment: MainAxisAlignment.start,
-                  //               children: [
-                  //                 religiousDetailsDisplay(document)
-                  //               ],
-                  //             ),
-                  //           ),
-                  //         ),
-                  //       ],
-                  //     ),
-                  //   ),
-                  //   borderOnForeground: true,
-                  // );
-                }).toList(),
+                    }
+                    // return  Card(
+                    //   elevation: 5.0,
+                    //   child: Container(
+                    //     padding: EdgeInsets.all(10.0),
+                    //     child: Column(
+                    //       crossAxisAlignment: CrossAxisAlignment.center,
+                    //       children: [
+                    //         Image(
+                    //           image: NetworkImage(document['PlaceImage']),
+                    //           fit: BoxFit.cover,
+                    //           width: double.infinity,
+                    //           height: 200,
+                    //         ) ,
+                    //         SizedBox(height: 10.0,),
+                    //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                    //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                    //         SizedBox(height: 10.0,),
+                    //         // ListTile(
+                    //         //     // onTap:(){
+                    //         //     //   print(UserDoc);
+                    //         //     // },
+                    //         //   leading: Text(document['PlaceName']),
+                    //         //   // crossAxisAlignment: CrossAxisAlignment.start,
+                    //         //   // children: <Widget>[
+                    //         //   title:Text(document['PlaceType']),
+                    //         //   //   Text(document['PlaceType']),
+                    //         //   // ],
+                    //         // ),
+                    //         // Row(
+                    //         //   mainAxisAlignment: MainAxisAlignment.end,
+                    //         //   children: <Widget>[
+                    //         //     TextButton(
+                    //         //       child: const Text('More'),
+                    //         //       onPressed: () {isVisible = !isVisible;},
+                    //         //     ),
+                    //         //   ],
+                    //         // ),
+                    //         ClipRect(
+                    //           child: SingleChildScrollView(
+                    //             physics:BouncingScrollPhysics(),
+                    //             child: Column(
+                    //               mainAxisAlignment: MainAxisAlignment.start,
+                    //               children: [
+                    //                 religiousDetailsDisplay(document)
+                    //               ],
+                    //             ),
+                    //           ),
+                    //         ),
+                    //       ],
+                    //     ),
+                    //   ),
+                    //   borderOnForeground: true,
+                    // );
+                  }).toList(),
+                ),
               );
             } //else
 
@@ -1142,7 +1154,7 @@ class _MyHomePageState extends State<MyHomePage> {
            // unitValue = unitValue;
           });
         },
-        child: Icon(Icons.add, color: Colors.white70,),
+        child: Icon(Icons.add_outlined, color: Colors.white70,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
@@ -1154,6 +1166,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   IconButton(
                     tooltip: 'Filter the bar',
                     icon: const Icon(Icons.filter_list_outlined),
+                    color: Colors.white,
                     onPressed: () {
                       // BottomBar();
                       // controller.open();
@@ -1559,7 +1572,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["ContactNO"]}",
@@ -1571,7 +1585,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["ContactNO"]}",),
                   child: Text(
@@ -1632,22 +1645,78 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
-                                );
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
+                                          ),
+                                        ),
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .ref()
+                                                  .child(document["PlaceImage"].trim())
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -1656,7 +1725,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
+                 // SizedBox(width: 178.0,),
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
@@ -1664,6 +1734,49 @@ class _MyHomePageState extends State<MyHomePage> {
                               color: Colors.blue,
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Edit'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('You can Edit and Change the text in Post'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               },
                               child: Center(
                                 child: Icon(
@@ -1699,7 +1812,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["schoolContact"]}",
@@ -1711,7 +1825,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["schoolContact"]}",),
                   child: Text(
@@ -1766,6 +1879,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -1831,7 +1946,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["collageContact"]}",
@@ -1843,7 +1959,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["collageContact"]}",),
                   child: Text(
@@ -1864,7 +1979,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
-            Text("Collage Strength :  ${document["collageStrength"]
+            Text("College Strength :  ${document["collageStrength"]
                 .toString()
                 .toUpperCase()}",
                 style: GoogleFonts.poppins(
@@ -1905,6 +2020,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -1970,7 +2087,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["institutionContact"]}",
@@ -1982,7 +2100,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["institutionContact"]}",),
                   child: Text(
@@ -2044,6 +2161,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -2111,7 +2230,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["youthContact"]}",
@@ -2123,7 +2243,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["youthContact"]}",),
                   child: Text(
@@ -2169,6 +2288,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -2236,7 +2357,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["publicContact"]}",
@@ -2248,7 +2370,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["publicContact"]}",),
                   child: Text(
@@ -2294,6 +2415,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -2361,7 +2484,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["officeContact"]}",
@@ -2373,7 +2497,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["officeContact"]}",),
                   child: Text(
@@ -2428,6 +2551,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -2495,7 +2620,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["ngosContact"]}",
@@ -2507,7 +2633,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["ngosContact"]}",),
                   child: Text(
@@ -2562,6 +2687,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(
@@ -2629,7 +2756,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Row(
-              mainAxisAlignment: MainAxisAlignment.start,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 Text(
                   "ContactNO:  ${document["hallsContact"]}",
@@ -2641,7 +2769,6 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                SizedBox(width: 50.0),
                 FlatButton(
                   onPressed: () => customLunch("tel:${document["hallsContact"]}",),
                   child: Text(
@@ -2687,6 +2814,8 @@ class _MyHomePageState extends State<MyHomePage> {
             Visibility(
               visible: isVisibleButtons,
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   //DELETE BUTTON
                   Builder(

@@ -123,7 +123,7 @@ class _FormsState extends State<Forms> {
   bool isVisibleEducation = false;
   List placesTypeEducationList = [
     "SCHOOL",
-    "COLLAGE",
+    "COLLEGE",
     "INSTITUTION",
   ];
   //controllers SCHOOL
@@ -531,7 +531,7 @@ class _FormsState extends State<Forms> {
                               instituteDetailsVisible = false;
                             }
                             break;
-                            case "COLLAGE":{
+                            case "COLLEGE":{
                               collageDetailsVisible = true;
 
                               schoolDetailsVisible = false;
@@ -1304,7 +1304,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Collage',
+                                  hintText: 'Name of the College',
                                   prefixIcon: Icon(Icons.school_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1319,7 +1319,7 @@ class _FormsState extends State<Forms> {
                             //TYPE OF INSTITUTION
                             SizedBox(height: 30.0,),
                             Text(
-                              'TYPE OF COLLAGE',
+                              'TYPE OF COLLEGE',
                               style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
                               textAlign: TextAlign.left,
                             ),
@@ -1439,7 +1439,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Strength of the Collage',
+                                  hintText: 'Strength of the College',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -3439,7 +3439,7 @@ void submitFunc(){
               .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
               .add(data);
         }break;
-          case "COLLAGE":{
+          case "COLLEGE":{
             Map<String, dynamic> data = {
               "PlaceValue":placeValue.toLowerCase().toString(),
               "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
@@ -3459,7 +3459,7 @@ void submitFunc(){
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
-                .doc("EDUCATIONAL INSTITUTIONS").collection("COLLAGE")
+                .doc("EDUCATIONAL INSTITUTIONS").collection("COLLEGE")
                 .add(data);
 
           }break;

@@ -27,7 +27,7 @@ class _LoadingState extends State<Loading> {
       backgroundColor:Theme.of(context).secondaryHeaderColor,
       body: Center(
         child:SpinKitCircle(
-          color: Colors.greenAccent,
+          color: Colors.blueAccent,
           size: 80.0,
         ),
       ),

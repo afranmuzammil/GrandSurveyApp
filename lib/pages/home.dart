@@ -1674,15 +1674,22 @@ class _MyHomePageState extends State<MyHomePage> {
                                           TextButton(
                                             child: Text('Yes'),
                                             onPressed: () async{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .ref()
-                                                  .child(document["PlaceImage"].trim())
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
                                                   .delete()
                                                   .then(
                                                       (_) =>
                                                       print("File deleted successfully")
                                               );
-                                              // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                Scaffold.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
                                               Navigator.of(context).pop();
                                               print("deleted");
 
@@ -1887,16 +1894,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2028,16 +2096,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2169,16 +2298,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2296,16 +2486,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2423,16 +2674,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2559,16 +2871,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2695,16 +3068,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },
@@ -2822,16 +3256,77 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) =>
                           FlatButton(
                               color: Colors.redAccent,
-                              onPressed: () async {
+                              onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
-                                await firebase_storage.FirebaseStorage.instance
-                                    .ref()
-                                    .child(document["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        print("File deleted successfully")
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false, // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text('Delete'),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                            SizedBox(height: 5.0,),
+                                            Text('Once Deleted cant be Undone!'),
+                                          ],
+                                        ),
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Yes'),
+                                          onPressed: () async{
+                                            try{
+                                              await firebase_storage.FirebaseStorage.instance
+                                                  .refFromURL(document["PlaceImage"])
+                                                  .delete()
+                                                  .then(
+                                                      (_) =>
+                                                      print("File deleted successfully")
+                                              );
+                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                            }catch(e){
+                                              Scaffold.of(context).showSnackBar(
+                                                SnackBar(
+                                                  content: Text("Could not Delete try again"),
+                                                ),
+                                              );
+                                            }
+                                            Navigator.of(context).pop();
+                                            print("deleted");
+
+                                          },
+                                          // style: TextButton.styleFrom(
+                                          //   primary: Colors.white,
+                                          //   backgroundColor: Colors.redAccent,
+                                          // ),
+                                        ),
+                                        TextButton(
+                                          child: Text('No!'),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                            backgroundColor: Colors.blue,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
                                 );
+
+                                //
+                                // await firebase_storage.FirebaseStorage.instance
+                                //     .ref()
+                                //     .child(document["PlaceImage"].trim())
+                                //     .delete()
+                                //     .then(
+                                //         (_) =>
+                                //         print("File deleted successfully")
+                                // );
                                 // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
 
                               },

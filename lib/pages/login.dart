@@ -30,6 +30,15 @@ class _LoginFormState extends State<LoginForm> {
   final idCon = new TextEditingController();
   final passCon = new TextEditingController();
 
+  _saveData() async {
+    //SharedPreferences prefs = await SharedPreferences.getInstance();
+    SharedPreferences  prefs = await SharedPreferences.getInstance();
+    setState(() {
+      prefs.setString("userMail",userIdSave);
+      print("hai");
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -86,30 +95,39 @@ class _LoginFormState extends State<LoginForm> {
               Builder(
                   builder: (context) => FlatButton(
                       color: Theme.of(context).primaryColor,
-                      onPressed: () {
+                      onPressed: () async{
                         // context.read<AuthenticationService>().signIn(
                         //   email: idCon.text,
                         //   password: passCon.text,
                         // ).then((value) => print("Error :$value"));
-                        if (formkey.currentState.validate()) {
+                        if (formkey.currentState.validate())  {
                           //Provider.of<Object>(context, listen: false);
                           try{
                             context.read<AuthenticationService>().signIn(
                               email: idCon.text,
                               password: passCon.text,
-                            ).then((value) {if(value=="signed in"){
-                              setState(()   {
+                            ).then((value) {
+                              if(value=="signed in"){
+                              setState(() async{
+                                userIdSave = idCon.text.trim().toString();
+
+                               // _saveData();
+                               //  SharedPreferences prefs = await SharedPreferences.getInstance();
+                               //  prefs.setString("displayMail", userIdSave);
+
+                                Scaffold.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Login success"),
+                                  ),
+                                );
+
                                 Navigator.push(
                                     context,
                                     MaterialPageRoute(
                                       builder: (context) => MyHomePage(userIdSave: userIdSave),
                                     ));
+
                               });
-                              Scaffold.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Login success"),
-                                ),
-                              );
                             }
                             else{
                               Scaffold.of(context).showSnackBar(
@@ -127,7 +145,7 @@ class _LoginFormState extends State<LoginForm> {
                             );
                           }
                           userIdSave = idCon.text.trim().toString();
-                        //  print("user name : $userIdSave");
+                          print("user name : $userIdSave");
 
                           // setState(()   {
                           //    Navigator.push(
@@ -170,6 +188,8 @@ class _LoginFormState extends State<LoginForm> {
       );
     });
   }
+
+
 }
 
 class visibility extends StatelessWidget {

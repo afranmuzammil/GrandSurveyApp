@@ -28,36 +28,46 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
- // Future<SharedPreferences> _prefs = SharedPreferences.getInstance();
+ // Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
-   final String userIdSave ;
+    String userIdSave ;
   _MyHomePageState(this.userIdSave);
-  String userMail;
+   String userMail;
 
   @override
   void initState() {
     super.initState();
     _saveData();
+   // _readData();
   }
 
-  void _saveData() async {
+   _saveData() async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
+    //final prefs = await SharedPreferences.getInstance();
     setState(() {
-      userMail = prefs.getString("displayMail");
+    userMail = prefs.getString("displayMail");
     });
   }
-  // Future<String> _readData() async {
-  //   final SharedPreferences prefs = await _prefs;
-  //   final userMail = prefs.getString (userIdSave)??"";
-  //   setState(() {
-  //     return userMail;
-  //   });
-  //   return userMail;
+  //   _readData() async {
+  //   //SharedPreferences prefs = await SharedPreferences.getInstance();
+  //     SharedPreferences  prefs = await SharedPreferences.getInstance();
+  //    setState(() {
+  //      userMail = (prefs.getString("userMail") ?? 0);
+  //      print(userMail);
+  //    });
+  //  //  return userMail;
   // }
+  // userMail = prefs.getString ("userMail") ?? "Welcome user";
 
-
+ displayMail(){
+    if(userMail != null){
+      return Text("$userMail");
+    }else{
+      return Text("Welcome user");
+    }
+ }
 
 
   firebase_storage.Reference ref;
@@ -299,7 +309,8 @@ class _MyHomePageState extends State<MyHomePage> {
                         Icon(
                           Icons.account_circle_rounded, color: Colors.white,),
                         SizedBox(width: 10.0,),
-                        Text("$userIdSave", style: TextStyle(color: Colors.white),)
+                        //displayMail(),
+                       Text("$userIdSave", style: TextStyle(color: Colors.white),)
                       ],
                     ),
                   ]

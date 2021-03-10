@@ -87,7 +87,7 @@ class _EditPageState extends State<EditPage> {
                            children: [
                              TextFormField(
                               // controller: NameOfPlace,
-                                initialValue: "${foo("Capacity").toString().trim()}",
+                                initialValue: "Life is pie",
                                keyboardType: TextInputType.text,
                                decoration: InputDecoration(
                                  //border: InputBorder.none,

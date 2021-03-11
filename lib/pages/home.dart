@@ -36,10 +36,12 @@ class _MyHomePageState extends State<MyHomePage> {
     String userIdSave ;
   _MyHomePageState(this.userIdSave);
    String userMail;
+   String saveMail;
 
   @override
   void initState() {
     _saveData();
+   setButtonsVisible();
     super.initState();
    // _readData();
   }
@@ -64,6 +66,10 @@ class _MyHomePageState extends State<MyHomePage> {
 
  displayMail(){
     if(userMail != null){
+      setState(() {
+        saveMail = userMail.toString().trim();
+      });
+       print("on :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
     }else{
@@ -71,6 +77,23 @@ class _MyHomePageState extends State<MyHomePage> {
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
     }
  }
+
+  bool isVisibleButtons;
+
+  setButtonsVisible()async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {
+    if( saveMail == "moula-ali@sio.com" ){
+        isVisibleButtons = true
+    } else if(saveMail == "guestId@sio.com"){
+        isVisibleButtons = true
+    }else{
+        isVisibleButtons = false
+        }
+    });
+    print("Saved mail:$saveMail");
+
+  }
+
 
 
   firebase_storage.Reference ref;
@@ -187,7 +210,6 @@ class _MyHomePageState extends State<MyHomePage> {
     "EXHIBITION ",
     "PRESS HALLS"
   ];
-  bool isVisibleButtons = true;
 
 
   String selectedPlaceType;

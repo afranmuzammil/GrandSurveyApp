@@ -97,7 +97,7 @@ class _MyHomePageState extends State<MyHomePage> {
   ];
 
   //RELIGIOUS PLACES
-  String placeTypeReligiousValue = "CHURCH";
+  String placeTypeReligiousValue = "MASJID";
   bool isVisibleReligious = false;
   List placesTypeReligiousList = [
     "MASJID",
@@ -390,7 +390,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V: a0.1",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  title: Text("V : 1.1.0-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
                 ),
               ],

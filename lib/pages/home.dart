@@ -69,7 +69,7 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         saveMail = userMail.toString().trim();
       });
-       print("on :${userMail.toString().trim()}");
+      // print("on :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
     }else{
@@ -90,7 +90,7 @@ class _MyHomePageState extends State<MyHomePage> {
         isVisibleButtons = false
         }
     });
-    print("Saved mail:$saveMail");
+//    print("Saved mail:$saveMail");
 
   }
 

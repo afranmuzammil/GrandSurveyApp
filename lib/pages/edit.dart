@@ -27,12 +27,20 @@ class _EditPageState extends State<EditPage> {
     DocumentSnapshot data;
     var userData;
 
-  Future _getData(var userData) async{
+   @override
+   void initState() {
+   //  _getData();
+     //foo();
+     super.initState();
+   }
+
+
+   Future _getData() async{
     DocumentSnapshot a ;
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection(unitValue)
         .doc(placeValue).collection(selectType).doc(docID)
-        .get().then((value) {return value[data];});
+        .get().then((value) {print("on :${value["Capacity"]}"); return value[data]; });
     a = variable["Capacity"];
     print("Address : $a");
     setState(() {
@@ -41,16 +49,22 @@ class _EditPageState extends State<EditPage> {
     return data;
   }
 
-  Future<String> foo(var users) async{
-    var userData = await _getData(users);
+  Future<String> foo() async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {userData = data});
+  //  var userData = await _getData();
+    print(" on: ${userData["Address"]}");
     return userData;
   }
+  value(values){
+     if (data != null){
+       print("${data["$values"]}");
+       return data["$values"];
+     }
+     else
+       return " none";
 
-   // @override
-   // void initState() {
-   //   super.initState();
-   //   _getData();
-   // }
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -80,32 +94,43 @@ class _EditPageState extends State<EditPage> {
               child: Column(
                 children: [
                   Builder(
-                      builder: (BuildContext context,) {
+                      builder: (BuildContext context,)   {
                         switch(placeValue)   {
                        case "RELIGIOUS PLACES": {
-                         return Column(
-                           children: [
-                             TextFormField(
-                              // controller: NameOfPlace,
-                                initialValue: "Ya Rabbi",
-                               keyboardType: TextInputType.text,
-                               decoration: InputDecoration(
-                                 //border: InputBorder.none,
-                                   hintText: 'Name of the Place',
-                                   prefixIcon: Icon(Icons.home_sharp)),
-                               // validator: (value) {
-                               //   if (value.isEmpty) {
-                               //     return 'Please enter the appropriate details';
-                               //   }
-                               //   // else if (value != realId) {
-                               //   //   return "please enter the right pass word";
-                               //   // }
-                               //   return null;
-                               // },
-                             ),
-                           ]
+                          return Column(
+                            children: [
+                              FlatButton(onPressed: () async {
+                                DocumentSnapshot variable = await FirebaseFirestore.instance
+                                    .collection(unitValue)
+                                    .doc(placeValue).collection(selectType).doc(docID)
+                                    .get().then((value) => _displayInfo(value));
+                                value("");
 
-                         );
+                              },
+                                  child: Text("Refresh")
+                              ),
+                              TextFormField(
+                                // controller: NameOfPlace,
+                                initialValue:  "${value("Address")}",
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Place',
+                                    prefixIcon: Icon(Icons.home_sharp)),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                            ],
+                          );
+
+
                        }break;
                        case"EDUCATIONAL INSTITUTIONS":{
                          return Center(
@@ -126,5 +151,9 @@ class _EditPageState extends State<EditPage> {
         ),
       ),
     );
+  }
+
+  _displayInfo(variable){
+     data = variable;
   }
 }

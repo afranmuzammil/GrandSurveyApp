@@ -42,6 +42,7 @@ class _MyHomePageState extends State<MyHomePage> {
   void initState() {
     _saveData();
    setButtonsVisible();
+    floatingClickable();
     super.initState();
    // _readData();
   }
@@ -79,20 +80,37 @@ class _MyHomePageState extends State<MyHomePage> {
  }
 
   bool isVisibleButtons;
+  bool floatingButtonClickable;
 
   setButtonsVisible()async{
     await Future.delayed(Duration(seconds: 2)).then((value) => {
     if( saveMail == "moula-ali@sio.com" ){
         isVisibleButtons = true
-    } else if(saveMail == "guestId@sio.com"){
+    }
+    else if(saveMail == "afranadmin@sio.com")
+    {
         isVisibleButtons = true
-    }else{
+    }
+    else{
         isVisibleButtons = false
         }
     });
 //    print("Saved mail:$saveMail");
 
   }
+
+   floatingClickable() async {
+     await Future.delayed(Duration(seconds: 2)).then((value) =>{
+     if(saveMail == "guestId@sio.com")
+     {
+       floatingButtonClickable = false
+     }else{
+       floatingButtonClickable = true
+     }
+
+     }
+     );
+   }
 
 
 
@@ -1242,7 +1260,16 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          if(floatingButtonClickable == false){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Your a GuestUser can't add"),
+              ),
+            );
+          }else{
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          }
+
           //Navigator.pushNamed(context, '/form', arguments: unitValue);
           setState(() {
            // unitValue = unitValue;
@@ -1264,11 +1291,19 @@ class _MyHomePageState extends State<MyHomePage> {
                     onPressed: () {
                       // BottomBar();
                       // controller.open();
-                      Scaffold.of(context).showBottomSheet<void>(
-                            (BuildContext context) {
+                      showBottomSheet(
+                            context: context,
+                            builder :( context) {
                           return Container(
-                            height: 200,
-                            color: Colors.blue,
+                            height: 180,
+                            decoration: BoxDecoration(
+                                color: Colors.blue,
+                              borderRadius: BorderRadius.only(
+                                topLeft: const Radius.circular(10),
+                                topRight: const Radius.circular(10),
+                              )
+                            ),
+
                             child: Center(
                               child: Column(
                                 mainAxisAlignment: MainAxisAlignment.start,
@@ -1414,11 +1449,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .of(context)
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
+                                            iconEnabledColor: Colors.white70,
                                             iconSize: 36,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeReligiousValue,
                                             onChanged: (newValue) {
@@ -1432,6 +1468,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 // }
 
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeReligiousList.map((
                                                 valueItem) {
@@ -1452,10 +1489,11 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
                                             iconSize: 36,
+                                            iconEnabledColor: Colors.white70,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeEducationValue,
                                             onChanged: (newValue) {
@@ -1463,6 +1501,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 placeTypeEducationValue =
                                                     newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeEducationList.map((
                                                 valueItem) {
@@ -1483,16 +1522,18 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
                                             iconSize: 36,
+                                            iconEnabledColor: Colors.white70,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeYouthValue,
                                             onChanged: (newValue) {
                                               setState(() {
                                                 placeTypeYouthValue = newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeYouthList.map((
                                                 valueItem) {
@@ -1512,17 +1553,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .of(context)
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
+                                            iconEnabledColor: Colors.white70,
                                             iconSize: 36,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypePublicValue,
                                             onChanged: (newValue) {
                                               setState(() {
                                                 placeTypePublicValue = newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypePublicList.map((
                                                 valueItem) {
@@ -1542,11 +1585,12 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .of(context)
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
+                                            iconEnabledColor: Colors.white70,
                                             iconSize: 36,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeOfficesValue,
                                             onChanged: (newValue) {
@@ -1554,6 +1598,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 placeTypeOfficesValue =
                                                     newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeOfficesList.map((
                                                 valueItem) {
@@ -1573,17 +1618,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .of(context)
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
+                                            iconEnabledColor: Colors.white70,
                                             iconSize: 36,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeNgosValue,
                                             onChanged: (newValue) {
                                               setState(() {
                                                 placeTypeNgosValue = newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeNgosList.map((
                                                 valueItem) {
@@ -1603,17 +1650,19 @@ class _MyHomePageState extends State<MyHomePage> {
                                                 .of(context)
                                                 .secondaryHeaderColor,
                                             icon: Icon(Icons.arrow_drop_down),
+                                            iconEnabledColor: Colors.white70,
                                             iconSize: 36,
                                             isExpanded: true,
                                             underline: SizedBox(),
                                             style: TextStyle(
-                                                color: Colors.black,
+                                                color: Colors.black54,
                                                 fontSize: 22),
                                             value: placeTypeHallsValue,
                                             onChanged: (newValue) {
                                               setState(() {
                                                 placeTypeHallsValue = newValue;
                                               });
+                                              Navigator.pop(context);
                                             },
                                             items: placesTypeHallsList.map((
                                                 valueItem) {

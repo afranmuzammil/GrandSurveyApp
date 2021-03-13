@@ -290,8 +290,12 @@ class _MyHomePageState extends State<MyHomePage> {
   // }
   Future<void> refreshList()async{
     await Future.delayed(Duration(seconds: 2));
-    FirebaseFirestore.instance.collection(unitValue).doc(
-        placeValue).collection(selectType()).snapshots();
+    setState(() {
+      FirebaseFirestore.instance.collection(unitValue).doc(
+          placeValue).collection(selectType()).snapshots().toList();
+    });
+
+
   }
 
 
@@ -579,7 +583,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -665,7 +669,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   );
                                 } catch (e) {
                                   return Center(
-                                    child: Text("NO DATA PRESENT"),
+                                    child: Text("NO DATA PRESENT PULL TO REFRESH"),
                                   );
                                 }
                               }
@@ -749,7 +753,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   );
                                 } catch (e) {
                                   return Center(
-                                    child: Text("NO DATA PRESENT"),
+                                    child: Text("NO DATA PRESENT PULL TO REFRESH"),
                                   );
                                 }
                               }
@@ -832,7 +836,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                   );
                                 } catch (e) {
                                   return Center(
-                                    child: Text("NO DATA PRESENT"),
+                                    child: Text("NO DATA PRESENT PULL TO REFRESH"),
                                   );
                                 }
                               }
@@ -916,7 +920,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -995,7 +999,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -1074,7 +1078,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -1153,7 +1157,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -1232,7 +1236,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             );
                           } catch (e) {
                             return Center(
-                              child: Text("NO DATA PRESENT"),
+                              child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
                           }
                         }
@@ -1240,10 +1244,13 @@ class _MyHomePageState extends State<MyHomePage> {
                       default:
                         {
                           return Center(
-                            child: Text("NO DATA PRESENT"),
+                            child: Text("NO DATA PRESENT PULL TO REFRESH"),
                           );
                         }
                     }
+                    return Center(
+                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                    );
                     // return  Card(
                     //   elevation: 5.0,
                     //   child: Container(
@@ -1412,6 +1419,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                           style: TextStyle(color: Colors.black54,
                                               fontSize: 22),
                                           value: placeValue,
+
                                           onChanged: (newValue) {
                                             setState(() {
                                               placeValue = newValue;

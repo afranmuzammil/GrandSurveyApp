@@ -10,6 +10,7 @@ import 'package:form_app/pages/developerinfo.dart';
 import 'package:form_app/pages/edit.dart';
 import 'package:form_app/pages/help.dart';
 import 'package:form_app/pages/login.dart';
+import 'package:form_app/pages/visionsinfo.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -469,8 +470,15 @@ class _MyHomePageState extends State<MyHomePage> {
                 ),
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V : 1.1.0-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  title: Text("V : 2.1.0-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                  onLongPress: (){
+                    Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => VersionsInfo(),
+                        ));
+                  },
                 ),
               ],
             ),

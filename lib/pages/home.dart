@@ -568,11 +568,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(
@@ -654,12 +657,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         crossAxisAlignment: CrossAxisAlignment
                                             .center,
                                         children: [
-                                          Image(
-                                            image: NetworkImage(
-                                                document['PlaceImage']),
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 200,
+                                          AspectRatio(
+                                            aspectRatio: 4/2,
+                                            child: Image(
+                                              image: NetworkImage(document['PlaceImage']),
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
                                           ),
                                           SizedBox(height: 10.0,),
                                           Text(
@@ -735,12 +740,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         crossAxisAlignment: CrossAxisAlignment
                                             .center,
                                         children: [
-                                          Image(
-                                            image: NetworkImage(
-                                                document['PlaceImage']),
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 200,
+                                          AspectRatio(
+                                            aspectRatio: 4/2,
+                                            child: Image(
+                                              image: NetworkImage(document['PlaceImage']),
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
                                           ),
                                           SizedBox(height: 10.0,),
                                           Text(
@@ -819,12 +826,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                         crossAxisAlignment: CrossAxisAlignment
                                             .center,
                                         children: [
-                                          Image(
-                                            image: NetworkImage(
-                                                document['PlaceImage']),
-                                            fit: BoxFit.cover,
-                                            width: double.infinity,
-                                            height: 200,
+                                          AspectRatio(
+                                            aspectRatio: 4/2,
+                                            child: Image(
+                                              image: NetworkImage(document['PlaceImage']),
+                                              fit: BoxFit.cover,
+                                              width: double.infinity,
+                                              height: double.infinity,
+                                            ),
                                           ),
                                           SizedBox(height: 10.0,),
                                           Text(
@@ -906,11 +915,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(
@@ -985,11 +997,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(
@@ -1064,11 +1079,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(
@@ -1143,11 +1161,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(
@@ -1222,11 +1243,14 @@ class _MyHomePageState extends State<MyHomePage> {
                                 child: Column(
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
-                                    Image(
-                                      image: NetworkImage(document['PlaceImage']),
-                                      fit: BoxFit.cover,
-                                      width: double.infinity,
-                                      height: 200,
+                                    AspectRatio(
+                                      aspectRatio: 4/2,
+                                      child: Image(
+                                        image: NetworkImage(document['PlaceImage']),
+                                        fit: BoxFit.cover,
+                                        width: double.infinity,
+                                        height: double.infinity,
+                                      ),
                                     ),
                                     SizedBox(height: 10.0,),
                                     Text(

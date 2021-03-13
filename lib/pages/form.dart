@@ -330,8 +330,10 @@ class _FormsState extends State<Forms> {
                     leading: Icon(Icons.info),
                     title: Text("Enter all information",style: GoogleFonts.poppins(textStyle: TextStyle(
                         fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
-                    subtitle: Text("If there is no information to enter ' Type (none)' ,  But  please don't Leave any field empty",style: GoogleFonts.poppins(textStyle: TextStyle(
-                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+                    subtitle: Text("If there is no information to enter ' Type (none)' ,  "
+                        "But  please don't Leave any field empty '*Image and Location are must  & be sure it is uploaded*'",
+                        style: GoogleFonts.poppins(textStyle:
+                        TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
                   ),
                 ),
                 DropdownButton(
@@ -950,15 +952,16 @@ class _FormsState extends State<Forms> {
                               color: Theme.of(context).primaryColor,
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -1018,7 +1021,7 @@ class _FormsState extends State<Forms> {
                                 color: Theme.of(context).primaryColor,
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -3334,6 +3337,7 @@ void submitFunc(){
    setState((){
      try{
     //:TODO: write firebase update script
+
     print("code run");
     switch(placeValue){
       case "RELIGIOUS PLACES":{
@@ -4471,6 +4475,17 @@ void submitFunc(){
 
 
     }
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("yay! Uploaded! Thank You:)"),
+        action: SnackBarAction(
+          label: "OK",
+          onPressed: (){
+            //Navigator.pop(context);
+          },
+        ),
+      ),
+    );
     Navigator.pop(context,{
 
     });

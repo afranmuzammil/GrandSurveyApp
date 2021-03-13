@@ -472,6 +472,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   title: Text("Help & feedBack",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
                 ),
+                //virsions
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
                   title: Text("V : 2.1.0-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(

@@ -54,6 +54,7 @@ class _MyHomePageState extends State<MyHomePage> {
    // _readData();
   }
 
+  //saving User id
    _saveData() async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
     //final prefs = await SharedPreferences.getInstance();
@@ -61,17 +62,9 @@ class _MyHomePageState extends State<MyHomePage> {
     userMail = prefs.getString("displayMail");
     });
   }
-  //   _readData() async {
-  //   //SharedPreferences prefs = await SharedPreferences.getInstance();
-  //     SharedPreferences  prefs = await SharedPreferences.getInstance();
-  //    setState(() {
-  //      userMail = (prefs.getString("userMail") ?? 0);
-  //      print(userMail);
-  //    });
-  //  //  return userMail;
-  // }
-  // userMail = prefs.getString ("userMail") ?? "Welcome user";
 
+  // userMail = prefs.getString ("userMail") ?? "Welcome user";
+  //displaying user id
  displayMail(){
     if(userMail != null){
       setState(() {
@@ -92,6 +85,7 @@ class _MyHomePageState extends State<MyHomePage> {
   bool isVisibleButtons;
   bool floatingButtonClickable;
 
+  //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
     await Future.delayed(Duration(seconds: 2)).then((value) => {
     if( saveMail == "moula-ali@sio.com" && unitValue == "MOULALI@HYD"){
@@ -109,10 +103,12 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  //setting floating Button Clickable
    floatingClickable() async {
      await Future.delayed(Duration(seconds: 2)).then((value) =>{
      if(saveMail == "guest-user@sio.com")
      {
+       guestLoginWellCome(),
        floatingButtonClickable = false
      }else{
        floatingButtonClickable = true
@@ -122,7 +118,49 @@ class _MyHomePageState extends State<MyHomePage> {
        );
    }
 
+   //guest log in wellCome
+  guestLoginWellCome(){
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: false, // user must tap button!
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: Text('WELCOME!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
+              fontWeight: FontWeight.w600,
+              color: Colors.black87)),),
+          backgroundColor: Colors.white,
 
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Text('Your Login as a Guest user!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black87)),),
+                SizedBox(height: 10.0,),
+                Text("A Guest User can't Add, Edit or Delete!",
+                  style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.black54)),),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK',style: TextStyle(color: Colors.white70),),
+              onPressed: () {
+                Navigator.of(context).pop();
+                print("Clicked");
+              },
+              style: TextButton.styleFrom(
+                primary: Colors.white70,
+                backgroundColor: Colors.blue,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   firebase_storage.Reference ref;
 
@@ -269,6 +307,7 @@ class _MyHomePageState extends State<MyHomePage> {
     return selectedPlaceType;
   }
 
+  //url or Phone no click and lunch
   void customLunch(command) async {
     if (await canLaunch(command)) {
       await launch(command);
@@ -277,6 +316,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
   }
 
+  // getting Location data
   static Future<void> openMap(var latitude, var longitude) async {
     String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
@@ -288,6 +328,8 @@ class _MyHomePageState extends State<MyHomePage> {
   // Future<Null> refreshList()async{
   //   await Future.delayed(Duration(seconds: 2));
   // }
+
+  //refreshing the page data
   Future<void> refreshList()async{
     await Future.delayed(Duration(seconds: 2));
     setState(() {
@@ -335,6 +377,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme
             .of(context)
             .primaryColor,
+        //dropdown to select the unitName
         title: DropdownButton(
           hint: Text("SELECT PLACE NAME", textAlign: TextAlign.center),
           dropdownColor: Theme
@@ -379,12 +422,14 @@ class _MyHomePageState extends State<MyHomePage> {
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
+                    // Drawer name
                     Text(
                       'Grand Survey App'.toUpperCase(),
                         style: GoogleFonts.poppins(textStyle: TextStyle(
                             fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white70))
                     ),
                     SizedBox(height: 10.0,),
+                    // displaying user id
                     Row(
                       children: [
                         SizedBox(width: 10.0,),
@@ -400,6 +445,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
               padding: EdgeInsets.all(5.0),
+              //sighOut button
               child: ElevatedButton(
                   onPressed: () {
                     context.read<AuthenticationService>().signOut();
@@ -424,6 +470,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 2,
               thickness: 2,
             ),
+            // about page nav
             ListTile(
               onTap: () {
                 Navigator.push(
@@ -440,6 +487,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 2,
               thickness: 2,
             ),
+            // DevInfo page nav
             ListTile(
               onTap: () {
                 Navigator.push(
@@ -456,6 +504,7 @@ class _MyHomePageState extends State<MyHomePage> {
               height: 2,
               thickness: 2,
             ),
+            //Help page and versions page
             Column(
               mainAxisAlignment: MainAxisAlignment.spaceAround,
               crossAxisAlignment: CrossAxisAlignment.center,

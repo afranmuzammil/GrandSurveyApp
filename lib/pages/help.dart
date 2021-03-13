@@ -33,7 +33,7 @@ class _HelpState extends State<Help> {
         title: Text(
           'Help & feed back',
           style:
-          TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,

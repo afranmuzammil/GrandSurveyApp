@@ -29,8 +29,8 @@ class _EditPageState extends State<EditPage> {
 
    @override
    void initState() {
-   //  _getData();
-     //foo();
+    _getData();
+    foo();
      super.initState();
    }
 
@@ -75,85 +75,150 @@ class _EditPageState extends State<EditPage> {
         title: Text(
           'EDIT',
           style:
-          TextStyle(color: Colors.black54, fontWeight: FontWeight.bold),
+          TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,
       ),
 
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(15)),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: [
-                  Builder(
-                      builder: (BuildContext context,)   {
+      body: Form(
+        key: formKey,
+        child: StreamBuilder(
+            stream: FirebaseFirestore.instance.collection(unitValue).doc(
+                placeValue).collection(selectType).snapshots(),
+            builder: (BuildContext context,
+                AsyncSnapshot<QuerySnapshot> snapshot)   {
+              if (!snapshot.hasData) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              }
+              var variable = snapshot.data.docs.first.data();
+              return SingleChildScrollView(
+                child: Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Container(
+                      padding: EdgeInsets.only(left: 16, right: 16,bottom: 16),
+                      decoration: BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 1),
+                          borderRadius: BorderRadius.circular(10)),
+                    child: Builder(
+                      builder: (BuildContext context){
                         switch(placeValue)   {
-                       case "RELIGIOUS PLACES": {
-                          return Column(
-                            children: [
-                              FlatButton(onPressed: () async {
-                                DocumentSnapshot variable = await FirebaseFirestore.instance
-                                    .collection(unitValue)
-                                    .doc(placeValue).collection(selectType).doc(docID)
-                                    .get().then((value) => _displayInfo(value));
-                                value("");
+                          case "RELIGIOUS PLACES": {
+                            return Column(
+                              children: [
+                                religiousInputs(variable),
+                              ],
+                            );
+                          }break;
+                          case"EDUCATIONAL INSTITUTIONS":{
+                            switch(selectType){
+                              case "SCHOOL":{
+                                return Center(
+                                  child: Text("hello i am  $selectType") ,
+                                );
+                              }break;
+                              case "COLLEGE":{
+                                return Center(
+                                  child: Text("hello i am  $selectType") ,
+                                );
+                              }break;
+                              case "INSTITUTION":{
+                                return Center(
+                                  child: Text("hello i am  $selectType") ,
+                                );
+                              }break;
 
-                              },
-                                  child: Text("Refresh")
-                              ),
-                              TextFormField(
-                                // controller: NameOfPlace,
-                                initialValue:  "${value("Address")}",
-                                keyboardType: TextInputType.text,
-                                decoration: InputDecoration(
-                                  //border: InputBorder.none,
-                                    hintText: 'Name of the Place',
-                                    prefixIcon: Icon(Icons.home_sharp)),
-                                // validator: (value) {
-                                //   if (value.isEmpty) {
-                                //     return 'Please enter the appropriate details';
-                                //   }
-                                //   // else if (value != realId) {
-                                //   //   return "please enter the right pass word";
-                                //   // }
-                                //   return null;
-                                // },
-                              ),
-                            ],
-                          );
+                            }
+                          }break;
+                          case"YOUTH SPOTS":{
+                            return Center(
+                              child: Text("hello i am $placeValue") ,
+                            );
+                          }break;
+                          case"PUBLIC SPOTS":{
+                            return Center(
+                              child: Text("hello i am $placeValue") ,
+                            );
+                          }break;
+                          case"OFFICES":{
+                            return Center(
+                              child: Text("hello i am $placeValue") ,
+                            );
+                          }break;
+                          case"NGOSorORGANISATIONS":{
+                            return Center(
+                              child: Text("hello i am $placeValue") ,
+                            );
+                          }break;
+                          case"HALLS":{
+                            return Center(
+                              child: Text("hello i am $placeValue") ,
+                            );
+                          }
+                        }
+                        return Center(
+                          child: Text("hello i am $placeValue") ,
+                        );
+                      },
+                    )
 
 
-                       }break;
-                       case"EDUCATIONAL INSTITUTIONS":{
-                         return Center(
-                           child: Text("hello World") ,
-                         );
-                       }
-                     }
+                  ),
+                ),
+              );
 
-                     return Center(
-                       child: Text("NO DATA PRESENT") ,
-                     );
-                  } )
-                ]
-              ),
-            )
 
-          ),
-        ),
+        } ),
       ),
     );
   }
 
-  _displayInfo(variable){
-     data = variable;
+  Container religiousInputs(Map<String, dynamic> variable) {
+    return Container(
+      child: Column(
+        children: [
+          TextFormField(
+            // controller: NameOfPlace,
+            initialValue:  "${variable["Address"]}",
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Place',
+                prefixIcon: Icon(Icons.home_sharp)),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          TextFormField(
+            // controller: NameOfPlace,
+            initialValue:  "${variable["Capacity"]}",
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Place',
+                prefixIcon: Icon(Icons.home_sharp)),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+        ],
+      ),
+    );
   }
+
+
 }

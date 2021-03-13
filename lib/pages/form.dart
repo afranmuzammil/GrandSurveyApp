@@ -303,7 +303,7 @@ class _FormsState extends State<Forms> {
           title: Text(
             'GRAND SURVEY',
             style:
-                TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+                TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
           ),
           centerTitle: true,
           elevation: 0,
@@ -3279,15 +3279,20 @@ class _FormsState extends State<Forms> {
                   SizedBox(height: 8.0,),
                   //SUBMIT BUTTON
                   Visibility(
-                    visible: isButtonVisible,
+                    visible: isEnabled,
                     child: Builder(
-                        builder: (context) => FlatButton(
-                            color: Theme.of(context).primaryColor,
+                        builder: (context) => TextButton(
+                            // color: Theme.of(context).primaryColor,
+                            style: TextButton.styleFrom(
+                              primary: Colors.black26,
+                              backgroundColor:Theme.of(context).primaryColor,
+                              onSurface: Colors.grey,
+                            ),
                             onPressed: isEnabled?()=>submitFunc():null,
                             child: Center(
                                 child: Text(
                                   'Submit',
-                                  style: TextStyle(color: Colors.black),
+                                  style: TextStyle(color: Colors.white70),
                                 ))),
                     ),
                   ),
@@ -3314,6 +3319,7 @@ void submitFunc(){
   //   ),
   // );
    setState((){
+     try{
     //:TODO: write firebase update script
     print("code run");
     switch(placeValue){
@@ -4455,7 +4461,12 @@ void submitFunc(){
     Navigator.pop(context,{
 
     });
-  });
+     }catch(e){
+       print("error : $e");
+     }
+  }
+
+  );
 }
 
 

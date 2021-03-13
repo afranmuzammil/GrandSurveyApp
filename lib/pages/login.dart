@@ -25,8 +25,8 @@ class _LoginFormState extends State<LoginForm> {
   String passWord;
   String userIdSave;
 
-  var realId = "afran";
-  var realPass = "1234";
+  var realId = "guest-user@sio.com";
+  var realPass = "redApple@1453";
 
   final idCon = new TextEditingController();
   final passCon = new TextEditingController();
@@ -94,8 +94,13 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10.0),
               Builder(
-                  builder: (context) => FlatButton(
-                      color: Theme.of(context).primaryColor,
+                  builder: (context) => TextButton(
+                     // color: Theme.of(context).primaryColor,
+                      style: TextButton.styleFrom(
+                        primary: Colors.black26,
+                        backgroundColor:Theme.of(context).primaryColor,
+                        onSurface: Colors.grey,
+                      ),
                       onPressed: () async{
                         // context.read<AuthenticationService>().signIn(
                         //   email: idCon.text,
@@ -169,20 +174,24 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10.0),
               Builder(
-                  builder: (context) => FlatButton(
-                      color: Theme.of(context).primaryColor,
+                  builder: (context) => TextButton(
+                     // color: Theme.of(context).primaryColor,
+                      style: TextButton.styleFrom(
+                        primary: Colors.black26,
+                        backgroundColor: Theme.of(context).secondaryHeaderColor,
+                        onSurface: Colors.grey,
+                      ),
                       onPressed: () async{
 
                         // context.read<AuthenticationService>().signIn(
                         //   email: idCon.text,
                         //   password: passCon.text,
                         // ).then((value) => print("Error :$value"));
-                        if (formkey.currentState.validate())  {
                           //Provider.of<Object>(context, listen: false);
                           try{
                             context.read<AuthenticationService>().signIn(
-                              email: "guestId@sio.com",
-                              password: "skyWaker01",
+                              email: realId,
+                              password: realPass,
                             ).then((value) {
                               if(value=="signed in"){
                                 setState(() async{
@@ -190,7 +199,7 @@ class _LoginFormState extends State<LoginForm> {
 
                                   // _saveData();
                                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                  prefs.setString("displayMail", userIdSave);
+                                  prefs.setString("displayMail", realId);
 
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
@@ -201,7 +210,7 @@ class _LoginFormState extends State<LoginForm> {
                                   Navigator.push(
                                       context,
                                       MaterialPageRoute(
-                                        builder: (context) => MyHomePage(userIdSave: userIdSave),
+                                        builder: (context) => MyHomePage(userIdSave: realId),
                                       ));
 
                                 });
@@ -231,14 +240,14 @@ class _LoginFormState extends State<LoginForm> {
                           //         builder: (context) => MyHomePage(userIdSave: userIdSave),
                           //       ));
                           // });
-                        }
+
 
                       },
 
                       child: Center(
                           child: Text(
-                            'Skip Login',
-                            style: TextStyle(color: Colors.white),
+                            'SKIP LOGIN',
+                            style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),
 
                           )))
 

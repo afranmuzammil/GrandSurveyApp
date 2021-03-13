@@ -2,6 +2,7 @@ import 'dart:ffi';
 //import 'dart:html';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
 import 'package:form_app/pages/about.dart';
@@ -38,12 +39,17 @@ class _MyHomePageState extends State<MyHomePage> {
    String userMail;
    String saveMail;
 
+
+  String  connectivityStatus;
+
   @override
   void initState() {
     _saveData();
    setButtonsVisible();
     floatingClickable();
+
     super.initState();
+    checkInternetStatus();
    // _readData();
   }
 
@@ -70,9 +76,12 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         saveMail = userMail.toString().trim();
       });
-      // print("on :${userMail.toString().trim()}");
+      // print("on login :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
+    }else if (userMail == "guest-user@sio.com"){
+      return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
+          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
     }else{
       return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
@@ -84,7 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   setButtonsVisible()async{
     await Future.delayed(Duration(seconds: 2)).then((value) => {
-    if( saveMail == "moula-ali@sio.com" ){
+    if( saveMail == "moula-ali@sio.com" && unitValue == "MOULALI@HYD"){
         isVisibleButtons = true
     }
     else if(saveMail == "afranadmin@sio.com")
@@ -101,15 +110,15 @@ class _MyHomePageState extends State<MyHomePage> {
 
    floatingClickable() async {
      await Future.delayed(Duration(seconds: 2)).then((value) =>{
-     if(saveMail == "guestId@sio.com")
+     if(saveMail == "guest-user@sio.com")
      {
        floatingButtonClickable = false
      }else{
        floatingButtonClickable = true
      }
 
-     }
-     );
+        }
+       );
    }
 
 
@@ -285,6 +294,32 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
 
+  //Check internet
+  void checkInternetStatus() {
+    //await Future.delayed(Duration(seconds: 2));
+     Connectivity().onConnectivityChanged.listen((ConnectivityResult result ){
+        if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+          changeValues("Connected");
+
+        }else{
+          changeValues("NotConnected");
+        }
+        print(result);
+      });
+      print("result");
+  }
+
+  void changeValues( String result)async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {
+      setState(() {
+        connectivityStatus = result;
+        print(result);
+      })
+    });
+
+  }
+
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -360,7 +395,7 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             Container(
               padding: EdgeInsets.all(5.0),
-              child: RaisedButton(
+              child: ElevatedButton(
                   onPressed: () {
                     context.read<AuthenticationService>().signOut();
                     setState(() {
@@ -371,7 +406,11 @@ class _MyHomePageState extends State<MyHomePage> {
                           ));
                     });
                   },
-                  color: Colors.grey,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.grey,
+                    onSurface: Colors.grey,
+                  ),
                   child: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
               ),
@@ -455,7 +494,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 onRefresh:refreshList ,
                 child: ListView(
                   children: snapshot.data.docs.map((document) {
-                    var UserDoc = document.id;
+                   // var UserDoc = document.id;
                     switch (placeValue) {
                       case"RELIGIOUS PLACES":
                         {
@@ -1260,13 +1299,36 @@ class _MyHomePageState extends State<MyHomePage> {
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
+         // await Future.delayed(Duration(seconds: 2));
           if(floatingButtonClickable == false){
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(
-                content: Text("Your a GuestUser can't add"),
+                content: Text("A GuestUser can't add"),
+                action: SnackBarAction(
+                  label: "OK",
+                  onPressed: (){
+                    //Navigator.pop(context);
+                  },
+                ),
               ),
             );
-          }else{
+          }
+          // else if(connectivityStatus == "Connected"){
+          //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          // }else if(connectivityStatus == "NotConnected"){
+          //   ScaffoldMessenger.of(context).showSnackBar(
+          //     SnackBar(
+          //       content: Text("Check Your Internet"),
+          //       action: SnackBarAction(
+          //         label: "OK",
+          //         onPressed: (){
+          //           //Navigator.pop(context);
+          //         },
+          //       ),
+          //     ),
+          //   );
+          // }
+          else{
             Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
           }
 
@@ -1683,6 +1745,7 @@ class _MyHomePageState extends State<MyHomePage> {
                             ),
                           );
                         },
+
                       );
                     },
                   ),
@@ -1695,6 +1758,7 @@ class _MyHomePageState extends State<MyHomePage> {
           ],
         ),
       ),
+
     );
   }
 
@@ -1730,7 +1794,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["ContactNO"]}",),
                   child: Text(
                     "Call",
@@ -1738,7 +1802,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -1776,8 +1844,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -1796,8 +1868,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                   return showDialog<void>(
@@ -1829,7 +1907,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                               }catch(e){
-                                                Scaffold.of(context).showSnackBar(
+                                                ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
                                                     content: Text("Could not Delete try again"),
                                                   ),
@@ -1881,8 +1959,12 @@ class _MyHomePageState extends State<MyHomePage> {
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -1980,15 +2062,19 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
-                  onPressed: () => customLunch("tel:${document["schoolContact"]}",),
+                TextButton(
+                  onPressed: () => customLunch("tel:${document["ContactNO"]}",),
                   child: Text(
                     "Call",
                     style: TextStyle(
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -2020,8 +2106,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -2040,8 +2130,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -2073,7 +2169,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -2121,12 +2217,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -2222,7 +2322,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["collageContact"]}",),
                   child: Text(
                     "Call",
@@ -2230,7 +2330,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -2269,8 +2373,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -2289,8 +2397,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -2322,7 +2436,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -2370,12 +2484,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -2471,7 +2589,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["institutionContact"]}",),
                   child: Text(
                     "Call",
@@ -2479,7 +2597,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -2518,8 +2640,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -2538,8 +2664,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -2571,7 +2703,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -2619,12 +2751,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -2722,7 +2858,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["youthContact"]}",),
                   child: Text(
                     "Call",
@@ -2730,7 +2866,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -2753,8 +2893,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -2773,8 +2917,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -2806,7 +2956,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -2854,12 +3004,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -2957,7 +3111,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["publicContact"]}",),
                   child: Text(
                     "Call",
@@ -2965,7 +3119,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -2988,8 +3146,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -3008,8 +3170,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -3041,7 +3209,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -3089,12 +3257,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -3192,7 +3364,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["officeContact"]}",),
                   child: Text(
                     "Call",
@@ -3200,7 +3372,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -3232,8 +3408,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -3252,8 +3432,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -3285,7 +3471,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -3333,12 +3519,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -3436,7 +3626,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["ngosContact"]}",),
                   child: Text(
                     "Call",
@@ -3444,7 +3634,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -3476,8 +3670,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -3496,8 +3694,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -3529,7 +3733,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -3577,12 +3781,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
@@ -3680,7 +3888,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       )
                   ),
                 ),
-                FlatButton(
+                TextButton(
                   onPressed: () => customLunch("tel:${document["hallsContact"]}",),
                   child: Text(
                     "Call",
@@ -3688,7 +3896,11 @@ class _MyHomePageState extends State<MyHomePage> {
                         color: Colors.white
                     ),
                   ),
-                  color: Colors.blue,
+                  style: TextButton.styleFrom(
+                    primary: Colors.black26,
+                    backgroundColor: Colors.blue,
+                    onSurface: Colors.grey,
+                  ),
                 ),
               ],
             ),
@@ -3711,8 +3923,12 @@ class _MyHomePageState extends State<MyHomePage> {
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
-                    FlatButton(
-                        color: Colors.green,
+                    TextButton(
+                        style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.green,
+                          onSurface: Colors.grey,
+                        ),
                         onPressed: () {
                           openMap(document["latitudeData"],
                               document["longitudeData"]);
@@ -3731,8 +3947,14 @@ class _MyHomePageState extends State<MyHomePage> {
                   //DELETE BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.redAccent,
+                          TextButton  (
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.redAccent,
+                                onSurface: Colors.grey,
+                                //minimumSize: Size(10, 2),
+                              ),
+
                               onPressed: ()  async{
                                 //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
@@ -3764,7 +3986,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                               );
                                               FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                             }catch(e){
-                                              Scaffold.of(context).showSnackBar(
+                                              ScaffoldMessenger.of(context).showSnackBar(
                                                 SnackBar(
                                                   content: Text("Could not Delete try again"),
                                                 ),
@@ -3812,12 +4034,16 @@ class _MyHomePageState extends State<MyHomePage> {
                                   color: Colors.white,),
                               ))
                   ),
-                  SizedBox(width: 178.0,),
+
                   //EDIT BUTTON
                   Builder(
                       builder: (context) =>
-                          FlatButton(
-                              color: Colors.blue,
+                          TextButton(
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Colors.blue,
+                                onSurface: Colors.grey,
+                              ),
                               onPressed: () {
                                 //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(

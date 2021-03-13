@@ -33,7 +33,7 @@ class _devInfoState extends State<devInfo> {
         title: Text(
           'Developer Info',
           style:
-          TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,

@@ -17,7 +17,7 @@ class _AboutState extends State<About> {
         title: Text(
           'About',
           style:
-          TextStyle(color: Colors.white, fontWeight: FontWeight.w500),
+          TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,

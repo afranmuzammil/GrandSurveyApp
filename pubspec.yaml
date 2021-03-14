@@ -30,7 +30,7 @@ dependencies:
   firebase_storage: ^8.0.0
   permission_handler: ^6.0.1+1
   firebase_core: ^1.0.1
-  bottom_drawer: ^0.0.2
+ # bottom_drawer: ^0.0.2
   url_launcher: ^6.0.2
   firebase_auth: ^1.0.1
   provider: ^5.0.0

@@ -77,9 +77,6 @@ class _MyHomePageState extends State<MyHomePage> {
       // print("on login :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
-    }else if (userMail == "guest-user@sio.com"){
-      return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
     }else{
       return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
@@ -91,17 +88,21 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
-    await Future.delayed(Duration(seconds: 2)).then((value) => {
+    await Future.delayed(Duration(seconds: 1)).then((value) => {
     if( saveMail == "moula-ali@sio.com" && unitValue == "MOULALI@HYD"){
         isVisibleButtons = true
     }
     else if(saveMail == "afranadmin@sio.com")
     {
         isVisibleButtons = true
+    }else if(saveMail == "lalagudaunit@sio.com" && unitValue == "LALAGUDA@SEC-BAD" )
+    {
+        isVisibleButtons = true
     }
     else{
         isVisibleButtons = false
-        }
+        },
+        refreshList(),
     });
 //    print("Saved mail:$saveMail");
 
@@ -122,48 +123,56 @@ class _MyHomePageState extends State<MyHomePage> {
        );
    }
 
+  final keyIsFirstLoaded = 'is_first_loaded';
    //guest log in wellCome
-  guestLoginWellCome(){
-    return showDialog<void>(
-      context: context,
-      barrierDismissible: false, // user must tap button!
-      builder: (BuildContext context) {
-        return AlertDialog(
-          title: Text('WELCOME!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-              fontWeight: FontWeight.w600,
-              color: Colors.black87)),),
-          backgroundColor: Colors.white,
+  guestLoginWellCome() async {
+    // saving the bool value not load the welcome Dialog again
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+    bool isFirstLoaded = prefs.getBool(keyIsFirstLoaded);
+    if(isFirstLoaded == null){
+      return showDialog<void>(
+        context: context,
+        barrierDismissible: false, // user must tap button!
+        builder: (BuildContext context) {
+          return AlertDialog(
+            title: Text('WELCOME!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
+                fontWeight: FontWeight.w600,
+                color: Colors.black87)),),
+            backgroundColor: Colors.white,
 
-          content: SingleChildScrollView(
-            child: ListBody(
-              children: <Widget>[
-                Text('Your Login as a Guest user!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black87)),),
-                SizedBox(height: 10.0,),
-                Text("A Guest User can't Add, Edit or Delete!",
-                  style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                    fontWeight: FontWeight.w500,
-                    color: Colors.black54)),),
-              ],
-            ),
-          ),
-          actions: <Widget>[
-            TextButton(
-              child: Text('OK',style: TextStyle(color: Colors.white70),),
-              onPressed: () {
-                Navigator.of(context).pop();
-                print("Clicked");
-              },
-              style: TextButton.styleFrom(
-                primary: Colors.white70,
-                backgroundColor: Colors.blue,
+            content: SingleChildScrollView(
+              child: ListBody(
+                children: <Widget>[
+                  Text('Your Login as a Guest user!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),),
+                  SizedBox(height: 10.0,),
+                  Text("A Guest User can't Add, Edit or Delete!",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.black54)),),
+                ],
               ),
             ),
-          ],
-        );
-      },
-    );
+            actions: <Widget>[
+              TextButton(
+                child: Text('OK',style: TextStyle(color: Colors.white70),),
+                onPressed: () {
+                  Navigator.of(context).pop();
+                  prefs.setBool(keyIsFirstLoaded, false);
+                  print("Clicked");
+                },
+                style: TextButton.styleFrom(
+                  primary: Colors.white70,
+                  backgroundColor: Colors.blue,
+                ),
+              ),
+            ],
+          );
+        },
+      );
+    }
+
   }
 
   firebase_storage.Reference ref;
@@ -171,7 +180,7 @@ class _MyHomePageState extends State<MyHomePage> {
   String unitValue = "MOULALI@HYD";
   List unitNameList = [
     "MOULALI@HYD",
-    "LALAGUDA@HYD",
+    "LALAGUDA@SEC-BAD",
   ];
   List unitPassWordList = [
     "est@hyd40",
@@ -384,9 +393,9 @@ class _MyHomePageState extends State<MyHomePage> {
             });
           },
           style: TextButton.styleFrom(
-            primary: Colors.black26,
-            backgroundColor: Colors.grey,
-            onSurface: Colors.grey,
+            primary: Colors.grey,
+            backgroundColor: Colors.blue,
+            onSurface: Colors.blue,
           ),
           child: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
@@ -440,6 +449,7 @@ class _MyHomePageState extends State<MyHomePage> {
           onChanged: (newValue) {
             setState(() {
               unitValue = newValue;
+              setButtonsVisible();
               // if(placeTypeReligiousValue != null){
               //   religiousDetailsVisible = true;
               // }else{

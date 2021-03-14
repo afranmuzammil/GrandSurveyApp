@@ -70,6 +70,10 @@ class _MyHomePageState extends State<MyHomePage> {
       setState(() {
         saveMail = userMail.toString().trim();
       });
+      if (userMail == "guest-user@sio.com"){
+        return Text("Welcome GuestUser",style: GoogleFonts.poppins(textStyle: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
+      }
       // print("on login :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
           fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
@@ -366,6 +370,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   }
 
+  displaySignIn(){
+    if(userMail == "guest-user@sio.com"){
+      return  ElevatedButton(
+          onPressed: () {
+            context.read<AuthenticationService>().signOut();
+            setState(() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginForm(),
+                  ));
+            });
+          },
+          style: TextButton.styleFrom(
+            primary: Colors.black26,
+            backgroundColor: Colors.grey,
+            onSurface: Colors.grey,
+          ),
+          child: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
+      );
+    }else
+      return  ElevatedButton(
+          onPressed: () {
+            context.read<AuthenticationService>().signOut();
+            setState(() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginForm(),
+                  ));
+            });
+          },
+          style: TextButton.styleFrom(
+            primary: Colors.black26,
+            backgroundColor: Colors.grey,
+            onSurface: Colors.grey,
+          ),
+          child: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
+      );
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -446,25 +493,7 @@ class _MyHomePageState extends State<MyHomePage> {
             Container(
               padding: EdgeInsets.all(5.0),
               //sighOut button
-              child: ElevatedButton(
-                  onPressed: () {
-                    context.read<AuthenticationService>().signOut();
-                    setState(() {
-                      Navigator.push(
-                          context,
-                          MaterialPageRoute(
-                            builder: (context) => LoginForm(),
-                          ));
-                    });
-                  },
-                  style: TextButton.styleFrom(
-                    primary: Colors.black26,
-                    backgroundColor: Colors.grey,
-                    onSurface: Colors.grey,
-                  ),
-                  child: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
-              ),
+              child: displaySignIn(),
             ),
             Divider(
               height: 2,

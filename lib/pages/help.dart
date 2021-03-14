@@ -63,15 +63,20 @@ class _HelpState extends State<Help> {
                 height: 20,
                 thickness: 2,
               ),
-              FlatButton(
+              OutlinedButton.icon(
                 onPressed: () => customLunch("mailto:afranmuzammil@gmail.com"),
-                child: Text(
-                  "Mail me",
+                icon: Icon(Icons.mail_outline_rounded,color: Colors.white,),
+                label: Text(
+                  "MAIL ME",
                   style: TextStyle(
                       color: Colors.white
                   ),
                 ),
-                color: Colors.blue,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Colors.blue,
+                  onSurface: Colors.blue,
+                ),
               ),
             ],
           )

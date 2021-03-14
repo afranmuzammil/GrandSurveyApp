@@ -94,13 +94,16 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10.0),
               Builder(
-                  builder: (context) => TextButton(
+                  builder: (context) => OutlinedButton.icon(
                      // color: Theme.of(context).primaryColor,
                       style: TextButton.styleFrom(
                         primary: Colors.black26,
                         backgroundColor:Theme.of(context).primaryColor,
-                        onSurface: Colors.grey,
+                        onSurface: Colors.grey, 
+                          minimumSize: Size(380.0, 35.0)
                       ),
+
+                      icon: Icon(Icons.login_outlined,color: Colors.white,size: 20),
                       onPressed: () async{
                         // context.read<AuthenticationService>().signIn(
                         //   email: idCon.text,
@@ -164,9 +167,9 @@ class _LoginFormState extends State<LoginForm> {
 
                       },
 
-                      child: Center(
+                      label: Center(
                           child: Text(
-                        'Login',
+                        'LOGIN',
                         style: TextStyle(color: Colors.white),
 
                       )))
@@ -174,13 +177,14 @@ class _LoginFormState extends State<LoginForm> {
               ),
               SizedBox(height: 10.0),
               Builder(
-                  builder: (context) => TextButton(
+                  builder: (context) => OutlinedButton.icon(
                      // color: Theme.of(context).primaryColor,
                       style: TextButton.styleFrom(
                         primary: Colors.black26,
                         backgroundColor: Theme.of(context).secondaryHeaderColor,
                         onSurface: Colors.grey,
                       ),
+                      icon: Icon(Icons.login_outlined,size: 20),
                       onPressed: () async{
 
                         // context.read<AuthenticationService>().signIn(
@@ -244,7 +248,7 @@ class _LoginFormState extends State<LoginForm> {
 
                       },
 
-                      child: Center(
+                      label: Center(
                           child: Text(
                             'SKIP LOGIN',
                             style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),

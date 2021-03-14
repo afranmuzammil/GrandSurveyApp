@@ -926,7 +926,7 @@ class _FormsState extends State<Forms> {
                                 ),
 
                                 Builder(
-                                  builder: (context)=>FlatButton.icon(
+                                  builder: (context)=>TextButton.icon(
                                       onPressed: (){
                                         getImage();
                                   },
@@ -935,7 +935,7 @@ class _FormsState extends State<Forms> {
                                         color: Colors.grey,
                                       ),
                                       label: Text(
-                                        "Add pic",
+                                        "Add pic*",
                                         style: TextStyle(
                                           color: Colors.grey
                                         ),
@@ -948,8 +948,13 @@ class _FormsState extends State<Forms> {
                           SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                             // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
                                 await Future.delayed(Duration(seconds: 1));
@@ -984,7 +989,7 @@ class _FormsState extends State<Forms> {
                                       style: TextStyle(color: Colors.black54)):Image.file(userImage),
                                 ),
                                 Builder(
-                                  builder: (context)=>FlatButton.icon(
+                                  builder: (context)=>TextButton.icon(
                                     onPressed: (){
                                       getCurrentLoaction();
                                     },
@@ -993,7 +998,7 @@ class _FormsState extends State<Forms> {
                                       color: Colors.grey,
                                     ),
                                     label: Text(
-                                      "Add Location",
+                                      "Add Location*",
                                       style: TextStyle(
                                           color: Colors.grey
                                       ),
@@ -1017,8 +1022,12 @@ class _FormsState extends State<Forms> {
                             ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
                                     ScaffoldMessenger.of(context).showSnackBar(
@@ -1197,7 +1206,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -1206,7 +1215,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -1216,21 +1225,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -1253,7 +1269,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -1262,7 +1278,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -1286,17 +1302,20 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
                                     );
                                     setState(() {
-                                      print(schoolName);
                                       pressedFunc();
                                     });
                                   }
@@ -1563,7 +1582,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -1572,7 +1591,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -1582,21 +1601,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -1619,7 +1645,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -1628,7 +1654,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -1652,18 +1678,20 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
                                     );
                                     setState(() {
-                                      print(collageName);
-                                      print("list is $typeOfCollegeList");
                                       pressedFunc();
                                     });
                                   }
@@ -1913,7 +1941,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -1922,7 +1950,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -1932,21 +1960,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -1969,7 +2004,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -1978,7 +2013,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2002,11 +2037,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -2159,7 +2198,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -2168,7 +2207,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2178,21 +2217,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -2215,7 +2261,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -2224,7 +2270,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2248,11 +2294,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -2405,7 +2455,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -2414,7 +2464,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2424,21 +2474,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -2461,7 +2518,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -2470,7 +2527,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2494,11 +2551,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -2669,7 +2730,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -2678,7 +2739,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2688,21 +2749,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -2725,7 +2793,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -2734,7 +2802,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2758,11 +2826,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -2933,7 +3005,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -2942,7 +3014,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -2952,21 +3024,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -2989,7 +3068,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -2998,7 +3077,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -3022,11 +3101,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),
@@ -3179,7 +3262,7 @@ class _FormsState extends State<Forms> {
                               ),
 
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getImage();
                                   },
@@ -3188,7 +3271,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add pic",
+                                    "Add pic*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -3198,21 +3281,28 @@ class _FormsState extends State<Forms> {
 
                             ],
                           ),
+                          SizedBox(height: 10.0,),
                           //upload Image button
                           Builder(
-                            builder: (context) => FlatButton(
-                              color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor: Theme.of(context).primaryColor,
+                                onSurface: Colors.blue,
+                              ),
                               onPressed: () async {
                                 await uploadImageToFirebase(context);
+                                await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
                                     ),
                                   );
                                 }else{
-                                  Scaffold.of(context).showSnackBar(
+                                  ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Not upload try again"),
                                     ),
@@ -3235,7 +3325,7 @@ class _FormsState extends State<Forms> {
                                     style: TextStyle(color: Colors.black54)):Image.file(userImage),
                               ),
                               Builder(
-                                builder: (context)=>FlatButton.icon(
+                                builder: (context)=>TextButton.icon(
                                   onPressed: (){
                                     getCurrentLoaction();
                                   },
@@ -3244,7 +3334,7 @@ class _FormsState extends State<Forms> {
                                     color: Colors.grey,
                                   ),
                                   label: Text(
-                                    "Add Location",
+                                    "Add Location*",
                                     style: TextStyle(
                                         color: Colors.grey
                                     ),
@@ -3268,11 +3358,15 @@ class _FormsState extends State<Forms> {
                           ),
                           //Done button
                           Builder(
-                            builder: (context) => FlatButton(
-                                color: Theme.of(context).primaryColor,
+                            builder: (context) => TextButton(
+                                style: TextButton.styleFrom(
+                                  primary: Colors.black26,
+                                  backgroundColor: Theme.of(context).primaryColor,
+                                  onSurface: Colors.blue,
+                                ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    Scaffold.of(context).showSnackBar(
+                                    ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("All done!"),
                                       ),

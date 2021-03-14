@@ -381,7 +381,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   displaySignIn(){
     if(userMail == "guest-user@sio.com"){
-      return  ElevatedButton(
+      return  OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();
             setState(() {
@@ -397,11 +397,12 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.blue,
             onSurface: Colors.blue,
           ),
-          child: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
+          icon: Icon(Icons.login_outlined,color: Colors.white,size: 20,),
+          label: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
       );
     }else
-      return  ElevatedButton(
+      return  OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();
             setState(() {
@@ -417,7 +418,8 @@ class _MyHomePageState extends State<MyHomePage> {
             backgroundColor: Colors.grey,
             onSurface: Colors.grey,
           ),
-          child: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
+          icon: Icon(Icons.logout,color: Colors.white,size: 20,),
+          label: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
       );
 

@@ -64,15 +64,20 @@ class _devInfoState extends State<devInfo> {
                 height: 20,
                 thickness: 2,
               ),
-              FlatButton(
+              OutlinedButton.icon (
                 onPressed: () => customLunch("https://github.com/afranmuzammil/GrandSurveyApp/tree/master"),
-                child: Text(
+                icon: Icon(Icons.code_rounded,color: Colors.white,),
+                label: Text(
                   "GitLink",
                   style: TextStyle(
                       color: Colors.white
                   ),
                 ),
-                color: Colors.blue,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Colors.blue,
+                  onSurface: Colors.blue,
+                ),
               ),
             ],
           )

@@ -324,7 +324,7 @@ class _FormsState extends State<Forms> {
                 Container(
                   padding: EdgeInsets.all(10.0),
                   decoration:  BoxDecoration(
-                      border: Border.all(color: Colors.grey, width: 1),
+                      border: Border.all(color: Colors.grey, width: 3),
                       borderRadius: BorderRadius.vertical()),
                   child:  ListTile(
                     leading: Icon(Icons.info),
@@ -336,6 +336,19 @@ class _FormsState extends State<Forms> {
                         TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
                   ),
                 ),
+                SizedBox(height: 15.0,),
+                Container(
+                  padding: EdgeInsets.all(1.0),
+                  decoration:  BoxDecoration(
+                      border: Border.all(color: Colors.blue, width: 3),
+                      borderRadius: BorderRadius.vertical()),
+                  child:  ListTile(
+                    leading: Icon(Icons.warning_amber_outlined,color: Colors.blue),
+                    title: Text("ADDING IN:$unitValue UNIT",style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 14, fontWeight: FontWeight.bold,color: Colors.blue))),
+                  ),
+                ),
+
                 DropdownButton(
                   hint: Text("SELECT PLACE TYPE"),
                   dropdownColor: Theme.of(context).secondaryHeaderColor,

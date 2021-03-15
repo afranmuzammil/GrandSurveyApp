@@ -124,6 +124,89 @@ class _EditPageState extends State<EditPage> {
    final Address = new TextEditingController();
    final Details = new TextEditingController();
 
+   //EDUCATIONAL INSTITUTIONS
+   //controllers SCHOOL
+   final schoolName = new TextEditingController();
+   final schoolPrinciple = new TextEditingController();
+   final schoolContact = new TextEditingController();
+   final schoolStrength = new TextEditingController();
+   final schoolOpportunities = new TextEditingController();
+   final schoolRemarks = new TextEditingController();
+   final schoolAddress = new TextEditingController();
+   //controllers COLLAGE
+   final collageName = new TextEditingController();
+   final collageCourses = new TextEditingController();
+   final collageContact = new TextEditingController();
+   final collageStrength = new TextEditingController();
+   final collageOpportunities = new TextEditingController();
+   final collageRemarks = new TextEditingController();
+   final collageAddress = new TextEditingController();
+   List typeOfCollegeList = [];
+   String typeOfCollege;
+   //controllers INSTITUTION
+   final institutionName = new TextEditingController();
+   final institutionCourses = new TextEditingController();
+   final institutionContact = new TextEditingController();
+   final institutionStrength = new TextEditingController();
+   final institutionOpportunities = new TextEditingController();
+   final institutionRemarks = new TextEditingController();
+   final institutionAddress = new TextEditingController();
+   List typeOfInstitutionList = [];
+
+   //YOUTH SPOTS
+   final youthPlaceName = new TextEditingController();
+   final youthHeadOfPlace = new TextEditingController();
+   final youthContact = new TextEditingController();
+   final youthCapacity = new TextEditingController();
+   final youthAddress = new TextEditingController();
+   final youthDetails = new TextEditingController();
+
+   //PUBLIC SPOTS
+   final publicPlaceName = new TextEditingController();
+   final publicHeadOfPlace = new TextEditingController();
+   final publicContact = new TextEditingController();
+   final publicCapacity = new TextEditingController();
+   final publicAddress = new TextEditingController();
+   final publicDetails = new TextEditingController();
+
+   //OFFICES
+   final officePlaceName = new TextEditingController();
+   final officeHeadOfPlace = new TextEditingController();
+   final officeContact = new TextEditingController();
+   final officeTiming = new TextEditingController();
+   final officeCapacity = new TextEditingController();
+   final officeAddress = new TextEditingController();
+   final officeDetails = new TextEditingController();
+
+   //NGOS/ORGANISATIONS
+   final ngosPlaceName = new TextEditingController();
+   final ngosHeadOfPlace = new TextEditingController();
+   final ngosContact = new TextEditingController();
+   final ngosTiming = new TextEditingController();
+   final ngosCapacity = new TextEditingController();
+   final ngosAddress = new TextEditingController();
+   final ngosDetails = new TextEditingController();
+
+   //HALLS
+   final hallsPlaceName = new TextEditingController();
+   final hallsHeadOfPlace = new TextEditingController();
+   final hallsContact = new TextEditingController();
+   final hallsCapacity = new TextEditingController();
+   final hallsAddress = new TextEditingController();
+   final hallsDetails = new TextEditingController();
+
+   //Check boxes Values
+   //collage
+   bool valueInter = false;
+   bool valuePG = false;
+   bool valueUG = false;
+   bool valueVoc = false;
+   bool valueUni = false;
+   //Institution
+  bool valueMadrsa = false;
+  bool valueTut = false;
+  bool valueLibraris = false;
+  bool valueHostal = false;
 
    bool isEnabled = false;
 
@@ -168,6 +251,7 @@ class _EditPageState extends State<EditPage> {
                           future:  _getData(),
                           builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
                             if(snapshot.hasData){
+
                               switch (placeValue) {
                                 case "RELIGIOUS PLACES":
                                   {
@@ -180,7 +264,6 @@ class _EditPageState extends State<EditPage> {
                                       return Column(
                                         children: [
                                           religiousInputs(),
-
                                           //religiousInput(),
                                           // TextFormField(
                                           //   //controller: NameOfPlace,
@@ -233,28 +316,170 @@ class _EditPageState extends State<EditPage> {
                                   break;
                                 case"EDUCATIONAL INSTITUTIONS":
                                   {
+
                                     switch (selectType) {
                                       case "SCHOOL":
                                         {
-                                          return Center(
-                                            child: Text(
-                                                "hello i am  $selectType"),
+                                          return Column(
+                                            children: [
+                                              schoolInputs(),
+
+                                              //religiousInput(),
+                                              // TextFormField(
+                                              //   //controller: NameOfPlace,
+                                              //   initialValue: "${userData["Address"]}",
+                                              //   keyboardType: TextInputType.text,
+                                              //   decoration: InputDecoration(
+                                              //     //border: InputBorder.none,
+                                              //       hintText: 'Name of the Place',
+                                              //       prefixIcon: Icon(Icons.home_sharp)),
+                                              //   validator: (value) {
+                                              //     if (value.isEmpty) {
+                                              //       return 'Please enter the appropriate details';
+                                              //     }
+                                              //     // else if (value != realId) {
+                                              //     //   return "please enter the right pass word";
+                                              //     // }
+                                              //     return null;
+                                              //   },
+                                              // ),
+                                              //SUBMIT BUTTON
+                                              // SUBMIT BUTTON
+                                              Visibility(
+                                                visible: isEnabled,
+                                                child: Builder(
+                                                  builder: (context) =>
+                                                      TextButton(
+                                                        // color: Theme.of(context).primaryColor,
+                                                          style: TextButton.styleFrom(
+                                                            primary: Colors.black26,
+                                                            backgroundColor: Theme
+                                                                .of(context)
+                                                                .primaryColor,
+                                                            onSurface: Colors.grey,
+                                                          ),
+                                                          onPressed: isEnabled ? () =>
+                                                              submitFunc() : null,
+                                                          child: Center(
+                                                              child: Text(
+                                                                'Submit',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white70),
+                                                              ))),
+                                                ),
+                                              ),
+                                            ],
                                           );
                                         }
                                         break;
                                       case "COLLEGE":
                                         {
-                                          return Center(
-                                            child: Text(
-                                                "hello i am  $selectType"),
-                                          );
+                                            return Column(
+                                              children: [
+                                                collageInputs(),
+                                                //religiousInput(),
+                                                // TextFormField(
+                                                //   //controller: NameOfPlace,
+                                                //   initialValue: "${userData["Address"]}",
+                                                //   keyboardType: TextInputType.text,
+                                                //   decoration: InputDecoration(
+                                                //     //border: InputBorder.none,
+                                                //       hintText: 'Name of the Place',
+                                                //       prefixIcon: Icon(Icons.home_sharp)),
+                                                //   validator: (value) {
+                                                //     if (value.isEmpty) {
+                                                //       return 'Please enter the appropriate details';
+                                                //     }
+                                                //     // else if (value != realId) {
+                                                //     //   return "please enter the right pass word";
+                                                //     // }
+                                                //     return null;
+                                                //   },
+                                                // ),
+                                                //SUBMIT BUTTON
+                                                // SUBMIT BUTTON
+                                                Visibility(
+                                                  visible: isEnabled,
+                                                  child: Builder(
+                                                    builder: (context) =>
+                                                        TextButton(
+                                                          // color: Theme.of(context).primaryColor,
+                                                            style: TextButton.styleFrom(
+                                                              primary: Colors.black26,
+                                                              backgroundColor: Theme
+                                                                  .of(context)
+                                                                  .primaryColor,
+                                                              onSurface: Colors.grey,
+                                                            ),
+                                                            onPressed: isEnabled ? () =>
+                                                                submitFunc() : null,
+                                                            child: Center(
+                                                                child: Text(
+                                                                  'Submit',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white70),
+                                                                ))),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
                                         }
                                         break;
                                       case "INSTITUTION":
                                         {
-                                          return Center(
-                                            child: Text(
-                                                "hello i am  $selectType"),
+                                          return Column(
+                                            children: [
+                                              collageInputs(),
+
+
+                                              //religiousInput(),
+                                              // TextFormField(
+                                              //   //controller: NameOfPlace,
+                                              //   initialValue: "${userData["Address"]}",
+                                              //   keyboardType: TextInputType.text,
+                                              //   decoration: InputDecoration(
+                                              //     //border: InputBorder.none,
+                                              //       hintText: 'Name of the Place',
+                                              //       prefixIcon: Icon(Icons.home_sharp)),
+                                              //   validator: (value) {
+                                              //     if (value.isEmpty) {
+                                              //       return 'Please enter the appropriate details';
+                                              //     }
+                                              //     // else if (value != realId) {
+                                              //     //   return "please enter the right pass word";
+                                              //     // }
+                                              //     return null;
+                                              //   },
+                                              // ),
+                                              //SUBMIT BUTTON
+                                              // SUBMIT BUTTON
+                                              Visibility(
+                                                visible: isEnabled,
+                                                child: Builder(
+                                                  builder: (context) =>
+                                                      TextButton(
+                                                        // color: Theme.of(context).primaryColor,
+                                                          style: TextButton.styleFrom(
+                                                            primary: Colors.black26,
+                                                            backgroundColor: Theme
+                                                                .of(context)
+                                                                .primaryColor,
+                                                            onSurface: Colors.grey,
+                                                          ),
+                                                          onPressed: isEnabled ? () =>
+                                                              submitFunc() : null,
+                                                          child: Center(
+                                                              child: Text(
+                                                                'Submit',
+                                                                style: TextStyle(
+                                                                    color: Colors
+                                                                        .white70),
+                                                              ))),
+                                                ),
+                                              ),
+                                            ],
                                           );
                                         }
                                         break;
@@ -263,36 +488,281 @@ class _EditPageState extends State<EditPage> {
                                   break;
                                 case"YOUTH SPOTS":
                                   {
-                                    return Center(
-                                      child: Text("hello i am $placeValue"),
+                                    return Column(
+                                      children: [
+                                        collageInputs(),
+
+
+                                        //religiousInput(),
+                                        // TextFormField(
+                                        //   //controller: NameOfPlace,
+                                        //   initialValue: "${userData["Address"]}",
+                                        //   keyboardType: TextInputType.text,
+                                        //   decoration: InputDecoration(
+                                        //     //border: InputBorder.none,
+                                        //       hintText: 'Name of the Place',
+                                        //       prefixIcon: Icon(Icons.home_sharp)),
+                                        //   validator: (value) {
+                                        //     if (value.isEmpty) {
+                                        //       return 'Please enter the appropriate details';
+                                        //     }
+                                        //     // else if (value != realId) {
+                                        //     //   return "please enter the right pass word";
+                                        //     // }
+                                        //     return null;
+                                        //   },
+                                        // ),
+                                        //SUBMIT BUTTON
+                                        // SUBMIT BUTTON
+                                        Visibility(
+                                          visible: isEnabled,
+                                          child: Builder(
+                                            builder: (context) =>
+                                                TextButton(
+                                                  // color: Theme.of(context).primaryColor,
+                                                    style: TextButton.styleFrom(
+                                                      primary: Colors.black26,
+                                                      backgroundColor: Theme
+                                                          .of(context)
+                                                          .primaryColor,
+                                                      onSurface: Colors.grey,
+                                                    ),
+                                                    onPressed: isEnabled ? () =>
+                                                        submitFunc() : null,
+                                                    child: Center(
+                                                        child: Text(
+                                                          'Submit',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white70),
+                                                        ))),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }
                                   break;
                                 case"PUBLIC SPOTS":
                                   {
-                                    return Center(
-                                      child: Text("hello i am $placeValue"),
+                                    return Column(
+                                      children: [
+                                        collageInputs(),
+
+
+                                        //religiousInput(),
+                                        // TextFormField(
+                                        //   //controller: NameOfPlace,
+                                        //   initialValue: "${userData["Address"]}",
+                                        //   keyboardType: TextInputType.text,
+                                        //   decoration: InputDecoration(
+                                        //     //border: InputBorder.none,
+                                        //       hintText: 'Name of the Place',
+                                        //       prefixIcon: Icon(Icons.home_sharp)),
+                                        //   validator: (value) {
+                                        //     if (value.isEmpty) {
+                                        //       return 'Please enter the appropriate details';
+                                        //     }
+                                        //     // else if (value != realId) {
+                                        //     //   return "please enter the right pass word";
+                                        //     // }
+                                        //     return null;
+                                        //   },
+                                        // ),
+                                        //SUBMIT BUTTON
+                                        // SUBMIT BUTTON
+                                        Visibility(
+                                          visible: isEnabled,
+                                          child: Builder(
+                                            builder: (context) =>
+                                                TextButton(
+                                                  // color: Theme.of(context).primaryColor,
+                                                    style: TextButton.styleFrom(
+                                                      primary: Colors.black26,
+                                                      backgroundColor: Theme
+                                                          .of(context)
+                                                          .primaryColor,
+                                                      onSurface: Colors.grey,
+                                                    ),
+                                                    onPressed: isEnabled ? () =>
+                                                        submitFunc() : null,
+                                                    child: Center(
+                                                        child: Text(
+                                                          'Submit',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white70),
+                                                        ))),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }
                                   break;
                                 case"OFFICES":
                                   {
-                                    return Center(
-                                      child: Text("hello i am $placeValue"),
+                                    return Column(
+                                      children: [
+                                        collageInputs(),
+
+
+                                        //religiousInput(),
+                                        // TextFormField(
+                                        //   //controller: NameOfPlace,
+                                        //   initialValue: "${userData["Address"]}",
+                                        //   keyboardType: TextInputType.text,
+                                        //   decoration: InputDecoration(
+                                        //     //border: InputBorder.none,
+                                        //       hintText: 'Name of the Place',
+                                        //       prefixIcon: Icon(Icons.home_sharp)),
+                                        //   validator: (value) {
+                                        //     if (value.isEmpty) {
+                                        //       return 'Please enter the appropriate details';
+                                        //     }
+                                        //     // else if (value != realId) {
+                                        //     //   return "please enter the right pass word";
+                                        //     // }
+                                        //     return null;
+                                        //   },
+                                        // ),
+                                        //SUBMIT BUTTON
+                                        // SUBMIT BUTTON
+                                        Visibility(
+                                          visible: isEnabled,
+                                          child: Builder(
+                                            builder: (context) =>
+                                                TextButton(
+                                                  // color: Theme.of(context).primaryColor,
+                                                    style: TextButton.styleFrom(
+                                                      primary: Colors.black26,
+                                                      backgroundColor: Theme
+                                                          .of(context)
+                                                          .primaryColor,
+                                                      onSurface: Colors.grey,
+                                                    ),
+                                                    onPressed: isEnabled ? () =>
+                                                        submitFunc() : null,
+                                                    child: Center(
+                                                        child: Text(
+                                                          'Submit',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white70),
+                                                        ))),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }
                                   break;
                                 case"NGOSorORGANISATIONS":
                                   {
-                                    return Center(
-                                      child: Text("hello i am $placeValue"),
-                                    );
+                                    return Column(
+                                    children: [
+                                      collageInputs(),
+
+
+                                      //religiousInput(),
+                                      // TextFormField(
+                                      //   //controller: NameOfPlace,
+                                      //   initialValue: "${userData["Address"]}",
+                                      //   keyboardType: TextInputType.text,
+                                      //   decoration: InputDecoration(
+                                      //     //border: InputBorder.none,
+                                      //       hintText: 'Name of the Place',
+                                      //       prefixIcon: Icon(Icons.home_sharp)),
+                                      //   validator: (value) {
+                                      //     if (value.isEmpty) {
+                                      //       return 'Please enter the appropriate details';
+                                      //     }
+                                      //     // else if (value != realId) {
+                                      //     //   return "please enter the right pass word";
+                                      //     // }
+                                      //     return null;
+                                      //   },
+                                      // ),
+                                      //SUBMIT BUTTON
+                                      // SUBMIT BUTTON
+                                      Visibility(
+                                        visible: isEnabled,
+                                        child: Builder(
+                                          builder: (context) =>
+                                              TextButton(
+                                                // color: Theme.of(context).primaryColor,
+                                                  style: TextButton.styleFrom(
+                                                    primary: Colors.black26,
+                                                    backgroundColor: Theme
+                                                        .of(context)
+                                                        .primaryColor,
+                                                    onSurface: Colors.grey,
+                                                  ),
+                                                  onPressed: isEnabled ? () =>
+                                                      submitFunc() : null,
+                                                  child: Center(
+                                                      child: Text(
+                                                        'Submit',
+                                                        style: TextStyle(
+                                                            color: Colors
+                                                                .white70),
+                                                      ))),
+                                        ),
+                                      ),
+                                    ],
+                                  );
                                   }
                                   break;
                                 case"HALLS":
                                   {
-                                    return Center(
-                                      child: Text("hello i am $placeValue"),
+                                    return Column(
+                                      children: [
+                                        collageInputs(),
+
+
+                                        //religiousInput(),
+                                        // TextFormField(
+                                        //   //controller: NameOfPlace,
+                                        //   initialValue: "${userData["Address"]}",
+                                        //   keyboardType: TextInputType.text,
+                                        //   decoration: InputDecoration(
+                                        //     //border: InputBorder.none,
+                                        //       hintText: 'Name of the Place',
+                                        //       prefixIcon: Icon(Icons.home_sharp)),
+                                        //   validator: (value) {
+                                        //     if (value.isEmpty) {
+                                        //       return 'Please enter the appropriate details';
+                                        //     }
+                                        //     // else if (value != realId) {
+                                        //     //   return "please enter the right pass word";
+                                        //     // }
+                                        //     return null;
+                                        //   },
+                                        // ),
+                                        //SUBMIT BUTTON
+                                        // SUBMIT BUTTON
+                                        Visibility(
+                                          visible: isEnabled,
+                                          child: Builder(
+                                            builder: (context) =>
+                                                TextButton(
+                                                  // color: Theme.of(context).primaryColor,
+                                                    style: TextButton.styleFrom(
+                                                      primary: Colors.black26,
+                                                      backgroundColor: Theme
+                                                          .of(context)
+                                                          .primaryColor,
+                                                      onSurface: Colors.grey,
+                                                    ),
+                                                    onPressed: isEnabled ? () =>
+                                                        submitFunc() : null,
+                                                    child: Center(
+                                                        child: Text(
+                                                          'Submit',
+                                                          style: TextStyle(
+                                                              color: Colors
+                                                                  .white70),
+                                                        ))),
+                                          ),
+                                        ),
+                                      ],
                                     );
                                   }
                               }
@@ -763,8 +1233,8 @@ class _EditPageState extends State<EditPage> {
           Column(
             children: <Widget>[
               Center(
-                child: userImage == null ? Text("ADD LOCATION",
-                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                child:  Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54))
               ),
               Builder(
                 builder: (context)=>TextButton.icon(
@@ -864,7 +1334,962 @@ class _EditPageState extends State<EditPage> {
   }
 
 
+   Container schoolInputs(){
 
+     if(schoolName.text.trim() == ""){
+       schoolName.text = "${userData["schoolName"]}";
+     }if(schoolPrinciple.text.trim() == ""){
+       schoolPrinciple.text = "${userData["schoolPrinciple"]}";
+     }if(schoolContact.text.trim() == ""){
+       schoolContact.text = "${userData["schoolContact"]}";
+     }if(schoolStrength.text.trim() == ""){
+       schoolStrength.text = "${userData["schoolStrength"]}";
+     }if(schoolOpportunities.text.trim() == ""){
+       schoolOpportunities.text = "${userData["schoolOpportunities"]}";
+     }if(schoolRemarks.text.trim() == ""){
+       schoolRemarks.text = "${userData["schoolRemarks"]}";
+     }if(schoolAddress.text.trim() == ""){
+       schoolAddress.text = "${userData["schoolAddress"]}";
+     }
+
+
+     if(newImageLink == null){
+       newImageLink = "${userData["PlaceImage"]}";
+     }
+     if(longitudeData == ""){
+       longitudeData ="${userData["latitudeData"]}";
+     }
+     if(latitudeData == ""){
+       latitudeData ="${userData["latitudeData"]}";
+     }
+
+     if(unitName == null){
+       unitName =unitValue;
+     }
+
+    return Container(
+      child: Column(
+        children: [
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+          // Name of the School
+          TextFormField(
+            controller: schoolName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the School',
+                prefixIcon: Icon(Icons.school_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Name of the principle
+          TextFormField(
+            controller: schoolPrinciple,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the principle',
+                prefixIcon: Icon(Icons.account_box_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Strength
+          TextFormField(
+            controller: schoolStrength,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Strength of the School',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: schoolContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: schoolAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Opportunities
+          TextFormField(
+            controller: schoolOpportunities,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Opportunities to work" ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Remarks
+          TextFormField(
+            controller: schoolRemarks,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Remarks & Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child:Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+   }
+    // collage input
+   Container collageInputs(){
+
+     if(collageName.text.trim() == ""){
+       collageName.text = "${userData["collageName"]}";
+     }if(collageCourses.text.trim() == ""){
+       collageCourses.text = "${userData["collageCourses"]}";
+     }if(collageContact.text.trim() == ""){
+       collageContact.text = "${userData["collageContact"]}";
+     }if(collageStrength.text.trim() == ""){
+       collageStrength.text = "${userData["collageStrength"]}";
+     }if(collageOpportunities.text.trim() == ""){
+       collageOpportunities.text = "${userData["collageOpportunities"]}";
+     }if(collageRemarks.text.trim() == ""){
+       collageRemarks.text = "${userData["collageRemarks"]}";
+     }if(collageAddress.text.trim() == ""){
+       collageAddress.text = "${userData["collageAddress"]}";
+     }if(typeOfCollegeList == []){
+       typeOfCollege = userData["typeOfCollegeList"];
+     }else if(typeOfCollegeList != []){
+       typeOfCollege = typeOfCollegeList.toString();
+     }
+
+
+
+     if(newImageLink == null){
+       newImageLink = "${userData["PlaceImage"]}";
+     }
+     if(longitudeData == ""){
+       longitudeData ="${userData["latitudeData"]}";
+     }
+     if(latitudeData == ""){
+       latitudeData ="${userData["latitudeData"]}";
+     }
+
+     if(unitName == null){
+       unitName =unitValue;
+     }
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          //Name of the Collage
+          TextFormField(
+            controller: collageName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the College',
+                prefixIcon: Icon(Icons.school_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //TYPE OF INSTITUTION
+          SizedBox(height: 30.0,),
+          Text(
+            'TYPE OF COLLEGE',
+            style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+            textAlign: TextAlign.left,
+          ),
+         // INTERMEDIATE
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('INTERMEDIATE'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueInter,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueInter = value;
+              });
+              if(valueInter == true){
+                typeOfCollegeList.add("INTERMEDIATE");
+              }else if(valueInter == false){
+                typeOfCollegeList.remove("INTERMEDIATE");
+              }
+            },
+          ),
+          //UG
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('UNDER GRADUATION/DEGREE'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueUG,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueUG = value;
+              });
+              if(valueUG == true){
+                typeOfCollegeList.add("UNDER GRADUATION/DEGREE");
+              }else if(valueUG == false){
+                typeOfCollegeList.remove("UNDER GRADUATION/DEGREE");
+              }
+            },
+          ),
+          //PG
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('POST GRADUATION'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valuePG,
+            onChanged: (bool value) {
+              setState(() {
+                this.valuePG = value;
+              });
+              if(valuePG == true){
+                typeOfCollegeList.add("POST GRADUATION");
+              }else if(valuePG == false){
+                typeOfCollegeList.remove("POST GRADUATION");
+              }
+            },
+          ),
+          //VOCATIONAL
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('VOCATIONAL'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueVoc,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueVoc = value;
+              });
+              if(valueVoc == true){
+                typeOfCollegeList.add("VOCATIONAL");
+              }else if(valueVoc == false){
+                typeOfCollegeList.remove("VOCATIONAL");
+              }
+            },
+          ),
+          //UNIVERSITY
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('UNIVERSITY'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueUni,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueUni = value;
+              });
+              if(valueUni == true){
+                typeOfCollegeList.add("UNIVERSITY");
+              }else if(valueUni == false){
+                typeOfCollegeList.remove("UNIVERSITY");
+              }
+            },
+          ),
+          SizedBox(height: 20.0,),
+          Text(
+            "Selected Type's : ${userData["typeOfCollegeList"]}",
+            style: TextStyle(fontSize: 20.0,),
+            textAlign: TextAlign.left,
+          ),
+          //Courses
+          TextFormField(
+            controller: collageCourses,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Courses Offered',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Strength
+          TextFormField(
+            controller: collageStrength,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Strength of the College',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: collageContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: collageAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Opportunities
+          TextFormField(
+            controller: collageOpportunities,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Opportunities to work" ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Remarks
+          TextFormField(
+            controller: collageRemarks,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Remarks & Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+   }
+
+
+   // Container institutionInputs(){}
+   // Container youthPlaceInputs(){}
+   // Container publicPlaceInputs(){}
+   // Container officePlaceInputs(){}
+   // Container ngosPlaceInputs(){}
+   // Container hallsPlaceInputs(){}
 
 
 
@@ -1000,1040 +2425,1238 @@ class _EditPageState extends State<EditPage> {
        }
        break;
 
-       // case "EDUCATIONAL INSTITUTIONS":{
-       //   switch(selectType){
-       //     case "SCHOOL":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-       //         "schoolName":schoolName.text,
-       //         "schoolPrinciple":schoolPrinciple.text,
-       //         "schoolContact":schoolContact.text,
-       //         "schoolStrength":schoolStrength.text,
-       //         "schoolOpportunities":schoolOpportunities.text,
-       //         "schoolRemarks":schoolRemarks.text,
-       //         "schoolAddress":schoolAddress.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
-       //           .add(data);
-       //     }break;
-       //     case "COLLEGE":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-       //         "collageName":collageName.text,
-       //         "collageCourses":collageCourses.text,
-       //         "collageContact":collageContact.text,
-       //         "collageStrength":collageStrength.text,
-       //         "collageOpportunities":collageOpportunities.text,
-       //         "collageRemarks":collageRemarks.text,
-       //         "collageAddress":collageAddress.text,
-       //         "typeOfCollegeList":typeOfCollegeList.toString(),
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("EDUCATIONAL INSTITUTIONS").collection("COLLEGE")
-       //           .add(data);
-       //
-       //     }break;
-       //     case "INSTITUTION":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-       //         "institutionName":institutionName.text,
-       //         "institutionCourses":institutionCourses.text,
-       //         "institutionContact":institutionContact.text,
-       //         "institutionStrength":institutionStrength.text,
-       //         "institutionOpportunities":institutionOpportunities.text,
-       //         "institutionRemarks":institutionRemarks.text,
-       //         "institutionAddress":institutionAddress.text,
-       //         "typeOfInstitutionList":typeOfInstitutionList.toString(),
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("EDUCATIONAL INSTITUTIONS").collection("INSTITUTION")
-       //           .add(data);
-       //
-       //     }break;
-       //   }
-       // }
-       // break;
-       //
-       // case"YOUTH SPOTS":{
-       //   switch(selectType){
-       //     case"GYM":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-       //         "youthPlaceName":youthPlaceName.text,
-       //         "youthHeadOfPlace":youthHeadOfPlace.text,
-       //         "youthContact":youthContact.text,
-       //         "youthCapacity":youthCapacity.text,
-       //         "youthAddress":youthAddress.text,
-       //         "youthDetails":youthDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("YOUTH SPOTS").collection("GYM")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"PLAY GROUND":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-       //         "youthPlaceName":youthPlaceName.text,
-       //         "youthHeadOfPlace":youthHeadOfPlace.text,
-       //         "youthContact":youthContact.text,
-       //         "youthCapacity":youthCapacity.text,
-       //         "youthAddress":youthAddress.text,
-       //         "youthDetails":youthDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("YOUTH SPOTS").collection("PLAY GROUND")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"GAME ROOMS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-       //         "youthPlaceName":youthPlaceName.text,
-       //         "youthHeadOfPlace":youthHeadOfPlace.text,
-       //         "youthContact":youthContact.text,
-       //         "youthCapacity":youthCapacity.text,
-       //         "youthAddress":youthAddress.text,
-       //         "youthDetails":youthDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("YOUTH SPOTS").collection("GAME ROOMS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"SPORTS CLUB":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-       //         "youthPlaceName":youthPlaceName.text,
-       //         "youthHeadOfPlace":youthHeadOfPlace.text,
-       //         "youthContact":youthContact.text,
-       //         "youthCapacity":youthCapacity.text,
-       //         "youthAddress":youthAddress.text,
-       //         "youthDetails":youthDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("YOUTH SPOTS").collection("SPORTS CLUB")
-       //           .add(data);
-       //
-       //     }break;
-       //   }
-       //
-       // }
-       // break;
-       //
-       // case"PUBLIC SPOTS":{
-       //   switch(selectType){
-       //     case"HOTELS & RESTAURANT'S":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("HOTELS & RESTAURANT'S")
-       //           .add(data);
-       //
-       //
-       //     }break;
-       //     case"HOSPITAL'S":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("HOSPITAL'S")
-       //           .add(data);
-       //
-       //
-       //     }break;
-       //     case"BUS STOPS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("BUS STOPS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"PAN SHOPorTEA STALL":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("PAN SHOPorTEA STALL")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"THEATERS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("THEATERS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"TOURIST PLACES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("TOURIST PLACES")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"GARDENS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("GARDENS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"PARKS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("PARKS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"YOGA CENTRES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("YOGA CENTRES")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"FITNESS CENTRES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-       //         "publicPlaceName":publicPlaceName.text,
-       //         "publicHeadOfPlace":publicHeadOfPlace.text,
-       //         "publicContact":publicContact.text,
-       //         "publicCapacity":publicCapacity.text,
-       //         "publicAddress":publicAddress.text,
-       //         "publicDetails":publicDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("PUBLIC SPOTS").collection("FITNESS CENTRES")
-       //           .add(data);
-       //
-       //     }break;
-       //   }
-       //
-       // }
-       // break;
-       //
-       // case"OFFICES":{
-       //   switch(selectType){
-       //     case"ELECTRICITY":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("ELECTRICITY")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"POLICE STATION'S":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("POLICE STATION'S")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"POST OFFICES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("POST OFFICES")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MRO":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("MRO")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MPDO":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("MPDO")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"WATER":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("WATER")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"TAHSILDAAR":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("TAHSILDAAR")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MLA":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("MLA")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MP":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("MP")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"CORPORATOR":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-       //         "officePlaceName":officePlaceName.text,
-       //         "officeHeadOfPlace":officeHeadOfPlace.text,
-       //         "officeContact":officeContact.text,
-       //         "officeTiming":officeTiming.text,
-       //         "officeCapacity":officeCapacity.text,
-       //         "officeAddress":officeAddress.text,
-       //         "officeDetails":officeDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("OFFICES").collection("CORPORATOR")
-       //           .add(data);
-       //
-       //     }break;
-       //
-       //   }
-       // }
-       // break;
-       //
-       // case"NGOSorORGANISATIONS":{
-       //   switch(selectType){
-       //     case"OLD AGE":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("OLD AGE")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"ORPHAN AGE":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("ORPHAN AGE")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"SOCIAL WELFARE":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("SOCIAL WELFARE")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"CAREER GUIDANCE ":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("CAREER GUIDANCE")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"COUNSELING CENTRES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("COUNSELING CENTRES")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"STUDENT&RELIGIOUS&CHARITY":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"YOUTH ORGANISATIONS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("YOUTH ORGANISATIONS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"HWF CENTRES":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("HWF CENTRES")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"CHILD CARE":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("CHILD CARE")
-       //           .add(data);
-       //     }break;
-       //     case"ASSOCIATIONS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("ASSOCIATIONS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"FORUMS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-       //         "ngosPlaceName":ngosPlaceName.text,
-       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
-       //         "ngosContact":ngosContact.text,
-       //         "ngosTiming":ngosTiming.text,
-       //         "ngosCapacity":ngosCapacity.text,
-       //         "ngosAddress":ngosAddress.text,
-       //         "ngosDetails":ngosDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("NGOSorORGANISATIONS").collection("FORUMS")
-       //           .add(data);
-       //
-       //     }break;
-       //
-       //   }
-       // }
-       // break;
-       //
-       // case"HALLS":{
-       //   switch(selectType){
-       //     case"COMMUNITY HALLS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("COMMUNITY HALLS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"FUNCTION HALLS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("FUNCTION HALLS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MEETING HALLS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("MEETING HALLS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"MELAS ":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("MELAS")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"EXHIBITION ":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("EXHIBITION")
-       //           .add(data);
-       //
-       //     }break;
-       //     case"PRESS HALLS":{
-       //       Map<String, dynamic> data = {
-       //         "PlaceValue":placeValue.toLowerCase().toString(),
-       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-       //         "hallsPlaceName":hallsPlaceName.text,
-       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
-       //         "hallsContact":hallsContact.text,
-       //         "hallsCapacity":hallsCapacity.text,
-       //         "hallsAddress":hallsAddress.text,
-       //         "hallsDetails":hallsDetails.text,
-       //         "PlaceImage": imageLink,
-       //         "latitudeData":latitudeData,
-       //         "longitudeData":longitudeData,
-       //
-       //         "unitName":unitValue,
-       //       };
-       //       FirebaseFirestore.instance
-       //           .collection(unitValue)
-       //           .doc("HALLS").collection("PRESS HALLS")
-       //           .add(data);
-       //
-       //     }break;
-       //
-       //   }
-       // }
-      // break;
+       case "EDUCATIONAL INSTITUTIONS":{
+         switch(selectType){
+           case "SCHOOL":{
+             Map<String, dynamic> data = {
+               "schoolName":schoolName.text,
+               "schoolPrinciple":schoolPrinciple.text,
+               "schoolContact":schoolContact.text,
+               "schoolStrength":schoolStrength.text,
+               "schoolOpportunities":schoolOpportunities.text,
+               "schoolRemarks":schoolRemarks.text,
+               "schoolAddress":schoolAddress.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             FirebaseFirestore.instance
+                 .collection(unitValue)
+                 .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
+                 .add(data);
+           }break;
+           case "COLLEGE":{
+             Map<String, dynamic> data = {
+               "collageName":collageName.text,
+               "collageCourses":collageCourses.text,
+               "collageContact":collageContact.text,
+               "collageStrength":collageStrength.text,
+               "collageOpportunities":collageOpportunities.text,
+               "collageRemarks":collageRemarks.text,
+               "collageAddress":collageAddress.text,
+               "typeOfCollegeList":typeOfCollege.toString(),
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case "INSTITUTION":{
+             Map<String, dynamic> data = {
+               "institutionName":institutionName.text,
+               "institutionCourses":institutionCourses.text,
+               "institutionContact":institutionContact.text,
+               "institutionStrength":institutionStrength.text,
+               "institutionOpportunities":institutionOpportunities.text,
+               "institutionRemarks":institutionRemarks.text,
+               "institutionAddress":institutionAddress.text,
+               "typeOfInstitutionList":typeOfInstitutionList.toString(),
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+         }
+       }
+       break;
+
+       case"YOUTH SPOTS":{
+         switch(selectType){
+           case"GYM":{
+             Map<String, dynamic> data = {
+               "youthPlaceName":youthPlaceName.text,
+               "youthHeadOfPlace":youthHeadOfPlace.text,
+               "youthContact":youthContact.text,
+               "youthCapacity":youthCapacity.text,
+               "youthAddress":youthAddress.text,
+               "youthDetails":youthDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"PLAY GROUND":{
+             Map<String, dynamic> data = {
+               "youthPlaceName":youthPlaceName.text,
+               "youthHeadOfPlace":youthHeadOfPlace.text,
+               "youthContact":youthContact.text,
+               "youthCapacity":youthCapacity.text,
+               "youthAddress":youthAddress.text,
+               "youthDetails":youthDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"GAME ROOMS":{
+             Map<String, dynamic> data = {
+               "youthPlaceName":youthPlaceName.text,
+               "youthHeadOfPlace":youthHeadOfPlace.text,
+               "youthContact":youthContact.text,
+               "youthCapacity":youthCapacity.text,
+               "youthAddress":youthAddress.text,
+               "youthDetails":youthDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"SPORTS CLUB":{
+             Map<String, dynamic> data = {
+               "youthPlaceName":youthPlaceName.text,
+               "youthHeadOfPlace":youthHeadOfPlace.text,
+               "youthContact":youthContact.text,
+               "youthCapacity":youthCapacity.text,
+               "youthAddress":youthAddress.text,
+               "youthDetails":youthDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+         }
+
+       }
+       break;
+
+       case"PUBLIC SPOTS":{
+         switch(selectType){
+           case"HOTELS & RESTAURANT'S":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+
+           }break;
+           case"HOSPITAL'S":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+
+           }break;
+           case"BUS STOPS":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"PAN SHOPorTEA STALL":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"THEATERS":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"TOURIST PLACES":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"GARDENS":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"PARKS":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"YOGA CENTRES":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"FITNESS CENTRES":{
+             Map<String, dynamic> data = {
+               "publicPlaceName":publicPlaceName.text,
+               "publicHeadOfPlace":publicHeadOfPlace.text,
+               "publicContact":publicContact.text,
+               "publicCapacity":publicCapacity.text,
+               "publicAddress":publicAddress.text,
+               "publicDetails":publicDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+         }
+
+       }
+       break;
+
+       case"OFFICES":{
+         switch(selectType){
+           case"ELECTRICITY":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"POLICE STATION'S":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"POST OFFICES":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             FirebaseFirestore.instance
+                 .collection(unitValue)
+                 .doc("OFFICES").collection("POST OFFICES")
+                 .add(data);
+
+           }break;
+           case"MRO":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"MPDO":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"WATER":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"TAHSILDAAR":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"MLA":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"MP":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"CORPORATOR":{
+             Map<String, dynamic> data = {
+               "officePlaceName":officePlaceName.text,
+               "officeHeadOfPlace":officeHeadOfPlace.text,
+               "officeContact":officeContact.text,
+               "officeTiming":officeTiming.text,
+               "officeCapacity":officeCapacity.text,
+               "officeAddress":officeAddress.text,
+               "officeDetails":officeDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+
+         }
+       }
+       break;
+
+       case"NGOSorORGANISATIONS":{
+         switch(selectType){
+           case"OLD AGE":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"ORPHAN AGE":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"SOCIAL WELFARE":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"CAREER GUIDANCE ":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"COUNSELING CENTRES":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"STUDENT&RELIGIOUS&CHARITY":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"YOUTH ORGANISATIONS":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"HWF CENTRES":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"CHILD CARE":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"ASSOCIATIONS":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"FORUMS":{
+             Map<String, dynamic> data = {
+               "ngosPlaceName":ngosPlaceName.text,
+               "ngosHeadOfPlace":ngosHeadOfPlace.text,
+               "ngosContact":ngosContact.text,
+               "ngosTiming":ngosTiming.text,
+               "ngosCapacity":ngosCapacity.text,
+               "ngosAddress":ngosAddress.text,
+               "ngosDetails":ngosDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+
+         }
+       }
+       break;
+
+       case"HALLS":{
+         switch(selectType){
+           case"COMMUNITY HALLS":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"FUNCTION HALLS":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"MEETING HALLS":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"MELAS ":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case"EXHIBITION ":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+           case"PRESS HALLS":{
+             Map<String, dynamic> data = {
+               "hallsPlaceName":hallsPlaceName.text,
+               "hallsHeadOfPlace":hallsHeadOfPlace.text,
+               "hallsContact":hallsContact.text,
+               "hallsCapacity":hallsCapacity.text,
+               "hallsAddress":hallsAddress.text,
+               "hallsDetails":hallsDetails.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+
+           }break;
+
+         }
+       }
+      break;
 
 
      }

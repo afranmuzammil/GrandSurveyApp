@@ -2472,8 +2472,8 @@ class _MyHomePageState extends State<MyHomePage> {
             ),
             SizedBox(height: 5.0),
             Text(
-              "Type Of College : ${document["typeOfCollegeList"]}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
+              "Type Of College : ${document["typeOfCollegeList"].toString().toLowerCase()}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87)),
             ),
@@ -2701,8 +2701,8 @@ class _MyHomePageState extends State<MyHomePage> {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Courses : ${document["institutionCourses"]}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
+              "Courses : ${document["institutionCourses"].toString().toLowerCase()}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
                   fontWeight: FontWeight.w500,
                   color: Colors.black87)),
             ),

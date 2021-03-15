@@ -36,34 +36,33 @@ class _EditPageState extends State<EditPage> {
    @override
    void initState() {
     _getData();
-    foo();
+    //foo();
      super.initState();
    }
 
 
-   Future _getData() async{
-    DocumentSnapshot a ;
+
+   Future<DocumentSnapshot> _getData() async{
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection(unitValue)
         .doc(placeValue).collection(selectType).doc(docID)
-        .get().then((value) {print("on :${value["Capacity"]}"); return value[data]; });
-    a = variable["Capacity"];
-    print("Address : $a");
-    setState(() {
-      data = variable;
-    });
-    return data;
+        .get().then((value) { return foo(value); });
+    // setState(() {
+    //   data = variable;
+    // });
+    data = variable;
+   return data;
   }
 
-  Future<String> foo() async{
+  Future<DocumentSnapshot> foo(data) async{
     await Future.delayed(Duration(seconds: 2)).then((value) => {userData = data});
   //  var userData = await _getData();
-    print(" on: ${userData["Address"]}");
+   // print(" on: ${userData["Address"]}");
     return userData;
   }
   value(values){
      if (data != null){
-       print("${data["$values"]}");
+      // print("${data["$values"]}");
        return data["$values"];
      }
      else
@@ -80,7 +79,8 @@ class _EditPageState extends State<EditPage> {
      });
    }
 
-   String imageLink;
+   //String imageLink;
+   String newImageLink;
 
    Future uploadImageToFirebase(BuildContext context) async {
      String fileName = userImage.path;
@@ -89,10 +89,10 @@ class _EditPageState extends State<EditPage> {
          .child('uploads/${Path.basename(fileName)}');
      await ref.putFile(userImage).whenComplete(() async {
        ref.getDownloadURL().then((value) {
-         imageLink = value;
+         newImageLink = value;
        });
      });
-     return imageLink;
+     return newImageLink;
    }
 
    String latitudeData ="";
@@ -121,6 +121,7 @@ class _EditPageState extends State<EditPage> {
    final Details = new TextEditingController();
 
 
+   bool isEnabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -149,97 +150,268 @@ class _EditPageState extends State<EditPage> {
                   child: CircularProgressIndicator(),
                 );
               }
-              var variable = snapshot.data.docs.first.data();
-              return SingleChildScrollView(
-                child: Padding(
-                  padding: const EdgeInsets.all(16.0),
-                  child: Container(
-                      padding: EdgeInsets.only(left: 16, right: 16,bottom: 16),
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.grey, width: 1),
-                          borderRadius: BorderRadius.circular(10)),
-                    child: Builder(
-                      builder: (BuildContext context){
-                        switch(placeValue)   {
-                          case "RELIGIOUS PLACES": {
-                            return Column(
-                              children: [
-                                religiousInputs(variable),
-                              ],
-                            );
-                          }break;
-                          case"EDUCATIONAL INSTITUTIONS":{
-                            switch(selectType){
-                              case "SCHOOL":{
-                                return Center(
-                                  child: Text("hello i am  $selectType") ,
-                                );
-                              }break;
-                              case "COLLEGE":{
-                                return Center(
-                                  child: Text("hello i am  $selectType") ,
-                                );
-                              }break;
-                              case "INSTITUTION":{
-                                return Center(
-                                  child: Text("hello i am  $selectType") ,
-                                );
-                              }break;
+                var variable = snapshot.data.docs.first.data();
+                return SingleChildScrollView(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Container(
+                        padding: EdgeInsets.only(
+                            left: 16, right: 16, bottom: 16),
+                        decoration: BoxDecoration(
+                            border: Border.all(color: Colors.grey, width: 1),
+                            borderRadius: BorderRadius.circular(10)),
+                        child: FutureBuilder<DocumentSnapshot>(
+                          future:  _getData(),
+                          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                            if(snapshot.hasData){
+                              switch (placeValue) {
+                                case "RELIGIOUS PLACES":
+                                  {
+                                    // FutureBuilder<DocumentSnapshot>(
+                                    //   future:  _getData(),
+                                    //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+                                    //
+                                    //   },
+                                    // )
+                                      return Column(
+                                        children: [
+                                          religiousInputs(),
 
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+
+                                  }
+                                  break;
+                                case"EDUCATIONAL INSTITUTIONS":
+                                  {
+                                    switch (selectType) {
+                                      case "SCHOOL":
+                                        {
+                                          return Center(
+                                            child: Text(
+                                                "hello i am  $selectType"),
+                                          );
+                                        }
+                                        break;
+                                      case "COLLEGE":
+                                        {
+                                          return Center(
+                                            child: Text(
+                                                "hello i am  $selectType"),
+                                          );
+                                        }
+                                        break;
+                                      case "INSTITUTION":
+                                        {
+                                          return Center(
+                                            child: Text(
+                                                "hello i am  $selectType"),
+                                          );
+                                        }
+                                        break;
+                                    }
+                                  }
+                                  break;
+                                case"YOUTH SPOTS":
+                                  {
+                                    return Center(
+                                      child: Text("hello i am $placeValue"),
+                                    );
+                                  }
+                                  break;
+                                case"PUBLIC SPOTS":
+                                  {
+                                    return Center(
+                                      child: Text("hello i am $placeValue"),
+                                    );
+                                  }
+                                  break;
+                                case"OFFICES":
+                                  {
+                                    return Center(
+                                      child: Text("hello i am $placeValue"),
+                                    );
+                                  }
+                                  break;
+                                case"NGOSorORGANISATIONS":
+                                  {
+                                    return Center(
+                                      child: Text("hello i am $placeValue"),
+                                    );
+                                  }
+                                  break;
+                                case"HALLS":
+                                  {
+                                    return Center(
+                                      child: Text("hello i am $placeValue"),
+                                    );
+                                  }
+                              }
                             }
-                          }break;
-                          case"YOUTH SPOTS":{
+                            else if(snapshot.hasError){
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.error_outline,
+                                      color: Colors.red,
+                                      size: 60,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: Text('Error: ${snapshot.error}'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                            else{
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: CircularProgressIndicator(),
+                                      width: 60,
+                                      height: 60,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 16),
+                                      child: Text('Loading data...'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+
                             return Center(
-                              child: Text("hello i am $placeValue") ,
+                              child: Text("hello i am end return"),
                             );
-                          }break;
-                          case"PUBLIC SPOTS":{
-                            return Center(
-                              child: Text("hello i am $placeValue") ,
-                            );
-                          }break;
-                          case"OFFICES":{
-                            return Center(
-                              child: Text("hello i am $placeValue") ,
-                            );
-                          }break;
-                          case"NGOSorORGANISATIONS":{
-                            return Center(
-                              child: Text("hello i am $placeValue") ,
-                            );
-                          }break;
-                          case"HALLS":{
-                            return Center(
-                              child: Text("hello i am $placeValue") ,
-                            );
-                          }
-                        }
-                        return Center(
-                          child: Text("hello i am $placeValue") ,
-                        );
-                      },
-                    )
+                          },
 
 
+                        )
+
+
+                    ),
                   ),
-                ),
-              );
-
+                );
 
         } ),
       ),
     );
   }
 
-  Container religiousInputs(Map<String, dynamic> variable) {
-    NameOfPlace.text = "${variable["PlaceName"]}";
-    HeadOfplace.text = "${variable["HeadOfplace"]}";
-    Contact.text = "${variable["ContactNO"]}";
-    FikerType.text =  "${variable["FikerType"]}";
-    Libraries.text =  "${variable["Libraries"]}";
-    Capacity.text  = "${variable["Capacity"]}";
-    Address.text =   "${variable["Address"]}";
-    Details.text = "${variable["Details"]}";
+  // Container religiousInput() {
+  //   return Container(
+  //                                         child: Column(
+  //                                           children: [
+  //                                             TextFormField(
+  //                                               //controller: NameOfPlace,
+  //                                               initialValue: "${userData["Address"]}",
+  //                                               keyboardType: TextInputType.text,
+  //                                               decoration: InputDecoration(
+  //                                                 //border: InputBorder.none,
+  //                                                   hintText: 'Name of the Place',
+  //                                                   prefixIcon: Icon(Icons.home_sharp)),
+  //                                               validator: (value) {
+  //                                                 if (value.isEmpty) {
+  //                                                   return 'Please enter the appropriate details';
+  //                                                 }
+  //                                                 // else if (value != realId) {
+  //                                                 //   return "please enter the right pass word";
+  //                                                 // }
+  //                                                 return null;
+  //                                               },
+  //                                             ),
+  //
+  //                                           ],
+  //                                         ) ,
+  //                                       );
+  // }
+
+  Container religiousInputs() {
+    if(NameOfPlace.text.trim() == ""){
+      NameOfPlace.text = "${userData["PlaceName"]}";
+    }if(HeadOfplace.text.trim()==""){
+      HeadOfplace.text = "${userData["HeadOfplace"]}";
+    }if(Contact.text.trim()==""){
+      Contact.text = "${userData["ContactNO"]}";
+    }if(FikerType.text.trim()==""){
+      FikerType.text =  "${userData["FikerType"]}";
+    }if(Libraries.text.trim()==""){
+      Libraries.text =  "${userData["Libraries"]}";
+    }if(Capacity.text.trim()==""){
+      Capacity.text  = "${userData["Capacity"]}";
+    }if(Address.text .trim()==""){
+      Address.text =   "${userData["Address"]}";
+    }if(Details.text.trim()==""){
+      Details.text = "${userData["Details"]}";
+    }
+    // Contact.text = "${userData["ContactNO"]}";
+    // FikerType.text =  "${userData["FikerType"]}";
+    // Libraries.text =  "${userData["Libraries"]}";
+    // Capacity.text  = "${userData["Capacity"]}";
+    // Address.text =   "${userData["Address"]}";
+    // Details.text = "${userData["Details"]}";
+
+    if(newImageLink == null){
+      newImageLink = "${userData["PlaceImage"]}";
+    }
+    if(longitudeData == ""){
+      longitudeData ="${userData["latitudeData"]}";
+    }
+    if(latitudeData == ""){
+      latitudeData ="${userData["latitudeData"]}";
+    }
     return Container(
       child: Column(
         children: [
@@ -251,7 +423,7 @@ class _EditPageState extends State<EditPage> {
                 borderRadius: BorderRadius.vertical()),
             child: ListTile(
               leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
-              title: Text("You are Editing a ${variable["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
                   fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
             ),
           ),
@@ -259,7 +431,7 @@ class _EditPageState extends State<EditPage> {
           AspectRatio(
             aspectRatio: 4/2,
             child: Image(
-              image: NetworkImage(variable['PlaceImage']),
+              image: NetworkImage(userData['PlaceImage']),
               fit: BoxFit.cover,
               width: double.infinity,
               height: double.infinity,
@@ -304,23 +476,104 @@ class _EditPageState extends State<EditPage> {
                 backgroundColor: Theme.of(context).primaryColor,
                 onSurface: Colors.blue,
               ),
-              onPressed: () async {
-                await uploadImageToFirebase(context);
-                await Future.delayed(Duration(seconds: 1));
-                print("upload done : $imageLink");
-                if(imageLink!= null){
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Image Uploaded"),
-                    ),
-                  );
-                }else{
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(
-                      content: Text("Image Not upload try again"),
-                    ),
-                  );
-                }
+
+              onPressed: ()  {
+                showDialog<void>(
+                  context: context,
+                  barrierDismissible: false,
+                    builder: (BuildContext context){
+                    return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
 
               },
               child: Text(
@@ -553,7 +806,8 @@ class _EditPageState extends State<EditPage> {
                       ),
                     );
                     setState(() {
-                      //pressedFunc();
+                      pressedFunc();
+
                     });
                   }
                 },
@@ -566,7 +820,42 @@ class _EditPageState extends State<EditPage> {
         ],
       ),
     );
+
   }
 
+   void pressedFunc(){
+
+     setState(() {
+       isEnabled = true;
+     });
+   }
+
+   void submitFunc() {
+     Map<String, dynamic> data = {
+       "PlaceName":NameOfPlace.text,
+       "HeadOfplace":HeadOfplace.text,
+       "ContactNO":Contact.text,
+       "FikerType":FikerType.text,
+       "Libraries":Libraries.text,
+       "Capacity":Capacity.text,
+       "Address":Address.text,
+       "Details":Details.text,
+       "PlaceImage": newImageLink,
+       "latitudeData":latitudeData,
+       "longitudeData":longitudeData,
+
+
+       "unitName":unitValue,
+     };
+      setState(() {
+        FirebaseFirestore.instance
+            .collection(unitValue)
+            .doc(placeValue).collection(selectType).doc(docID).update(data);
+      });
+     Navigator.pop(context,{
+
+     });
+   }
 
 }
+

@@ -520,8 +520,8 @@ class _MyHomePageState extends State<MyHomePage> {
                       builder: (context) => About(),
                     ));
               },
-              leading: Icon(Icons.info_outline_rounded),
-              title: Text("About",style: GoogleFonts.poppins(textStyle: TextStyle(
+              leading: Icon(Icons.settings),
+              title: Text( 'Settings',style: GoogleFonts.poppins(textStyle: TextStyle(
                   fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
             ),
             Divider(
@@ -565,7 +565,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //virsions
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V : 2.1.0-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  title: Text("V : 2.2.1-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
                   onLongPress: (){
                     Navigator.push(

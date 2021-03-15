@@ -37,6 +37,20 @@ class _VersionsInfoState extends State<VersionsInfo> {
                     borderRadius: BorderRadius.vertical()),
                 child:  ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
+                  title: Text("V : 2.2.1-alpha(15/3/21) ",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
+                  subtitle: Text("updated with editing option& fixed miner bugs",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+                ),
+              ),
+              SizedBox(height: 10,),
+              Container(
+                padding: EdgeInsets.all(10.0),
+                decoration:  BoxDecoration(
+                    border: Border.all(color: Colors.grey, width: 1),
+                    borderRadius: BorderRadius.vertical()),
+                child:  ListTile(
+                  leading: Icon(Icons.swap_vert_rounded),
                   title: Text("V : 2.1.0-alpha(13/3/21) ",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
                   subtitle: Text("Upgrade to flutter 2 and optimized usage of UI",style: GoogleFonts.poppins(textStyle: TextStyle(

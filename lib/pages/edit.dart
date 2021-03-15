@@ -40,7 +40,11 @@ class _EditPageState extends State<EditPage> {
      super.initState();
    }
 
-
+   String unitName;
+   List unitNameList = [
+     "MOULALI@HYD",
+     "LALAGUDA@SEC-BAD",
+   ];
 
    Future<DocumentSnapshot> _getData() async{
     DocumentSnapshot variable = await FirebaseFirestore.instance
@@ -396,12 +400,6 @@ class _EditPageState extends State<EditPage> {
     }if(Details.text.trim()==""){
       Details.text = "${userData["Details"]}";
     }
-    // Contact.text = "${userData["ContactNO"]}";
-    // FikerType.text =  "${userData["FikerType"]}";
-    // Libraries.text =  "${userData["Libraries"]}";
-    // Capacity.text  = "${userData["Capacity"]}";
-    // Address.text =   "${userData["Address"]}";
-    // Details.text = "${userData["Details"]}";
 
     if(newImageLink == null){
       newImageLink = "${userData["PlaceImage"]}";
@@ -412,11 +410,15 @@ class _EditPageState extends State<EditPage> {
     if(latitudeData == ""){
       latitudeData ="${userData["latitudeData"]}";
     }
+
+    if(unitName == null){
+      unitName =unitValue;
+    }
     return Container(
       child: Column(
         children: [
           SizedBox(height: 10.0,),
-          Container(
+            Container(
             padding: EdgeInsets.all(10.0),
             decoration:  BoxDecoration(
                 border: Border.all(color: Colors.amber, width: 1),
@@ -428,7 +430,11 @@ class _EditPageState extends State<EditPage> {
             ),
           ),
           SizedBox(height: 15.0,),
-          AspectRatio(
+            Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+            AspectRatio(
             aspectRatio: 4/2,
             child: Image(
               image: NetworkImage(userData['PlaceImage']),
@@ -439,7 +445,7 @@ class _EditPageState extends State<EditPage> {
           ),
           SizedBox(height: 10.0,),
           //Image upload
-          Column(
+            Column(
             children: [
               Center(
                 child: userImage == null ? Text("UPLOAD NEW IMAGE",
@@ -468,7 +474,7 @@ class _EditPageState extends State<EditPage> {
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
+            Builder(
             builder: (context) => TextButton(
               // color: Theme.of(context).primaryColor,
               style: TextButton.styleFrom(
@@ -583,6 +589,8 @@ class _EditPageState extends State<EditPage> {
             ),
           ),
           SizedBox(height: 20.0,),
+
+          //<---- change----->
           //Name of the Place
           TextFormField(
             controller: NameOfPlace,
@@ -790,6 +798,38 @@ class _EditPageState extends State<EditPage> {
               ),
             ],
           ),
+          SizedBox(height: 10.0,),
+          // DropdownButton(
+          //   hint: Text("Change Unit", textAlign: TextAlign.center),
+          //   dropdownColor: Theme
+          //       .of(context)
+          //       .primaryColor,
+          //   icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
+          //   iconSize: 36,
+          //   isExpanded: true,
+          //   underline: SizedBox(),
+          //   style: GoogleFonts.poppins(textStyle: TextStyle(
+          //       fontSize: 20, fontWeight: FontWeight.w500,color: Colors.black54)),
+          //   value: unitName,
+          //   onChanged: (newValue) {
+          //     setState(() {
+          //       unitName = newValue;
+          //       // if(placeTypeReligiousValue != null){
+          //       //   religiousDetailsVisible = true;
+          //       // }else{
+          //       //   religiousDetailsVisible = false;
+          //       // }
+          //
+          //     });
+          //   },
+          //   items: unitNameList.map((valueItem) {
+          //     return DropdownMenuItem(
+          //       value: valueItem,
+          //       child: Text(valueItem, textAlign: TextAlign.center,),
+          //     );
+          //   }).toList(),
+          // ),
+          // SizedBox(height: 20.0,),
           //Done button
           Builder(
             builder: (context) => TextButton(
@@ -823,6 +863,15 @@ class _EditPageState extends State<EditPage> {
 
   }
 
+
+
+
+
+
+
+
+
+
    void pressedFunc(){
 
      setState(() {
@@ -831,6 +880,1164 @@ class _EditPageState extends State<EditPage> {
    }
 
    void submitFunc() {
+
+     switch(placeValue){
+       case "RELIGIOUS PLACES":{
+         switch(selectType){
+           case "MASJID":{
+             Map<String, dynamic> data = {
+               "PlaceName":NameOfPlace.text,
+               "HeadOfplace":HeadOfplace.text,
+               "ContactNO":Contact.text,
+               "FikerType":FikerType.text,
+               "Libraries":Libraries.text,
+               "Capacity":Capacity.text,
+               "Address":Address.text,
+               "Details":Details.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case "CHURCH":{
+             Map<String, dynamic> data = {
+               "PlaceName":NameOfPlace.text,
+               "HeadOfplace":HeadOfplace.text,
+               "ContactNO":Contact.text,
+               "FikerType":FikerType.text,
+               "Libraries":Libraries.text,
+               "Capacity":Capacity.text,
+               "Address":Address.text,
+               "Details":Details.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case "GURUDWARS":{
+             Map<String, dynamic> data = {
+               "PlaceName":NameOfPlace.text,
+               "HeadOfplace":HeadOfplace.text,
+               "ContactNO":Contact.text,
+               "FikerType":FikerType.text,
+               "Libraries":Libraries.text,
+               "Capacity":Capacity.text,
+               "Address":Address.text,
+               "Details":Details.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+           case "TEMPLE":{
+             Map<String, dynamic> data = {
+               "PlaceName":NameOfPlace.text,
+               "HeadOfplace":HeadOfplace.text,
+               "ContactNO":Contact.text,
+               "FikerType":FikerType.text,
+               "Libraries":Libraries.text,
+               "Capacity":Capacity.text,
+               "Address":Address.text,
+               "Details":Details.text,
+               "PlaceImage": newImageLink,
+               "latitudeData":latitudeData,
+               "longitudeData":longitudeData,
+
+               "unitName":unitValue,
+             };
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
+           }break;
+         }
+       }
+       break;
+
+       // case "EDUCATIONAL INSTITUTIONS":{
+       //   switch(selectType){
+       //     case "SCHOOL":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+       //         "schoolName":schoolName.text,
+       //         "schoolPrinciple":schoolPrinciple.text,
+       //         "schoolContact":schoolContact.text,
+       //         "schoolStrength":schoolStrength.text,
+       //         "schoolOpportunities":schoolOpportunities.text,
+       //         "schoolRemarks":schoolRemarks.text,
+       //         "schoolAddress":schoolAddress.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
+       //           .add(data);
+       //     }break;
+       //     case "COLLEGE":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+       //         "collageName":collageName.text,
+       //         "collageCourses":collageCourses.text,
+       //         "collageContact":collageContact.text,
+       //         "collageStrength":collageStrength.text,
+       //         "collageOpportunities":collageOpportunities.text,
+       //         "collageRemarks":collageRemarks.text,
+       //         "collageAddress":collageAddress.text,
+       //         "typeOfCollegeList":typeOfCollegeList.toString(),
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("EDUCATIONAL INSTITUTIONS").collection("COLLEGE")
+       //           .add(data);
+       //
+       //     }break;
+       //     case "INSTITUTION":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
+       //         "institutionName":institutionName.text,
+       //         "institutionCourses":institutionCourses.text,
+       //         "institutionContact":institutionContact.text,
+       //         "institutionStrength":institutionStrength.text,
+       //         "institutionOpportunities":institutionOpportunities.text,
+       //         "institutionRemarks":institutionRemarks.text,
+       //         "institutionAddress":institutionAddress.text,
+       //         "typeOfInstitutionList":typeOfInstitutionList.toString(),
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("EDUCATIONAL INSTITUTIONS").collection("INSTITUTION")
+       //           .add(data);
+       //
+       //     }break;
+       //   }
+       // }
+       // break;
+       //
+       // case"YOUTH SPOTS":{
+       //   switch(selectType){
+       //     case"GYM":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+       //         "youthPlaceName":youthPlaceName.text,
+       //         "youthHeadOfPlace":youthHeadOfPlace.text,
+       //         "youthContact":youthContact.text,
+       //         "youthCapacity":youthCapacity.text,
+       //         "youthAddress":youthAddress.text,
+       //         "youthDetails":youthDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("YOUTH SPOTS").collection("GYM")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"PLAY GROUND":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+       //         "youthPlaceName":youthPlaceName.text,
+       //         "youthHeadOfPlace":youthHeadOfPlace.text,
+       //         "youthContact":youthContact.text,
+       //         "youthCapacity":youthCapacity.text,
+       //         "youthAddress":youthAddress.text,
+       //         "youthDetails":youthDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("YOUTH SPOTS").collection("PLAY GROUND")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"GAME ROOMS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+       //         "youthPlaceName":youthPlaceName.text,
+       //         "youthHeadOfPlace":youthHeadOfPlace.text,
+       //         "youthContact":youthContact.text,
+       //         "youthCapacity":youthCapacity.text,
+       //         "youthAddress":youthAddress.text,
+       //         "youthDetails":youthDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("YOUTH SPOTS").collection("GAME ROOMS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"SPORTS CLUB":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
+       //         "youthPlaceName":youthPlaceName.text,
+       //         "youthHeadOfPlace":youthHeadOfPlace.text,
+       //         "youthContact":youthContact.text,
+       //         "youthCapacity":youthCapacity.text,
+       //         "youthAddress":youthAddress.text,
+       //         "youthDetails":youthDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("YOUTH SPOTS").collection("SPORTS CLUB")
+       //           .add(data);
+       //
+       //     }break;
+       //   }
+       //
+       // }
+       // break;
+       //
+       // case"PUBLIC SPOTS":{
+       //   switch(selectType){
+       //     case"HOTELS & RESTAURANT'S":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("HOTELS & RESTAURANT'S")
+       //           .add(data);
+       //
+       //
+       //     }break;
+       //     case"HOSPITAL'S":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("HOSPITAL'S")
+       //           .add(data);
+       //
+       //
+       //     }break;
+       //     case"BUS STOPS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("BUS STOPS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"PAN SHOPorTEA STALL":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("PAN SHOPorTEA STALL")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"THEATERS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("THEATERS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"TOURIST PLACES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("TOURIST PLACES")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"GARDENS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("GARDENS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"PARKS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("PARKS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"YOGA CENTRES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("YOGA CENTRES")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"FITNESS CENTRES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypePublicValue.toLowerCase().toString(),
+       //         "publicPlaceName":publicPlaceName.text,
+       //         "publicHeadOfPlace":publicHeadOfPlace.text,
+       //         "publicContact":publicContact.text,
+       //         "publicCapacity":publicCapacity.text,
+       //         "publicAddress":publicAddress.text,
+       //         "publicDetails":publicDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("PUBLIC SPOTS").collection("FITNESS CENTRES")
+       //           .add(data);
+       //
+       //     }break;
+       //   }
+       //
+       // }
+       // break;
+       //
+       // case"OFFICES":{
+       //   switch(selectType){
+       //     case"ELECTRICITY":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("ELECTRICITY")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"POLICE STATION'S":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("POLICE STATION'S")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"POST OFFICES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("POST OFFICES")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MRO":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("MRO")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MPDO":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("MPDO")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"WATER":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("WATER")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"TAHSILDAAR":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("TAHSILDAAR")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MLA":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("MLA")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MP":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("MP")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"CORPORATOR":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
+       //         "officePlaceName":officePlaceName.text,
+       //         "officeHeadOfPlace":officeHeadOfPlace.text,
+       //         "officeContact":officeContact.text,
+       //         "officeTiming":officeTiming.text,
+       //         "officeCapacity":officeCapacity.text,
+       //         "officeAddress":officeAddress.text,
+       //         "officeDetails":officeDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("OFFICES").collection("CORPORATOR")
+       //           .add(data);
+       //
+       //     }break;
+       //
+       //   }
+       // }
+       // break;
+       //
+       // case"NGOSorORGANISATIONS":{
+       //   switch(selectType){
+       //     case"OLD AGE":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("OLD AGE")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"ORPHAN AGE":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("ORPHAN AGE")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"SOCIAL WELFARE":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("SOCIAL WELFARE")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"CAREER GUIDANCE ":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("CAREER GUIDANCE")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"COUNSELING CENTRES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("COUNSELING CENTRES")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"STUDENT&RELIGIOUS&CHARITY":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"YOUTH ORGANISATIONS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("YOUTH ORGANISATIONS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"HWF CENTRES":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("HWF CENTRES")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"CHILD CARE":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("CHILD CARE")
+       //           .add(data);
+       //     }break;
+       //     case"ASSOCIATIONS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("ASSOCIATIONS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"FORUMS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
+       //         "ngosPlaceName":ngosPlaceName.text,
+       //         "ngosHeadOfPlace":ngosHeadOfPlace.text,
+       //         "ngosContact":ngosContact.text,
+       //         "ngosTiming":ngosTiming.text,
+       //         "ngosCapacity":ngosCapacity.text,
+       //         "ngosAddress":ngosAddress.text,
+       //         "ngosDetails":ngosDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("NGOSorORGANISATIONS").collection("FORUMS")
+       //           .add(data);
+       //
+       //     }break;
+       //
+       //   }
+       // }
+       // break;
+       //
+       // case"HALLS":{
+       //   switch(selectType){
+       //     case"COMMUNITY HALLS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("COMMUNITY HALLS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"FUNCTION HALLS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("FUNCTION HALLS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MEETING HALLS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("MEETING HALLS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"MELAS ":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("MELAS")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"EXHIBITION ":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("EXHIBITION")
+       //           .add(data);
+       //
+       //     }break;
+       //     case"PRESS HALLS":{
+       //       Map<String, dynamic> data = {
+       //         "PlaceValue":placeValue.toLowerCase().toString(),
+       //         "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
+       //         "hallsPlaceName":hallsPlaceName.text,
+       //         "hallsHeadOfPlace":hallsHeadOfPlace.text,
+       //         "hallsContact":hallsContact.text,
+       //         "hallsCapacity":hallsCapacity.text,
+       //         "hallsAddress":hallsAddress.text,
+       //         "hallsDetails":hallsDetails.text,
+       //         "PlaceImage": imageLink,
+       //         "latitudeData":latitudeData,
+       //         "longitudeData":longitudeData,
+       //
+       //         "unitName":unitValue,
+       //       };
+       //       FirebaseFirestore.instance
+       //           .collection(unitValue)
+       //           .doc("HALLS").collection("PRESS HALLS")
+       //           .add(data);
+       //
+       //     }break;
+       //
+       //   }
+       // }
+      // break;
+
+
+     }
+
      Map<String, dynamic> data = {
        "PlaceName":NameOfPlace.text,
        "HeadOfplace":HeadOfplace.text,
@@ -845,13 +2052,19 @@ class _EditPageState extends State<EditPage> {
        "longitudeData":longitudeData,
 
 
-       "unitName":unitValue,
+       "unitName":unitName,
      };
-      setState(() {
-        FirebaseFirestore.instance
-            .collection(unitValue)
-            .doc(placeValue).collection(selectType).doc(docID).update(data);
-      });
+      // setState(() {
+      //   if(unitName == unitValue){
+      //     FirebaseFirestore.instance
+      //         .collection(unitValue)
+      //         .doc(placeValue).collection(selectType).doc(docID).update(data);
+      //   }else{
+      //     FirebaseFirestore.instance
+      //         .collection(unitName)
+      //         .doc(placeValue).collection(selectType).add(data);
+      //   }
+      // });
      Navigator.pop(context,{
 
      });

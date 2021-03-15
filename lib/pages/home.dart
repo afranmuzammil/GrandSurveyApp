@@ -676,6 +676,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               borderOnForeground: true,
                             );
                           } catch (e) {
+                            print("on :$e");
                             return Center(
                               child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );

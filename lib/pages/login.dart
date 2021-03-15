@@ -80,7 +80,7 @@ class _LoginFormState extends State<LoginForm> {
                     prefixIcon: Icon(Icons.lock),
                     suffixIcon: InkWell(
                       onTap: _togglePassWordView,
-                      child: visibility(),
+                      child: visibilityIcon(),
                     )),
                 validator: (value) {
                   if (value.isEmpty) {
@@ -282,8 +282,8 @@ class _LoginFormState extends State<LoginForm> {
 
 }
 
-class visibility extends StatelessWidget {
-  const visibility({
+class visibilityIcon extends StatelessWidget {
+  const visibilityIcon({
     Key key,
   }) : super(key: key);
 

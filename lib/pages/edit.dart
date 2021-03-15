@@ -99,7 +99,7 @@ class _EditPageState extends State<EditPage> {
      return newImageLink;
    }
 
-   String latitudeData ="";
+   String latitudeData="";
    String longitudeData="";
 
    getCurrentLoaction() async {
@@ -152,6 +152,7 @@ class _EditPageState extends State<EditPage> {
    final institutionRemarks = new TextEditingController();
    final institutionAddress = new TextEditingController();
    List typeOfInstitutionList = [];
+   String typeOfInstitution;
 
    //YOUTH SPOTS
    final youthPlaceName = new TextEditingController();
@@ -237,7 +238,7 @@ class _EditPageState extends State<EditPage> {
                   child: CircularProgressIndicator(),
                 );
               }
-                var variable = snapshot.data.docs.first.data();
+                //var variable = snapshot.data.docs.first.data();
                 return SingleChildScrollView(
                   child: Padding(
                     padding: const EdgeInsets.all(16.0),
@@ -431,7 +432,7 @@ class _EditPageState extends State<EditPage> {
                                         {
                                           return Column(
                                             children: [
-                                              collageInputs(),
+                                              institutionInputs(),
 
 
                                               //religiousInput(),
@@ -490,7 +491,7 @@ class _EditPageState extends State<EditPage> {
                                   {
                                     return Column(
                                       children: [
-                                        collageInputs(),
+                                        youthPlaceInputs(),
 
 
                                         //religiousInput(),
@@ -546,7 +547,7 @@ class _EditPageState extends State<EditPage> {
                                   {
                                     return Column(
                                       children: [
-                                        collageInputs(),
+                                        publicPlaceInputs(),
 
 
                                         //religiousInput(),
@@ -602,7 +603,7 @@ class _EditPageState extends State<EditPage> {
                                   {
                                     return Column(
                                       children: [
-                                        collageInputs(),
+                                        officePlaceInputs(),
 
 
                                         //religiousInput(),
@@ -658,7 +659,7 @@ class _EditPageState extends State<EditPage> {
                                   {
                                     return Column(
                                     children: [
-                                      collageInputs(),
+                                      ngosPlaceInputs(),
 
 
                                       //religiousInput(),
@@ -714,7 +715,7 @@ class _EditPageState extends State<EditPage> {
                                   {
                                     return Column(
                                       children: [
-                                        collageInputs(),
+                                        hallsPlaceInputs(),
 
 
                                         //religiousInput(),
@@ -875,7 +876,7 @@ class _EditPageState extends State<EditPage> {
       newImageLink = "${userData["PlaceImage"]}";
     }
     if(longitudeData == ""){
-      longitudeData ="${userData["latitudeData"]}";
+      longitudeData ="${userData["longitudeData"]}";
     }
     if(latitudeData == ""){
       latitudeData ="${userData["latitudeData"]}";
@@ -1771,12 +1772,11 @@ class _EditPageState extends State<EditPage> {
        collageRemarks.text = "${userData["collageRemarks"]}";
      }if(collageAddress.text.trim() == ""){
        collageAddress.text = "${userData["collageAddress"]}";
-     }if(typeOfCollegeList == []){
+     }if(typeOfCollegeList.isEmpty){
        typeOfCollege = userData["typeOfCollegeList"];
-     }else if(typeOfCollegeList != []){
+     }else if(typeOfCollegeList.isNotEmpty){
        typeOfCollege = typeOfCollegeList.toString();
      }
-
 
 
      if(newImageLink == null){
@@ -1992,6 +1992,11 @@ class _EditPageState extends State<EditPage> {
           Text(
             'TYPE OF COLLEGE',
             style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            '*Reselect,if u want to edit*',
+            style: TextStyle(fontSize: 16.0, ),
             textAlign: TextAlign.left,
           ),
          // INTERMEDIATE
@@ -2282,14 +2287,2558 @@ class _EditPageState extends State<EditPage> {
       ),
     );
    }
+ //inatiutioin input
+    Container institutionInputs(){
+
+      if(institutionName.text.trim() == ""){
+        institutionName.text = "${userData["institutionName"]}";
+      }if(institutionCourses.text.trim() == ""){
+        institutionCourses.text = "${userData["institutionCourses"]}";
+      }if(institutionContact.text.trim() == ""){
+        institutionContact.text = "${userData["institutionContact"]}";
+      }if(institutionStrength.text.trim() == ""){
+        institutionStrength.text = "${userData["institutionStrength"]}";
+      }if(institutionOpportunities.text.trim() == ""){
+        institutionOpportunities.text = "${userData["institutionOpportunities"]}";
+      }if(institutionRemarks.text.trim() == ""){
+        institutionRemarks.text = "${userData["institutionRemarks"]}";
+      }if(institutionAddress.text.trim() == ""){
+        institutionAddress.text = "${userData["institutionAddress"]}";
+      }if(typeOfInstitutionList.isEmpty){
+        typeOfInstitution = userData["typeOfInstitutionList"];
+      }else if(typeOfInstitutionList.isNotEmpty){
+        typeOfInstitution = typeOfInstitutionList.toString();
+      }
 
 
-   // Container institutionInputs(){}
-   // Container youthPlaceInputs(){}
-   // Container publicPlaceInputs(){}
-   // Container officePlaceInputs(){}
-   // Container ngosPlaceInputs(){}
-   // Container hallsPlaceInputs(){}
+      if(newImageLink == null){
+        newImageLink = "${userData["PlaceImage"]}";
+      }
+      if(longitudeData == ""){
+        longitudeData ="${userData["latitudeData"]}";
+      }
+      if(latitudeData == ""){
+        latitudeData ="${userData["latitudeData"]}";
+      }
+
+      if(unitName == null){
+        unitName =unitValue;
+      }
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          //Name of the INSTITUTIONS
+          TextFormField(
+            controller: institutionName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the institute',
+                prefixIcon: Icon(Icons.school_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //TYPE OF INSTITUTION
+          SizedBox(height: 30.0,),
+          Text(
+            'TYPE OF INSTITUTION',
+            style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+            textAlign: TextAlign.left,
+          ),
+          Text(
+            '*Reselect,if u want to edit*',
+            style: TextStyle(fontSize: 16.0, ),
+            textAlign: TextAlign.left,
+          ),
+          //MADRSA
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('MADRSA'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueMadrsa,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueMadrsa = value;
+              });
+              if(valueMadrsa == true){
+                typeOfInstitutionList.add("MADRSA");
+              }else if(valueMadrsa == false){
+                typeOfInstitutionList.remove("MADRSA");
+              }
+            },
+          ),
+          //TUTORIAL
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('TUTORIAL'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueTut,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueTut = value;
+              });
+              if(valueTut == true){
+                typeOfInstitutionList.add("TUTORIAL");
+              }else if(valueTut == false){
+                typeOfInstitutionList.remove("TUTORIAL");
+              }
+            },
+          ),
+          //LIBRARIES
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('LIBRARIES'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueLibraris,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueLibraris = value;
+              });
+              if(valueLibraris == true){
+                typeOfInstitutionList.add("LIBRARIES");
+              }else if(valueLibraris == false){
+                typeOfInstitutionList.remove("LIBRARIES");
+              }
+            },
+          ),
+          //HOSTELS
+          CheckboxListTile(
+            secondary: const Icon(Icons.school_outlined),
+            title: const Text('HOSTELS'),
+            //subtitle: Text('Ringing after 12 hours'),
+            value: this.valueHostal,
+            onChanged: (bool value) {
+              setState(() {
+                this.valueHostal = value;
+              });
+              if(valueHostal == true){
+                typeOfInstitutionList.add("HOSTELS");
+              }else if(valueHostal == false){
+                typeOfInstitutionList.remove("HOSTELS");
+              }
+            },
+          ),
+          SizedBox(height: 6.0,),
+          //Courses
+          TextFormField(
+            controller: institutionCourses,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Courses Offered',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Strength
+          TextFormField(
+            controller: institutionStrength,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Strength of the Collage',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: institutionContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: institutionAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Opportunities
+          TextFormField(
+            controller: institutionOpportunities,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Opportunities to work" ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Remarks
+          TextFormField(
+            controller: institutionRemarks,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Remarks & Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+    }
+
+// youthPlace input
+    Container youthPlaceInputs(){
+
+      if(youthPlaceName.text.trim() == ""){
+        youthPlaceName.text = "${userData["youthPlaceName"]}";
+      }if(youthHeadOfPlace.text.trim() == ""){
+        youthHeadOfPlace.text = "${userData["youthHeadOfPlace"]}";
+      }if(youthContact.text.trim() == ""){
+        youthContact.text = "${userData["youthContact"]}";
+      }if(youthCapacity.text.trim() == ""){
+        youthCapacity.text = "${userData["youthCapacity"]}";
+      }if(youthAddress.text.trim() == ""){
+        youthAddress.text = "${userData["youthAddress"]}";
+      }if(youthDetails.text.trim() == ""){
+        youthDetails.text = "${userData["youthDetails"]}";
+      }
+
+
+
+      if(newImageLink == null){
+        newImageLink = "${userData["PlaceImage"]}";
+      }
+      if(longitudeData == ""){
+        longitudeData ="${userData["latitudeData"]}";
+      }
+      if(latitudeData == ""){
+        latitudeData ="${userData["latitudeData"]}";
+      }
+
+      if(unitName == null){
+        unitName =unitValue;
+      }
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          //Name of the Place
+          TextFormField(
+            controller: youthPlaceName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Place',
+                prefixIcon: Icon(Icons.home_sharp)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          // head of the place
+          TextFormField(
+            controller: youthHeadOfPlace,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Responsible Head of the Place',
+                prefixIcon: Icon(Icons.account_box_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: youthContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Capacity
+          TextFormField(
+            controller: youthCapacity,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Capacity to Accommodate',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: youthAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Details
+          TextFormField(
+            controller: youthDetails,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+    }
+
+// publicPlace input
+    Container publicPlaceInputs(){
+
+      if(publicPlaceName.text.trim() == ""){
+        publicPlaceName.text = "${userData["publicPlaceName"]}";
+      }  if(publicHeadOfPlace.text.trim() == ""){
+        publicHeadOfPlace.text = "${userData["publicHeadOfPlace"]}";
+      }  if(publicContact.text.trim() == ""){
+        publicContact.text = "${userData["publicContact"]}";
+      }  if(publicCapacity.text.trim() == ""){
+        publicCapacity.text = "${userData["publicCapacity"]}";
+      }  if(publicDetails.text.trim() == ""){
+        publicDetails.text = "${userData["publicDetails"]}";
+      }  if(publicAddress.text.trim() == ""){
+        publicAddress.text = "${userData["publicAddress"]}";
+      }
+
+
+      if(newImageLink == null){
+        newImageLink = "${userData["PlaceImage"]}";
+      }
+      if(longitudeData == ""){
+        longitudeData ="${userData["latitudeData"]}";
+      }
+      if(latitudeData == ""){
+        latitudeData ="${userData["latitudeData"]}";
+      }
+
+      if(unitName == null){
+        unitName =unitValue;
+      }
+
+
+      return Container(
+      child: Column(
+        children: <Widget>[
+
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          //Name of the Place
+          TextFormField(
+            controller: publicPlaceName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Place',
+                prefixIcon: Icon(Icons.home_sharp)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          // head of the place
+          TextFormField(
+            controller: publicHeadOfPlace,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Responsible/Owner of the Place',
+                prefixIcon: Icon(Icons.account_box_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: publicContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Capacity
+          TextFormField(
+            controller: publicCapacity,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Capacity to Accommodate',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: publicAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Details
+          TextFormField(
+            controller: publicDetails,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+    }
+
+//officePlace inputs
+   Container officePlaceInputs(){
+
+     if(officePlaceName.text.trim() == ""){
+       officePlaceName.text = "${userData["officePlaceName"]}";
+     } if(officeHeadOfPlace.text.trim() == ""){
+       officeHeadOfPlace.text = "${userData["officeHeadOfPlace"]}";
+     }if(officeContact.text.trim() == ""){
+       officeContact.text = "${userData["officeContact"]}";
+     }if(officeTiming.text.trim() == ""){
+       officeTiming.text = "${userData["officeTiming"]}";
+     }if(officeCapacity.text.trim() == ""){
+       officeCapacity.text = "${userData["officeCapacity"]}";
+     }if(officeAddress.text.trim() == ""){
+       officeAddress.text = "${userData["officeAddress"]}";
+     }if(officeDetails.text.trim() == ""){
+       officeDetails.text = "${userData["officeDetails"]}";
+     }
+
+
+     if(newImageLink == null){
+       newImageLink = "${userData["PlaceImage"]}";
+     }
+     if(longitudeData == ""){
+       longitudeData ="${userData["latitudeData"]}";
+     }
+     if(latitudeData == ""){
+       latitudeData ="${userData["latitudeData"]}";
+     }
+
+     if(unitName == null){
+       unitName =unitValue;
+     }
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          // name of the office
+          TextFormField(
+            controller: officePlaceName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Office',
+                prefixIcon: Icon(Icons.work_outline_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //  Head of the Office
+          TextFormField(
+            controller: officeHeadOfPlace,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Responsible/Head of the Office ',
+                prefixIcon: Icon(Icons.account_box_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: officeContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Timings
+          TextFormField(
+            controller: officeTiming,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Timings of the office in 24hrs ',
+                prefixIcon: Icon(Icons.timer_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Capacity
+          TextFormField(
+            controller: officeCapacity,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Capacity to Accommodate',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: officeAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Details
+          TextFormField(
+            controller: officeDetails,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+   }
+
+//ngosPlace inputs
+   Container ngosPlaceInputs(){
+
+     if(ngosPlaceName.text.trim() == ""){
+       ngosPlaceName.text = "${userData["ngosPlaceName"]}";
+     }if(ngosHeadOfPlace.text.trim() == ""){
+       ngosHeadOfPlace.text = "${userData["ngosHeadOfPlace"]}";
+     }if(ngosContact.text.trim() == ""){
+       ngosContact.text = "${userData["ngosContact"]}";
+     }if(ngosTiming.text.trim() == ""){
+       ngosTiming.text = "${userData["ngosTiming"]}";
+     }if(ngosCapacity.text.trim() == ""){
+       ngosCapacity.text = "${userData["ngosCapacity"]}";
+     }if(ngosAddress.text.trim() == ""){
+       ngosAddress.text = "${userData["ngosAddress"]}";
+     }if(ngosDetails.text.trim() == ""){
+       ngosDetails.text = "${userData["ngosDetails"]}";
+     }
+
+
+     if(newImageLink == null){
+       newImageLink = "${userData["PlaceImage"]}";
+     }
+     if(longitudeData == ""){
+       longitudeData ="${userData["latitudeData"]}";
+     }
+     if(latitudeData == ""){
+       latitudeData ="${userData["latitudeData"]}";
+     }
+
+     if(unitName == null){
+       unitName =unitValue;
+     }
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+
+          // name of the office
+          TextFormField(
+            controller: ngosPlaceName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the NGOS/ORGANISATION',
+                prefixIcon: Icon(Icons.home_work)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //  Head of the Office
+          TextFormField(
+            controller: ngosHeadOfPlace,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Responsible/Head name ',
+                prefixIcon: Icon(Icons.account_box_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: ngosContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Timings
+          TextFormField(
+            controller: ngosTiming,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Timings of the office in 24hrs ',
+                prefixIcon: Icon(Icons.timer_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Capacity
+          TextFormField(
+            controller: ngosCapacity,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Capacity to Accommodate',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: ngosAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Details
+          TextFormField(
+            controller: ngosDetails,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+   }
+
+//hallsPlace inputs
+   Container hallsPlaceInputs(){
+
+     if(hallsPlaceName.text.trim() == ""){
+       hallsPlaceName.text = "${userData["hallsPlaceName"]}";
+     }if(hallsHeadOfPlace.text.trim() == ""){
+       hallsHeadOfPlace.text = "${userData["hallsHeadOfPlace"]}";
+     }if(hallsContact.text.trim() == ""){
+       hallsContact.text = "${userData["hallsContact"]}";
+     }if(hallsCapacity.text.trim() == ""){
+       hallsCapacity.text = "${userData["hallsCapacity"]}";
+     }if(hallsAddress.text.trim() == ""){
+       hallsAddress.text = "${userData["hallsAddress"]}";
+     }if(hallsDetails.text.trim() == ""){
+       hallsDetails.text = "${userData["hallsDetails"]}";
+     }
+
+
+     if(newImageLink == null){
+       newImageLink = "${userData["PlaceImage"]}";
+     }
+     if(longitudeData == ""){
+       longitudeData ="${userData["latitudeData"]}";
+     }
+     if(latitudeData == ""){
+       latitudeData ="${userData["latitudeData"]}";
+     }
+
+     if(unitName == null){
+       unitName =unitValue;
+     }
+
+    return Container(
+      child: Column(
+        children: <Widget>[
+
+          SizedBox(height: 10.0,),
+          Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.amber, width: 1),
+                borderRadius: BorderRadius.vertical()),
+            child: ListTile(
+              leading: Icon(Icons.warning_amber_outlined,color: Colors.amber,),
+              title: Text("You are Editing a ${userData["PlaceType"]} Data".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 14, fontWeight: FontWeight.bold,color: Colors.amber))),
+            ),
+          ),
+          SizedBox(height: 15.0,),
+          Text("Unit Name :  ${userData["unitName"]}",
+              style: GoogleFonts.poppins(textStyle: TextStyle(
+                  fontSize: 16, fontWeight: FontWeight.w500))),
+          SizedBox(height: 10.0,),
+          AspectRatio(
+            aspectRatio: 4/2,
+            child: Image(
+              image: NetworkImage(userData['PlaceImage']),
+              fit: BoxFit.cover,
+              width: double.infinity,
+              height: double.infinity,
+            ),
+          ),
+          SizedBox(height: 10.0,),
+          //Image upload
+          Column(
+            children: [
+              Center(
+                child: userImage == null ? Text("UPLOAD NEW IMAGE",
+                  style: TextStyle(color: Colors.black54),):Image.file(userImage),
+              ),
+
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getImage();
+                  },
+                  icon: Icon(
+                    Icons.add_a_photo_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add pic*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+            ],
+          ),
+          SizedBox(height: 10.0,),
+          //upload Image button
+          Builder(
+            builder: (context) => TextButton(
+              // color: Theme.of(context).primaryColor,
+              style: TextButton.styleFrom(
+                primary: Colors.black26,
+                backgroundColor: Theme.of(context).primaryColor,
+                onSurface: Colors.blue,
+              ),
+
+              onPressed: ()  {
+                showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                    builder: (BuildContext context){
+                      return  AlertDialog(
+                        title: Text('WARNING!'),
+                        content: SingleChildScrollView(
+                          child: ListBody(
+                            children: <Widget>[
+                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                              SizedBox(height: 10.0,),
+                              Text('By uploading This image u will delete previous image'),
+                            ],
+                          ),
+                        ),
+                        actions: <Widget>[
+                          TextButton(
+                            child: Text('Yes'),
+                            onPressed: () async{
+                              try{
+                                await firebase_storage.FirebaseStorage.instance
+                                    .refFromURL(userData["PlaceImage"])
+                                    .delete()
+                                    .then(
+                                        (_) =>
+                                        uploadImageToFirebase(context)
+                                );
+                                await Future.delayed(Duration(seconds: 2));
+                                print("upload done : $newImageLink");
+                                if(newImageLink!= null){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Uploaded"),
+                                    ),
+                                  );
+                                }else{
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Image Not upload try again"),
+                                    ),
+                                  );
+                                }
+                              }catch(e){
+                                ScaffoldMessenger.of(context).showSnackBar(
+                                  SnackBar(
+                                    content: Text("Could not Delete try again"),
+                                  ),
+                                );
+                              }
+                              Navigator.of(context).pop();
+                              print("deleted");
+
+                            },
+                            // style: TextButton.styleFrom(
+                            //   primary: Colors.white,
+                            //   backgroundColor: Colors.redAccent,
+                            // ),
+                          ),
+                          TextButton(
+                            child: Text('No!'),
+                            onPressed: () {
+                              Navigator.of(context).pop();
+                              print("not Deleted");
+                            },
+                            style: TextButton.styleFrom(
+                              primary: Colors.white,
+                              backgroundColor: Colors.blue,
+                            ),
+                          ),
+                        ],
+                      );
+                    }
+                );
+
+                // await firebase_storage.FirebaseStorage.instance
+                //     .refFromURL(userData["PlaceImage"])
+                //     .delete()
+                //     .then(
+                //         (_) =>
+                //             uploadImageToFirebase(context)
+                // );
+                // await Future.delayed(Duration(seconds: 2));
+                // print("upload done : $newImageLink");
+                // if(newImageLink!= null){
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Uploaded"),
+                //     ),
+                //   );
+                // }else{
+                //   ScaffoldMessenger.of(context).showSnackBar(
+                //     SnackBar(
+                //       content: Text("Image Not upload try again"),
+                //     ),
+                //   );
+                // }
+
+              },
+              child: Text(
+                  'upload image',
+                  style: TextStyle(color: Colors.white)
+              ),
+            ),
+          ),
+          SizedBox(height: 20.0,),
+
+          //Name of the Halls
+          TextFormField(
+            controller: hallsPlaceName,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Name of the Place',
+                prefixIcon: Icon(Icons.home_work_sharp)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          // head of the place
+          TextFormField(
+            controller: hallsHeadOfPlace,
+            keyboardType: TextInputType.text,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Responsible/Owner of the Place',
+                prefixIcon: Icon(Icons.account_box_outlined)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Contact num
+          TextFormField(
+            controller: hallsContact,
+            keyboardType: TextInputType.number,
+            keyboardAppearance: Brightness.light,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Contact No',
+                prefixIcon: Icon(Icons.account_circle)),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Capacity
+          TextFormField(
+            controller: hallsContact,
+            keyboardType: TextInputType.number,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+                hintText: 'Capacity to Accommodate',
+                prefixIcon: Icon(Icons.people_alt_outlined )),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Address
+          TextFormField(
+            controller: hallsAddress,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Address ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.add_location_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            validator: (value) {
+              if (value.isEmpty) {
+                return 'Please enter the appropriate details';
+              }
+              // else if (value != realId) {
+              //   return "please enter the right pass word";
+              // }
+              return null;
+            },
+          ),
+          //Details
+          TextFormField(
+            controller: hallsDetails,
+            keyboardType: TextInputType.multiline,
+            minLines: 1,//Normal textInputField will be displayed
+            maxLines: 5,
+            decoration: InputDecoration(
+              //border: InputBorder.none,
+              hintText: 'Details"*if required " ',
+              contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+              prefixIcon: Icon(Icons.article_outlined  ),),
+            scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+            // validator: (value) {
+            //   if (value.isEmpty) {
+            //     return 'Please enter the appropriate details';
+            //   }
+            //   // else if (value != realId) {
+            //   //   return "please enter the right pass word";
+            //   // }
+            //   return null;
+            // },
+          ),
+          SizedBox(height: 20.0,),
+          //location upload
+          Column(
+            children: <Widget>[
+              Center(
+                child: userImage == null ? Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+              ),
+              Builder(
+                builder: (context)=>TextButton.icon(
+                  onPressed: (){
+                    getCurrentLoaction();
+                  },
+                  icon: Icon(
+                    Icons.add_location_alt_outlined,
+                    color: Colors.grey,
+                  ),
+                  label: Text(
+                    "Add Location*",
+                    style: TextStyle(
+                        color: Colors.grey
+                    ),
+                  ),
+                ),
+              ),
+
+              Text(
+                "LATITUDE:{$latitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+              Text(
+                "LONGITUDE:{$longitudeData}",
+                style: TextStyle(
+                    color: Colors.indigo
+                ),
+              ),
+            ],
+          ),
+          //Done button
+          Builder(
+            builder: (context) => TextButton(
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
+                onPressed:() {
+                  if (formKey.currentState.validate()) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        content: Text("All done!"),
+                      ),
+                    );
+                    setState(() {
+                      pressedFunc();
+                    });
+                  }
+                },
+                child: Center(
+                    child: Text(
+                      'Done',
+                      style: TextStyle(color: Colors.white),
+                    ))),
+          ),
+        ],
+      ),
+    );
+
+   }
 
 
 
@@ -2485,7 +5034,7 @@ class _EditPageState extends State<EditPage> {
                "institutionOpportunities":institutionOpportunities.text,
                "institutionRemarks":institutionRemarks.text,
                "institutionAddress":institutionAddress.text,
-               "typeOfInstitutionList":typeOfInstitutionList.toString(),
+               "typeOfInstitutionList":typeOfInstitution.toString(),
                "PlaceImage": newImageLink,
                "latitudeData":latitudeData,
                "longitudeData":longitudeData,
@@ -3661,22 +6210,22 @@ class _EditPageState extends State<EditPage> {
 
      }
 
-     Map<String, dynamic> data = {
-       "PlaceName":NameOfPlace.text,
-       "HeadOfplace":HeadOfplace.text,
-       "ContactNO":Contact.text,
-       "FikerType":FikerType.text,
-       "Libraries":Libraries.text,
-       "Capacity":Capacity.text,
-       "Address":Address.text,
-       "Details":Details.text,
-       "PlaceImage": newImageLink,
-       "latitudeData":latitudeData,
-       "longitudeData":longitudeData,
-
-
-       "unitName":unitName,
-     };
+     // Map<String, dynamic> data = {
+     //   "PlaceName":NameOfPlace.text,
+     //   "HeadOfplace":HeadOfplace.text,
+     //   "ContactNO":Contact.text,
+     //   "FikerType":FikerType.text,
+     //   "Libraries":Libraries.text,
+     //   "Capacity":Capacity.text,
+     //   "Address":Address.text,
+     //   "Details":Details.text,
+     //   "PlaceImage": newImageLink,
+     //   "latitudeData":latitudeData,
+     //   "longitudeData":longitudeData,
+     //
+     //
+     //   "unitName":unitName,
+     // };
       // setState(() {
       //   if(unitName == unitValue){
       //     FirebaseFirestore.instance

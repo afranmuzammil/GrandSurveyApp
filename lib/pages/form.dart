@@ -2,6 +2,7 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:form_app/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
@@ -60,8 +61,8 @@ class _FormsState extends State<Forms> {
 
 
   //To get the location
-  String latitudeData ="";
-  String longitudeData="";
+  String latitudeData ;
+  String longitudeData;
 
   @override
   void initState() {
@@ -293,6 +294,7 @@ class _FormsState extends State<Forms> {
 
   bool isButtonVisible = true;
   bool isEnabled = false;
+  bool uploadVisible = false;
 
   @override
   Widget build(BuildContext context) {
@@ -937,7 +939,6 @@ class _FormsState extends State<Forms> {
                                   child: userImage == null ? Text("UPLOAD PLACE IMAGE",
                                     style: TextStyle(color: Colors.black54),):Image.file(userImage),
                                 ),
-
                                 Builder(
                                   builder: (context)=>TextButton.icon(
                                       onPressed: (){
@@ -954,6 +955,10 @@ class _FormsState extends State<Forms> {
                                         ),
                                       ),
                                   ),
+                                ),
+                                Visibility(
+                                    visible:uploadVisible,
+                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
                                 ),
 
                               ],
@@ -973,6 +978,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -998,8 +1006,8 @@ class _FormsState extends State<Forms> {
                             Column(
                               children: <Widget>[
                                 Center(
-                                  child: userImage == null ? Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                  child: Text("ADD LOCATION",
+                                      style: TextStyle(color: Colors.black54))
                                 ),
                                 Builder(
                                   builder: (context)=>TextButton.icon(
@@ -1043,14 +1051,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -1235,6 +1252,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -1253,6 +1274,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -1278,8 +1302,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54))
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -1323,14 +1347,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -1611,6 +1644,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -1629,6 +1666,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -1654,8 +1694,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child:Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54)),
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -1699,14 +1739,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -1970,6 +2019,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -1988,6 +2041,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -2013,8 +2069,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54))
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -2058,14 +2114,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -2227,6 +2292,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -2245,6 +2314,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -2270,8 +2342,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54)),
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -2315,14 +2387,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -2484,6 +2565,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -2502,6 +2587,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -2527,8 +2615,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child:Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54)),
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -2572,14 +2660,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -2759,6 +2856,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -2777,6 +2878,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -2802,8 +2906,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54))
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -2847,14 +2951,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -3034,6 +3147,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -3052,6 +3169,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -3077,8 +3197,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54)),
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -3122,14 +3242,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -3203,7 +3332,7 @@ class _FormsState extends State<Forms> {
                           ),
                           //Capacity
                           TextFormField(
-                            controller: hallsContact,
+                            controller: hallsCapacity,
                             keyboardType: TextInputType.number,
                             minLines: 1,//Normal textInputField will be displayed
                             maxLines: 5,
@@ -3291,6 +3420,10 @@ class _FormsState extends State<Forms> {
                                   ),
                                 ),
                               ),
+                              Visibility(
+                                  visible:uploadVisible,
+                                  child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                              ),
 
                             ],
                           ),
@@ -3309,6 +3442,9 @@ class _FormsState extends State<Forms> {
                                 await Future.delayed(Duration(seconds: 1));
                                 print("upload done : $imageLink");
                                 if(imageLink!= null){
+                                  setState(() {
+                                    uploadVisible = true;
+                                  });
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
                                       content: Text("Image Uploaded"),
@@ -3334,8 +3470,8 @@ class _FormsState extends State<Forms> {
                           Column(
                             children: <Widget>[
                               Center(
-                                child: userImage == null ? Text("ADD LOCATION",
-                                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                                child: Text("ADD LOCATION",
+                                    style: TextStyle(color: Colors.black54)),
                               ),
                               Builder(
                                 builder: (context)=>TextButton.icon(
@@ -3379,14 +3515,23 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed:() {
                                   if (formKey.currentState.validate()) {
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("All done!"),
-                                      ),
-                                    );
-                                    setState(() {
-                                      pressedFunc();
-                                    });
+                                    if(imageLink!=null && latitudeData!=null){
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("All done!"),
+                                        ),
+                                      );
+                                      setState(() {
+                                        pressedFunc();
+                                      });
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("U did't upload location or Image"),
+                                        ),
+                                      );
+                                    }
+
                                   }
                                 },
                                 child: Center(
@@ -3420,7 +3565,7 @@ class _FormsState extends State<Forms> {
                               ))),
                   ),
                 ),
-
+                SizedBox(height: 15.0,),
               ],
             ),
           ),

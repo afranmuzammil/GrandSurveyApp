@@ -3792,7 +3792,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Details :  ${document["Details"]}",
+            Text("Details :  ${document["ngosDetails"]}",
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),

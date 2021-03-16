@@ -4742,6 +4742,17 @@ void submitFunc(){
 
     });
      }catch(e){
+       ScaffoldMessenger.of(context).showSnackBar(
+         SnackBar(
+           content: Text("we Could not upload ur data check ur internet and try again"),
+           action: SnackBarAction(
+             label: "OK",
+             onPressed: (){
+
+             },
+           ),
+         ),
+       );
        print("error : $e");
      }
   }

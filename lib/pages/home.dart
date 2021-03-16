@@ -182,10 +182,7 @@ class _MyHomePageState extends State<MyHomePage> {
     "MOULALI@HYD",
     "LALAGUDA@SEC-BAD",
   ];
-  List unitPassWordList = [
-    "est@hyd40",
-    "est@hyd17",
-  ];
+
 
   String placeValue = "RELIGIOUS PLACES";
   List placesList = [

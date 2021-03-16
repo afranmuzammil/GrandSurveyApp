@@ -25,10 +25,23 @@ class _LoadingState extends State<Loading> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor:Theme.of(context).secondaryHeaderColor,
-      body: Center(
-        child:SpinKitCircle(
-          color: Colors.blueAccent,
-          size: 80.0,
+        appBar: AppBar(
+          backgroundColor: Theme.of(context).primaryColor,
+          title: Text(
+            'GSF',
+            style:
+            TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+          ),
+          centerTitle: true,
+          elevation: 0,
+        ),
+
+      body: SafeArea(
+        child: Center(
+          child:SpinKitCircle(
+            color: Colors.blueAccent,
+            size: 80.0,
+          ),
         ),
       ),
     );

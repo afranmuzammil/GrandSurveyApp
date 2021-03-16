@@ -28,76 +28,153 @@ class _AboutState extends State<About> {
         centerTitle: true,
         elevation: 0,
       ),
-      body: Container(
-          padding: EdgeInsets.all(10.0),
-          decoration:  BoxDecoration(
-              border: Border.all(color: Colors.grey, width: 1),
-              borderRadius: BorderRadius.circular(15)),
-          child: Column(
-            children: [
-              Container(
-                padding: EdgeInsets.all(10.0),
-                decoration:  BoxDecoration(
-                    border: Border.all(color: Colors.grey, width: 1),
-                    borderRadius: BorderRadius.vertical()),
-                child: Column(
-                  children: [
-                    ListTile(
-                      // onTap: () {
-                      //   Navigator.push(
-                      //       context,
-                      //       MaterialPageRoute(
-                      //         builder: (context) => About(),
-                      //       ));
-                      // },
-                      onLongPress: (){
-                        showAboutDialog(
-                          context: context,
-                          applicationName: "GSF",
-                          applicationIcon: CircleAvatar(
-                            foregroundImage: AssetImage('assets/map.png'),
-                          ),
-                          applicationVersion:"2.2.1-alpha",
-                          children: [
-                            Text("This app was made for Students Islamic Organisation of India as a Grand Survey App"
-                                " and the Code is all open Source in Github repo",
-                                style: GoogleFonts.poppins(textStyle: TextStyle(
-                                    fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+      body: SafeArea(
+        child: Container(
+            padding: EdgeInsets.all(10.0),
+            decoration:  BoxDecoration(
+                border: Border.all(color: Colors.grey, width: 1),
+                borderRadius: BorderRadius.circular(15)),
+            child: Column(
+              children: [
+                Container(
+                  padding: EdgeInsets.all(10.0),
+                  decoration:  BoxDecoration(
+                      border: Border.all(color: Colors.grey, width: 1),
+                      borderRadius: BorderRadius.vertical()),
+                  child: Column(
+                    children: [
+                      ListTile(
+                        // onTap: () {
+                        //   Navigator.push(
+                        //       context,
+                        //       MaterialPageRoute(
+                        //         builder: (context) => About(),
+                        //       ));
+                        // },
+                        onLongPress: (){
+                          showAboutDialog(
+                            context: context,
+                            applicationName: "GSF",
+                            applicationIcon: CircleAvatar(
+                              foregroundImage: AssetImage('assets/map.png'),
                             ),
-                          ],
-                        );
-                      },
-                      leading: Icon(Icons.info_outline_rounded,color: Colors.black54,),
-                      title: Text("ABOUT GSF",style: GoogleFonts.poppins(textStyle: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
-                    ),
-                  ],
+                            applicationVersion:"2.2.1-alpha",
+                            children: [
+                              Text("This app was made for Students Islamic Organisation of India as a Grand Survey App"
+                                  " and the Code is all open Source in Github repo",
+                                  style: GoogleFonts.poppins(textStyle: TextStyle(
+                                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                              ),
+                            ],
+                          );
+                        },
+                        leading: Icon(Icons.info_outline_rounded,color: Colors.black54,),
+                        title: Text("ABOUT GSF",style: GoogleFonts.poppins(textStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                      ),
+                    ],
+                  ),
                 ),
-              ),
-              ListTile(
-                onTap: () {
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                      builder: (BuildContext context){
+                ListTile(
+                  onTap: () {
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                        builder: (BuildContext context){
+                          return AlertDialog(
+                            title: Text('CopyRights'),
+                            content: SingleChildScrollView(
+                              child: Form(
+                                key: formKey,
+                                child: ListBody(
+                                  children: <Widget>[
+                                    Icon(Icons.copyright_rounded,color: Colors.black54,size: 30,),
+                                    SizedBox(height: 20,),
+                                    Text('This App Belongs to SIO of India',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
+                                    SizedBox(height: 5.0,),
+                                  ],
+                                ),
+                              ),
+                            ),
+                            actions: <Widget>[
+                              TextButton(
+                                child: Text('OK!'),
+                                onPressed: () {
+                                  Navigator.of(context).pop();
+                                  print("not Deleted");
+                                },
+
+                                style: TextButton.styleFrom(
+                                  primary: Colors.white,
+                                  backgroundColor: Colors.blue,
+                                ),
+                              ),
+                            ],
+                          );
+                        },
+                    );
+
+                  },
+                  onLongPress: (){
+                    return showDialog<void>(
+                      context: context,
+                      barrierDismissible: false, // user must tap button!
+                      builder: (BuildContext context) {
                         return AlertDialog(
-                          title: Text('CopyRights'),
+                          title: Text('Unit Registration'),
                           content: SingleChildScrollView(
                             child: Form(
                               key: formKey,
                               child: ListBody(
                                 children: <Widget>[
-                                  Icon(Icons.copyright_rounded,color: Colors.black54,size: 30,),
-                                  SizedBox(height: 20,),
-                                  Text('This App Belongs to SIO of India',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
+                                  Text('Enter PassWord',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
                                   SizedBox(height: 5.0,),
+                                  TextFormField(
+                                    //controller: PassController,
+                                    decoration: InputDecoration(
+                                      //border: InputBorder.none,
+                                        hintText: 'passWord',
+                                        prefixIcon: Icon(Icons.lock,size: 20,)),
+                                    validator: (value) {
+                                      if (value.isEmpty) {
+                                        return "please enter the passWord";
+                                      }
+                                      else if (value != pass) {
+                                        return "please enter the right pass word";
+                                      }
+                                      return null;
+                                    },
+                                  ),
                                 ],
                               ),
                             ),
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('OK!'),
+                              child: Text('Enter'),
+                              onPressed: () {
+                                if(formKey.currentState.validate()){
+                                  Navigator.of(context).pop();
+                                  setState(() {
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => UnitRegistration(),
+                                        ));
+                                  });
+                                }
+                             //   Navigator.of(context).pop();
+                                print("deleted");
+
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.blue,
+                                backgroundColor: Colors.white,
+                                onSurface: Colors.blue
+                              ),
+                            ),
+                            TextButton(
+                              child: Text('Back'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 print("not Deleted");
@@ -111,94 +188,19 @@ class _AboutState extends State<About> {
                           ],
                         );
                       },
-                  );
-
-                },
-                onLongPress: (){
-                  return showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: Text('Unit Registration'),
-                        content: SingleChildScrollView(
-                          child: Form(
-                            key: formKey,
-                            child: ListBody(
-                              children: <Widget>[
-                                Text('Enter PassWord',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
-                                SizedBox(height: 5.0,),
-                                TextFormField(
-                                  //controller: PassController,
-                                  decoration: InputDecoration(
-                                    //border: InputBorder.none,
-                                      hintText: 'passWord',
-                                      prefixIcon: Icon(Icons.lock,size: 20,)),
-                                  validator: (value) {
-                                    if (value.isEmpty) {
-                                      return "please enter the passWord";
-                                    }
-                                    else if (value != pass) {
-                                      return "please enter the right pass word";
-                                    }
-                                    return null;
-                                  },
-                                ),
-                              ],
-                            ),
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Enter'),
-                            onPressed: () {
-                              if(formKey.currentState.validate()){
-                                Navigator.of(context).pop();
-                                setState(() {
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => UnitRegistration(),
-                                      ));
-                                });
-                              }
-                           //   Navigator.of(context).pop();
-                              print("deleted");
-
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.blue,
-                              backgroundColor: Colors.white,
-                              onSurface: Colors.blue
-                            ),
-                          ),
-                          TextButton(
-                            child: Text('Back'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
-                            ),
-                          ),
-                        ],
-                      );
-                    },
-                  );
+                    );
 
 
 
 
-                },
-                leading: Icon(Icons.copyright_rounded,color: Colors.black54,),
-                title: Text("CopyRights",style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 10, fontWeight: FontWeight.w500,color: Colors.black87)),),
-              ),
-            ],
-          )
+                  },
+                  leading: Icon(Icons.copyright_rounded,color: Colors.black54,),
+                  title: Text("CopyRights",style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 10, fontWeight: FontWeight.w500,color: Colors.black87)),),
+                ),
+              ],
+            )
+        ),
       ),
     );
   }

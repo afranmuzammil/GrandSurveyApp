@@ -19,7 +19,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
     return Scaffold(
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       appBar: AppBar(
-        backgroundColor: Theme.of(context).primaryColor,
+        backgroundColor: Colors.deepOrange,
         title: Text(
           'Unit Registration'.toUpperCase(),
           style:
@@ -28,7 +28,27 @@ class _UnitRegistrationState extends State<UnitRegistration> {
         centerTitle: true,
         elevation: 0,
       ),
-      //body: ,
+      body: SafeArea(
+        child: Container(
+         // padding: EdgeInsets.,
+         //  decoration: BoxDecoration(
+         //      image: DecorationImage(
+         //        image: AssetImage('assets/logo.png'),
+         //        fit: BoxFit.cover,
+         //        //alignment:Alignment.center,
+         //          colorFilter: ColorFilter.mode(Colors.deepOrange[50], BlendMode.darken)
+         //      )
+         //  ),
+          child: Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: Column(
+              children: [
+                  Text("hello")
+              ],
+            ),
+          ),
+        ),
+      ),
     );
   }
 }

@@ -226,159 +226,106 @@ class _EditPageState extends State<EditPage> {
         elevation: 0,
       ),
 
-      body: Form(
-        key: formKey,
-        child: StreamBuilder(
-            stream: FirebaseFirestore.instance.collection(unitValue).doc(
-                placeValue).collection(selectType).snapshots(),
-            builder: (BuildContext context,
-                AsyncSnapshot<QuerySnapshot> snapshot)   {
-              if (!snapshot.hasData) {
-                return Center(
-                  child: CircularProgressIndicator(),
-                );
-              }
-                //var variable = snapshot.data.docs.first.data();
-                return SingleChildScrollView(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Container(
-                        padding: EdgeInsets.only(
-                            left: 16, right: 16, bottom: 16),
-                        decoration: BoxDecoration(
-                            border: Border.all(color: Colors.grey, width: 1),
-                            borderRadius: BorderRadius.circular(10)),
-                        child: FutureBuilder<DocumentSnapshot>(
-                          future:  _getData(),
-                          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-                            if(snapshot.hasData){
+      body: SafeArea(
+        child: Form(
+          key: formKey,
+          child: StreamBuilder(
+              stream: FirebaseFirestore.instance.collection(unitValue).doc(
+                  placeValue).collection(selectType).snapshots(),
+              builder: (BuildContext context,
+                  AsyncSnapshot<QuerySnapshot> snapshot)   {
+                if (!snapshot.hasData) {
+                  return Center(
+                    child: CircularProgressIndicator(),
+                  );
+                }
+                  //var variable = snapshot.data.docs.first.data();
+                  return SingleChildScrollView(
+                    child: Padding(
+                      padding: const EdgeInsets.all(16.0),
+                      child: Container(
+                          padding: EdgeInsets.only(
+                              left: 16, right: 16, bottom: 16),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: Colors.grey, width: 1),
+                              borderRadius: BorderRadius.circular(10)),
+                          child: FutureBuilder<DocumentSnapshot>(
+                            future:  _getData(),
+                            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+                              if(snapshot.hasData){
 
-                              switch (placeValue) {
-                                case "RELIGIOUS PLACES":
-                                  {
-                                    // FutureBuilder<DocumentSnapshot>(
-                                    //   future:  _getData(),
-                                    //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-                                    //
-                                    //   },
-                                    // )
-                                      return Column(
-                                        children: [
-                                          religiousInputs(),
-                                          //religiousInput(),
-                                          // TextFormField(
-                                          //   //controller: NameOfPlace,
-                                          //   initialValue: "${userData["Address"]}",
-                                          //   keyboardType: TextInputType.text,
-                                          //   decoration: InputDecoration(
-                                          //     //border: InputBorder.none,
-                                          //       hintText: 'Name of the Place',
-                                          //       prefixIcon: Icon(Icons.home_sharp)),
-                                          //   validator: (value) {
-                                          //     if (value.isEmpty) {
-                                          //       return 'Please enter the appropriate details';
-                                          //     }
-                                          //     // else if (value != realId) {
-                                          //     //   return "please enter the right pass word";
-                                          //     // }
-                                          //     return null;
-                                          //   },
-                                          // ),
-                                          //SUBMIT BUTTON
-                                          // SUBMIT BUTTON
-                                          Visibility(
-                                            visible: isEnabled,
-                                            child: Builder(
-                                              builder: (context) =>
-                                                  TextButton(
-                                                    // color: Theme.of(context).primaryColor,
-                                                      style: TextButton.styleFrom(
-                                                        primary: Colors.black26,
-                                                        backgroundColor: Theme
-                                                            .of(context)
-                                                            .primaryColor,
-                                                        onSurface: Colors.grey,
-                                                      ),
-                                                      onPressed: isEnabled ? () =>
-                                                          submitFunc() : null,
-                                                      child: Center(
-                                                          child: Text(
-                                                            'Submit',
-                                                            style: TextStyle(
-                                                                color: Colors
-                                                                    .white70),
-                                                          ))),
-                                            ),
-                                          ),
-                                        ],
-                                      );
-
-                                  }
-                                  break;
-                                case"EDUCATIONAL INSTITUTIONS":
-                                  {
-
-                                    switch (selectType) {
-                                      case "SCHOOL":
-                                        {
-                                          return Column(
-                                            children: [
-                                              schoolInputs(),
-
-                                              //religiousInput(),
-                                              // TextFormField(
-                                              //   //controller: NameOfPlace,
-                                              //   initialValue: "${userData["Address"]}",
-                                              //   keyboardType: TextInputType.text,
-                                              //   decoration: InputDecoration(
-                                              //     //border: InputBorder.none,
-                                              //       hintText: 'Name of the Place',
-                                              //       prefixIcon: Icon(Icons.home_sharp)),
-                                              //   validator: (value) {
-                                              //     if (value.isEmpty) {
-                                              //       return 'Please enter the appropriate details';
-                                              //     }
-                                              //     // else if (value != realId) {
-                                              //     //   return "please enter the right pass word";
-                                              //     // }
-                                              //     return null;
-                                              //   },
-                                              // ),
-                                              //SUBMIT BUTTON
-                                              // SUBMIT BUTTON
-                                              Visibility(
-                                                visible: isEnabled,
-                                                child: Builder(
-                                                  builder: (context) =>
-                                                      TextButton(
-                                                        // color: Theme.of(context).primaryColor,
-                                                          style: TextButton.styleFrom(
-                                                            primary: Colors.black26,
-                                                            backgroundColor: Theme
-                                                                .of(context)
-                                                                .primaryColor,
-                                                            onSurface: Colors.grey,
-                                                          ),
-                                                          onPressed: isEnabled ? () =>
-                                                              submitFunc() : null,
-                                                          child: Center(
-                                                              child: Text(
-                                                                'Submit',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white70),
-                                                              ))),
-                                                ),
+                                switch (placeValue) {
+                                  case "RELIGIOUS PLACES":
+                                    {
+                                      // FutureBuilder<DocumentSnapshot>(
+                                      //   future:  _getData(),
+                                      //   builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+                                      //
+                                      //   },
+                                      // )
+                                        return Column(
+                                          children: [
+                                            religiousInputs(),
+                                            //religiousInput(),
+                                            // TextFormField(
+                                            //   //controller: NameOfPlace,
+                                            //   initialValue: "${userData["Address"]}",
+                                            //   keyboardType: TextInputType.text,
+                                            //   decoration: InputDecoration(
+                                            //     //border: InputBorder.none,
+                                            //       hintText: 'Name of the Place',
+                                            //       prefixIcon: Icon(Icons.home_sharp)),
+                                            //   validator: (value) {
+                                            //     if (value.isEmpty) {
+                                            //       return 'Please enter the appropriate details';
+                                            //     }
+                                            //     // else if (value != realId) {
+                                            //     //   return "please enter the right pass word";
+                                            //     // }
+                                            //     return null;
+                                            //   },
+                                            // ),
+                                            //SUBMIT BUTTON
+                                            // SUBMIT BUTTON
+                                            Visibility(
+                                              visible: isEnabled,
+                                              child: Builder(
+                                                builder: (context) =>
+                                                    TextButton(
+                                                      // color: Theme.of(context).primaryColor,
+                                                        style: TextButton.styleFrom(
+                                                          primary: Colors.black26,
+                                                          backgroundColor: Theme
+                                                              .of(context)
+                                                              .primaryColor,
+                                                          onSurface: Colors.grey,
+                                                        ),
+                                                        onPressed: isEnabled ? () =>
+                                                            submitFunc() : null,
+                                                        child: Center(
+                                                            child: Text(
+                                                              'Submit',
+                                                              style: TextStyle(
+                                                                  color: Colors
+                                                                      .white70),
+                                                            ))),
                                               ),
-                                            ],
-                                          );
-                                        }
-                                        break;
-                                      case "COLLEGE":
-                                        {
+                                            ),
+                                          ],
+                                        );
+
+                                    }
+                                    break;
+                                  case"EDUCATIONAL INSTITUTIONS":
+                                    {
+
+                                      switch (selectType) {
+                                        case "SCHOOL":
+                                          {
                                             return Column(
                                               children: [
-                                                collageInputs(),
+                                                schoolInputs(),
+
                                                 //religiousInput(),
                                                 // TextFormField(
                                                 //   //controller: NameOfPlace,
@@ -426,296 +373,294 @@ class _EditPageState extends State<EditPage> {
                                                 ),
                                               ],
                                             );
-                                        }
-                                        break;
-                                      case "INSTITUTION":
-                                        {
-                                          return Column(
-                                            children: [
-                                              institutionInputs(),
-
-
-                                              //religiousInput(),
-                                              // TextFormField(
-                                              //   //controller: NameOfPlace,
-                                              //   initialValue: "${userData["Address"]}",
-                                              //   keyboardType: TextInputType.text,
-                                              //   decoration: InputDecoration(
-                                              //     //border: InputBorder.none,
-                                              //       hintText: 'Name of the Place',
-                                              //       prefixIcon: Icon(Icons.home_sharp)),
-                                              //   validator: (value) {
-                                              //     if (value.isEmpty) {
-                                              //       return 'Please enter the appropriate details';
-                                              //     }
-                                              //     // else if (value != realId) {
-                                              //     //   return "please enter the right pass word";
-                                              //     // }
-                                              //     return null;
-                                              //   },
-                                              // ),
-                                              //SUBMIT BUTTON
-                                              // SUBMIT BUTTON
-                                              Visibility(
-                                                visible: isEnabled,
-                                                child: Builder(
-                                                  builder: (context) =>
-                                                      TextButton(
-                                                        // color: Theme.of(context).primaryColor,
-                                                          style: TextButton.styleFrom(
-                                                            primary: Colors.black26,
-                                                            backgroundColor: Theme
-                                                                .of(context)
-                                                                .primaryColor,
-                                                            onSurface: Colors.grey,
-                                                          ),
-                                                          onPressed: isEnabled ? () =>
-                                                              submitFunc() : null,
-                                                          child: Center(
-                                                              child: Text(
-                                                                'Submit',
-                                                                style: TextStyle(
-                                                                    color: Colors
-                                                                        .white70),
-                                                              ))),
-                                                ),
-                                              ),
-                                            ],
-                                          );
-                                        }
-                                        break;
-                                    }
-                                  }
-                                  break;
-                                case"YOUTH SPOTS":
-                                  {
-                                    return Column(
-                                      children: [
-                                        youthPlaceInputs(),
-
-
-                                        //religiousInput(),
-                                        // TextFormField(
-                                        //   //controller: NameOfPlace,
-                                        //   initialValue: "${userData["Address"]}",
-                                        //   keyboardType: TextInputType.text,
-                                        //   decoration: InputDecoration(
-                                        //     //border: InputBorder.none,
-                                        //       hintText: 'Name of the Place',
-                                        //       prefixIcon: Icon(Icons.home_sharp)),
-                                        //   validator: (value) {
-                                        //     if (value.isEmpty) {
-                                        //       return 'Please enter the appropriate details';
-                                        //     }
-                                        //     // else if (value != realId) {
-                                        //     //   return "please enter the right pass word";
-                                        //     // }
-                                        //     return null;
-                                        //   },
-                                        // ),
-                                        //SUBMIT BUTTON
-                                        // SUBMIT BUTTON
-                                        Visibility(
-                                          visible: isEnabled,
-                                          child: Builder(
-                                            builder: (context) =>
-                                                TextButton(
-                                                  // color: Theme.of(context).primaryColor,
-                                                    style: TextButton.styleFrom(
-                                                      primary: Colors.black26,
-                                                      backgroundColor: Theme
-                                                          .of(context)
-                                                          .primaryColor,
-                                                      onSurface: Colors.grey,
+                                          }
+                                          break;
+                                        case "COLLEGE":
+                                          {
+                                              return Column(
+                                                children: [
+                                                  collageInputs(),
+                                                  //religiousInput(),
+                                                  // TextFormField(
+                                                  //   //controller: NameOfPlace,
+                                                  //   initialValue: "${userData["Address"]}",
+                                                  //   keyboardType: TextInputType.text,
+                                                  //   decoration: InputDecoration(
+                                                  //     //border: InputBorder.none,
+                                                  //       hintText: 'Name of the Place',
+                                                  //       prefixIcon: Icon(Icons.home_sharp)),
+                                                  //   validator: (value) {
+                                                  //     if (value.isEmpty) {
+                                                  //       return 'Please enter the appropriate details';
+                                                  //     }
+                                                  //     // else if (value != realId) {
+                                                  //     //   return "please enter the right pass word";
+                                                  //     // }
+                                                  //     return null;
+                                                  //   },
+                                                  // ),
+                                                  //SUBMIT BUTTON
+                                                  // SUBMIT BUTTON
+                                                  Visibility(
+                                                    visible: isEnabled,
+                                                    child: Builder(
+                                                      builder: (context) =>
+                                                          TextButton(
+                                                            // color: Theme.of(context).primaryColor,
+                                                              style: TextButton.styleFrom(
+                                                                primary: Colors.black26,
+                                                                backgroundColor: Theme
+                                                                    .of(context)
+                                                                    .primaryColor,
+                                                                onSurface: Colors.grey,
+                                                              ),
+                                                              onPressed: isEnabled ? () =>
+                                                                  submitFunc() : null,
+                                                              child: Center(
+                                                                  child: Text(
+                                                                    'Submit',
+                                                                    style: TextStyle(
+                                                                        color: Colors
+                                                                            .white70),
+                                                                  ))),
                                                     ),
-                                                    onPressed: isEnabled ? () =>
-                                                        submitFunc() : null,
-                                                    child: Center(
-                                                        child: Text(
-                                                          'Submit',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white70),
-                                                        ))),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  break;
-                                case"PUBLIC SPOTS":
-                                  {
-                                    return Column(
-                                      children: [
-                                        publicPlaceInputs(),
-
-
-                                        //religiousInput(),
-                                        // TextFormField(
-                                        //   //controller: NameOfPlace,
-                                        //   initialValue: "${userData["Address"]}",
-                                        //   keyboardType: TextInputType.text,
-                                        //   decoration: InputDecoration(
-                                        //     //border: InputBorder.none,
-                                        //       hintText: 'Name of the Place',
-                                        //       prefixIcon: Icon(Icons.home_sharp)),
-                                        //   validator: (value) {
-                                        //     if (value.isEmpty) {
-                                        //       return 'Please enter the appropriate details';
-                                        //     }
-                                        //     // else if (value != realId) {
-                                        //     //   return "please enter the right pass word";
-                                        //     // }
-                                        //     return null;
-                                        //   },
-                                        // ),
-                                        //SUBMIT BUTTON
-                                        // SUBMIT BUTTON
-                                        Visibility(
-                                          visible: isEnabled,
-                                          child: Builder(
-                                            builder: (context) =>
-                                                TextButton(
-                                                  // color: Theme.of(context).primaryColor,
-                                                    style: TextButton.styleFrom(
-                                                      primary: Colors.black26,
-                                                      backgroundColor: Theme
-                                                          .of(context)
-                                                          .primaryColor,
-                                                      onSurface: Colors.grey,
-                                                    ),
-                                                    onPressed: isEnabled ? () =>
-                                                        submitFunc() : null,
-                                                    child: Center(
-                                                        child: Text(
-                                                          'Submit',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white70),
-                                                        ))),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  break;
-                                case"OFFICES":
-                                  {
-                                    return Column(
-                                      children: [
-                                        officePlaceInputs(),
-
-
-                                        //religiousInput(),
-                                        // TextFormField(
-                                        //   //controller: NameOfPlace,
-                                        //   initialValue: "${userData["Address"]}",
-                                        //   keyboardType: TextInputType.text,
-                                        //   decoration: InputDecoration(
-                                        //     //border: InputBorder.none,
-                                        //       hintText: 'Name of the Place',
-                                        //       prefixIcon: Icon(Icons.home_sharp)),
-                                        //   validator: (value) {
-                                        //     if (value.isEmpty) {
-                                        //       return 'Please enter the appropriate details';
-                                        //     }
-                                        //     // else if (value != realId) {
-                                        //     //   return "please enter the right pass word";
-                                        //     // }
-                                        //     return null;
-                                        //   },
-                                        // ),
-                                        //SUBMIT BUTTON
-                                        // SUBMIT BUTTON
-                                        Visibility(
-                                          visible: isEnabled,
-                                          child: Builder(
-                                            builder: (context) =>
-                                                TextButton(
-                                                  // color: Theme.of(context).primaryColor,
-                                                    style: TextButton.styleFrom(
-                                                      primary: Colors.black26,
-                                                      backgroundColor: Theme
-                                                          .of(context)
-                                                          .primaryColor,
-                                                      onSurface: Colors.grey,
-                                                    ),
-                                                    onPressed: isEnabled ? () =>
-                                                        submitFunc() : null,
-                                                    child: Center(
-                                                        child: Text(
-                                                          'Submit',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white70),
-                                                        ))),
-                                          ),
-                                        ),
-                                      ],
-                                    );
-                                  }
-                                  break;
-                                case"NGOSorORGANISATIONS":
-                                  {
-                                    return Column(
-                                    children: [
-                                      ngosPlaceInputs(),
-
-
-                                      //religiousInput(),
-                                      // TextFormField(
-                                      //   //controller: NameOfPlace,
-                                      //   initialValue: "${userData["Address"]}",
-                                      //   keyboardType: TextInputType.text,
-                                      //   decoration: InputDecoration(
-                                      //     //border: InputBorder.none,
-                                      //       hintText: 'Name of the Place',
-                                      //       prefixIcon: Icon(Icons.home_sharp)),
-                                      //   validator: (value) {
-                                      //     if (value.isEmpty) {
-                                      //       return 'Please enter the appropriate details';
-                                      //     }
-                                      //     // else if (value != realId) {
-                                      //     //   return "please enter the right pass word";
-                                      //     // }
-                                      //     return null;
-                                      //   },
-                                      // ),
-                                      //SUBMIT BUTTON
-                                      // SUBMIT BUTTON
-                                      Visibility(
-                                        visible: isEnabled,
-                                        child: Builder(
-                                          builder: (context) =>
-                                              TextButton(
-                                                // color: Theme.of(context).primaryColor,
-                                                  style: TextButton.styleFrom(
-                                                    primary: Colors.black26,
-                                                    backgroundColor: Theme
-                                                        .of(context)
-                                                        .primaryColor,
-                                                    onSurface: Colors.grey,
                                                   ),
-                                                  onPressed: isEnabled ? () =>
-                                                      submitFunc() : null,
-                                                  child: Center(
-                                                      child: Text(
-                                                        'Submit',
-                                                        style: TextStyle(
-                                                            color: Colors
-                                                                .white70),
-                                                      ))),
-                                        ),
-                                      ),
-                                    ],
-                                  );
-                                  }
-                                  break;
-                                case"HALLS":
-                                  {
-                                    return Column(
+                                                ],
+                                              );
+                                          }
+                                          break;
+                                        case "INSTITUTION":
+                                          {
+                                            return Column(
+                                              children: [
+                                                institutionInputs(),
+
+
+                                                //religiousInput(),
+                                                // TextFormField(
+                                                //   //controller: NameOfPlace,
+                                                //   initialValue: "${userData["Address"]}",
+                                                //   keyboardType: TextInputType.text,
+                                                //   decoration: InputDecoration(
+                                                //     //border: InputBorder.none,
+                                                //       hintText: 'Name of the Place',
+                                                //       prefixIcon: Icon(Icons.home_sharp)),
+                                                //   validator: (value) {
+                                                //     if (value.isEmpty) {
+                                                //       return 'Please enter the appropriate details';
+                                                //     }
+                                                //     // else if (value != realId) {
+                                                //     //   return "please enter the right pass word";
+                                                //     // }
+                                                //     return null;
+                                                //   },
+                                                // ),
+                                                //SUBMIT BUTTON
+                                                // SUBMIT BUTTON
+                                                Visibility(
+                                                  visible: isEnabled,
+                                                  child: Builder(
+                                                    builder: (context) =>
+                                                        TextButton(
+                                                          // color: Theme.of(context).primaryColor,
+                                                            style: TextButton.styleFrom(
+                                                              primary: Colors.black26,
+                                                              backgroundColor: Theme
+                                                                  .of(context)
+                                                                  .primaryColor,
+                                                              onSurface: Colors.grey,
+                                                            ),
+                                                            onPressed: isEnabled ? () =>
+                                                                submitFunc() : null,
+                                                            child: Center(
+                                                                child: Text(
+                                                                  'Submit',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white70),
+                                                                ))),
+                                                  ),
+                                                ),
+                                              ],
+                                            );
+                                          }
+                                          break;
+                                      }
+                                    }
+                                    break;
+                                  case"YOUTH SPOTS":
+                                    {
+                                      return Column(
+                                        children: [
+                                          youthPlaceInputs(),
+
+
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    break;
+                                  case"PUBLIC SPOTS":
+                                    {
+                                      return Column(
+                                        children: [
+                                          publicPlaceInputs(),
+
+
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    break;
+                                  case"OFFICES":
+                                    {
+                                      return Column(
+                                        children: [
+                                          officePlaceInputs(),
+
+
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                    break;
+                                  case"NGOSorORGANISATIONS":
+                                    {
+                                      return Column(
                                       children: [
-                                        hallsPlaceInputs(),
+                                        ngosPlaceInputs(),
 
 
                                         //religiousInput(),
@@ -765,62 +710,119 @@ class _EditPageState extends State<EditPage> {
                                         ),
                                       ],
                                     );
-                                  }
+                                    }
+                                    break;
+                                  case"HALLS":
+                                    {
+                                      return Column(
+                                        children: [
+                                          hallsPlaceInputs(),
+
+
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    }
+                                }
                               }
-                            }
-                            else if(snapshot.hasError){
+                              else if(snapshot.hasError){
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      const Icon(
+                                        Icons.error_outline,
+                                        color: Colors.red,
+                                        size: 60,
+                                      ),
+                                      Padding(
+                                        padding: const EdgeInsets.only(top: 16),
+                                        child: Text('Error: ${snapshot.error}'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+                              else{
+                                return Center(
+                                  child: Column(
+                                    mainAxisAlignment: MainAxisAlignment.center,
+                                    crossAxisAlignment: CrossAxisAlignment.center,
+                                    children: [
+                                      SizedBox(
+                                        child: CircularProgressIndicator(),
+                                        width: 60,
+                                        height: 60,
+                                      ),
+                                      Padding(
+                                        padding: EdgeInsets.only(top: 16),
+                                        child: Text('Loading data...'),
+                                      )
+                                    ],
+                                  ),
+                                );
+                              }
+
                               return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    const Icon(
-                                      Icons.error_outline,
-                                      color: Colors.red,
-                                      size: 60,
-                                    ),
-                                    Padding(
-                                      padding: const EdgeInsets.only(top: 16),
-                                      child: Text('Error: ${snapshot.error}'),
-                                    )
-                                  ],
-                                ),
+                                child: Text("hello i am end return"),
                               );
-                            }
-                            else{
-                              return Center(
-                                child: Column(
-                                  mainAxisAlignment: MainAxisAlignment.center,
-                                  crossAxisAlignment: CrossAxisAlignment.center,
-                                  children: [
-                                    SizedBox(
-                                      child: CircularProgressIndicator(),
-                                      width: 60,
-                                      height: 60,
-                                    ),
-                                    Padding(
-                                      padding: EdgeInsets.only(top: 16),
-                                      child: Text('Loading data...'),
-                                    )
-                                  ],
-                                ),
-                              );
-                            }
-
-                            return Center(
-                              child: Text("hello i am end return"),
-                            );
-                          },
+                            },
 
 
-                        )
+                          )
 
 
+                      ),
                     ),
-                  ),
-                );
+                  );
 
-        } ),
+          } ),
+        ),
       ),
     );
   }

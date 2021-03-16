@@ -12,6 +12,7 @@ class _AboutState extends State<About> {
   final formKey = GlobalKey<FormState>();
 
   String pass = "redApple@1191";
+  bool isHiddenPassWord = true;
 
   final PassController = new TextEditingController();
   @override
@@ -130,11 +131,17 @@ class _AboutState extends State<About> {
                                   Text('Enter PassWord',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
                                   SizedBox(height: 5.0,),
                                   TextFormField(
+                                    obscureText: isHiddenPassWord,
                                     //controller: PassController,
                                     decoration: InputDecoration(
                                       //border: InputBorder.none,
                                         hintText: 'passWord',
-                                        prefixIcon: Icon(Icons.lock,size: 20,)),
+                                        prefixIcon: Icon(Icons.lock,size: 20,),
+                                        // suffixIcon: InkWell(
+                                        // //  onTap: _togglePassView,
+                                        //   //child: PasswordShowIcon(),
+                                        // ),
+                                    ),
                                     validator: (value) {
                                       if (value.isEmpty) {
                                         return "please enter the passWord";
@@ -151,7 +158,7 @@ class _AboutState extends State<About> {
                           ),
                           actions: <Widget>[
                             TextButton(
-                              child: Text('Enter'),
+                              child: Text('ENTER'),
                               onPressed: () {
                                 if(formKey.currentState.validate()){
                                   Navigator.of(context).pop();
@@ -174,7 +181,7 @@ class _AboutState extends State<About> {
                               ),
                             ),
                             TextButton(
-                              child: Text('Back'),
+                              child: Text('CLOSE'),
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 print("not Deleted");
@@ -204,4 +211,23 @@ class _AboutState extends State<About> {
       ),
     );
   }
+
+  void _togglePassView() {
+    // if(isHiddenPassWord== true){
+    //   isHiddenPassWord = false;
+    // }else{
+    //   isHiddenPassWord = true;
+    // }
+
+    setState(() {
+      isHiddenPassWord = !isHiddenPassWord;
+      //child:
+      Icon(
+        Icons.visibility_off,
+      );
+    });
+  }
 }
+
+
+

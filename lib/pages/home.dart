@@ -2164,7 +2164,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                   return showDialog<void>(
                                     context: context,
                                     barrierDismissible: false, // user must tap button!
@@ -2253,7 +2253,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -2426,7 +2425,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -2515,7 +2514,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -2693,7 +2692,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -2782,7 +2780,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -2960,7 +2958,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3049,7 +3047,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3213,7 +3210,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3302,7 +3299,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3466,7 +3463,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3555,7 +3552,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3728,7 +3725,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3817,7 +3813,7 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -3990,7 +3986,7 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
+
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -4079,7 +4075,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -4243,7 +4238,6 @@ class _MyHomePageState extends State<MyHomePage> {
                               ),
 
                               onPressed: ()  async{
-                                //:TODO: WRITE THE DELETE SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!
@@ -4332,7 +4326,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                //:TODO: WRITE THE EDIT SCRIPT
                                 return showDialog<void>(
                                   context: context,
                                   barrierDismissible: false, // user must tap button!

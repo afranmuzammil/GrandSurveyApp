@@ -3590,7 +3590,7 @@ void submitFunc(){
   // );
    setState((){
      try{
-    //:TODO: write firebase update script
+
 
     print("code run");
     switch(placeValue){

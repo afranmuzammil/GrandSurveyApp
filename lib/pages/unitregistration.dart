@@ -28,7 +28,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
     return Scaffold(
       backgroundColor: Colors.lightGreen[50],
       appBar: AppBar(
-        backgroundColor: Colors.green,
+        backgroundColor: Colors.lightGreen,
         title: Text(
           'Unit Registration'.toUpperCase(),
           style:
@@ -237,7 +237,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                       print("on: $value");
                                       ScaffoldMessenger.of(context).showSnackBar(
                                         SnackBar(
-                                          content: Text("Registration Failed try again"),
+                                          content: Text("$value try again"),
                                         ),
                                       );
                                     }});
@@ -300,26 +300,8 @@ class _UnitRegistrationState extends State<UnitRegistration> {
             .doc("NameList")
             .update(unitNameListData);
 //Test
-        Map<String, dynamic> riligous = {
-          "unitName":"placevalues",
-        };
-           FirebaseFirestore.instance
-            .collection(unitName.text.trim())
-            .doc("RELIGIOUS PLACES")
-            .collection("TEMPLE").add(riligous);
-           FirebaseFirestore.instance
-            .collection(unitName.text.trim())
-            .doc("RELIGIOUS PLACES")
-            .collection("MASJID").add(riligous);
-           FirebaseFirestore.instance
-            .collection(unitName.text.trim())
-            .doc("RELIGIOUS PLACES")
-            .collection("GURUDWARS").add(riligous);
-           FirebaseFirestore.instance
-            .collection(unitName.text.trim())
-            .doc("RELIGIOUS PLACES")
-            .collection("CHURCH").add(riligous);
 
+        createBackend();
       }catch(e){
         print("Error $e");
       }
@@ -328,6 +310,245 @@ class _UnitRegistrationState extends State<UnitRegistration> {
 
   }
 
+  void createBackend(){
+    //religiousDatabase create
+    Map<String, dynamic> religiousData = {
+      "unitName":"religiousData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("RELIGIOUS PLACES")
+        .collection("TEMPLE").add(religiousData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("RELIGIOUS PLACES")
+        .collection("MASJID").add(religiousData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("RELIGIOUS PLACES")
+        .collection("GURUDWARS").add(religiousData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("RELIGIOUS PLACES")
+        .collection("CHURCH").add(religiousData);
+
+    //educationDataBase create
+    Map<String, dynamic> educationData = {
+      "unitName":"educationData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("EDUCATIONAL INSTITUTIONS")
+        .collection("SCHOOL").add(educationData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("EDUCATIONAL INSTITUTIONS")
+        .collection("COLLEGE").add(educationData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("EDUCATIONAL INSTITUTIONS")
+        .collection("INSTITUTION").add(educationData);
+
+    //youthDatabase Create
+    Map<String, dynamic> youthData = {
+      "unitName":"youthData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("YOUTH SPOTS")
+        .collection("GYM").add(youthData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("YOUTH SPOTS")
+        .collection("PLAY GROUND").add(youthData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("YOUTH SPOTS")
+        .collection("GAME ROOMS").add(youthData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("YOUTH SPOTS")
+        .collection("SPORTS CLUB").add(youthData);
+
+    //publicDatabase create
+    Map<String, dynamic> publicData = {
+      "unitName":"publicData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("HOTELS & RESTAURANT'S").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("HOSPITAL'S").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("BUS STOPS").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("PAN SHOPorTEA STALL").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("THEATERS").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("TOURIST PLACES").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("GARDENS").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("PARKS").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("YOGA CENTRES").add(publicData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("PUBLIC SPOTS")
+        .collection("FITNESS CENTRES").add(publicData);
+
+    //officesDatabase create
+    Map<String, dynamic> officesData = {
+      "unitName":"officesData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("POLICE STATION'S").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("POST OFFICES").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("MRO").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("MPDO").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("WATER").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("ELECTRICITY").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("TAHSILDAAR").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("MLA").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("MP").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("CORPORATOR").add(officesData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("OFFICES")
+        .collection("POLICE STATION'S").add(officesData);
+
+    //ngosDatabase create
+    Map<String, dynamic> ngosData = {
+      "unitName":"ngosData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("OLD AGE").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("ORPHAN AGE").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("SOCIAL WELFARE").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("CAREER GUIDANCE ").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("COUNSELING CENTRES").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("STUDENT&RELIGIOUS&CHARITY").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("YOUTH ORGANISATIONS").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("HWF CENTRES").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("CHILD CARE").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("ASSOCIATIONS").add(ngosData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("NGOSorORGANISATIONS")
+        .collection("FORUMS").add(ngosData);
+
+    //hallsDatabase create
+    Map<String, dynamic> hallsData = {
+      "unitName":"hallsData",
+    };
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("COMMUNITY HALLS").add(hallsData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("FUNCTION HALLS").add(hallsData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("MEETING HALLS").add(hallsData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("MELAS").add(hallsData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("EXHIBITION ").add(hallsData);
+    FirebaseFirestore.instance
+        .collection(unitName.text.trim())
+        .doc("HALLS")
+        .collection("PRESS HALLS").add(hallsData);
+
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Text("DataBase Creation Complete"),
+    ),
+    );
+
+  }
 
 }
 

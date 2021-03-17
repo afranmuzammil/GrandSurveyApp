@@ -49,6 +49,7 @@ class _MyHomePageState extends State<MyHomePage> {
    setButtonsVisible();
     floatingClickable();
     _getUnitCredentialsData();
+    refreshList();
     super.initState();
     checkInternetStatus();
    // _readData();
@@ -83,7 +84,7 @@ class _MyHomePageState extends State<MyHomePage> {
     }
  }
 
-  bool isVisibleButtons;
+  bool isVisibleButtons= false;
   bool floatingButtonClickable;
 
   DocumentSnapshot unitCradSnaps;
@@ -92,6 +93,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<DocumentSnapshot> _getUnitCredentialsData() async{
 
     await Future.delayed(Duration(seconds: 2));
+
     print("from data $saveMail");
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitCredentials")
@@ -124,17 +126,17 @@ class _MyHomePageState extends State<MyHomePage> {
     else if(saveMail == "afranadmin@sio.com")
     {
         isVisibleButtons = true
-    }else if(saveMail == "lalagudaunit@sio.com" && unitValue == "LALAGUDA@SEC-BAD" )
-    {
-        isVisibleButtons = true
     }
-    else{
+    else if(saveMail == "guest-user@sio.com")
+    {
         isVisibleButtons = false
+    }else{
+          isVisibleButtons = false
         },
         refreshList(),
     });
 //    print("Saved mail:$saveMail");
-
+    print("${unitCradData["UnitName"]}");
   }
 
   //setting floating Button Clickable
@@ -239,7 +241,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List> unitListFun(list)async{
     unitNameList = list;
     print(unitNameList);
- //   setButtonsVisible();
+    //setButtonsVisible();
     return unitNameList;
   }
 
@@ -401,6 +403,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //refreshing the page data
   Future<void> refreshList()async{
+    //setButtonsVisible();
     await Future.delayed(Duration(seconds: 2));
     setState(() {
       FirebaseFirestore.instance.collection(unitValue).doc(
@@ -408,7 +411,7 @@ class _MyHomePageState extends State<MyHomePage> {
       _getUnitNamesData();
 
     });
-   //setButtonsVisible();
+
 
   }
 
@@ -715,7 +718,7 @@ class _MyHomePageState extends State<MyHomePage> {
                 //virsions
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V : 2.2.1-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
+                  title: Text("V : 3.1.1-alpha",style: GoogleFonts.poppins(textStyle: TextStyle(
                       fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
                   onLongPress: (){
                     Navigator.push(
@@ -4393,3 +4396,4 @@ class _MyHomePageState extends State<MyHomePage> {
     );
   }
 }
+

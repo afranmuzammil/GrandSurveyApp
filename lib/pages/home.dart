@@ -48,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
     _saveData();
    setButtonsVisible();
     floatingClickable();
-
+    _getUnitCredentialsData();
     super.initState();
     checkInternetStatus();
    // _readData();
@@ -85,6 +85,49 @@ class _MyHomePageState extends State<MyHomePage> {
 
   bool isVisibleButtons;
   bool floatingButtonClickable;
+
+  DocumentSnapshot unitCradSnaps;
+  var unitCradData;
+
+  Future<DocumentSnapshot> _getUnitCredentialsData() async{
+    StreamBuilder(
+        stream: FirebaseFirestore.instance
+            .collection("unitCredentials")
+            .doc(saveMail).collection(saveMail)
+            .snapshots(),
+        builder: (BuildContext context,
+            AsyncSnapshot<QuerySnapshot> snapshot){
+          if (!snapshot.hasData) {
+            return Center(
+              child: CircularProgressIndicator(),
+            );
+          }
+          unitCradData = snapshot.data.docs.first.data();
+          getunitCrad(unitCradData);
+          print("done: $unitCradSnaps ");
+          return Center(
+            child: Text("Error : in steem "),
+          );
+
+        }
+    );
+    print("done: $unitCradSnaps ");
+   // unitCradSnaps = variable;
+    return unitCradSnaps;
+  }
+
+
+
+  Future<DocumentSnapshot> getunitCrad(data) async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {unitCradData = data});
+    //  var userData = await _getData();
+    // print(" on: ${userData["Address"]}");
+    // unitNameList = unitData["unitName"];
+    // unitNameList.sort();
+    // unitListFun(unitNameList);
+     print(unitCradData["UnitId"]);
+    return unitCradData;
+  }
 
   //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
@@ -177,11 +220,41 @@ class _MyHomePageState extends State<MyHomePage> {
 
   firebase_storage.Reference ref;
 
+  var unitData;
+
+  DocumentSnapshot unitSanpShots;
+
   String unitValue = "MOULALI@HYD";
-  List unitNameList = [
-    "MOULALI@HYD",
-    "LALAGUDA@SEC-BAD",
-  ];
+  String units;
+  List unitNameList = [];
+
+  Future<DocumentSnapshot> _getUnitNamesData() async{
+    DocumentSnapshot variable = await FirebaseFirestore.instance
+        .collection("unitNameList")
+        .doc("NameList")
+        .get().then((value) { return getLists(value); });
+    // setState(() {
+    //   data = variable;
+    // });
+    unitSanpShots = variable;
+    return unitSanpShots;
+  }
+  Future<DocumentSnapshot> getLists(data) async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {unitData = data});
+    //  var userData = await _getData();
+    // print(" on: ${userData["Address"]}");
+    unitNameList = unitData["unitName"];
+    unitNameList.sort();
+    unitListFun(unitNameList);
+    // print(unitNames);
+    return unitData;
+  }
+
+  Future<List> unitListFun(list)async{
+    unitNameList = list;
+    print(unitNameList);
+    return unitNameList;
+  }
 
 
   String placeValue = "RELIGIOUS PLACES";
@@ -345,6 +418,7 @@ class _MyHomePageState extends State<MyHomePage> {
     setState(() {
       FirebaseFirestore.instance.collection(unitValue).doc(
           placeValue).collection(selectType()).snapshots().toList();
+      _getUnitNamesData();
     });
 
 
@@ -433,37 +507,127 @@ class _MyHomePageState extends State<MyHomePage> {
             .of(context)
             .primaryColor,
         //dropdown to select the unitName
-        title: DropdownButton(
-          hint: Text("SELECT PLACE NAME", textAlign: TextAlign.center),
-          dropdownColor: Theme
-              .of(context)
-              .primaryColor,
-          icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
-          iconSize: 36,
-          isExpanded: true,
-          underline: SizedBox(),
-          style: GoogleFonts.poppins(textStyle: TextStyle(
-              fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
-          value: unitValue,
-          onChanged: (newValue) {
-            setState(() {
-              unitValue = newValue;
-              setButtonsVisible();
-              // if(placeTypeReligiousValue != null){
-              //   religiousDetailsVisible = true;
-              // }else{
-              //   religiousDetailsVisible = false;
-              // }
+        title: FutureBuilder<DocumentSnapshot>(
+            future: _getUnitNamesData(),
+            builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+              try{
+                if(snapshot.hasData){
+                  return DropdownButton(
+                    hint: Text("LIST OF UNIT NAMES", textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),),
+                    dropdownColor: Theme
+                          .of(context)
+                          .primaryColor,
+                    icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
+                    iconSize: 36,
+                    isExpanded: true,
+                    underline: SizedBox(),
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
+                    value: units,
+                    onChanged: (newValue) {
+                      setState(() {
+                        units = newValue;
+                        unitValue = newValue;
+                        //  setButtonsVisible();
+                        // if(placeTypeReligiousValue != null){
+                        //   religiousDetailsVisible = true;
+                        // }else{
+                        //   religiousDetailsVisible = false;
+                        // }
 
-            });
-          },
-          items: unitNameList.map((valueItem) {
-            return DropdownMenuItem(
-              value: valueItem,
-              child: Text(valueItem, textAlign: TextAlign.center,),
-            );
-          }).toList(),
+                      });
+                    },
+                    items: unitNameList.map((valueItem) {
+                      return DropdownMenuItem(
+                        value: valueItem,
+                        child: Text(valueItem, textAlign: TextAlign.center,),
+                      );
+                    }).toList(),
+                  );
+                }else if(snapshot.hasError){
+                  print("e :${snapshot.error}");
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        //Text('Error: '),
+                        const Icon(
+                          Icons.error_outline,
+                          color: Colors.red,
+                          size: 10,
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.only(top: 16),
+                          child: Text('Error: '),
+
+                        )
+                      ],
+                    ),
+                  );
+                } else{
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.center,
+                      children: [
+                        SizedBox(
+                          child: LinearProgressIndicator(),
+                          width: 250,
+                          height: 5,
+                        ),
+                        Padding(
+                          padding: EdgeInsets.only(top: 16),
+                          child: Text('Loading data...'),
+                        )
+                      ],
+                    ),
+                  );
+                }
+              }catch(e){
+                print("Error : $e ");
+                return Center(
+                  child: Text("Error : $e "),
+                );
+              }
+
+              return Center(
+                child: Text("hello i am end return"),
+              );
+            }
         ),
+        // DropdownButton(
+        //   hint: Text("SELECT PLACE NAME", textAlign: TextAlign.center),
+        //   dropdownColor: Theme
+        //       .of(context)
+        //       .primaryColor,
+        //   icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
+        //   iconSize: 36,
+        //   isExpanded: true,
+        //   underline: SizedBox(),
+        //   style: GoogleFonts.poppins(textStyle: TextStyle(
+        //       fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
+        //   value: unitValue,
+        //   onChanged: (newValue) {
+        //     setState(() {
+        //       unitValue = newValue;
+        //       setButtonsVisible();
+        //       // if(placeTypeReligiousValue != null){
+        //       //   religiousDetailsVisible = true;
+        //       // }else{
+        //       //   religiousDetailsVisible = false;
+        //       // }
+        //
+        //     });
+        //   },
+        //   items: unitNameList.map((valueItem) {
+        //     return DropdownMenuItem(
+        //       value: valueItem,
+        //       child: Text(valueItem, textAlign: TextAlign.center,),
+        //     );
+        //   }).toList(),
+        // ),
         centerTitle: true,
         elevation: 0,
       ),

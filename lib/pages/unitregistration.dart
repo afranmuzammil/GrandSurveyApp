@@ -7,6 +7,7 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:url_launcher/url_launcher.dart';
 class UnitRegistration extends StatefulWidget {
   @override
   _UnitRegistrationState createState() => _UnitRegistrationState();
@@ -21,6 +22,51 @@ class _UnitRegistrationState extends State<UnitRegistration> {
 
  List unitNameList = [];
 
+ String units;
+ List unitNames = [];
+
+
+  var unitData;
+
+  DocumentSnapshot data;
+
+
+  Future<DocumentSnapshot> _getUnitNamesData() async{
+    DocumentSnapshot variable = await FirebaseFirestore.instance
+        .collection("unitNameList")
+        .doc("NameList")
+        .get().then((value) { return getLists(value); });
+    // setState(() {
+    //   data = variable;
+    // });
+    data = variable;
+    return data;
+  }
+  Future<DocumentSnapshot> getLists(data) async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {unitData = data});
+    //  var userData = await _getData();
+    // print(" on: ${userData["Address"]}");
+    unitNames = unitData["unitName"];
+    unitNames.sort();
+    unitListFun(unitNames);
+   // print(unitNames);
+    return unitData;
+  }
+
+  Future<List> unitListFun(list)async{
+    unitNames = list;
+    print(unitNames);
+    return unitNames;
+  }
+
+
+  void customLunch(command) async {
+    if (await canLaunch(command)) {
+      await launch(command);
+    } else {
+      print('could not launch $command');
+    }
+  }
 
   String userIdSave;
   @override
@@ -67,6 +113,97 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                     //  style:Theme.of(context).textTheme.headline4,
                     //     //textAlign: TextAlign.center
                     // ),
+                    SizedBox(height: 10.0),
+                    Container(
+                      padding: EdgeInsets.all(8.0),
+                      decoration:  BoxDecoration(
+                          border: Border.all(color: Colors.lightGreen, width: 3),
+                          borderRadius: BorderRadius.vertical()),
+                      child: FutureBuilder<DocumentSnapshot>(
+                        future: _getUnitNamesData(),
+                          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+                          try{
+                            if(snapshot.hasData){
+                              return Center(
+                                child:  DropdownButton(
+                                  hint: Text("LIST OF UNIT NAMES", textAlign: TextAlign.center),
+                                  dropdownColor: Colors.lightGreen[50],
+                                  icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
+                                  iconSize: 36,
+                                  isExpanded: true,
+                                  underline: SizedBox(),
+                                  style: GoogleFonts.poppins(textStyle: TextStyle(
+                                      fontSize: 20, fontWeight: FontWeight.w400,color: Colors.black54)),
+                                  value: units,
+                                  onChanged: (newValue) {
+                                    setState(() {
+                                      units = newValue;
+                                      //  setButtonsVisible();
+                                      // if(placeTypeReligiousValue != null){
+                                      //   religiousDetailsVisible = true;
+                                      // }else{
+                                      //   religiousDetailsVisible = false;
+                                      // }
+
+                                    });
+                                  },
+                                  items: unitNames.map((valueItem) {
+                                    return DropdownMenuItem(
+                                      value: valueItem,
+                                      child: Text(valueItem, textAlign: TextAlign.center,),
+                                    );
+                                  }).toList(),
+                                ),
+                              );
+                            }else if(snapshot.hasError){
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    const Icon(
+                                      Icons.error_outline,
+                                      color: Colors.red,
+                                      size: 60,
+                                    ),
+                                    Padding(
+                                      padding: const EdgeInsets.only(top: 16),
+                                      child: Text('Error: ${snapshot.error}'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            } else{
+                              return Center(
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  crossAxisAlignment: CrossAxisAlignment.center,
+                                  children: [
+                                    SizedBox(
+                                      child: CircularProgressIndicator(),
+                                      width: 60,
+                                      height: 60,
+                                    ),
+                                    Padding(
+                                      padding: EdgeInsets.only(top: 16),
+                                      child: Text('Loading data...'),
+                                    )
+                                  ],
+                                ),
+                              );
+                            }
+                          }catch(e){
+                            return Center(
+                              child: Text("Error : $e "),
+                            );
+                          }
+
+                            return Center(
+                              child: Text("hello i am end return"),
+                            );
+                          }
+                      ),
+                    ),
                     SizedBox(height: 20.0),
                     TextFormField(
                       cursorColor:Colors.green,
@@ -155,6 +292,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                       },
                     ),
                     SizedBox(height: 10.0),
+                    //RegistrationButton
                     Builder(
                         builder: (context) => OutlinedButton.icon(
                           // color: Theme.of(context).primaryColor,
@@ -268,6 +406,23 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                 )))
                     ),
                     SizedBox(height: 10.0),
+                    //'WhatsApp Developer
+                    Builder(builder: (context)=>OutlinedButton.icon(
+                      style: TextButton.styleFrom(
+                          primary: Colors.black26,
+                          backgroundColor: Colors.lightGreen,
+                          onSurface: Colors.grey,
+                          minimumSize: Size(380.0, 35.0)
+                      ),
+                      onPressed: () => customLunch("https://wa.me/+919515726254}",),
+                        icon: Icon(Icons.message,color: Colors.white,size: 20),
+                        label: Center(
+                            child: Text(
+                              'WhatsApp Developer'.toUpperCase(),
+                              style: TextStyle(color: Colors.white),
+                            )),
+                    )),
+
                   ],
                 ),
               ),
@@ -277,6 +432,8 @@ class _UnitRegistrationState extends State<UnitRegistration> {
       ),
     );
   }
+  // this Function is called in RegistrationButton
+  //Creates DataBase
   void createDataBase(){
     setState(() {
       try{
@@ -309,7 +466,8 @@ class _UnitRegistrationState extends State<UnitRegistration> {
 
 
   }
-
+  // this Function is called in createDataBase Function
+  //Creates database back end to enter the data
   void createBackend(){
     //religiousDatabase create
     Map<String, dynamic> religiousData = {

@@ -94,7 +94,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                  mainAxisAlignment: MainAxisAlignment.center,
                 //  crossAxisAlignment: CrossAxisAlignment.start,
                   children: <Widget>[
-                    SizedBox(height: 20.0),
+                    SizedBox(height: 1.0),
                     Container(
                       padding: EdgeInsets.all(1.0),
                       decoration:  BoxDecoration(
@@ -406,6 +406,11 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                 )))
                     ),
                     SizedBox(height: 10.0),
+                    Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Text("Need help? , Text the Developer".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                          fontSize: 12, fontWeight: FontWeight.w500,color: Colors.black54))),
+                    ),
                     //'WhatsApp Developer
                     Builder(builder: (context)=>OutlinedButton.icon(
                       style: TextButton.styleFrom(
@@ -418,7 +423,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                         icon: Icon(Icons.message,color: Colors.white,size: 20),
                         label: Center(
                             child: Text(
-                              'WhatsApp Developer'.toUpperCase(),
+                              'Text Developer'.toUpperCase(),
                               style: TextStyle(color: Colors.white),
                             )),
                     )),

@@ -80,7 +80,7 @@ class _AboutState extends State<About> {
                   onTap: () {
                     return showDialog<void>(
                       context: context,
-                      barrierDismissible: false,
+                      barrierDismissible: true,
                         builder: (BuildContext context){
                           return AlertDialog(
                             title: Text('CopyRights'),
@@ -119,7 +119,7 @@ class _AboutState extends State<About> {
                   onLongPress: (){
                     return showDialog<void>(
                       context: context,
-                      barrierDismissible: false, // user must tap button!
+                      barrierDismissible: true, // user must tap button!
                       builder: (BuildContext context) {
                         return AlertDialog(
                           title: Text('Unit Registration'),

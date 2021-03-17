@@ -239,6 +239,7 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<List> unitListFun(list)async{
     unitNameList = list;
     print(unitNameList);
+ //   setButtonsVisible();
     return unitNameList;
   }
 
@@ -405,8 +406,9 @@ class _MyHomePageState extends State<MyHomePage> {
       FirebaseFirestore.instance.collection(unitValue).doc(
           placeValue).collection(selectType()).snapshots().toList();
       _getUnitNamesData();
-    });
 
+    });
+   //setButtonsVisible();
 
   }
 

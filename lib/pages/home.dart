@@ -90,29 +90,15 @@ class _MyHomePageState extends State<MyHomePage> {
   var unitCradData;
 
   Future<DocumentSnapshot> _getUnitCredentialsData() async{
-    StreamBuilder(
-        stream: FirebaseFirestore.instance
-            .collection("unitCredentials")
-            .doc(saveMail).collection(saveMail)
-            .snapshots(),
-        builder: (BuildContext context,
-            AsyncSnapshot<QuerySnapshot> snapshot){
-          if (!snapshot.hasData) {
-            return Center(
-              child: CircularProgressIndicator(),
-            );
-          }
-          unitCradData = snapshot.data.docs.first.data();
-          getunitCrad(unitCradData);
-          print("done: $unitCradSnaps ");
-          return Center(
-            child: Text("Error : in steem "),
-          );
 
-        }
-    );
-    print("done: $unitCradSnaps ");
-   // unitCradSnaps = variable;
+    await Future.delayed(Duration(seconds: 2));
+    print("from data $saveMail");
+    DocumentSnapshot variable = await FirebaseFirestore.instance
+        .collection("unitCredentials")
+        .doc(saveMail).collection(saveMail).doc(saveMail)
+        .get().then((value) {print("done: ${value["UnitId"]} "); return getunitCrad(value); });
+   // print("done: $unitCradSnaps ");
+   unitCradSnaps = variable;
     return unitCradSnaps;
   }
 
@@ -125,14 +111,14 @@ class _MyHomePageState extends State<MyHomePage> {
     // unitNameList = unitData["unitName"];
     // unitNameList.sort();
     // unitListFun(unitNameList);
-     print(unitCradData["UnitId"]);
+     print("from unit cred : ${unitCradData["UnitId"]}");
     return unitCradData;
   }
 
   //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
     await Future.delayed(Duration(seconds: 1)).then((value) => {
-    if( saveMail == "moula-ali@sio.com" && unitValue == "MOULALI@HYD"){
+    if( saveMail == unitCradData["UnitId"] && unitValue == unitCradData["UnitName"]){
         isVisibleButtons = true
     }
     else if(saveMail == "afranadmin@sio.com")
@@ -529,6 +515,7 @@ class _MyHomePageState extends State<MyHomePage> {
                       setState(() {
                         units = newValue;
                         unitValue = newValue;
+                        setButtonsVisible();
                         //  setButtonsVisible();
                         // if(placeTypeReligiousValue != null){
                         //   religiousDetailsVisible = true;

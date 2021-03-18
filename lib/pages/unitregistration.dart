@@ -25,11 +25,56 @@ class _UnitRegistrationState extends State<UnitRegistration> {
  String units;
  List unitNames = [];
 
+ bool show = true;
 
   var unitData;
 
   DocumentSnapshot data;
 
+  userWelcome(){
+    show =false;
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext context){
+        return AlertDialog(
+          title: Text('Attention!'.toUpperCase()),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: <Widget>[
+                Icon(Icons.warning,color: Colors.red,size: 30,),
+                SizedBox(height: 20,),
+                Text("Enter All The Value Appropriately and ,"
+                    " Note that Your by registering the 'UNIT' ur Also creating a DataBase Backend For the UNIT,  "
+                    "Once Registered Can't Be Changed ",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 15, fontWeight: FontWeight.w500,color: Colors.black54))),
+                SizedBox(height: 5.0,),
+                Text("- Jazakallah",
+                    style: GoogleFonts.poppins(textStyle: TextStyle(
+                        fontSize: 17, fontWeight: FontWeight.w500,color: Colors.black54))),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: Text('OK!'),
+              onPressed: () {
+                Navigator.of(context).pop();
+                show =false;
+                print("not Deleted");
+              },
+
+              style: TextButton.styleFrom(
+                primary: Colors.white,
+                backgroundColor: Colors.blue,
+              ),
+            ),
+          ],
+        );
+      },
+    );
+  }
 
   Future<DocumentSnapshot> _getUnitNamesData() async{
     DocumentSnapshot variable = await FirebaseFirestore.instance
@@ -56,6 +101,9 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   Future<List> unitListFun(list)async{
     unitNames = list;
     print(unitNames);
+    if(show == true){
+      userWelcome();
+    }
     return unitNames;
   }
 
@@ -217,14 +265,14 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                           )),
                           hintText: 'Unique Unit Name'.toUpperCase(),
                           prefixIcon: Icon(Icons.home_work_rounded,color: Colors.lightGreen),
-                          helperText:"Hint: UNITNAME@cityName*Use Capital Letters*",
+                          helperText:"ex:UNITNAME@cityName*UseCapitalLetters*",
                           helperStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black54)
 
 
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter the Id u where provided';
+                          return 'Please enter the UNIT NAME';
                         }
                         // else if (value != realId) {
                         //   return "please enter the right pass word";
@@ -245,14 +293,14 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                         )),
                           hintText: 'ENTER YOUR UNIT ID',
                           prefixIcon: Icon(Icons.mail,color: Colors.lightGreen),
-                          helperText:"Hint: unitname@sio.com*Followed By @sio.com*",
+                          helperText:"ex:unitname@sio.com*FollowedBy@sio.com*",
                           helperStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black54)
 
 
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter the Id u where provided';
+                          return 'Please enter the mail id';
                         }
                         // else if (value != realId) {
                         //   return "please enter the right pass word";
@@ -274,7 +322,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                       )),
                           hintText: 'ENTER YOUR PASSWORD',
                           prefixIcon: Icon(Icons.lock,color: Colors.lightGreen),
-                          helperText:"Hint: sio-India@1982",
+                          helperText:"ex:sio-India@1982",
                           helperStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black54)
                           // suffixIcon: InkWell(
                           //   //onTap: _togglePassWordView,
@@ -283,7 +331,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                       ),
                       validator: (value) {
                         if (value.isEmpty) {
-                          return 'Please enter the PassWord u where provided';
+                          return 'Please enter the PassWord';
                         }
                         // else if (value != realPass) {
                         //   return "please enter the right pass word";

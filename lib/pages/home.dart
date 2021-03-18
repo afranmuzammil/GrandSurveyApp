@@ -130,7 +130,7 @@ List placesTypeHallsList = [
 class MyHomePage extends StatefulWidget {
   final String userIdSave;
   MyHomePage({Key key,@required this.userIdSave}) : super(key :key);
-  _callRefesh()  => createState().refreshList();
+ // _callRefesh()  => createState()._getUnitNamesData();
   
   @override
   _MyHomePageState createState() => _MyHomePageState(userIdSave);
@@ -425,14 +425,12 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<void> refreshList()async{
     //setButtonsVisible();
     await Future.delayed(Duration(seconds: 2));
-    print("hello refresh is called");
     setState(() {
       FirebaseFirestore.instance.collection(unitValue).doc(
           placeValue).collection(selectType()).snapshots().toList();
+     // print("hello refresh is called");
       _getUnitNamesData();
-
     });
-
 
   }
 
@@ -779,6 +777,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -868,6 +868,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 {
                                   try {
                                     return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
                                       elevation: 5.0,
                                       child: Container(
                                         padding: EdgeInsets.all(10.0),
@@ -951,6 +953,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 {
                                   try {
                                     return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
                                       elevation: 5.0,
                                       child: Container(
                                         padding: EdgeInsets.all(10.0),
@@ -1037,6 +1041,8 @@ class _MyHomePageState extends State<MyHomePage> {
                                 {
                                   try {
                                     return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
                                       elevation: 5.0,
                                       child: Container(
                                         padding: EdgeInsets.all(10.0),
@@ -1127,6 +1133,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -1209,6 +1217,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -1291,6 +1301,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -1373,6 +1385,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -1455,6 +1469,8 @@ class _MyHomePageState extends State<MyHomePage> {
                           {
                             try {
                               return Card(
+                                shadowColor: Colors.blue[200],
+                                color:Colors.blue[50] ,
                                 elevation: 5.0,
                                 child: Container(
                                   padding: EdgeInsets.all(10.0),
@@ -1676,8 +1692,6 @@ class _MyHomePageState extends State<MyHomePage> {
             // Visibility(child:Container(
             //
             // )),
-
-
           ],
         ),
       ),
@@ -4597,7 +4611,6 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       // indent: 20,
                       // endIndent: 20,
                     ),
-
                     //RELIGIOUS PLACES
                     Visibility(
                       visible: isVisibleReligious,
@@ -4616,7 +4629,6 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                             fontSize: 22),
                         value: placeTypeReligiousValue,
                         onChanged: (newValue) {
-                          MyHomePage()._callRefesh();
                           setState(() {
                             placeTypeReligiousValue =
                                 newValue;
@@ -4656,7 +4668,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                             fontSize: 22),
                         value: placeTypeEducationValue,
                         onChanged: (newValue) {
-                          MyHomePage()._callRefesh();
+                          //MyHomePage()._callRefesh();
                           setState(() {
                             placeTypeEducationValue =
                                 newValue;
@@ -4841,8 +4853,6 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                   ],
                 ),
               ),
-
-
             ],
           ),
         ),

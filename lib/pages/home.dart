@@ -184,6 +184,9 @@ class _MyHomePageState extends State<MyHomePage> {
       if (userMail == "guest-user@sio.com"){
         return Text("Welcome GuestUser",style: GoogleFonts.poppins(textStyle: TextStyle(
             fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
+      }else  if (userMail == "guestId@sio.com"){
+        return Text("Welcome GuestUser",style: GoogleFonts.poppins(textStyle: TextStyle(
+            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
       }
       // print("on login :${userMail.toString().trim()}");
       return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
@@ -240,6 +243,9 @@ class _MyHomePageState extends State<MyHomePage> {
     else if(saveMail == "guest-user@sio.com")
     {
         isVisibleButtons = false
+    }else if(saveMail == "guestId@sio.com")
+    {
+        isVisibleButtons = false
     }else{
           isVisibleButtons = false
         },
@@ -256,7 +262,11 @@ class _MyHomePageState extends State<MyHomePage> {
      {
        guestLoginWellCome(),
        floatingButtonClickable = false
-     }else{
+     }else if(saveMail == "guestId@sio.com"){
+       guestLoginWellCome(),
+       floatingButtonClickable = false
+     }
+     else{
        floatingButtonClickable = true
      }
 
@@ -486,7 +496,29 @@ class _MyHomePageState extends State<MyHomePage> {
           label: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
               fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
       );
-    }else
+    }else  if(userMail == "guestId@sio.com"){
+      return  OutlinedButton.icon(
+          onPressed: () {
+            context.read<AuthenticationService>().signOut();
+            setState(() {
+              Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => LoginForm(),
+                  ));
+            });
+          },
+          style: TextButton.styleFrom(
+            primary: Colors.grey,
+            backgroundColor: Colors.blue,
+            onSurface: Colors.blue,
+          ),
+          icon: Icon(Icons.login_outlined,color: Colors.white,size: 20,),
+          label: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
+              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
+      );
+    }
+    else
       return  OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();

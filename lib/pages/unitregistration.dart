@@ -19,6 +19,11 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   final unitName = new TextEditingController();
   final idCon = new TextEditingController();
   final passCon = new TextEditingController();
+  final recipientMailCon = new TextEditingController();
+
+  final subjectController = TextEditingController(text: 'Congratulations ur unit:had been Registered');
+
+  String mailBody;
 
  List unitNameList = [];
 
@@ -115,6 +120,10 @@ class _UnitRegistrationState extends State<UnitRegistration> {
       print('could not launch $command');
     }
   }
+
+
+
+
 
   String userIdSave;
   @override
@@ -340,6 +349,37 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                       },
                     ),
                     SizedBox(height: 10.0),
+                    TextFormField(
+                    //  obscureText: isHiddenPassWord,
+                     controller: recipientMailCon,
+                      cursorColor:Colors.green,
+                      decoration: InputDecoration(
+                        border: OutlineInputBorder(),
+                        focusedBorder:  OutlineInputBorder(borderSide: BorderSide(
+                      color: Colors.green,
+                        style: BorderStyle.solid,
+                        width: 1,
+                      )),
+                          hintText: 'ENTER UNIT G-MAIL ',
+                          prefixIcon: Icon(Icons.mail_outline_rounded,color: Colors.lightGreen),
+                          helperText:"Unit will get a conformation mail",
+                          helperStyle: TextStyle(fontWeight: FontWeight.w500,fontSize: 15,color: Colors.black54)
+                          // suffixIcon: InkWell(
+                          //   //onTap: _togglePassWordView,
+                          //  // child: visibilityIcon(),
+                          // )
+                      ),
+                      validator: (value) {
+                        if (value.isEmpty) {
+                          return 'Please enter G-mail id';
+                        }
+                        // else if (value != realPass) {
+                        //   return "please enter the right pass word";
+                        // }
+                        return null;
+                      },
+                    ),
+                    SizedBox(height: 10.0),
                     //RegistrationButton
                     Builder(
                         builder: (context) => OutlinedButton.icon(
@@ -364,6 +404,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                         userIdSave = idCon.text.trim().toString();
                                         print("on : ${unitName.text.trim()}");
                                         unitNameList.add(unitName.text.trim());
+                                        mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
                                        createDataBase();
                                         // SharedPreferences prefs = await SharedPreferences.getInstance();
                                         // prefs.setString("displayMail", userIdSave);
@@ -405,6 +446,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                                     idCon.clear();
                                                     passCon.clear();
                                                     unitNameList.clear();
+                                                    recipientMailCon.clear();
 
                                                     print("Clicked");
                                                   },
@@ -460,7 +502,8 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                           fontSize: 12, fontWeight: FontWeight.w500,color: Colors.black54))),
                     ),
                     //'WhatsApp Developer
-                    Builder(builder: (context)=>OutlinedButton.icon(
+                    Builder(
+                        builder: (context)=>OutlinedButton.icon(
                       style: TextButton.styleFrom(
                           primary: Colors.black26,
                           backgroundColor: Colors.lightGreen,
@@ -475,7 +518,13 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                               style: TextStyle(color: Colors.white),
                             )),
                     )),
+                    Builder(builder: (context)=>
+                        TextButton.icon(onPressed: (){
+                          mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
+                        },
+                            icon: Icon(Icons.mail_outline), label: Text("mail me ")),
 
+                    ),
                   ],
                 ),
               ),

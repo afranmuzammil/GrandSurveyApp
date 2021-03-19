@@ -56,11 +56,12 @@ class _LoginFormState extends State<LoginForm> {
                   'LOGIN',
                   style: Theme.of(context).textTheme.headline3,
                 ),
+                //id field
                 TextFormField(
                   controller: idCon,
                   decoration: InputDecoration(
                       //border: InputBorder.none,
-                      hintText: 'ENTER YOUR ID',
+                      hintText: 'ENTER YOUR UNIT ID',
                       prefixIcon: Icon(Icons.mail)),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -72,16 +73,17 @@ class _LoginFormState extends State<LoginForm> {
                     return null;
                   },
                 ),
+                //password field
                 TextFormField(
                   obscureText: isHiddenPassWord,
                   controller: passCon,
                   decoration: InputDecoration(
                       //border: InputBorder.none,
-                      hintText: 'ENTER YOUR PASSWORD',
+                      hintText: 'ENTER UNIT PASSWORD',
                       prefixIcon: Icon(Icons.lock),
                       suffixIcon: InkWell(
                         onTap: _togglePassWordView,
-                        child: visibilityIcon(),
+                        child: visibleEye(),
                       )),
                   validator: (value) {
                     if (value.isEmpty) {
@@ -94,6 +96,7 @@ class _LoginFormState extends State<LoginForm> {
                   },
                 ),
                 SizedBox(height: 10.0),
+                //login
                 Builder(
                     builder: (context) => OutlinedButton.icon(
                        // color: Theme.of(context).primaryColor,
@@ -177,6 +180,7 @@ class _LoginFormState extends State<LoginForm> {
 
                 ),
                 SizedBox(height: 10.0),
+                //skip Login
                 Builder(
                     builder: (context) => OutlinedButton.icon(
                        // color: Theme.of(context).primaryColor,
@@ -274,31 +278,26 @@ class _LoginFormState extends State<LoginForm> {
 
     setState(() {
       isHiddenPassWord = !isHiddenPassWord;
+      //visbleEye();
       //child:
-      Icon(
-        Icons.visibility_off,
-      );
+      // Icon(
+      //   Icons.visibility_off,
+      // );
     });
   }
 
 
-}
-
-class visibilityIcon extends StatelessWidget {
-  const visibilityIcon({
-    Key key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  visibleEye(){
     if (isHiddenPassWord == true) {
-    return Icon(
-      Icons.visibility,
-    );
-  }else if(isHiddenPassWord == false){
+      return Icon(
+        Icons.visibility,
+      );
+    }else if(isHiddenPassWord == false){
       return Icon(
         Icons.visibility_off,
       );
     }
   }
 }
+
+

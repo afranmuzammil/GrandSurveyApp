@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:form_app/pages/unitregistration.dart';
+import 'package:provider/provider.dart';
+import 'package:form_app/services/autentication_service.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 class About extends StatefulWidget {
@@ -14,7 +16,7 @@ class _AboutState extends State<About> {
   String pass = "redApple@1191";
   bool isHiddenPassWord = true;
 
-  final PassController = new TextEditingController();
+  final passController = new TextEditingController();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -132,7 +134,7 @@ class _AboutState extends State<About> {
                                   SizedBox(height: 5.0,),
                                   TextFormField(
                                     obscureText: isHiddenPassWord,
-                                    //controller: PassController,
+                                    controller: passController,
                                     decoration: InputDecoration(
                                       //border: InputBorder.none,
                                         hintText: 'passWord',
@@ -146,9 +148,9 @@ class _AboutState extends State<About> {
                                       if (value.isEmpty) {
                                         return "please enter the passWord";
                                       }
-                                      else if (value != pass) {
-                                        return "please enter the right pass word";
-                                      }
+                                      // else if (value != pass) {
+                                      //   return "please enter the right pass word";
+                                      // }
                                       return null;
                                     },
                                   ),
@@ -161,14 +163,49 @@ class _AboutState extends State<About> {
                               child: Text('ENTER'),
                               onPressed: () {
                                 if(formKey.currentState.validate()){
-                                  Navigator.of(context).pop();
-                                  setState(() {
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => UnitRegistration(),
-                                        ));
-                                  });
+                                  try{
+                                    context.read<AuthenticationService>().signIn(
+                                      email: "guestId@sio.com",
+                                      password: passController.text,
+                                    ).then((value) {
+                                      if(value=="signed in"){
+                                        setState(() async{
+                                          // _saveData();
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("Access Granted"),
+                                            ),
+                                          );
+
+                                          Navigator.of(context).pop();
+                                          Navigator.push(
+                                              context,
+                                              MaterialPageRoute(
+                                                builder: (context) => UnitRegistration(),
+                                              ));
+                                          passController.clear();
+                                        });
+
+                                      }
+                                      else{
+                                        Navigator.of(context).pop();
+                                        ScaffoldMessenger.of(context).showSnackBar(
+                                          SnackBar(
+                                            content: Text("Access Denied 101"),
+                                          ),
+                                        );
+                                        passController.clear();
+                                      }});
+
+                                  }catch(e){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Access Denied 102"),
+                                      ),
+                                    );
+                                    passController.clear();
+                                  }
+
                                 }
                              //   Navigator.of(context).pop();
                                 print("deleted");
@@ -185,6 +222,7 @@ class _AboutState extends State<About> {
                               onPressed: () {
                                 Navigator.of(context).pop();
                                 print("not Deleted");
+                                passController.clear();
                               },
 
                               style: TextButton.styleFrom(

@@ -140,7 +140,7 @@ class MyHomePage extends StatefulWidget {
 class _MyHomePageState extends State<MyHomePage> {
  // Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
-
+  var indicator = new GlobalKey<RefreshIndicatorState>();
 
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
@@ -509,6 +509,7 @@ class _MyHomePageState extends State<MyHomePage> {
       );
 
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -1657,6 +1658,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     context: context,
                     builder :(BuildContext context) {
                       return BottomSheetShow();
+
                     },
                   );
                 },
@@ -4055,6 +4057,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       Icons.arrow_downward_rounded),
                   color: Colors.white70,
                   onPressed: () {
+
                     Navigator.pop(context);
                   }),
 

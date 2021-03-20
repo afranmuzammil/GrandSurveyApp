@@ -7,6 +7,8 @@ import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:mailer/mailer.dart';
+import 'package:mailer/smtp_server.dart';
 import 'package:url_launcher/url_launcher.dart';
 class UnitRegistration extends StatefulWidget {
   @override
@@ -33,6 +35,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
  bool show = true;
 
   var unitData;
+  var mailPass;
 
   DocumentSnapshot data;
 
@@ -86,12 +89,19 @@ class _UnitRegistrationState extends State<UnitRegistration> {
         .collection("unitNameList")
         .doc("NameList")
         .get().then((value) { return getLists(value); });
+
+    //getting mail&pass
+    DocumentSnapshot mailPass = await FirebaseFirestore.instance
+        .collection("RegistrationMail")
+        .doc("eNckqeL44UAqBmFcJFRQ")
+        .get().then((value) { return getMailPass(value); });
     // setState(() {
     //   data = variable;
     // });
     data = variable;
     return data;
   }
+
   Future<DocumentSnapshot> getLists(data) async{
     await Future.delayed(Duration(seconds: 2)).then((value) => {unitData = data});
     //  var userData = await _getData();
@@ -112,6 +122,15 @@ class _UnitRegistrationState extends State<UnitRegistration> {
     return unitNames;
   }
 
+  Future<DocumentSnapshot> getMailPass(data) async{
+    await Future.delayed(Duration(seconds: 2)).then((value) => {mailPass = data});
+
+   // unitListFun(unitNames);
+     //print(mailPass["mail"]);
+    return mailPass;
+  }
+
+
 
   void customLunch(command) async {
     if (await canLaunch(command)) {
@@ -122,6 +141,34 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   }
 
 
+  sendMail() async {
+    String username = "${mailPass["mail"]}";
+    String password = "${mailPass["password"]}";
+
+    final smtpServer = gmail(username, password);
+
+    // Create our message.
+    final message = Message()
+      ..from = Address(username, "Grand Survey App")
+      ..recipients.add('${recipientMailCon.text.trim()}')
+    // ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+    // ..bccRecipients.add(Address('bccAddress@example.com'))
+      ..subject = "Grand Survey App Registration Success ${DateTime.now()}"
+      ..text = 'This is the plain text.\nThis is line 2 of the text part.'
+      ..html = "<h1>Conformation Mail From Grand Survey App</h1>\n<p>As-salamu alaykum!  This mail is to conform You that Your unit has been registaed In Grand Survey App</p>\n"
+          "<p>Here's are are Your Details please have a look </p>\n<h4> UNIT NAME : ${unitName.text.trim()}</h4>\n"
+          "<h4> UNIT ID : ${idCon.text.trim()}</h4>\n<h4> UNIT PASSWORD : ${passCon.text.trim()}</h4>\n<h5>- Jazakallah kahir Moula-Ali UNIT</h5>\n";
+
+    try {
+      final sendReport = await send(message, smtpServer);
+      print('Message sent: ' + sendReport.toString());
+    } on MailerException catch (e) {
+      print('Message not sent.');
+      for (var p in e.problems) {
+        print('Problem: ${p.code}: ${p.msg}');
+      }
+    }
+  }
 
 
 
@@ -404,13 +451,14 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                         userIdSave = idCon.text.trim().toString();
                                         print("on : ${unitName.text.trim()}");
                                         unitNameList.add(unitName.text.trim());
-                                        mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
+                                        //mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
                                        createDataBase();
+                                        sendMail();
                                         // SharedPreferences prefs = await SharedPreferences.getInstance();
                                         // prefs.setString("displayMail", userIdSave);
                                         ScaffoldMessenger.of(context).showSnackBar(
                                           SnackBar(
-                                            content: Text("Registration success"),
+                                            content: Text("Registration success & Mail Sent"),
                                           ),
                                         );
                                         return showDialog<void>(

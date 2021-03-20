@@ -64,6 +64,7 @@ class _HelpState extends State<Help> {
                   height: 20,
                   thickness: 2,
                 ),
+
                 OutlinedButton.icon(
                   onPressed: () => customLunch("mailto:afranmuzammil@gmail.com"),
                   icon: Icon(Icons.mail_outline_rounded,color: Colors.white,),

@@ -151,13 +151,13 @@ class _UnitRegistrationState extends State<UnitRegistration> {
     final message = Message()
       ..from = Address(username, "Grand Survey App")
       ..recipients.add('${recipientMailCon.text.trim()}')
-    // ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
+     ..ccRecipients.addAll(['siosecunderabad@gmail.com'])
     // ..bccRecipients.add(Address('bccAddress@example.com'))
       ..subject = "Grand Survey App Registration Success ${DateTime.now()}"
       ..text = 'This is the plain text.\nThis is line 2 of the text part.'
       ..html = "<h1>Conformation Mail From Grand Survey App</h1>\n<p>As-salamu alaykum!  This mail is to conform You that Your unit has been registered In Grand Survey App</p>\n"
           "<p>Here's are are Your Details please have a look </p>\n<h4> UNIT NAME : ${unitName.text.trim()}</h4>\n"
-          "<h4> UNIT ID : ${idCon.text.trim()}</h4>\n<h4> UNIT PASSWORD : ${passCon.text.trim()}</h4>\n<h5>-sd Jazakallah kahir Moula-Ali UNIT</h5>\n";
+          "<h4> UNIT ID : ${idCon.text.trim()}</h4>\n<h4> You will Receive the PASSWORD from our official mail 'siosecunderabad@gmail.com' in 24 hrs Inshallah</h4>\n<h5>-sd Jazakallah kahir Moula-Ali UNIT</h5>\n";
 
     try {
       final sendReport = await send(message, smtpServer);

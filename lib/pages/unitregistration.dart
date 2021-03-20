@@ -155,9 +155,9 @@ class _UnitRegistrationState extends State<UnitRegistration> {
     // ..bccRecipients.add(Address('bccAddress@example.com'))
       ..subject = "Grand Survey App Registration Success ${DateTime.now()}"
       ..text = 'This is the plain text.\nThis is line 2 of the text part.'
-      ..html = "<h1>Conformation Mail From Grand Survey App</h1>\n<p>As-salamu alaykum!  This mail is to conform You that Your unit has been registaed In Grand Survey App</p>\n"
+      ..html = "<h1>Conformation Mail From Grand Survey App</h1>\n<p>As-salamu alaykum!  This mail is to conform You that Your unit has been registered In Grand Survey App</p>\n"
           "<p>Here's are are Your Details please have a look </p>\n<h4> UNIT NAME : ${unitName.text.trim()}</h4>\n"
-          "<h4> UNIT ID : ${idCon.text.trim()}</h4>\n<h4> UNIT PASSWORD : ${passCon.text.trim()}</h4>\n<h5>- Jazakallah kahir Moula-Ali UNIT</h5>\n";
+          "<h4> UNIT ID : ${idCon.text.trim()}</h4>\n<h4> UNIT PASSWORD : ${passCon.text.trim()}</h4>\n<h5>-sd Jazakallah kahir Moula-Ali UNIT</h5>\n";
 
     try {
       final sendReport = await send(message, smtpServer);
@@ -478,7 +478,9 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                                         fontWeight: FontWeight.w500,
                                                         color: Colors.black87)),),
                                                     SizedBox(height: 10.0,),
-                                                    Text("You have Registered with UNIT NAME : ${unitName.text.trim()}, UNIT ID : ${idCon.text.trim()} and PASSWORD : ${passCon.text.trim()}",
+                                                    Text("You have Registered with UNIT NAME : ${unitName.text.trim()}, "
+                                                        "UNIT ID : ${idCon.text.trim()} and PASSWORD : ${passCon.text.trim()},"
+                                                        "And the mail has been sent to ${recipientMailCon.text.trim()}",
                                                       style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
                                                           fontWeight: FontWeight.w500,
                                                           color: Colors.black54)),),
@@ -566,13 +568,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                               style: TextStyle(color: Colors.white),
                             )),
                     )),
-                    Builder(builder: (context)=>
-                        TextButton.icon(onPressed: (){
-                          mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
-                        },
-                            icon: Icon(Icons.mail_outline), label: Text("mail me ")),
 
-                    ),
                   ],
                 ),
               ),

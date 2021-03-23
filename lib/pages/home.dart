@@ -233,12 +233,15 @@ class _MyHomePageState extends State<MyHomePage> {
   //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
     await Future.delayed(Duration(seconds: 1)).then((value) => {
-    if( saveMail == unitCradData["UnitId"] && unitValue == unitCradData["UnitName"]){
+    if(saveMail == "afranadmin@sio.com"){
+      print(saveMail),
         isVisibleButtons = true
     }
-    else if(saveMail == "afranadmin@sio.com")
+    else if(saveMail == unitCradData["UnitId"] && unitValue == unitCradData["UnitName"])
     {
+
         isVisibleButtons = true
+
     }
     else if(saveMail == "guest-user@sio.com")
     {
@@ -250,9 +253,10 @@ class _MyHomePageState extends State<MyHomePage> {
           isVisibleButtons = false
         },
         refreshList(),
+
     });
 //    print("Saved mail:$saveMail");
-    print("${unitCradData["UnitName"]}");
+   // print("${unitCradData["UnitName"]}");
   }
 
   //setting floating Button Clickable
@@ -578,7 +582,6 @@ class _MyHomePageState extends State<MyHomePage> {
                         units = newValue;
                         unitValue = newValue;
                         setButtonsVisible();
-                        //  setButtonsVisible();
                         // if(placeTypeReligiousValue != null){
                         //   religiousDetailsVisible = true;
                         // }else{
@@ -696,8 +699,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => About(),
+                      builder: (context) => About(saveMail:userMail),
                     ));
+                print(userMail);
               },
               leading: Icon(Icons.settings),
               title: Text( 'Settings',style: GoogleFonts.poppins(textStyle: TextStyle(

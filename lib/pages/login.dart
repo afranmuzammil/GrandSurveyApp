@@ -25,8 +25,8 @@ class _LoginFormState extends State<LoginForm> {
   String passWord;
   String userIdSave;
 
-  var realId = "guest-user@sio.com";
-  var realPass = "redApple@1453";
+  // var realId = "guest-user@sio.com";
+  // var realPass = "redApple@1453";
 
   final idCon = new TextEditingController();
   final passCon = new TextEditingController();
@@ -181,86 +181,86 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 SizedBox(height: 10.0),
                 //skip Login
-                Builder(
-                    builder: (context) => OutlinedButton.icon(
-                       // color: Theme.of(context).primaryColor,
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Theme.of(context).secondaryHeaderColor,
-                          onSurface: Colors.grey,
-                        ),
-                        icon: Icon(Icons.login_outlined,size: 20),
-                        onPressed: () async{
-
-                          // context.read<AuthenticationService>().signIn(
-                          //   email: idCon.text,
-                          //   password: passCon.text,
-                          // ).then((value) => print("Error :$value"));
-                            //Provider.of<Object>(context, listen: false);
-                            try{
-                              context.read<AuthenticationService>().signIn(
-                                email: realId,
-                                password: realPass,
-                              ).then((value) {
-                                if(value=="signed in"){
-                                  setState(() async{
-                                    userIdSave = idCon.text.trim().toString();
-
-                                    // _saveData();
-                                    SharedPreferences prefs = await SharedPreferences.getInstance();
-                                    prefs.setString("displayMail", realId);
-
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Login success"),
-                                      ),
-                                    );
-
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                          builder: (context) => MyHomePage(userIdSave: realId),
-                                        ));
-
-                                  });
-                                }
-                                else{
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Login Failed try again"),
-                                    ),
-                                  );
-                                }});
-
-                            }catch(e){
-                              ScaffoldMessenger.of(context).showSnackBar(
-                                SnackBar(
-                                  content: Text("Login Failed try again"),
-                                ),
-                              );
-                            }
-                            userIdSave = idCon.text.trim().toString();
-                            print("user name : $userIdSave");
-
-                            // setState(()   {
-                            //    Navigator.push(
-                            //       context,
-                            //       MaterialPageRoute(
-                            //         builder: (context) => MyHomePage(userIdSave: userIdSave),
-                            //       ));
-                            // });
-
-
-                        },
-
-                        label: Center(
-                            child: Text(
-                              'SKIP LOGIN',
-                              style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),
-
-                            )))
-
-                )
+                // Builder(
+                //     builder: (context) => OutlinedButton.icon(
+                //        // color: Theme.of(context).primaryColor,
+                //         style: TextButton.styleFrom(
+                //           primary: Colors.black26,
+                //           backgroundColor: Theme.of(context).secondaryHeaderColor,
+                //           onSurface: Colors.grey,
+                //         ),
+                //         icon: Icon(Icons.login_outlined,size: 20),
+                //         onPressed: () async{
+                //
+                //           // context.read<AuthenticationService>().signIn(
+                //           //   email: idCon.text,
+                //           //   password: passCon.text,
+                //           // ).then((value) => print("Error :$value"));
+                //             //Provider.of<Object>(context, listen: false);
+                //             try{
+                //               context.read<AuthenticationService>().signIn(
+                //                 email: realId,
+                //                 password: realPass,
+                //               ).then((value) {
+                //                 if(value=="signed in"){
+                //                   setState(() async{
+                //                     userIdSave = idCon.text.trim().toString();
+                //
+                //                     // _saveData();
+                //                     SharedPreferences prefs = await SharedPreferences.getInstance();
+                //                     prefs.setString("displayMail", realId);
+                //
+                //                     ScaffoldMessenger.of(context).showSnackBar(
+                //                       SnackBar(
+                //                         content: Text("Login success"),
+                //                       ),
+                //                     );
+                //
+                //                     Navigator.push(
+                //                         context,
+                //                         MaterialPageRoute(
+                //                           builder: (context) => MyHomePage(userIdSave: realId),
+                //                         ));
+                //
+                //                   });
+                //                 }
+                //                 else{
+                //                   ScaffoldMessenger.of(context).showSnackBar(
+                //                     SnackBar(
+                //                       content: Text("Login Failed try again"),
+                //                     ),
+                //                   );
+                //                 }});
+                //
+                //             }catch(e){
+                //               ScaffoldMessenger.of(context).showSnackBar(
+                //                 SnackBar(
+                //                   content: Text("Login Failed try again"),
+                //                 ),
+                //               );
+                //             }
+                //             userIdSave = idCon.text.trim().toString();
+                //             print("user name : $userIdSave");
+                //
+                //             // setState(()   {
+                //             //    Navigator.push(
+                //             //       context,
+                //             //       MaterialPageRoute(
+                //             //         builder: (context) => MyHomePage(userIdSave: userIdSave),
+                //             //       ));
+                //             // });
+                //
+                //
+                //         },
+                //
+                //         label: Center(
+                //             child: Text(
+                //               'SKIP LOGIN',
+                //               style: TextStyle(color: Colors.grey,fontWeight: FontWeight.bold),
+                //
+                //             )))
+                //
+                // )
               ],
             ),
           ),

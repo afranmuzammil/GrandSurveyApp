@@ -52,9 +52,9 @@ class _UnitRegistrationState extends State<UnitRegistration> {
               children: <Widget>[
                 Icon(Icons.warning,color: Colors.red,size: 30,),
                 SizedBox(height: 20,),
-                Text("Enter All The Value Appropriately and ,"
-                    " Note that Your by registering the 'UNIT' ur Also creating a DataBase Backend For the UNIT,  "
-                    "Once Registered Can't Be Changed ",
+                Text("Enter All The Value Appropriately & "
+                    "NOTE that Your registering the 'UNIT', and also creating a DataBase BackEnd For the UNIT,"
+                   " *Once Registered Can't Be Changed*",
                     style: GoogleFonts.poppins(textStyle: TextStyle(
                         fontSize: 15, fontWeight: FontWeight.w500,color: Colors.black54))),
                 SizedBox(height: 5.0,),

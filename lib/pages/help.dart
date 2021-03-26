@@ -69,7 +69,7 @@ class _HelpState extends State<Help> {
 
     // Create our message.
     final message = Message()
-      ..from = Address(username, "FeedBack of GFA")
+      ..from = Address(username, "FeedBack of GSA")
       ..recipients.add('siosecunderabad@gmail.com')
     // ..ccRecipients.addAll(['destCc1@example.com', 'destCc2@example.com'])
     // ..bccRecipients.add(Address('bccAddress@example.com'))

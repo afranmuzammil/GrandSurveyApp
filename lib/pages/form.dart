@@ -12,15 +12,17 @@ import 'package:geolocator/geolocator.dart';
 
 class Forms extends StatefulWidget {
   final String unitName;
-  Forms({Key key,@required this.unitName}) : super(key :key);
+  final String unitMail;
+  Forms({Key key,@required this.unitName,this.unitMail}) : super(key :key);
   @override
-  _FormsState createState() => _FormsState(unitName);
+  _FormsState createState() => _FormsState(unitName,unitMail);
 }
 
 class _FormsState extends State<Forms> {
 
   String  unitValue ;
-  _FormsState(this.unitValue);
+  String  unitMail ;
+  _FormsState(this.unitValue,this.unitMail);
 
   void back(){
 
@@ -3613,6 +3615,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3636,6 +3639,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3659,6 +3663,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3682,6 +3687,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3710,6 +3716,7 @@ void submitFunc(){
             "longitudeData":longitudeData,
 
             "unitName":unitValue,
+            "uid": unitMail,
           };
           FirebaseFirestore.instance
               .collection(unitValue)
@@ -3733,6 +3740,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3757,6 +3765,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3785,6 +3794,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3807,6 +3817,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3829,6 +3840,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3851,6 +3863,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3880,6 +3893,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3903,6 +3917,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3926,6 +3941,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3948,6 +3964,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3970,6 +3987,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3992,6 +4010,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4014,6 +4033,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4036,6 +4056,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4058,6 +4079,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4080,6 +4102,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4110,6 +4133,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4133,6 +4157,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4156,6 +4181,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4179,6 +4205,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4202,6 +4229,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4225,6 +4253,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4248,6 +4277,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4271,6 +4301,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4294,6 +4325,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4317,6 +4349,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4347,6 +4380,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4370,6 +4404,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4393,6 +4428,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4416,6 +4452,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4439,6 +4476,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4462,6 +4500,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4485,6 +4524,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4508,6 +4548,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4531,6 +4572,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4553,6 +4595,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4576,6 +4619,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4605,6 +4649,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4627,6 +4672,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4649,6 +4695,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4671,6 +4718,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4693,6 +4741,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4715,6 +4764,7 @@ void submitFunc(){
               "longitudeData":longitudeData,
 
               "unitName":unitValue,
+              "uid": unitMail,
             };
             FirebaseFirestore.instance
                 .collection(unitValue)

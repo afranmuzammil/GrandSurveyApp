@@ -88,6 +88,19 @@ class _EditPageState extends State<EditPage> {
 
    Future uploadImageToFirebase(BuildContext context) async {
      String fileName = userImage.path;
+     ScaffoldMessenger.of(context).showSnackBar(
+       SnackBar(
+         content: Row(
+           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+           children: [
+             Text("Image Uploading..."),
+             CircularProgressIndicator(
+               semanticsLabel: 'Linear progress indicator',
+             ),
+           ],
+         ),
+       ),
+     );
      ref = firebase_storage.FirebaseStorage.instance
          .ref()
          .child('uploads/${Path.basename(fileName)}');

@@ -49,6 +49,19 @@ class _FormsState extends State<Forms> {
 
   Future uploadImageToFirebase(BuildContext context) async {
     String fileName = userImage.path;
+    ScaffoldMessenger.of(context).showSnackBar(
+      SnackBar(
+        content: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          children: [
+            Text("Image Uploading..."),
+            CircularProgressIndicator(
+              semanticsLabel: 'Linear progress indicator',
+            ),
+          ],
+        ),
+      ),
+    );
     ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('uploads/${Path.basename(fileName)}');
@@ -299,9 +312,10 @@ class _FormsState extends State<Forms> {
   bool isButtonVisible = true;
   bool isEnabled = false;
   bool uploadVisible = false;
-
+  bool uploadProgressVisible = false;
   @override
   Widget build(BuildContext context) {
+
     return Scaffold(
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       appBar: AppBar(
@@ -962,6 +976,12 @@ class _FormsState extends State<Forms> {
                                     ),
                                   ),
                                   Visibility(
+                                      visible:uploadProgressVisible,
+                                      child: CircularProgressIndicator(
+                                       // semanticsLabel: 'Linear progress indicator',
+                                      ),
+                                  ),
+                                  Visibility(
                                       visible:uploadVisible,
                                       child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
                                   ),
@@ -980,10 +1000,11 @@ class _FormsState extends State<Forms> {
                                 ),
                                 onPressed: () async {
                                   await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
+                                  await Future.delayed(Duration(seconds: 3));
                                   print("upload done : $imageLink");
                                   if(imageLink!= null){
                                     setState(() {
+                                      uploadProgressVisible = false;
                                       uploadVisible = true;
                                     });
                                     ScaffoldMessenger.of(context).showSnackBar(

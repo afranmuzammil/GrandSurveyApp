@@ -820,26 +820,6 @@ class _MyHomePageState extends State<MyHomePage> {
                                               fontWeight: FontWeight.w500,
                                               color: Colors.black87))),
                                       SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
                                       ClipRect(
                                         child: SingleChildScrollView(
                                           physics: BouncingScrollPhysics(),

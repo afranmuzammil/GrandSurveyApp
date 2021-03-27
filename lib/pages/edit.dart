@@ -4993,10 +4993,17 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
              };
-             FirebaseFirestore.instance
-                 .collection(unitValue)
-                 .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
-                 .add(data);
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
            }break;
            case "COLLEGE":{
              Map<String, dynamic> data = {
@@ -5525,10 +5532,17 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
              };
-             FirebaseFirestore.instance
-                 .collection(unitValue)
-                 .doc("OFFICES").collection("POST OFFICES")
-                 .add(data);
+             setState(() {
+               if(unitName == unitValue){
+                 FirebaseFirestore.instance
+                     .collection(unitValue)
+                     .doc(placeValue).collection(selectType).doc(docID).update(data);
+               }else{
+                 FirebaseFirestore.instance
+                     .collection(unitName)
+                     .doc(placeValue).collection(selectType).add(data);
+               }
+             });
 
            }break;
            case"MRO":{

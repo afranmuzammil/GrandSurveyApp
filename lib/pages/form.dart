@@ -45,6 +45,7 @@ class _FormsState extends State<Forms> {
   }
 
   String imageLink;
+  var upTime;
 
   Future uploadImageToFirebase(BuildContext context) async {
     String fileName = userImage.path;
@@ -56,6 +57,7 @@ class _FormsState extends State<Forms> {
         imageLink = value;
       });
     });
+    print(upTime);
     return imageLink;
   }
 
@@ -989,7 +991,8 @@ class _FormsState extends State<Forms> {
                                         content: Text("Image Uploaded"),
                                       ),
                                     );
-                                  }else{
+                                  }
+                                  else{
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
                                         content: Text("Image Not upload try again"),

@@ -1077,6 +1077,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(Details.text.trim()==""){
+                                      Details.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -1373,6 +1376,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(schoolRemarks.text.trim() == ""){
+                                      schoolRemarks.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -1765,6 +1771,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(collageRemarks.text.trim() == ""){
+                                      collageRemarks.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -2140,6 +2149,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(institutionRemarks.text.trim() == ""){
+                                      institutionRemarks.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -2413,6 +2425,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(youthDetails.text.trim() == ""){
+                                      youthDetails.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -2686,6 +2701,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(publicDetails.text.trim() == ""){
+                                      publicDetails.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -2977,6 +2995,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(officeDetails.text.trim() == ""){
+                                      officeDetails.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -3268,6 +3289,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(ngosDetails.text.trim() == ""){
+                                      ngosDetails.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(
@@ -3541,6 +3565,9 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(hallsDetails.text.trim() == ""){
+                                      hallsDetails.text = "none for now";
+                                    }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
                                         ScaffoldMessenger.of(context).showSnackBar(

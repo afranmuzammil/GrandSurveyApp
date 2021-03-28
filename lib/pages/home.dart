@@ -232,7 +232,7 @@ class _MyHomePageState extends State<MyHomePage> {
 
   //setting EDIT & DELETE button Visibility
   setButtonsVisible()async{
-    await Future.delayed(Duration(seconds: 1)).then((value) => {
+    await Future.delayed(Duration(milliseconds: 20)).then((value) => {
     if(saveMail == "afranadmin@sio.com"){
       print(saveMail),
         isVisibleButtons = true

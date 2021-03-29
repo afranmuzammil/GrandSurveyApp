@@ -206,17 +206,18 @@ class _MyHomePageState extends State<MyHomePage> {
   Future<DocumentSnapshot> _getUnitCredentialsData() async{
 
     await Future.delayed(Duration(seconds: 2));
-
     print("from data $saveMail");
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitCredentials")
         .doc(saveMail).collection(saveMail).doc(saveMail)
-        .get().then((value) {print("done: ${value["UnitId"]} "); return getunitCrad(value); });
+        .get().then((value) {print("my : ${value["UnitId"]} "); return getunitCrad(value); });
    // print("done: $unitCradSnaps ");
    unitCradSnaps = variable;
     return unitCradSnaps;
   }
+ someFun(id){
 
+ }
 
 
   Future<DocumentSnapshot> getunitCrad(data) async{

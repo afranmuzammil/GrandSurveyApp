@@ -583,17 +583,37 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   void createDataBase(){
     setState(() {
       try{
-        //sending unit data to database
-        Map<String, dynamic> unitData = {
+        Map<String, dynamic> dummy = {
           "UnitName":unitName.text.trim(),
-          "UnitId":userIdSave,
-          "UnitPass":passCon.text.trim(),
-          "isadmin":false,
         };
         FirebaseFirestore.instance
             .collection("unitCredentials")
-            .doc(userIdSave)
-            .collection(userIdSave).add(unitData);
+            .doc(userIdSave).collection(userIdSave).doc(userIdSave).set(dummy)
+            .then((value)async {
+          await Future.delayed(Duration(seconds: 2));
+          Map<String, dynamic> unitData = {
+            "UnitName":unitName.text.trim(),
+            "UnitId":userIdSave,
+            "UnitPass":passCon.text.trim(),
+            "isadmin":false,
+          };
+          FirebaseFirestore.instance
+              .collection("unitCredentials")
+              .doc(userIdSave).collection(userIdSave).doc(userIdSave)
+              .update(unitData);
+        });
+
+        // //sending unit data to database
+        // Map<String, dynamic> unitData = {
+        //   "UnitName":unitName.text.trim(),
+        //   "UnitId":userIdSave,
+        //   "UnitPass":passCon.text.trim(),
+        //   "isadmin":false,
+        // };
+        // FirebaseFirestore.instance
+        //     .collection("unitCredentials")
+        //     .doc(userIdSave)
+        //     .update(unitData);
 
         //sending unit Name to database
         Map<String, dynamic> unitNameListData = {

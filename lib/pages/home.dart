@@ -215,9 +215,7 @@ class _MyHomePageState extends State<MyHomePage> {
    unitCradSnaps = variable;
     return unitCradSnaps;
   }
- someFun(id){
 
- }
 
 
   Future<DocumentSnapshot> getunitCrad(data) async{
@@ -237,6 +235,9 @@ class _MyHomePageState extends State<MyHomePage> {
     if(saveMail == "afranadmin@sio.com"){
       print(saveMail),
         isVisibleButtons = true
+    }else if(unitCradData["isadmin"]){
+      print(saveMail),
+      isVisibleButtons = true
     }
     else if(saveMail == unitCradData["UnitId"] && unitValue == unitCradData["UnitName"])
     {

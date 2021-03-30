@@ -1992,7 +1992,7 @@ class _MyHomePageState extends State<MyHomePage> {
                   ),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["ContactNO"]}",),
+                  onPressed: () => customLunch("tel:${document["schoolContact"]}",),
                   child: Text(
                     "Call",
                     style: TextStyle(

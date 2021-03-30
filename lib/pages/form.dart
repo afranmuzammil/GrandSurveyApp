@@ -1077,8 +1077,14 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
-                                    if(Details.text.trim()==""){
+                                    if(HeadOfplace.text.trim()==""){
+                                      HeadOfplace.text = "unknown";
+                                    }if(Contact.text.trim()==""){
+                                      Contact.text = "0000";
+                                    }if(Details.text.trim()==""){
                                       Details.text = "none for now";
+                                    }if(Libraries.text.trim()==""){
+                                      Libraries.text =  "none";
                                     }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
@@ -1376,7 +1382,13 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
-                                    if(schoolRemarks.text.trim() == ""){
+                                    if(schoolPrinciple.text.trim() == ""){
+                                      schoolPrinciple.text = "unknown";
+                                    }if(schoolContact.text.trim() == ""){
+                                      schoolContact.text = "0000";
+                                    }if(schoolOpportunities.text.trim() == ""){
+                                      schoolOpportunities.text = "Couldn't Inquire";
+                                    }if(schoolRemarks.text.trim() == ""){
                                       schoolRemarks.text = "none for now";
                                     }
                                     if (formKey.currentState.validate()) {
@@ -1771,8 +1783,16 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
-                                    if(collageRemarks.text.trim() == ""){
+                                    if(collageCourses.text.trim() == ""){
+                                      collageCourses.text = "Couldn't Inquire";
+                                    }if(collageContact.text.trim() == ""){
+                                      collageContact.text = "0000";
+                                    }if(collageOpportunities.text.trim() == ""){
+                                      collageOpportunities.text = "Couldn't Inquire";
+                                    }if(collageRemarks.text.trim() == ""){
                                       collageRemarks.text = "none for now";
+                                    }if(typeOfCollegeList.isEmpty){
+                                      typeOfCollegeList.add("UNIVERSITY");
                                     }
                                     if (formKey.currentState.validate()) {
                                       if(imageLink!=null && latitudeData!=null){
@@ -2149,6 +2169,15 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(institutionCourses.text.trim() == ""){
+                                      institutionCourses.text = "Couldn't Inquire";
+                                    }if(institutionContact.text.trim() == ""){
+                                      institutionContact.text = "0000";
+                                    }if(institutionOpportunities.text.trim() == ""){
+                                      institutionOpportunities.text = "Couldn't Inquire";
+                                    }if(typeOfInstitutionList.isEmpty){
+                                      typeOfInstitutionList.add("TUTORIAL");
+                                    }
                                     if(institutionRemarks.text.trim() == ""){
                                       institutionRemarks.text = "none for now";
                                     }
@@ -2425,6 +2454,11 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(youthHeadOfPlace.text.trim() == ""){
+                                      youthHeadOfPlace.text = "unknown";
+                                    }if(youthContact.text.trim() == ""){
+                                      youthContact.text = "0000";
+                                    }
                                     if(youthDetails.text.trim() == ""){
                                       youthDetails.text = "none for now";
                                     }
@@ -2701,6 +2735,11 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(publicHeadOfPlace.text.trim() == ""){
+                                      publicHeadOfPlace.text = "unknown";
+                                    }  if(publicContact.text.trim() == ""){
+                                      publicContact.text = "0000";
+                                    }
                                     if(publicDetails.text.trim() == ""){
                                       publicDetails.text = "none for now";
                                     }
@@ -2995,6 +3034,13 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(officeHeadOfPlace.text.trim() == ""){
+                                      officeHeadOfPlace.text = "unknown";
+                                    }if(officeContact.text.trim() == ""){
+                                      officeContact.text = "0000";
+                                    }if(officeTiming.text.trim() == ""){
+                                      officeTiming.text = "00:00 - 24:00 Hrs";
+                                    }
                                     if(officeDetails.text.trim() == ""){
                                       officeDetails.text = "none for now";
                                     }
@@ -3289,6 +3335,13 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(ngosHeadOfPlace.text.trim() == ""){
+                                      ngosHeadOfPlace.text = "unknown";
+                                    }if(ngosContact.text.trim() == ""){
+                                      ngosContact.text = "0000";
+                                    }if(ngosTiming.text.trim() == ""){
+                                      ngosTiming.text = "00:00 - 24:00 Hrs";
+                                    }
                                     if(ngosDetails.text.trim() == ""){
                                       ngosDetails.text = "none for now";
                                     }
@@ -3565,6 +3618,11 @@ class _FormsState extends State<Forms> {
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed:() {
+                                    if(hallsHeadOfPlace.text.trim() == ""){
+                                      hallsHeadOfPlace.text = "unknown";
+                                    }if(hallsContact.text.trim() == ""){
+                                      hallsContact.text = "0000";
+                                    }
                                     if(hallsDetails.text.trim() == ""){
                                       hallsDetails.text = "none for now";
                                     }

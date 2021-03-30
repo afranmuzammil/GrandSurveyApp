@@ -1373,7 +1373,7 @@ class _EditPageState extends State<EditPage> {
        newImageLink = "${userData["PlaceImage"]}";
      }
      if(longitudeData == ""){
-       longitudeData ="${userData["latitudeData"]}";
+       longitudeData ="${userData["longitudeData"]}";
      }
      if(latitudeData == ""){
        latitudeData ="${userData["latitudeData"]}";
@@ -1798,7 +1798,7 @@ class _EditPageState extends State<EditPage> {
        newImageLink = "${userData["PlaceImage"]}";
      }
      if(longitudeData == ""){
-       longitudeData ="${userData["latitudeData"]}";
+       longitudeData ="${userData["longitudeData"]}";
      }
      if(latitudeData == ""){
        latitudeData ="${userData["latitudeData"]}";
@@ -2330,7 +2330,7 @@ class _EditPageState extends State<EditPage> {
         newImageLink = "${userData["PlaceImage"]}";
       }
       if(longitudeData == ""){
-        longitudeData ="${userData["latitudeData"]}";
+        longitudeData ="${userData["longitudeData"]}";
       }
       if(latitudeData == ""){
         latitudeData ="${userData["latitudeData"]}";
@@ -2837,7 +2837,7 @@ class _EditPageState extends State<EditPage> {
         newImageLink = "${userData["PlaceImage"]}";
       }
       if(longitudeData == ""){
-        longitudeData ="${userData["latitudeData"]}";
+        longitudeData ="${userData["longitudeData"]}";
       }
       if(latitudeData == ""){
         latitudeData ="${userData["latitudeData"]}";
@@ -3237,7 +3237,7 @@ class _EditPageState extends State<EditPage> {
         newImageLink = "${userData["PlaceImage"]}";
       }
       if(longitudeData == ""){
-        longitudeData ="${userData["latitudeData"]}";
+        longitudeData ="${userData["longitudeData"]}";
       }
       if(latitudeData == ""){
         latitudeData ="${userData["latitudeData"]}";
@@ -3640,7 +3640,7 @@ class _EditPageState extends State<EditPage> {
        newImageLink = "${userData["PlaceImage"]}";
      }
      if(longitudeData == ""){
-       longitudeData ="${userData["latitudeData"]}";
+       longitudeData ="${userData["longitudeData"]}";
      }
      if(latitudeData == ""){
        latitudeData ="${userData["latitudeData"]}";
@@ -4059,7 +4059,7 @@ class _EditPageState extends State<EditPage> {
        newImageLink = "${userData["PlaceImage"]}";
      }
      if(longitudeData == ""){
-       longitudeData ="${userData["latitudeData"]}";
+       longitudeData ="${userData["longitudeData"]}";
      }
      if(latitudeData == ""){
        latitudeData ="${userData["latitudeData"]}";
@@ -4477,7 +4477,7 @@ class _EditPageState extends State<EditPage> {
        newImageLink = "${userData["PlaceImage"]}";
      }
      if(longitudeData == ""){
-       longitudeData ="${userData["latitudeData"]}";
+       longitudeData ="${userData["longitudeData"]}";
      }
      if(latitudeData == ""){
        latitudeData ="${userData["latitudeData"]}";

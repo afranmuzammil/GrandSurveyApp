@@ -797,7 +797,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Place',
+                                  hintText: 'Name of the Place*',
                                   prefixIcon: Icon(Icons.home_sharp)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -852,7 +852,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Type of Fiker',
+                                  hintText: 'Type of Fiker*',
                                   prefixIcon: Icon(Icons.accessibility_new_outlined)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -894,7 +894,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -914,7 +914,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -1127,7 +1127,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the School',
+                                  hintText: 'Name of the School*',
                                   prefixIcon: Icon(Icons.school_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1165,7 +1165,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Strength of the School',
+                                  hintText: 'Strength of the School*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1204,7 +1204,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -1431,7 +1431,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the College',
+                                  hintText: 'Name of the College*',
                                   prefixIcon: Icon(Icons.school_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1446,7 +1446,7 @@ class _FormsState extends State<Forms> {
                             //TYPE OF INSTITUTION
                             SizedBox(height: 30.0,),
                             Text(
-                              'TYPE OF COLLEGE',
+                              'TYPE OF COLLEGE*',
                               style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
                               textAlign: TextAlign.left,
                             ),
@@ -1566,7 +1566,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Strength of the College',
+                                  hintText: 'Strength of the College*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1605,7 +1605,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -1834,7 +1834,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the institute',
+                                  hintText: 'Name of the institute*',
                                   prefixIcon: Icon(Icons.school_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1849,7 +1849,7 @@ class _FormsState extends State<Forms> {
                             //TYPE OF INSTITUTION
                             SizedBox(height: 30.0,),
                             Text(
-                              'TYPE OF INSTITUTION',
+                              'TYPE OF INSTITUTION*',
                               style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
                               textAlign: TextAlign.left,
                             ),
@@ -1952,7 +1952,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Strength of the Collage',
+                                  hintText: 'Strength of the Collage*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -1991,7 +1991,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -2221,7 +2221,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Place',
+                                  hintText: 'Name of the Place*',
                                   prefixIcon: Icon(Icons.home_sharp)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2278,7 +2278,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2298,7 +2298,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -2502,7 +2502,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Place',
+                                  hintText: 'Name of the Place*',
                                   prefixIcon: Icon(Icons.home_sharp)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2559,7 +2559,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2579,7 +2579,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -2783,7 +2783,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Office',
+                                  hintText: 'Name of the Office*',
                                   prefixIcon: Icon(Icons.work_outline_outlined)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2858,7 +2858,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -2878,7 +2878,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -3084,7 +3084,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the NGOS/ORGANISATION',
+                                  hintText: 'Name of the NGOS/ORGANISATION*',
                                   prefixIcon: Icon(Icons.home_work)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -3159,7 +3159,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -3179,7 +3179,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -3385,7 +3385,7 @@ class _FormsState extends State<Forms> {
                               keyboardType: TextInputType.text,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Name of the Place',
+                                  hintText: 'Name of the Place*',
                                   prefixIcon: Icon(Icons.home_work_sharp)),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -3442,7 +3442,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate',
+                                  hintText: 'Capacity to Accommodate*',
                                   prefixIcon: Icon(Icons.people_alt_outlined )),
                               validator: (value) {
                                 if (value.isEmpty) {
@@ -3462,7 +3462,7 @@ class _FormsState extends State<Forms> {
                               maxLines: 5,
                               decoration: InputDecoration(
                                 //border: InputBorder.none,
-                                hintText: 'Address ',
+                                hintText: 'Address* ',
                                 contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
                                 prefixIcon: Icon(Icons.add_location_outlined  ),),
                               scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
@@ -3726,6 +3726,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3751,6 +3752,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3776,6 +3778,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3801,6 +3804,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3831,6 +3835,7 @@ void submitFunc(){
             "unitName":unitValue,
             "uid": unitMail,
             "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+            "isPosted":"Posted",
           };
           FirebaseFirestore.instance
               .collection(unitValue)
@@ -3856,6 +3861,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3882,6 +3888,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3912,6 +3919,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3936,6 +3944,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3960,6 +3969,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -3984,6 +3994,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4015,6 +4026,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4040,6 +4052,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4065,6 +4078,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4089,6 +4103,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4113,6 +4128,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4137,6 +4153,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4161,6 +4178,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4185,6 +4203,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4209,6 +4228,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4233,6 +4253,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4265,6 +4286,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4290,6 +4312,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4315,6 +4338,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4340,6 +4364,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4365,6 +4390,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4390,6 +4416,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4415,6 +4442,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4440,6 +4468,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4465,6 +4494,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4490,6 +4520,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4522,6 +4553,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4547,6 +4579,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4572,6 +4605,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4597,6 +4631,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4622,6 +4657,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4647,6 +4683,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4672,6 +4709,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4697,6 +4735,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4722,6 +4761,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4746,6 +4786,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4771,6 +4812,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4802,6 +4844,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4826,6 +4869,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4850,6 +4894,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4874,6 +4919,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4898,6 +4944,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)
@@ -4922,6 +4969,7 @@ void submitFunc(){
               "unitName":unitValue,
               "uid": unitMail,
               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+              "isPosted":"Posted",
             };
             FirebaseFirestore.instance
                 .collection(unitValue)

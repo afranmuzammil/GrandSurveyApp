@@ -2020,7 +2020,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   ExpansionTile religiousDetailsDisplay(QueryDocumentSnapshot document) {
-    //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
+   //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
     return ExpansionTile(
       title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
       TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
@@ -2101,8 +2101,8 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            // Text("posted on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            // TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
@@ -2365,6 +2365,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Unit Name :  ${document["unitName"]}",
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
+            SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
@@ -2633,6 +2636,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
                     TextButton(
@@ -2899,6 +2905,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
                     TextButton(
@@ -3150,6 +3159,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Unit Name :  ${document["unitName"]}",
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
+            SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
@@ -3403,6 +3415,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Unit Name :  ${document["unitName"]}",
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
+            SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
@@ -3666,6 +3681,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
                     TextButton(
@@ -3927,6 +3945,9 @@ class _MyHomePageState extends State<MyHomePage> {
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>
                     TextButton(
@@ -4178,6 +4199,9 @@ class _MyHomePageState extends State<MyHomePage> {
             Text("Unit Name :  ${document["unitName"]}",
                 style: GoogleFonts.poppins(textStyle: TextStyle(
                     fontSize: 16, fontWeight: FontWeight.w500))),
+            SizedBox(height: 5.0),
+            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
                 builder: (context) =>

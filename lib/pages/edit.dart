@@ -1285,38 +1285,7 @@ class _EditPageState extends State<EditPage> {
             ],
           ),
           SizedBox(height: 10.0,),
-          // DropdownButton(
-          //   hint: Text("Change Unit", textAlign: TextAlign.center),
-          //   dropdownColor: Theme
-          //       .of(context)
-          //       .primaryColor,
-          //   icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
-          //   iconSize: 36,
-          //   isExpanded: true,
-          //   underline: SizedBox(),
-          //   style: GoogleFonts.poppins(textStyle: TextStyle(
-          //       fontSize: 20, fontWeight: FontWeight.w500,color: Colors.black54)),
-          //   value: unitName,
-          //   onChanged: (newValue) {
-          //     setState(() {
-          //       unitName = newValue;
-          //       // if(placeTypeReligiousValue != null){
-          //       //   religiousDetailsVisible = true;
-          //       // }else{
-          //       //   religiousDetailsVisible = false;
-          //       // }
-          //
-          //     });
-          //   },
-          //   items: unitNameList.map((valueItem) {
-          //     return DropdownMenuItem(
-          //       value: valueItem,
-          //       child: Text(valueItem, textAlign: TextAlign.center,),
-          //     );
-          //   }).toList(),
-          // ),
-          // SizedBox(height: 20.0,),
-          //Done button
+
           Builder(
             builder: (context) => TextButton(
                 style: TextButton.styleFrom(
@@ -3969,8 +3938,8 @@ class _EditPageState extends State<EditPage> {
           Column(
             children: <Widget>[
               Center(
-                child: userImage == null ? Text("ADD LOCATION",
-                    style: TextStyle(color: Colors.black54)):Image.file(userImage),
+                child: Text("ADD LOCATION",
+                    style: TextStyle(color: Colors.black54)),
               ),
               Builder(
                 builder: (context)=>TextButton.icon(
@@ -4888,6 +4857,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -4917,6 +4887,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -4946,6 +4917,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -4975,6 +4947,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -5009,6 +4982,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -5038,6 +5012,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
 
              };
              setState(() {
@@ -5069,6 +5044,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -5103,6 +5079,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -5131,6 +5108,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated"
              };
              setState(() {
                if(unitName == unitValue){
@@ -5159,6 +5137,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5187,6 +5166,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5222,6 +5202,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5251,6 +5232,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5280,6 +5262,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5307,6 +5290,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5335,6 +5319,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5363,6 +5348,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5391,6 +5377,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5419,6 +5406,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5447,6 +5435,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5475,6 +5464,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5510,6 +5500,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5539,6 +5530,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5568,6 +5560,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5597,6 +5590,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5626,6 +5620,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5655,6 +5650,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5684,6 +5680,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5713,6 +5710,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5742,6 +5740,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5770,6 +5769,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5806,6 +5806,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5835,6 +5836,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5863,6 +5865,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5891,6 +5894,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5920,6 +5924,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5949,6 +5954,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -5978,6 +5984,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6006,6 +6013,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6035,6 +6043,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6063,6 +6072,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6092,6 +6102,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6127,6 +6138,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6155,6 +6167,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6182,6 +6195,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6210,6 +6224,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6237,6 +6252,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){
@@ -6265,6 +6281,7 @@ class _EditPageState extends State<EditPage> {
 
                "unitName":unitValue,
                "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+               "isPosted":"Updated",
              };
              setState(() {
                if(unitName == unitValue){

@@ -4869,7 +4869,6 @@ class _EditPageState extends State<EditPage> {
    }
 
    void submitFunc() {
-
      switch(placeValue){
        case "RELIGIOUS PLACES":{
          switch(selectType){
@@ -4888,6 +4887,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -4916,6 +4916,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -4944,6 +4945,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -4972,6 +4974,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5005,6 +5008,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5033,6 +5037,8 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
+
              };
              setState(() {
                if(unitName == unitValue){
@@ -5062,6 +5068,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5095,6 +5102,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5122,6 +5130,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5149,6 +5158,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5176,6 +5186,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5210,6 +5221,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5238,6 +5250,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5266,6 +5279,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5292,6 +5306,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5319,6 +5334,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5346,6 +5362,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5373,6 +5390,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5400,6 +5418,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5427,6 +5446,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5454,6 +5474,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5488,6 +5509,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5516,6 +5538,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5544,6 +5567,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5572,6 +5596,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5600,6 +5625,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5628,6 +5654,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5656,6 +5683,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5684,6 +5712,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5712,6 +5741,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5739,6 +5769,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5774,6 +5805,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5802,6 +5834,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5829,6 +5862,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5856,6 +5890,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5884,6 +5919,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5912,6 +5948,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5940,6 +5977,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5967,6 +6005,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -5995,6 +6034,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6022,6 +6062,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6050,6 +6091,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6084,6 +6126,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6111,6 +6154,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6137,6 +6181,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6164,6 +6209,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6190,6 +6236,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){
@@ -6217,6 +6264,7 @@ class _EditPageState extends State<EditPage> {
                "longitudeData":longitudeData,
 
                "unitName":unitValue,
+               "dataTime":DateTime.parse(DateTime.now().toString().trim()),
              };
              setState(() {
                if(unitName == unitValue){

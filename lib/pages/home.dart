@@ -632,13 +632,7 @@ class _MyHomePageState extends State<MyHomePage> {
                           setState(() {
                             units = newValue;
                             unitValue = newValue;
-                           // setButtonsVisible();
-                            // if(placeTypeReligiousValue != null){
-                            //   religiousDetailsVisible = true;
-                            // }else{
-                            //   religiousDetailsVisible = false;
-                            // }
-
+                            setButtonsVisible();
                           });
                         },
                         items: unitNameList.map((valueItem) {

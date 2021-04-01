@@ -611,13 +611,16 @@ class _MyHomePageState extends State<MyHomePage> {
       builder:(BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
         if(snapshot.hasData){
           if(unitCradData["isadmin"]){
+            isListIgnoring = false;
+            reload();
+            show = false;
+            print(" is Ignoting  value : $isListIgnoring");
             return FutureBuilder<DocumentSnapshot>(
                 future: _getUnitNamesData(),
                 builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
                   print("dis unit is : $unitValue");
                   try{
                     if(snapshot.hasData){
-                      isListIgnoring = false;
                       return DropdownButton(
                         hint: Text("LIST OF UNIT NAMES", textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
                             fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),),
@@ -1129,7 +1132,7 @@ class _MyHomePageState extends State<MyHomePage> {
                     valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
                   ),
                     Text(
-                        "Your Unit Data is Loading... ",
+                        "Your Unit's Data is Loading... ",
                         style: GoogleFonts.poppins(textStyle:
                         TextStyle(fontSize: 12,
                             fontWeight: FontWeight.w500,

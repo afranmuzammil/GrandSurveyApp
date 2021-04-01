@@ -137,7 +137,8 @@ class MyHomePage extends StatefulWidget {
 
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _MyHomePageState extends State<MyHomePage>
+    with SingleTickerProviderStateMixin {
  // Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   var indicator = new GlobalKey<RefreshIndicatorState>();
@@ -153,6 +154,9 @@ class _MyHomePageState extends State<MyHomePage> {
 
   String  connectivityStatus;
 
+  AnimationController controller;
+  Animation<Color> animation;
+  double progress = 0;
 
 
   @override
@@ -164,7 +168,21 @@ class _MyHomePageState extends State<MyHomePage> {
     refreshList();
     super.initState();
     checkInternetStatus();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+    controller.repeat();
    // _readData();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   //saving User id
@@ -676,7 +694,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              child: LinearProgressIndicator(),
+                              child: LinearProgressIndicator(
+                                valueColor: animation,
+                                backgroundColor: Colors.white,
+                              ),
                               width: 250,
                               height: 5,
                             ),
@@ -742,7 +763,10 @@ class _MyHomePageState extends State<MyHomePage> {
                           crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             SizedBox(
-                              child: LinearProgressIndicator(),
+                              child: LinearProgressIndicator(
+                                valueColor: animation,
+                                backgroundColor: Colors.white,
+                              ),
                               width: 250,
                               height: 5,
                             ),
@@ -775,7 +799,10 @@ class _MyHomePageState extends State<MyHomePage> {
               crossAxisAlignment: CrossAxisAlignment.center,
               children: [
                 SizedBox(
-                  child: LinearProgressIndicator(),
+                  child: LinearProgressIndicator(
+                    valueColor: animation,
+                    backgroundColor: Colors.white,
+                  ),
                   width: 250,
                   height: 5,
                 ),
@@ -1098,7 +1125,10 @@ class _MyHomePageState extends State<MyHomePage> {
               AsyncSnapshot<QuerySnapshot> snapshot) {
             if (!snapshot.hasData) {
               return Center(
-                child: CircularProgressIndicator(),
+                child: CircularProgressIndicator(
+                  valueColor: animation,
+                  backgroundColor: Colors.white,
+                ),
               );
             }else if(snapshot.hasError){
               print("e :${snapshot.error}");
@@ -1129,7 +1159,8 @@ class _MyHomePageState extends State<MyHomePage> {
                   crossAxisAlignment: CrossAxisAlignment.center,
                   children:[
                     CircularProgressIndicator(
-                    valueColor: AlwaysStoppedAnimation<Color>(Colors.blue),
+                      valueColor: animation,
+                      backgroundColor: Colors.white,
                   ),
                     Text(
                         "Your Unit's Data is Loading... ",

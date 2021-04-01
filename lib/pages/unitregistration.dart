@@ -15,7 +15,8 @@ class UnitRegistration extends StatefulWidget {
   _UnitRegistrationState createState() => _UnitRegistrationState();
 }
 
-class _UnitRegistrationState extends State<UnitRegistration> {
+class _UnitRegistrationState extends State<UnitRegistration>
+    with SingleTickerProviderStateMixin{
   final formKey = GlobalKey<FormState>();
 
   final unitName = new TextEditingController();
@@ -24,6 +25,32 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   final recipientMailCon = new TextEditingController();
 
   final subjectController = TextEditingController(text: 'Congratulations ur unit:had been Registered');
+
+  AnimationController controller;
+  Animation<Color> animation;
+  double progress = 0;
+
+  @override
+  void initState() {
+    super.initState();
+
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+    controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+
 
   String mailBody;
 
@@ -144,6 +171,7 @@ class _UnitRegistrationState extends State<UnitRegistration> {
   sendMail() async {
     String username = "${mailPass["mail"]}";
     String password = "${mailPass["password"]}";
+
 
     final smtpServer = gmail(username, password);
 
@@ -284,9 +312,13 @@ class _UnitRegistrationState extends State<UnitRegistration> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     SizedBox(
-                                      child: CircularProgressIndicator(),
-                                      width: 60,
-                                      height: 60,
+                                      child: CircularProgressIndicator(
+                                        valueColor: animation,
+                                        backgroundColor: Colors.white,
+                                        strokeWidth: 5,
+                                      ),
+                                      width: 50,
+                                      height: 50,
                                     ),
                                     Padding(
                                       padding: EdgeInsets.only(top: 16),

@@ -19,7 +19,8 @@ class EditPage extends StatefulWidget {
   _EditPageState createState() => _EditPageState(this.unitValue,this.placeValue,this.selectType,this.docID);
 }
 
-class _EditPageState extends State<EditPage> {
+class _EditPageState extends State<EditPage>
+    with SingleTickerProviderStateMixin{
 
    String unitValue;
    String placeValue;
@@ -33,12 +34,33 @@ class _EditPageState extends State<EditPage> {
     DocumentSnapshot data;
     var userData;
 
+   AnimationController controller;
+   Animation<Color> animation;
+   double progress = 0;
+
    @override
    void initState() {
     _getData();
     //foo();
      super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+    controller.repeat();
    }
+
+   @override
+   void dispose() {
+     controller.dispose();
+     super.dispose();
+   }
+
+
+
 
    String unitName;
    List unitNameList = [
@@ -95,6 +117,8 @@ class _EditPageState extends State<EditPage> {
            children: [
              Text("Image Uploading..."),
              CircularProgressIndicator(
+               valueColor: animation,
+               backgroundColor: Colors.white,
                semanticsLabel: 'Linear progress indicator',
              ),
            ],
@@ -249,7 +273,10 @@ class _EditPageState extends State<EditPage> {
                   AsyncSnapshot<QuerySnapshot> snapshot)   {
                 if (!snapshot.hasData) {
                   return Center(
-                    child: CircularProgressIndicator(),
+                    child: CircularProgressIndicator(
+                      valueColor: animation,
+                      backgroundColor: Colors.white,
+                    ),
                   );
                 }
                   //var variable = snapshot.data.docs.first.data();
@@ -808,7 +835,11 @@ class _EditPageState extends State<EditPage> {
                                     crossAxisAlignment: CrossAxisAlignment.center,
                                     children: [
                                       SizedBox(
-                                        child: CircularProgressIndicator(),
+                                        child: CircularProgressIndicator(
+                                          valueColor: animation,
+                                          backgroundColor: Colors.white,
+                                          strokeWidth: 5,
+                                        ),
                                         width: 60,
                                         height: 60,
                                       ),

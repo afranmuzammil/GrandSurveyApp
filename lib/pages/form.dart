@@ -1,3 +1,4 @@
+// import 'dart:html';
 import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -18,7 +19,11 @@ class Forms extends StatefulWidget {
   _FormsState createState() => _FormsState(unitName,unitMail);
 }
 
-class _FormsState extends State<Forms> {
+class _FormsState extends State<Forms>
+    with SingleTickerProviderStateMixin{
+
+
+
 
   String  unitValue ;
   String  unitMail ;
@@ -56,6 +61,8 @@ class _FormsState extends State<Forms> {
           children: [
             Text("Image Uploading..."),
             CircularProgressIndicator(
+              valueColor: animation,
+              backgroundColor: Colors.white,
               semanticsLabel: 'Linear progress indicator',
             ),
           ],
@@ -65,12 +72,13 @@ class _FormsState extends State<Forms> {
     ref = firebase_storage.FirebaseStorage.instance
         .ref()
         .child('uploads/${Path.basename(fileName)}');
+
     await ref.putFile(userImage).whenComplete(() async {
       ref.getDownloadURL().then((value) {
         imageLink = value;
       });
     });
-    print(upTime);
+    //print(upTime);
     return imageLink;
   }
 
@@ -81,11 +89,33 @@ class _FormsState extends State<Forms> {
   String latitudeData ;
   String longitudeData;
 
+  AnimationController controller;
+  Animation<Color> animation;
+  double progress = 0;
+
   @override
   void initState() {
     super.initState();
     //getCurrentLoaction();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.yellow, end: Colors.red));
+    controller.repeat();
+
   }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+
+
   getCurrentLoaction() async {
     final geoPosition =
         await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);

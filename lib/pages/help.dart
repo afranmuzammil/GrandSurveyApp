@@ -10,13 +10,32 @@ class Help extends StatefulWidget {
   _HelpState createState() => _HelpState();
 }
 
-class _HelpState extends State<Help> {
+class _HelpState extends State<Help>
+    with SingleTickerProviderStateMixin{
   final formKey = GlobalKey<FormState>();
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
+
+  AnimationController controller;
+  Animation<Color> animation;
+  double progress = 0;
 
   void initState(){
     _getMailPassData();
     super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+    controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
   }
 
   final userMailCon= new TextEditingController();
@@ -224,7 +243,11 @@ class _HelpState extends State<Help> {
                                   crossAxisAlignment: CrossAxisAlignment.center,
                                   children: [
                                     SizedBox(
-                                      child: CircularProgressIndicator(),
+                                      child: CircularProgressIndicator(
+                                        valueColor: animation,
+                                        backgroundColor: Colors.white,
+                                        strokeWidth: 5,
+                                      ),
                                       width: 60,
                                       height: 60,
                                     ),

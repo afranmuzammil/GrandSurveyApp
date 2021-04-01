@@ -12,10 +12,36 @@ class About extends StatefulWidget {
   _AboutState createState() => _AboutState(saveMail);
 }
 
-class _AboutState extends State<About> {
+class _AboutState extends State<About>
+    with SingleTickerProviderStateMixin{
 
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
   final formKey = GlobalKey<FormState>();
+
+  AnimationController controller;
+  Animation<Color> animation;
+  double progress = 0;
+
+  @override
+  void initState() {
+    //foo();
+    super.initState();
+    controller = AnimationController(
+      duration: Duration(seconds: 3),
+      vsync: this,
+    );
+
+    animation =
+        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+    controller.repeat();
+  }
+
+  @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
 
   String saveMail;
   _AboutState(this.saveMail);
@@ -317,7 +343,11 @@ class _AboutState extends State<About> {
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
                               SizedBox(
-                                child: CircularProgressIndicator(),
+                                child: CircularProgressIndicator(
+                                  valueColor: animation,
+                                  backgroundColor: Colors.white,
+                                  strokeWidth: 5,
+                                ),
                                 width: 60,
                                 height: 60,
                               ),

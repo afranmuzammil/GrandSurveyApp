@@ -816,167 +816,22 @@ class _MyHomePageState extends State<MyHomePage>
         }
       },
     );
-    if(unitCradData["isadmin"]){
-      return FutureBuilder<DocumentSnapshot>(
-          future: _getUnitNamesData(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-            try{
-              if(snapshot.hasData){
-                return DropdownButton(
-                  hint: Text("LIST OF UNIT NAMES", textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),),
-                  dropdownColor: Theme
-                      .of(context)
-                      .primaryColor,
-                  icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
-                  iconSize: 36,
-                  isExpanded: true,
-                  underline: SizedBox(),
-                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
-                  value: units,
-                  onChanged: (newValue) {
-                    setState(() {
-                      units = newValue;
-                      unitValue = newValue;
-                      setButtonsVisible();
-                      // if(placeTypeReligiousValue != null){
-                      //   religiousDetailsVisible = true;
-                      // }else{
-                      //   religiousDetailsVisible = false;
-                      // }
 
-                    });
-                  },
-                  items: unitNameList.map((valueItem) {
-                    return DropdownMenuItem(
-                      value: valueItem,
-                      child: Text(valueItem, textAlign: TextAlign.center,),
-                    );
-                  }).toList(),
-                );
-              }else if(snapshot.hasError){
-                print("e :${snapshot.error}");
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Text('Error: '),
-                      const Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Text('Error: '),
-
-                      )
-                    ],
-                  ),
-                );
-              } else{
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        child: LinearProgressIndicator(),
-                        width: 250,
-                        height: 5,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Loading data...'),
-                      )
-                    ],
-                  ),
-                );
-              }
-            }catch(e){
-              print("Error : $e ");
-              return Center(
-                child: Text("Error : $e "),
-              );
-            }
-
-            return Center(
-              child: Text("hello i am end return"),
-            );
-          }
-      );
-    }else{
-     return FutureBuilder<DocumentSnapshot>(
-          future: _getUnitNamesData(),
-          builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-            try{
-              if(snapshot.hasData){
-                return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
-              }else if(snapshot.hasError){
-                print("e :${snapshot.error}");
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      //Text('Error: '),
-                      const Icon(
-                        Icons.error_outline,
-                        color: Colors.red,
-                        size: 10,
-                      ),
-                      Padding(
-                        padding: const EdgeInsets.only(top: 16),
-                        child: Text('Error: '),
-
-                      )
-                    ],
-                  ),
-                );
-              } else{
-                return Center(
-                  child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    crossAxisAlignment: CrossAxisAlignment.center,
-                    children: [
-                      SizedBox(
-                        child: LinearProgressIndicator(),
-                        width: 250,
-                        height: 5,
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(top: 16),
-                        child: Text('Loading data...'),
-                      )
-                    ],
-                  ),
-                );
-              }
-            }catch(e){
-              print("Error : $e ");
-              return Center(
-                child: Text("Error : "),
-              );
-            }
-
-          }
-      );
-      // unitValue = unitCradData["UnitName"];
-      // return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
-      //     fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
-    }
 
   }
-
+//this variable will make the home page loading
  bool isListIgnoring = true;
-  homepageLoading(){
-    if(isListIgnoring){
-      return CircularProgressIndicator();
+
+  var docCount = 0;
+  docsCounting(){
+    if(placeValue == "RELIGIOUS PLACES"){
+      docCount++;
+
+      print("${selectType()} : $docCount");
     }
   }
+
+
 
   @override
   Widget build(BuildContext context) {
@@ -1181,7 +1036,9 @@ class _MyHomePageState extends State<MyHomePage>
                       switch (placeValue) {
                         case"RELIGIOUS PLACES":
                           {
+
                             try {
+
                               return Card(
                                 shadowColor: Colors.blue[200],
                                 color:Colors.blue[50] ,
@@ -2089,6 +1946,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   ExpansionTile religiousDetailsDisplay(QueryDocumentSnapshot document) {
    //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
+    docsCounting();
     return ExpansionTile(
       title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
       TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),

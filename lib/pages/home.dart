@@ -152,7 +152,7 @@ class _MyHomePageState extends State<MyHomePage>
    String saveMail;
 
 
-  String  connectivityStatus;
+
 
   AnimationController controller;
   Animation<Color> animation;
@@ -529,7 +529,7 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-
+  String  connectivityStatus;
   //Check internet
   void checkInternetStatus() {
     //await Future.delayed(Duration(seconds: 2));
@@ -791,6 +791,22 @@ class _MyHomePageState extends State<MyHomePage>
             // return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
             //     fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
           }
+        } else if(connectivityStatus == "NotConnected"){
+          return Center(
+            child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children:[
+                 Icon(Icons.error,color: Colors.grey,),
+                  Text(
+                    "Check Your InterNet!",
+                    style: GoogleFonts.poppins(textStyle:
+                    TextStyle(fontSize: 12,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey)),textAlign: TextAlign.center ,),
+                ]
+            ),
+          );
         }
         else{
           return Center(
@@ -823,13 +839,13 @@ class _MyHomePageState extends State<MyHomePage>
  bool isListIgnoring = true;
 
   var docCount = 0;
-  docsCounting(){
-    if(placeValue == "RELIGIOUS PLACES"){
-      docCount++;
-
-      print("${selectType()} : $docCount");
-    }
-  }
+  // docsCounting(){
+  //   if(placeValue == "RELIGIOUS PLACES"){
+  //     docCount++;
+  //
+  //     print("${selectType()} : $docCount");
+  //   }
+  // }
 
 
 
@@ -1036,9 +1052,7 @@ class _MyHomePageState extends State<MyHomePage>
                       switch (placeValue) {
                         case"RELIGIOUS PLACES":
                           {
-
                             try {
-
                               return Card(
                                 shadowColor: Colors.blue[200],
                                 color:Colors.blue[50] ,
@@ -1102,8 +1116,6 @@ class _MyHomePageState extends State<MyHomePage>
                             }
                           }
                           break;
-
-
                         case"EDUCATIONAL INSTITUTIONS":
                           {
                             switch (placeTypeEducationValue) {
@@ -1370,8 +1382,6 @@ class _MyHomePageState extends State<MyHomePage>
                             }
                           }
                           break;
-
-
                         case"YOUTH SPOTS":
                           {
                             try {
@@ -1881,24 +1891,25 @@ class _MyHomePageState extends State<MyHomePage>
               ),
             );
           }
-          // else if(connectivityStatus == "Connected"){
-          //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
-          // }else if(connectivityStatus == "NotConnected"){
-          //   ScaffoldMessenger.of(context).showSnackBar(
-          //     SnackBar(
-          //       content: Text("Check Your Internet"),
-          //       action: SnackBarAction(
-          //         label: "OK",
-          //         onPressed: (){
-          //           //Navigator.pop(context);
-          //         },
-          //       ),
-          //     ),
-          //   );
-          // }
-          else{
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue,unitMail: userMail,)));
+          else if(connectivityStatus == "Connected"){
+            print(connectivityStatus);
+            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          }else if(connectivityStatus == "NotConnected"){
+            ScaffoldMessenger.of(context).showSnackBar(
+              SnackBar(
+                content: Text("Check Your Internet"),
+                action: SnackBarAction(
+                  label: "OK",
+                  onPressed: (){
+                    //Navigator.pop(context);
+                  },
+                ),
+              ),
+            );
           }
+          // else{
+          //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue,unitMail: userMail,)));
+          // }
 
           //Navigator.pushNamed(context, '/form', arguments: unitValue);
           setState(() {
@@ -1946,7 +1957,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   ExpansionTile religiousDetailsDisplay(QueryDocumentSnapshot document) {
    //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
-    docsCounting();
+    //docsCounting();
     return ExpansionTile(
       title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
       TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),

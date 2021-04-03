@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:connectivity/connectivity.dart';
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -43,6 +44,7 @@ class _EditPageState extends State<EditPage>
     _getData();
     //foo();
      super.initState();
+    checkInternetStatus();
     controller = AnimationController(
       duration: Duration(seconds: 3),
       vsync: this,
@@ -147,6 +149,32 @@ class _EditPageState extends State<EditPage>
        longitudeData = "${geoPosition.longitude}";
        print(latitudeData);
      });
+   }
+
+   String  connectivityStatus;
+   //Check internet
+   void checkInternetStatus() {
+     //await Future.delayed(Duration(seconds: 2));
+     Connectivity().onConnectivityChanged.listen((ConnectivityResult result ){
+       if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
+         changeValues("Connected");
+
+       }else{
+         changeValues("NotConnected");
+       }
+       print(result);
+     });
+     print("result");
+   }
+
+   void changeValues( String result)async{
+     await Future.delayed(Duration(seconds: 2)).then((value) => {
+       setState(() {
+         connectivityStatus = result;
+         print(result);
+       })
+     });
+
    }
 
 
@@ -271,15 +299,33 @@ class _EditPageState extends State<EditPage>
                   placeValue).collection(selectType).snapshots(),
               builder: (BuildContext context,
                   AsyncSnapshot<QuerySnapshot> snapshot)   {
+                // if(connectivityStatus == "NotConnected"){
+                //   return  Center(
+                //     child: Column(
+                //         mainAxisAlignment: MainAxisAlignment.center,
+                //         crossAxisAlignment: CrossAxisAlignment.center,
+                //         children:[
+                //           Icon(Icons.error,color: Colors.grey,),
+                //           Text(
+                //             "Check Your InterNet!",
+                //             style: GoogleFonts.poppins(textStyle:
+                //             TextStyle(fontSize: 12,
+                //                 fontWeight: FontWeight.w500,
+                //                 color: Colors.grey)),textAlign: TextAlign.center ,),
+                //         ]
+                //     ),
+                //   );
+                // } else
                 if (!snapshot.hasData) {
+                  print(" hay :$connectivityStatus");
                   return Center(
                     child: CircularProgressIndicator(
                       valueColor: animation,
                       backgroundColor: Colors.white,
                     ),
                   );
-                }
-                  //var variable = snapshot.data.docs.first.data();
+                }//var variable = snapshot.data.docs.first.data();
+                else{
                   return SingleChildScrollView(
                     child: Padding(
                       padding: const EdgeInsets.all(16.0),
@@ -303,56 +349,56 @@ class _EditPageState extends State<EditPage>
                                       //
                                       //   },
                                       // )
-                                        return Column(
-                                          children: [
-                                            religiousInputs(),
-                                            //religiousInput(),
-                                            // TextFormField(
-                                            //   //controller: NameOfPlace,
-                                            //   initialValue: "${userData["Address"]}",
-                                            //   keyboardType: TextInputType.text,
-                                            //   decoration: InputDecoration(
-                                            //     //border: InputBorder.none,
-                                            //       hintText: 'Name of the Place',
-                                            //       prefixIcon: Icon(Icons.home_sharp)),
-                                            //   validator: (value) {
-                                            //     if (value.isEmpty) {
-                                            //       return 'Please enter the appropriate details';
-                                            //     }
-                                            //     // else if (value != realId) {
-                                            //     //   return "please enter the right pass word";
-                                            //     // }
-                                            //     return null;
-                                            //   },
-                                            // ),
-                                            //SUBMIT BUTTON
-                                            // SUBMIT BUTTON
-                                            Visibility(
-                                              visible: isEnabled,
-                                              child: Builder(
-                                                builder: (context) =>
-                                                    TextButton(
-                                                      // color: Theme.of(context).primaryColor,
-                                                        style: TextButton.styleFrom(
-                                                          primary: Colors.black26,
-                                                          backgroundColor: Theme
-                                                              .of(context)
-                                                              .primaryColor,
-                                                          onSurface: Colors.grey,
-                                                        ),
-                                                        onPressed: isEnabled ? () =>
-                                                            submitFunc() : null,
-                                                        child: Center(
-                                                            child: Text(
-                                                              'Submit',
-                                                              style: TextStyle(
-                                                                  color: Colors
-                                                                      .white70),
-                                                            ))),
-                                              ),
+                                      return Column(
+                                        children: [
+                                          religiousInputs(),
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
                                             ),
-                                          ],
-                                        );
+                                          ),
+                                        ],
+                                      );
 
                                     }
                                     break;
@@ -417,56 +463,56 @@ class _EditPageState extends State<EditPage>
                                           break;
                                         case "COLLEGE":
                                           {
-                                              return Column(
-                                                children: [
-                                                  collageInputs(),
-                                                  //religiousInput(),
-                                                  // TextFormField(
-                                                  //   //controller: NameOfPlace,
-                                                  //   initialValue: "${userData["Address"]}",
-                                                  //   keyboardType: TextInputType.text,
-                                                  //   decoration: InputDecoration(
-                                                  //     //border: InputBorder.none,
-                                                  //       hintText: 'Name of the Place',
-                                                  //       prefixIcon: Icon(Icons.home_sharp)),
-                                                  //   validator: (value) {
-                                                  //     if (value.isEmpty) {
-                                                  //       return 'Please enter the appropriate details';
-                                                  //     }
-                                                  //     // else if (value != realId) {
-                                                  //     //   return "please enter the right pass word";
-                                                  //     // }
-                                                  //     return null;
-                                                  //   },
-                                                  // ),
-                                                  //SUBMIT BUTTON
-                                                  // SUBMIT BUTTON
-                                                  Visibility(
-                                                    visible: isEnabled,
-                                                    child: Builder(
-                                                      builder: (context) =>
-                                                          TextButton(
-                                                            // color: Theme.of(context).primaryColor,
-                                                              style: TextButton.styleFrom(
-                                                                primary: Colors.black26,
-                                                                backgroundColor: Theme
-                                                                    .of(context)
-                                                                    .primaryColor,
-                                                                onSurface: Colors.grey,
-                                                              ),
-                                                              onPressed: isEnabled ? () =>
-                                                                  submitFunc() : null,
-                                                              child: Center(
-                                                                  child: Text(
-                                                                    'Submit',
-                                                                    style: TextStyle(
-                                                                        color: Colors
-                                                                            .white70),
-                                                                  ))),
-                                                    ),
+                                            return Column(
+                                              children: [
+                                                collageInputs(),
+                                                //religiousInput(),
+                                                // TextFormField(
+                                                //   //controller: NameOfPlace,
+                                                //   initialValue: "${userData["Address"]}",
+                                                //   keyboardType: TextInputType.text,
+                                                //   decoration: InputDecoration(
+                                                //     //border: InputBorder.none,
+                                                //       hintText: 'Name of the Place',
+                                                //       prefixIcon: Icon(Icons.home_sharp)),
+                                                //   validator: (value) {
+                                                //     if (value.isEmpty) {
+                                                //       return 'Please enter the appropriate details';
+                                                //     }
+                                                //     // else if (value != realId) {
+                                                //     //   return "please enter the right pass word";
+                                                //     // }
+                                                //     return null;
+                                                //   },
+                                                // ),
+                                                //SUBMIT BUTTON
+                                                // SUBMIT BUTTON
+                                                Visibility(
+                                                  visible: isEnabled,
+                                                  child: Builder(
+                                                    builder: (context) =>
+                                                        TextButton(
+                                                          // color: Theme.of(context).primaryColor,
+                                                            style: TextButton.styleFrom(
+                                                              primary: Colors.black26,
+                                                              backgroundColor: Theme
+                                                                  .of(context)
+                                                                  .primaryColor,
+                                                              onSurface: Colors.grey,
+                                                            ),
+                                                            onPressed: isEnabled ? () =>
+                                                                submitFunc() : null,
+                                                            child: Center(
+                                                                child: Text(
+                                                                  'Submit',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white70),
+                                                                ))),
                                                   ),
-                                                ],
-                                              );
+                                                ),
+                                              ],
+                                            );
                                           }
                                           break;
                                         case "INSTITUTION":
@@ -699,57 +745,57 @@ class _EditPageState extends State<EditPage>
                                   case"NGOSorORGANISATIONS":
                                     {
                                       return Column(
-                                      children: [
-                                        ngosPlaceInputs(),
+                                        children: [
+                                          ngosPlaceInputs(),
 
 
-                                        //religiousInput(),
-                                        // TextFormField(
-                                        //   //controller: NameOfPlace,
-                                        //   initialValue: "${userData["Address"]}",
-                                        //   keyboardType: TextInputType.text,
-                                        //   decoration: InputDecoration(
-                                        //     //border: InputBorder.none,
-                                        //       hintText: 'Name of the Place',
-                                        //       prefixIcon: Icon(Icons.home_sharp)),
-                                        //   validator: (value) {
-                                        //     if (value.isEmpty) {
-                                        //       return 'Please enter the appropriate details';
-                                        //     }
-                                        //     // else if (value != realId) {
-                                        //     //   return "please enter the right pass word";
-                                        //     // }
-                                        //     return null;
-                                        //   },
-                                        // ),
-                                        //SUBMIT BUTTON
-                                        // SUBMIT BUTTON
-                                        Visibility(
-                                          visible: isEnabled,
-                                          child: Builder(
-                                            builder: (context) =>
-                                                TextButton(
-                                                  // color: Theme.of(context).primaryColor,
-                                                    style: TextButton.styleFrom(
-                                                      primary: Colors.black26,
-                                                      backgroundColor: Theme
-                                                          .of(context)
-                                                          .primaryColor,
-                                                      onSurface: Colors.grey,
-                                                    ),
-                                                    onPressed: isEnabled ? () =>
-                                                        submitFunc() : null,
-                                                    child: Center(
-                                                        child: Text(
-                                                          'Submit',
-                                                          style: TextStyle(
-                                                              color: Colors
-                                                                  .white70),
-                                                        ))),
+                                          //religiousInput(),
+                                          // TextFormField(
+                                          //   //controller: NameOfPlace,
+                                          //   initialValue: "${userData["Address"]}",
+                                          //   keyboardType: TextInputType.text,
+                                          //   decoration: InputDecoration(
+                                          //     //border: InputBorder.none,
+                                          //       hintText: 'Name of the Place',
+                                          //       prefixIcon: Icon(Icons.home_sharp)),
+                                          //   validator: (value) {
+                                          //     if (value.isEmpty) {
+                                          //       return 'Please enter the appropriate details';
+                                          //     }
+                                          //     // else if (value != realId) {
+                                          //     //   return "please enter the right pass word";
+                                          //     // }
+                                          //     return null;
+                                          //   },
+                                          // ),
+                                          //SUBMIT BUTTON
+                                          // SUBMIT BUTTON
+                                          Visibility(
+                                            visible: isEnabled,
+                                            child: Builder(
+                                              builder: (context) =>
+                                                  TextButton(
+                                                    // color: Theme.of(context).primaryColor,
+                                                      style: TextButton.styleFrom(
+                                                        primary: Colors.black26,
+                                                        backgroundColor: Theme
+                                                            .of(context)
+                                                            .primaryColor,
+                                                        onSurface: Colors.grey,
+                                                      ),
+                                                      onPressed: isEnabled ? () =>
+                                                          submitFunc() : null,
+                                                      child: Center(
+                                                          child: Text(
+                                                            'Submit',
+                                                            style: TextStyle(
+                                                                color: Colors
+                                                                    .white70),
+                                                          ))),
+                                            ),
                                           ),
-                                        ),
-                                      ],
-                                    );
+                                        ],
+                                      );
                                     }
                                     break;
                                   case"HALLS":
@@ -864,6 +910,8 @@ class _EditPageState extends State<EditPage>
                       ),
                     ),
                   );
+                }
+
 
           } ),
         ),

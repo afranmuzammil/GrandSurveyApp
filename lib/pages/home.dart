@@ -2077,6 +2077,8 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
                                   return showDialog<void>(
                                     context: context,
                                     barrierDismissible: false, // user must tap button!
@@ -2098,13 +2100,13 @@ class _MyHomePageState extends State<MyHomePage>
                                             onPressed: () async{
                                               try{
                                                 await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
                                               }catch(e){
                                                 ScaffoldMessenger.of(context).showSnackBar(
                                                   SnackBar(
@@ -2136,6 +2138,78 @@ class _MyHomePageState extends State<MyHomePage>
                                       );
                                     },
                                   );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                  // return showDialog<void>(
+                                  //   context: context,
+                                  //   barrierDismissible: false, // user must tap button!
+                                  //   builder: (BuildContext context) {
+                                  //     return AlertDialog(
+                                  //       title: Text('Delete'),
+                                  //       content: SingleChildScrollView(
+                                  //         child: ListBody(
+                                  //           children: <Widget>[
+                                  //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                  //             SizedBox(height: 5.0,),
+                                  //             Text('Once Deleted cant be Undone!'),
+                                  //           ],
+                                  //         ),
+                                  //       ),
+                                  //       actions: <Widget>[
+                                  //         TextButton(
+                                  //           child: Text('Yes'),
+                                  //           onPressed: () async{
+                                  //             try{
+                                  //               await firebase_storage.FirebaseStorage.instance
+                                  //                 .refFromURL(document["PlaceImage"])
+                                  //                 .delete()
+                                  //                 .then(
+                                  //                     (_) =>
+                                  //                     print("File deleted successfully")
+                                  //             );
+                                  //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                  //             }catch(e){
+                                  //               ScaffoldMessenger.of(context).showSnackBar(
+                                  //                 SnackBar(
+                                  //                   content: Text("Could not Delete try again"),
+                                  //                 ),
+                                  //               );
+                                  //             }
+                                  //             Navigator.of(context).pop();
+                                  //             print("deleted");
+                                  //
+                                  //           },
+                                  //           // style: TextButton.styleFrom(
+                                  //           //   primary: Colors.white,
+                                  //           //   backgroundColor: Colors.redAccent,
+                                  //           // ),
+                                  //         ),
+                                  //         TextButton(
+                                  //           child: Text('No!'),
+                                  //           onPressed: () {
+                                  //             Navigator.of(context).pop();
+                                  //             print("not Deleted");
+                                  //           },
+                                  //           style: TextButton.styleFrom(
+                                  //             primary: Colors.white,
+                                  //             backgroundColor: Colors.blue,
+                                  //           ),
+                                  //         ),
+                                  //       ],
+                                  //     );
+                                  //   },
+                                  // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -2165,53 +2239,117 @@ class _MyHomePageState extends State<MyHomePage>
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                          await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
 
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -2342,65 +2480,139 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
-
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -2431,53 +2643,116 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
                               onPressed: () {
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
-
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -2611,65 +2886,140 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
 
                               onPressed: ()  async{
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
 
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -2700,53 +3050,116 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
                               onPressed: () {
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
-
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -2881,65 +3294,139 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
-
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -2969,53 +3456,117 @@ class _MyHomePageState extends State<MyHomePage>
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
 
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -3136,65 +3687,139 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
-
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -3225,53 +3850,116 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
                               onPressed: () {
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
-
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -3392,65 +4080,139 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
-
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -3481,53 +4243,116 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
                               onPressed: () {
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
-
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -3656,65 +4481,140 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
 
                               onPressed: ()  async{
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
 
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -3745,53 +4645,116 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
                               onPressed: () {
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
-
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -3921,65 +4884,139 @@ class _MyHomePageState extends State<MyHomePage>
 
                               onPressed: ()  async{
 
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
-
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -4009,53 +5046,117 @@ class _MyHomePageState extends State<MyHomePage>
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
 
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(
@@ -4175,65 +5276,140 @@ class _MyHomePageState extends State<MyHomePage>
                               ),
 
                               onPressed: ()  async{
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Delete'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('Once Deleted cant be Undone!'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async{
-                                            try{
-                                              await firebase_storage.FirebaseStorage.instance
-                                                  .refFromURL(document["PlaceImage"])
-                                                  .delete()
-                                                  .then(
-                                                      (_) =>
-                                                      print("File deleted successfully")
-                                              );
-                                              FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
-                                                SnackBar(
-                                                  content: Text("Could not Delete try again"),
-                                                ),
-                                              );
-                                            }
-                                            Navigator.of(context).pop();
-                                            print("deleted");
 
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Delete'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('Once Deleted cant be Undone!'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async{
+                                              try{
+                                                await firebase_storage.FirebaseStorage.instance
+                                                    .refFromURL(document["PlaceImage"])
+                                                    .delete()
+                                                    .then(
+                                                        (_) =>
+                                                        print("File deleted successfully")
+                                                );
+                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                              }catch(e){
+                                                ScaffoldMessenger.of(context).showSnackBar(
+                                                  SnackBar(
+                                                    content: Text("Could not Delete try again"),
+                                                  ),
+                                                );
+                                              }
+                                              Navigator.of(context).pop();
+                                              print("deleted");
+
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Delete Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Delete'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('Once Deleted cant be Undone!'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async{
+                                //             try{
+                                //               await firebase_storage.FirebaseStorage.instance
+                                //                 .refFromURL(document["PlaceImage"])
+                                //                 .delete()
+                                //                 .then(
+                                //                     (_) =>
+                                //                     print("File deleted successfully")
+                                //             );
+                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                                //             }catch(e){
+                                //               ScaffoldMessenger.of(context).showSnackBar(
+                                //                 SnackBar(
+                                //                   content: Text("Could not Delete try again"),
+                                //                 ),
+                                //               );
+                                //             }
+                                //             Navigator.of(context).pop();
+                                //             print("deleted");
+                                //
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
 
                                 //
                                 // await firebase_storage.FirebaseStorage.instance
@@ -4263,53 +5439,117 @@ class _MyHomePageState extends State<MyHomePage>
                                 onSurface: Colors.grey,
                               ),
                               onPressed: () {
-                                return showDialog<void>(
-                                  context: context,
-                                  barrierDismissible: false, // user must tap button!
-                                  builder: (BuildContext context) {
-                                    return AlertDialog(
-                                      title: Text('Edit'),
-                                      content: SingleChildScrollView(
-                                        child: ListBody(
-                                          children: <Widget>[
-                                            Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
-                                            Text('You can Edit and Change the text in Post'),
-                                          ],
-                                        ),
-                                      ),
-                                      actions: <Widget>[
-                                        TextButton(
-                                          child: Text('Yes'),
-                                          onPressed: () async {
-                                            await  Navigator.push(
-                                                context,
-                                                MaterialPageRoute(
-                                                  builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                )).then((value) => Navigator.of(context).pop());
 
-                                            print("deleted");
-                                          },
-                                          // style: TextButton.styleFrom(
-                                          //   primary: Colors.white,
-                                          //   backgroundColor: Colors.redAccent,
-                                          // ),
-                                        ),
-                                        TextButton(
-                                          child: Text('No!'),
-                                          onPressed: () {
-                                            Navigator.of(context).pop();
-                                            print("not Deleted");
-                                          },
-                                          style: TextButton.styleFrom(
-                                            primary: Colors.white,
-                                            backgroundColor: Colors.blue,
+                                if(connectivityStatus == "Connected"){
+                                  print(connectivityStatus);
+                                  return showDialog<void>(
+                                    context: context,
+                                    barrierDismissible: false, // user must tap button!
+                                    builder: (BuildContext context) {
+                                      return AlertDialog(
+                                        title: Text('Edit'),
+                                        content: SingleChildScrollView(
+                                          child: ListBody(
+                                            children: <Widget>[
+                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                              SizedBox(height: 5.0,),
+                                              Text('You can Edit and Change the text in Post'),
+                                            ],
                                           ),
                                         ),
-                                      ],
-                                    );
-                                  },
-                                );
+                                        actions: <Widget>[
+                                          TextButton(
+                                            child: Text('Yes'),
+                                            onPressed: () async {
+                                              await  Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                                  )).then((value) => Navigator.of(context).pop());
+
+                                              print("deleted");
+                                            },
+                                            // style: TextButton.styleFrom(
+                                            //   primary: Colors.white,
+                                            //   backgroundColor: Colors.redAccent,
+                                            // ),
+                                          ),
+                                          TextButton(
+                                            child: Text('No!'),
+                                            onPressed: () {
+                                              Navigator.of(context).pop();
+                                              print("not Deleted");
+                                            },
+                                            style: TextButton.styleFrom(
+                                              primary: Colors.white,
+                                              backgroundColor: Colors.blue,
+                                            ),
+                                          ),
+                                        ],
+                                      );
+                                    },
+                                  );
+                                }else if(connectivityStatus == "NotConnected"){
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    SnackBar(
+                                      content: Text("Can't Edit Check Your Internet"),
+                                      action: SnackBarAction(
+                                        label: "OK",
+                                        onPressed: (){
+                                          //Navigator.pop(context);
+                                        },
+                                      ),
+                                    ),
+                                  );
+                                }
+
+                                // return showDialog<void>(
+                                //   context: context,
+                                //   barrierDismissible: false, // user must tap button!
+                                //   builder: (BuildContext context) {
+                                //     return AlertDialog(
+                                //       title: Text('Edit'),
+                                //       content: SingleChildScrollView(
+                                //         child: ListBody(
+                                //           children: <Widget>[
+                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                //             SizedBox(height: 5.0,),
+                                //             Text('You can Edit and Change the text in Post'),
+                                //           ],
+                                //         ),
+                                //       ),
+                                //       actions: <Widget>[
+                                //         TextButton(
+                                //           child: Text('Yes'),
+                                //           onPressed: () async {
+                                //           await  Navigator.push(
+                                //                 context,
+                                //                 MaterialPageRoute(
+                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                                //                 )).then((value) => Navigator.of(context).pop());
+                                //
+                                //             print("deleted");
+                                //           },
+                                //           // style: TextButton.styleFrom(
+                                //           //   primary: Colors.white,
+                                //           //   backgroundColor: Colors.redAccent,
+                                //           // ),
+                                //         ),
+                                //         TextButton(
+                                //           child: Text('No!'),
+                                //           onPressed: () {
+                                //             Navigator.of(context).pop();
+                                //             print("not Deleted");
+                                //           },
+                                //           style: TextButton.styleFrom(
+                                //             primary: Colors.white,
+                                //             backgroundColor: Colors.blue,
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     );
+                                //   },
+                                // );
                               },
                               child: Center(
                                 child: Icon(

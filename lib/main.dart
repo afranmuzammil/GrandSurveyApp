@@ -5,12 +5,14 @@ import 'package:form_app/pages/form.dart';
 import 'package:form_app/pages/loading.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:form_app/services/autentication_service.dart';
+import 'package:form_app/services/push_notification_service.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+ // PushNotificationService().initialise();
   runApp(
       MyForm()
    //  MaterialApp(

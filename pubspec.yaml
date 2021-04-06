@@ -38,6 +38,7 @@ dependencies:
   shared_preferences: ^2.0.4
   connectivity: ^3.0.2
   mailer: ^4.0.0
+  firebase_messaging: ^9.1.0
  # flutter_map:
 
 

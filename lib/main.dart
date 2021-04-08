@@ -12,6 +12,7 @@ import 'pages/home.dart';
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await PushNotificationService().initialise();
  // PushNotificationService().initialise();
   runApp(
       MyForm()

@@ -3,8 +3,10 @@ import 'dart:io';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_storage/firebase_storage.dart' as firebase_storage;
+import 'package:form_app/pages/ad_helper.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -93,8 +95,27 @@ class _FormsState extends State<Forms>
   Animation<Color> animation;
   double progress = 0;
 
+  BannerAd _ad;
+  bool isloaded = false;
+
   @override
   void initState() {
+
+
+    _ad = BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: AdRequest(),
+        size: AdSize.largeBanner,
+        listener: AdListener(onAdLoaded: (_) {
+          print("Banner AD Called");
+          setState(() {
+            isloaded = true;
+          });
+        }, onAdFailedToLoad: (_, error) {
+          print("Ad faild to Load with error : $error");
+        }));
+    _ad.load();
+
     super.initState();
     //getCurrentLoaction();
     controller = AnimationController(
@@ -110,11 +131,25 @@ class _FormsState extends State<Forms>
 
   @override
   void dispose() {
+    _ad?.dispose();
     controller.dispose();
     super.dispose();
   }
 
-
+  Widget checkForAd() {
+    if (isloaded == true) {
+      return Container(
+        child: AdWidget(
+          ad: _ad,
+        ),
+        width: _ad.size.width.toDouble(),
+        height: _ad.size.height.toDouble(),
+        //alignment: Alignment.center,
+      );
+    } else {
+      return Text("AD here");
+    }
+  }
 
   getCurrentLoaction() async {
     final geoPosition =
@@ -3707,6 +3742,8 @@ class _FormsState extends State<Forms>
                                 ))),
                     ),
                   ),
+                  SizedBox(height: 20.0,),
+                  checkForAd(),
                   SizedBox(height: 15.0,),
                 ],
               ),

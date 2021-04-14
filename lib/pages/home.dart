@@ -1027,7 +1027,7 @@ class _MyHomePageState extends State<MyHomePage>
         // ),
         child: Column(
           children: [
-            //checkForAd(),
+            checkForAd(),
             Expanded(
               child: Container(
               padding: EdgeInsets.all(5.0),
@@ -2134,9 +2134,12 @@ class _MyHomePageState extends State<MyHomePage>
                                         content: SingleChildScrollView(
                                           child: ListBody(
                                             children: <Widget>[
+                                              checkForAd(),
+                                              SizedBox(height: 10,),
                                               Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
                                               SizedBox(height: 5.0,),
                                               Text('Once Deleted cant be Undone!'),
+
                                             ],
                                           ),
                                         ),

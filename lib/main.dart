@@ -6,6 +6,7 @@ import 'package:form_app/pages/loading.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:form_app/services/push_notification_service.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'pages/home.dart';
 
@@ -13,6 +14,7 @@ Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await PushNotificationService().initialise();
+  MobileAds.instance.initialize();
  // PushNotificationService().initialise();
   runApp(
       MyForm()

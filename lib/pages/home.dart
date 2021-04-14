@@ -11,7 +11,9 @@ import 'package:form_app/pages/edit.dart';
 import 'package:form_app/pages/help.dart';
 import 'package:form_app/pages/login.dart';
 import 'package:form_app/pages/visionsinfo.dart';
+import 'package:form_app/pages/ad_helper.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -158,6 +160,8 @@ class _MyHomePageState extends State<MyHomePage>
   Animation<Color> animation;
   double progress = 0;
 
+   BannerAd _ad;
+   bool isloaded = false;
 
   @override
   void initState() {
@@ -168,6 +172,21 @@ class _MyHomePageState extends State<MyHomePage>
     refreshList();
     super.initState();
     checkInternetStatus();
+
+    _ad = BannerAd(
+        adUnitId: AdHelper.bannerAdUnitId,
+        request: AdRequest(),
+        size: AdSize.banner,
+        listener: AdListener(onAdLoaded: (_) {
+          print("Banner AD Called");
+          setState(() {
+            isloaded = true;
+          });
+        }, onAdFailedToLoad: (_, error) {
+          print("Ad faild to Load with error : $error");
+        }));
+    _ad.load();
+
     controller = AnimationController(
       duration: Duration(seconds: 3),
       vsync: this,
@@ -177,14 +196,33 @@ class _MyHomePageState extends State<MyHomePage>
         controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
     controller.repeat();
    // _readData();
+
+
+
   }
 
   @override
   void dispose() {
+    _ad?.dispose();
     controller.dispose();
     super.dispose();
   }
 
+
+  Widget checkForAd() {
+    if (isloaded == true) {
+      return Container(
+        child: AdWidget(
+          ad: _ad,
+        ),
+        width: _ad.size.width.toDouble(),
+        height: _ad.size.height.toDouble(),
+        //alignment: Alignment.center,
+      );
+    } else {
+      return Text("AD here");
+    }
+  }
   //saving User id
    _saveData() async {
    SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -907,6 +945,7 @@ class _MyHomePageState extends State<MyHomePage>
               thickness: 2,
             ),
             // about page nav
+            //checkForAd(),
             ListTile(
               onTap: () {
                 Navigator.push(
@@ -986,140 +1025,75 @@ class _MyHomePageState extends State<MyHomePage>
         //   child: Text("This is ${selectType()} data",style: GoogleFonts.poppins(textStyle: TextStyle(
         //       fontSize: 18, fontWeight: FontWeight.bold,color: Colors.black54)),textAlign: TextAlign.center ,),
         // ),
-        child: Container(
-        padding: EdgeInsets.all(5.0),
-          child: StreamBuilder(
-          stream: FirebaseFirestore.instance.collection(unitValue).doc(
-              placeValue).collection(selectType()).snapshots(),
-          //stream: documentStream,
-          builder: (BuildContext context,
-              AsyncSnapshot<QuerySnapshot> snapshot) {
-            if (!snapshot.hasData) {
-              return Center(
-                child: CircularProgressIndicator(
-                  valueColor: animation,
-                  backgroundColor: Colors.white,
-                ),
-              );
-            }else if(snapshot.hasError){
-              print("e :${snapshot.error}");
-              return Center(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children: [
-                    //Text('Error: '),
-                    const Icon(
-                      Icons.error_outline,
-                      color: Colors.red,
-                      size: 10,
-                    ),
-                    Padding(
-                      padding: const EdgeInsets.only(top: 16),
-                      child: Text('Error: '),
+        child: Column(
+          children: [
+            //checkForAd(),
+            Expanded(
+              child: Container(
+              padding: EdgeInsets.all(5.0),
+                child: StreamBuilder(
+                stream: FirebaseFirestore.instance.collection(unitValue).doc(
+                    placeValue).collection(selectType()).snapshots(),
+                //stream: documentStream,
+                builder: (BuildContext context,
+                    AsyncSnapshot<QuerySnapshot> snapshot) {
+                  if (!snapshot.hasData) {
+                    return Center(
+                      child: CircularProgressIndicator(
+                        valueColor: animation,
+                        backgroundColor: Colors.white,
+                      ),
+                    );
+                  }else if(snapshot.hasError){
+                    print("e :${snapshot.error}");
+                    return Center(
+                      child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children: [
+                          //Text('Error: '),
+                          const Icon(
+                            Icons.error_outline,
+                            color: Colors.red,
+                            size: 10,
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 16),
+                            child: Text('Error: '),
 
-                    )
-                  ],
-                ),
-              );
-            }
-            else {
-              if(isListIgnoring){
-                return Center(child: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.center,
-                  children:[
-                    CircularProgressIndicator(
-                      valueColor: animation,
-                      backgroundColor: Colors.white,
-                  ),
-                    Text(
-                        "Your Unit's Data is Loading... ",
-                        style: GoogleFonts.poppins(textStyle:
-                        TextStyle(fontSize: 12,
-                            fontWeight: FontWeight.w500,
-                            color: Colors.black54)),textAlign: TextAlign.center ,),
-            ]
-                ));
-              }
-              return RefreshIndicator(
-                onRefresh:refreshList ,
-                child: IgnorePointer(
-                  ignoring: isListIgnoring,
-                  child: ListView(
-                    children: snapshot.data.docs.map((document) {
-                     // var UserDoc = document.id;
-                      switch (placeValue) {
-                        case"RELIGIOUS PLACES":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]} ",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['PlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              // crossAxisAlignment: CrossAxisAlignment.start,
-                                              children: [
-                                                religiousDetailsDisplay(document)
-                                              ],
-                                            ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              print("on :$e");
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
-                            }
-                          }
-                          break;
-                        case"EDUCATIONAL INSTITUTIONS":
-                          {
-                            switch (placeTypeEducationValue) {
-                              case"SCHOOL":
+                          )
+                        ],
+                      ),
+                    );
+                  }
+                  else {
+                    if(isListIgnoring){
+                      return Center(child: Column(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        crossAxisAlignment: CrossAxisAlignment.center,
+                        children:[
+                          CircularProgressIndicator(
+                            valueColor: animation,
+                            backgroundColor: Colors.white,
+                        ),
+                          Text(
+                              "Your Unit's Data is Loading... ",
+                              style: GoogleFonts.poppins(textStyle:
+                              TextStyle(fontSize: 12,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.black54)),textAlign: TextAlign.center ,),
+                  ]
+                      ));
+                    }
+                    return RefreshIndicator(
+                      onRefresh:refreshList ,
+                      child: IgnorePointer(
+                        ignoring: isListIgnoring,
+                        child: ListView(
+                          children: snapshot.data.docs.map((document) {
+                           // var UserDoc = document.id;
+                            switch (placeValue) {
+                              case"RELIGIOUS PLACES":
                                 {
                                   try {
                                     return Card(
@@ -1129,93 +1103,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       child: Container(
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .center,
-                                          children: [
-                                            AspectRatio(
-                                              aspectRatio: 4/2,
-                                              child: Image(
-                                                image: NetworkImage(document['PlaceImage']),
-                                                fit: BoxFit.cover,
-                                                width: double.infinity,
-                                                height: double.infinity,
-                                              ),
-                                            ),
-                                            SizedBox(height: 10.0,),
-                                            Text(
-                                              "Name of the ${document["PlaceType"]} ",
-                                              style: GoogleFonts.poppins(textStyle:
-                                              TextStyle(fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black54)),),
-                                            Text(
-                                              " ${document['schoolName']
-                                                  .toString()
-                                                  .toUpperCase()}",
-                                              style: GoogleFonts.poppins(textStyle:
-                                              TextStyle(fontSize: 20,
-                                                  fontWeight: FontWeight.w500,
-                                                  color: Colors.black87)),),
-                                            SizedBox(height: 10.0,),
-                                            // ListTile(
-                                            //     // onTap:(){
-                                            //     //   print(UserDoc);
-                                            //     // },
-                                            //   leading: Text(document['PlaceName']),
-                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                            //   // children: <Widget>[
-                                            //   title:Text(document['PlaceType']),
-                                            //   //   Text(document['PlaceType']),
-                                            //   // ],
-                                            // ),
-                                            // Row(
-                                            //   mainAxisAlignment: MainAxisAlignment.end,
-                                            //   children: <Widget>[
-                                            //     TextButton(
-                                            //       child: const Text('More'),
-                                            //       onPressed: () {isVisible = !isVisible;},
-                                            //     ),
-                                            //   ],
-                                            // ),
-                                            ClipRect(
-                                              child: SingleChildScrollView(
-                                                physics: BouncingScrollPhysics(),
-                                                child: Container(
-                                                  padding: EdgeInsets.all(8.0),
-                                                  child: Column(
-                                                    mainAxisAlignment: MainAxisAlignment
-                                                        .start,
-                                                    children: [
-                                                      schoolDetailsDisplay(document)
-                                                    ],
-                                                  ),
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      borderOnForeground: true,
-                                    );
-                                  } catch (e) {
-                                    return Center(
-                                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                                    );
-                                  }
-                                }
-                                break;
-                              case"COLLEGE":
-                                {
-                                  try {
-                                    return Card(
-                                      shadowColor: Colors.blue[200],
-                                      color:Colors.blue[50] ,
-                                      elevation: 5.0,
-                                      child: Container(
-                                        padding: EdgeInsets.all(10.0),
-                                        child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             AspectRatio(
                                               aspectRatio: 4/2,
@@ -1229,41 +1117,19 @@ class _MyHomePageState extends State<MyHomePage>
                                             SizedBox(height: 10.0,),
                                             Text(
                                                 "Name of the ${document["PlaceType"]} ",
-                                                style: GoogleFonts.poppins(
-                                                    textStyle:
-                                                    TextStyle(fontSize: 20,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black54))),
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
                                             Text(
-                                                " ${document['collageName']
+                                                "${document['PlaceName']
                                                     .toString()
                                                     .toUpperCase()}",
-                                                style: GoogleFonts.poppins(
-                                                    textStyle:
-                                                    TextStyle(fontSize: 20,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black87))),
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
                                             SizedBox(height: 10.0,),
-                                            // ListTile(
-                                            //     // onTap:(){
-                                            //     //   print(UserDoc);
-                                            //     // },
-                                            //   leading: Text(document['PlaceName']),
-                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                            //   // children: <Widget>[
-                                            //   title:Text(document['PlaceType']),
-                                            //   //   Text(document['PlaceType']),
-                                            //   // ],
-                                            // ),
-                                            // Row(
-                                            //   mainAxisAlignment: MainAxisAlignment.end,
-                                            //   children: <Widget>[
-                                            //     TextButton(
-                                            //       child: const Text('More'),
-                                            //       onPressed: () {isVisible = !isVisible;},
-                                            //     ),
-                                            //   ],
-                                            // ),
                                             ClipRect(
                                               child: SingleChildScrollView(
                                                 physics: BouncingScrollPhysics(),
@@ -1272,9 +1138,9 @@ class _MyHomePageState extends State<MyHomePage>
                                                   child: Column(
                                                     mainAxisAlignment: MainAxisAlignment
                                                         .start,
+                                                    // crossAxisAlignment: CrossAxisAlignment.start,
                                                     children: [
-                                                      collageDetailsDisplay(
-                                                          document)
+                                                      religiousDetailsDisplay(document)
                                                     ],
                                                   ),
                                                 ),
@@ -1286,13 +1152,280 @@ class _MyHomePageState extends State<MyHomePage>
                                       borderOnForeground: true,
                                     );
                                   } catch (e) {
+                                    print("on :$e");
                                     return Center(
                                       child: Text("NO DATA PRESENT PULL TO REFRESH"),
                                     );
                                   }
                                 }
                                 break;
-                              case"INSTITUTION":
+                              case"EDUCATIONAL INSTITUTIONS":
+                                {
+                                  switch (placeTypeEducationValue) {
+                                    case"SCHOOL":
+                                      {
+                                        try {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color:Colors.blue[50] ,
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4/2,
+                                                    child: Image(
+                                                      image: NetworkImage(document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                    "Name of the ${document["PlaceType"]} ",
+                                                    style: GoogleFonts.poppins(textStyle:
+                                                    TextStyle(fontSize: 20,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black54)),),
+                                                  Text(
+                                                    " ${document['schoolName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(textStyle:
+                                                    TextStyle(fontSize: 20,
+                                                        fontWeight: FontWeight.w500,
+                                                        color: Colors.black87)),),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            schoolDetailsDisplay(document)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            borderOnForeground: true,
+                                          );
+                                        } catch (e) {
+                                          return Center(
+                                            child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                          );
+                                        }
+                                      }
+                                      break;
+                                    case"COLLEGE":
+                                      {
+                                        try {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color:Colors.blue[50] ,
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4/2,
+                                                    child: Image(
+                                                      image: NetworkImage(document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]} ",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle:
+                                                          TextStyle(fontSize: 20,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black54))),
+                                                  Text(
+                                                      " ${document['collageName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle:
+                                                          TextStyle(fontSize: 20,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            collageDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            borderOnForeground: true,
+                                          );
+                                        } catch (e) {
+                                          return Center(
+                                            child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                          );
+                                        }
+                                      }
+                                      break;
+                                    case"INSTITUTION":
+                                      {
+                                        try {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color:Colors.blue[50] ,
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4/2,
+                                                    child: Image(
+                                                      image: NetworkImage(document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
+                                                  ),
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle:
+                                                          TextStyle(fontSize: 20,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black54))),
+                                                  Text(
+                                                      "${document['institutionName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle:
+                                                          TextStyle(fontSize: 20,
+                                                              fontWeight: FontWeight.w500,
+                                                              color: Colors.black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            instituteDetailsDisplay(document)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            borderOnForeground: true,
+                                          );
+                                        } catch (e) {
+                                          return Center(
+                                            child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                          );
+                                        }
+                                      }
+                                      break;
+                                  }
+                                }
+                                break;
+                              case"YOUTH SPOTS":
                                 {
                                   try {
                                     return Card(
@@ -1302,8 +1435,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       child: Container(
                                         padding: EdgeInsets.all(10.0),
                                         child: Column(
-                                          crossAxisAlignment: CrossAxisAlignment
-                                              .center,
+                                          crossAxisAlignment: CrossAxisAlignment.center,
                                           children: [
                                             AspectRatio(
                                               aspectRatio: 4/2,
@@ -1317,20 +1449,18 @@ class _MyHomePageState extends State<MyHomePage>
                                             SizedBox(height: 10.0,),
                                             Text(
                                                 "Name of the ${document["PlaceType"]}",
-                                                style: GoogleFonts.poppins(
-                                                    textStyle:
-                                                    TextStyle(fontSize: 20,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black54))),
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
                                             Text(
-                                                "${document['institutionName']
+                                                "${document['youthPlaceName']
                                                     .toString()
                                                     .toUpperCase()}",
-                                                style: GoogleFonts.poppins(
-                                                    textStyle:
-                                                    TextStyle(fontSize: 20,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black87))),
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
                                             SizedBox(height: 10.0,),
                                             // ListTile(
                                             //     // onTap:(){
@@ -1361,7 +1491,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                     mainAxisAlignment: MainAxisAlignment
                                                         .start,
                                                     children: [
-                                                      instituteDetailsDisplay(document)
+                                                      youthDetailsDisplay(document)
                                                     ],
                                                   ),
                                                 ),
@@ -1379,501 +1509,417 @@ class _MyHomePageState extends State<MyHomePage>
                                   }
                                 }
                                 break;
-                            }
-                          }
-                          break;
-                        case"YOUTH SPOTS":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['youthPlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                youthDetailsDisplay(document)
-                                              ],
+                              case"PUBLIC SPOTS":
+                                {
+                                  try {
+                                    return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
+                                      elevation: 5.0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 4/2,
+                                              child: Image(
+                                                image: NetworkImage(document['PlaceImage']),
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
-                            }
-                          }
-                          break;
-                        case"PUBLIC SPOTS":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['publicPlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                publicDetailsDisplay(document)
-                                              ],
+                                            SizedBox(height: 10.0,),
+                                            Text(
+                                                "Name of the ${document["PlaceType"]}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
+                                            Text(
+                                                "${document['publicPlaceName']
+                                                    .toString()
+                                                    .toUpperCase()}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
+                                            SizedBox(height: 10.0,),
+                                            // ListTile(
+                                            //     // onTap:(){
+                                            //     //   print(UserDoc);
+                                            //     // },
+                                            //   leading: Text(document['PlaceName']),
+                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                            //   // children: <Widget>[
+                                            //   title:Text(document['PlaceType']),
+                                            //   //   Text(document['PlaceType']),
+                                            //   // ],
+                                            // ),
+                                            // Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.end,
+                                            //   children: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text('More'),
+                                            //       onPressed: () {isVisible = !isVisible;},
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            ClipRect(
+                                              child: SingleChildScrollView(
+                                                physics: BouncingScrollPhysics(),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      publicDetailsDisplay(document)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
-                            }
-                          }
-                          break;
-                        case"OFFICES":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['officePlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                officeDetailsDisplay(document)
-                                              ],
+                                      borderOnForeground: true,
+                                    );
+                                  } catch (e) {
+                                    return Center(
+                                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                    );
+                                  }
+                                }
+                                break;
+                              case"OFFICES":
+                                {
+                                  try {
+                                    return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
+                                      elevation: 5.0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 4/2,
+                                              child: Image(
+                                                image: NetworkImage(document['PlaceImage']),
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
                                             ),
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
-                            }
-                          }
-                          break;
-                        case"NGOSorORGANISATIONS":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['ngosPlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                ngosDetailsDisplay(document)
-                                              ],
+                                            SizedBox(height: 10.0,),
+                                            Text(
+                                                "Name of the ${document["PlaceType"]}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
+                                            Text(
+                                                "${document['officePlaceName']
+                                                    .toString()
+                                                    .toUpperCase()}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
+                                            SizedBox(height: 10.0,),
+                                            // ListTile(
+                                            //     // onTap:(){
+                                            //     //   print(UserDoc);
+                                            //     // },
+                                            //   leading: Text(document['PlaceName']),
+                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                            //   // children: <Widget>[
+                                            //   title:Text(document['PlaceType']),
+                                            //   //   Text(document['PlaceType']),
+                                            //   // ],
+                                            // ),
+                                            // Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.end,
+                                            //   children: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text('More'),
+                                            //       onPressed: () {isVisible = !isVisible;},
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            ClipRect(
+                                              child: SingleChildScrollView(
+                                                physics: BouncingScrollPhysics(),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      officeDetailsDisplay(document)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
                                             ),
-                                          ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
-                            }
-                          }
-                          break;
-                        case"HALLS":
-                          {
-                            try {
-                              return Card(
-                                shadowColor: Colors.blue[200],
-                                color:Colors.blue[50] ,
-                                elevation: 5.0,
-                                child: Container(
-                                  padding: EdgeInsets.all(10.0),
-                                  child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.center,
-                                    children: [
-                                      AspectRatio(
-                                        aspectRatio: 4/2,
-                                        child: Image(
-                                          image: NetworkImage(document['PlaceImage']),
-                                          fit: BoxFit.cover,
-                                          width: double.infinity,
-                                          height: double.infinity,
-                                        ),
-                                      ),
-                                      SizedBox(height: 10.0,),
-                                      Text(
-                                          "Name of the ${document["PlaceType"]}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black54))),
-                                      Text(
-                                          "${document['hallsPlaceName']
-                                              .toString()
-                                              .toUpperCase()}",
-                                          style: GoogleFonts.poppins(textStyle:
-                                          TextStyle(fontSize: 20,
-                                              fontWeight: FontWeight.w500,
-                                              color: Colors.black87))),
-                                      SizedBox(height: 10.0,),
-                                      // ListTile(
-                                      //     // onTap:(){
-                                      //     //   print(UserDoc);
-                                      //     // },
-                                      //   leading: Text(document['PlaceName']),
-                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                      //   // children: <Widget>[
-                                      //   title:Text(document['PlaceType']),
-                                      //   //   Text(document['PlaceType']),
-                                      //   // ],
-                                      // ),
-                                      // Row(
-                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                      //   children: <Widget>[
-                                      //     TextButton(
-                                      //       child: const Text('More'),
-                                      //       onPressed: () {isVisible = !isVisible;},
-                                      //     ),
-                                      //   ],
-                                      // ),
-                                      ClipRect(
-                                        child: SingleChildScrollView(
-                                          physics: BouncingScrollPhysics(),
-                                          child: Container(
-                                            padding: EdgeInsets.all(8.0),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment
-                                                  .start,
-                                              children: [
-                                                hallsDetailsDisplay(document)
-                                              ],
+                                      borderOnForeground: true,
+                                    );
+                                  } catch (e) {
+                                    return Center(
+                                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                    );
+                                  }
+                                }
+                                break;
+                              case"NGOSorORGANISATIONS":
+                                {
+                                  try {
+                                    return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
+                                      elevation: 5.0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 4/2,
+                                              child: Image(
+                                                image: NetworkImage(document['PlaceImage']),
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
                                             ),
-                                          ),
+                                            SizedBox(height: 10.0,),
+                                            Text(
+                                                "Name of the ${document["PlaceType"]}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
+                                            Text(
+                                                "${document['ngosPlaceName']
+                                                    .toString()
+                                                    .toUpperCase()}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
+                                            SizedBox(height: 10.0,),
+                                            // ListTile(
+                                            //     // onTap:(){
+                                            //     //   print(UserDoc);
+                                            //     // },
+                                            //   leading: Text(document['PlaceName']),
+                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                            //   // children: <Widget>[
+                                            //   title:Text(document['PlaceType']),
+                                            //   //   Text(document['PlaceType']),
+                                            //   // ],
+                                            // ),
+                                            // Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.end,
+                                            //   children: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text('More'),
+                                            //       onPressed: () {isVisible = !isVisible;},
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            ClipRect(
+                                              child: SingleChildScrollView(
+                                                physics: BouncingScrollPhysics(),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      ngosDetailsDisplay(document)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
                                         ),
                                       ),
-                                    ],
-                                  ),
-                                ),
-                                borderOnForeground: true,
-                              );
-                            } catch (e) {
-                              return Center(
-                                child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                              );
+                                      borderOnForeground: true,
+                                    );
+                                  } catch (e) {
+                                    return Center(
+                                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                    );
+                                  }
+                                }
+                                break;
+                              case"HALLS":
+                                {
+                                  try {
+                                    return Card(
+                                      shadowColor: Colors.blue[200],
+                                      color:Colors.blue[50] ,
+                                      elevation: 5.0,
+                                      child: Container(
+                                        padding: EdgeInsets.all(10.0),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.center,
+                                          children: [
+                                            AspectRatio(
+                                              aspectRatio: 4/2,
+                                              child: Image(
+                                                image: NetworkImage(document['PlaceImage']),
+                                                fit: BoxFit.cover,
+                                                width: double.infinity,
+                                                height: double.infinity,
+                                              ),
+                                            ),
+                                            SizedBox(height: 10.0,),
+                                            Text(
+                                                "Name of the ${document["PlaceType"]}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black54))),
+                                            Text(
+                                                "${document['hallsPlaceName']
+                                                    .toString()
+                                                    .toUpperCase()}",
+                                                style: GoogleFonts.poppins(textStyle:
+                                                TextStyle(fontSize: 20,
+                                                    fontWeight: FontWeight.w500,
+                                                    color: Colors.black87))),
+                                            SizedBox(height: 10.0,),
+                                            // ListTile(
+                                            //     // onTap:(){
+                                            //     //   print(UserDoc);
+                                            //     // },
+                                            //   leading: Text(document['PlaceName']),
+                                            //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                            //   // children: <Widget>[
+                                            //   title:Text(document['PlaceType']),
+                                            //   //   Text(document['PlaceType']),
+                                            //   // ],
+                                            // ),
+                                            // Row(
+                                            //   mainAxisAlignment: MainAxisAlignment.end,
+                                            //   children: <Widget>[
+                                            //     TextButton(
+                                            //       child: const Text('More'),
+                                            //       onPressed: () {isVisible = !isVisible;},
+                                            //     ),
+                                            //   ],
+                                            // ),
+                                            ClipRect(
+                                              child: SingleChildScrollView(
+                                                physics: BouncingScrollPhysics(),
+                                                child: Container(
+                                                  padding: EdgeInsets.all(8.0),
+                                                  child: Column(
+                                                    mainAxisAlignment: MainAxisAlignment
+                                                        .start,
+                                                    children: [
+                                                      hallsDetailsDisplay(document)
+                                                    ],
+                                                  ),
+                                                ),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                      borderOnForeground: true,
+                                    );
+                                  } catch (e) {
+                                    return Center(
+                                      child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                    );
+                                  }
+                                }
+                                break;
+                              default:
+                                {
+                                  return Center(
+                                    child: Text("NO DATA PRESENT PULL TO REFRESH"),
+                                  );
+                                }
                             }
-                          }
-                          break;
-                        default:
-                          {
                             return Center(
                               child: Text("NO DATA PRESENT PULL TO REFRESH"),
                             );
-                          }
-                      }
-                      return Center(
-                        child: Text("NO DATA PRESENT PULL TO REFRESH"),
-                      );
-                      // return  Card(
-                      //   elevation: 5.0,
-                      //   child: Container(
-                      //     padding: EdgeInsets.all(10.0),
-                      //     child: Column(
-                      //       crossAxisAlignment: CrossAxisAlignment.center,
-                      //       children: [
-                      //         Image(
-                      //           image: NetworkImage(document['PlaceImage']),
-                      //           fit: BoxFit.cover,
-                      //           width: double.infinity,
-                      //           height: 200,
-                      //         ) ,
-                      //         SizedBox(height: 10.0,),
-                      //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
-                      //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
-                      //         SizedBox(height: 10.0,),
-                      //         // ListTile(
-                      //         //     // onTap:(){
-                      //         //     //   print(UserDoc);
-                      //         //     // },
-                      //         //   leading: Text(document['PlaceName']),
-                      //         //   // crossAxisAlignment: CrossAxisAlignment.start,
-                      //         //   // children: <Widget>[
-                      //         //   title:Text(document['PlaceType']),
-                      //         //   //   Text(document['PlaceType']),
-                      //         //   // ],
-                      //         // ),
-                      //         // Row(
-                      //         //   mainAxisAlignment: MainAxisAlignment.end,
-                      //         //   children: <Widget>[
-                      //         //     TextButton(
-                      //         //       child: const Text('More'),
-                      //         //       onPressed: () {isVisible = !isVisible;},
-                      //         //     ),
-                      //         //   ],
-                      //         // ),
-                      //         ClipRect(
-                      //           child: SingleChildScrollView(
-                      //             physics:BouncingScrollPhysics(),
-                      //             child: Column(
-                      //               mainAxisAlignment: MainAxisAlignment.start,
-                      //               children: [
-                      //                 religiousDetailsDisplay(document)
-                      //               ],
-                      //             ),
-                      //           ),
-                      //         ),
-                      //       ],
-                      //     ),
-                      //   ),
-                      //   borderOnForeground: true,
-                      // );
-                    }).toList(),
-                  ),
-                ),
-              );
-            } //else
+                            // return  Card(
+                            //   elevation: 5.0,
+                            //   child: Container(
+                            //     padding: EdgeInsets.all(10.0),
+                            //     child: Column(
+                            //       crossAxisAlignment: CrossAxisAlignment.center,
+                            //       children: [
+                            //         Image(
+                            //           image: NetworkImage(document['PlaceImage']),
+                            //           fit: BoxFit.cover,
+                            //           width: double.infinity,
+                            //           height: 200,
+                            //         ) ,
+                            //         SizedBox(height: 10.0,),
+                            //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                            //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                            //         SizedBox(height: 10.0,),
+                            //         // ListTile(
+                            //         //     // onTap:(){
+                            //         //     //   print(UserDoc);
+                            //         //     // },
+                            //         //   leading: Text(document['PlaceName']),
+                            //         //   // crossAxisAlignment: CrossAxisAlignment.start,
+                            //         //   // children: <Widget>[
+                            //         //   title:Text(document['PlaceType']),
+                            //         //   //   Text(document['PlaceType']),
+                            //         //   // ],
+                            //         // ),
+                            //         // Row(
+                            //         //   mainAxisAlignment: MainAxisAlignment.end,
+                            //         //   children: <Widget>[
+                            //         //     TextButton(
+                            //         //       child: const Text('More'),
+                            //         //       onPressed: () {isVisible = !isVisible;},
+                            //         //     ),
+                            //         //   ],
+                            //         // ),
+                            //         ClipRect(
+                            //           child: SingleChildScrollView(
+                            //             physics:BouncingScrollPhysics(),
+                            //             child: Column(
+                            //               mainAxisAlignment: MainAxisAlignment.start,
+                            //               children: [
+                            //                 religiousDetailsDisplay(document)
+                            //               ],
+                            //             ),
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     ),
+                            //   ),
+                            //   borderOnForeground: true,
+                            // );
+                          }).toList(),
+                        ),
+                      ),
+                    );
+                  } //else
 
-          },
+                },
+              ),
+                ),
+            ),
+          ],
         ),
-          ),
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: () {

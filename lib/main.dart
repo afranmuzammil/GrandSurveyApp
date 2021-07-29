@@ -48,6 +48,19 @@ class MyForm extends StatelessWidget {
       ],
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          // primaryColor: ,
+          // primaryColorBrightness: ,
+          // primaryColorDark: ,
+          // primaryColorLight: ,
+          // primaryTextTheme: ,
+          // backgroundColor: ,
+          // buttonColor: ,
+          // appBarTheme: ,
+          scrollbarTheme: ScrollbarThemeData(
+            //thumbColor:MaterialStateProperty.all(Colors.lightBlueAccent)
+          )
+        ),
         initialRoute: '/',
         routes: {
 

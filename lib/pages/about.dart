@@ -36,7 +36,7 @@ class _AboutState extends State<About>
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
         size: AdSize.mediumRectangle,
-        listener: AdListener(onAdLoaded: (_) {
+        listener: AdManagerBannerAdListener(onAdLoaded: (_) {
           print("Banner AD Called");
           setState(() {
             isloaded = true;
@@ -235,6 +235,7 @@ class _AboutState extends State<About>
 
                             },
                             onLongPress: (){
+
                               return showDialog<void>(
                                 context: context,
                                 barrierDismissible: true, // user must tap button!
@@ -353,7 +354,7 @@ class _AboutState extends State<About>
 
                             },
                             leading: Icon(Icons.copyright_rounded,color: Colors.black54,),
-                            title: Text("CopyRights",style: GoogleFonts.poppins(textStyle: TextStyle(
+                            title: Text("SIO-India",style: GoogleFonts.poppins(textStyle: TextStyle(
                                 fontSize: 10, fontWeight: FontWeight.w500,color: Colors.black87)),),
                           ),
                         );
@@ -406,7 +407,7 @@ class _AboutState extends State<About>
                     }
                 ),
                 SizedBox(height: 50,),
-                checkForAd(),
+               // checkForAd(),
               ],
             )
         ),

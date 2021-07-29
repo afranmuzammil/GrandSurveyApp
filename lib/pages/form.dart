@@ -25,8 +25,7 @@ class _FormsState extends State<Forms>
     with SingleTickerProviderStateMixin{
 
 
-
-
+  final ScrollController _controllerOne = ScrollController();
   String  unitValue ;
   String  unitMail ;
   _FormsState(this.unitValue,this.unitMail);
@@ -106,7 +105,7 @@ class _FormsState extends State<Forms>
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
         size: AdSize.largeBanner,
-        listener: AdListener(onAdLoaded: (_) {
+        listener: AdManagerBannerAdListener(onAdLoaded: (_) {
           print("Banner AD Called");
           setState(() {
             isloaded = true;
@@ -378,6 +377,7 @@ class _FormsState extends State<Forms>
   bool isEnabled = false;
   bool uploadVisible = false;
   bool uploadProgressVisible = false;
+
   @override
   Widget build(BuildContext context) {
 
@@ -394,627 +394,946 @@ class _FormsState extends State<Forms>
         elevation: 0,
       ),
       body: SafeArea(
-        child: SingleChildScrollView(
-            child: Padding(
-          padding: const EdgeInsets.all(16.0),
-          child: Container(
-            padding: EdgeInsets.only(left: 16, right: 16),
-            decoration: BoxDecoration(
-                border: Border.all(color: Colors.grey, width: 1),
-                borderRadius: BorderRadius.circular(15)),
-            child: Form(
-              key: formKey,
-              child: Column(
-                children: <Widget>[
-                  SizedBox(height: 8.0),
-                  Container(
-                    padding: EdgeInsets.all(10.0),
-                    decoration:  BoxDecoration(
-                        border: Border.all(color: Colors.grey, width: 3),
-                        borderRadius: BorderRadius.vertical()),
-                    child:  ListTile(
-                      leading: Icon(Icons.info),
-                      title: Text("Enter all information",style: GoogleFonts.poppins(textStyle: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
-                      subtitle: Text("If there is no information to enter ' Type (none)' ,  "
-                          "But  please don't Leave any field empty '*Image and Location are must  & be sure it is uploaded*'",
-                          style: GoogleFonts.poppins(textStyle:
-                          TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+        child: Scrollbar(
+          isAlwaysShown: true,
+        //  controller: _controllerOne,
+          showTrackOnHover: true,
+          hoverThickness: 24,
+          thickness: 10,
+          radius: Radius.circular(8.0),
+          child: SingleChildScrollView(
+              child: Padding(
+            padding: const EdgeInsets.all(16.0),
+              child: Container(
+              padding: EdgeInsets.only(left: 16, right: 16),
+              decoration: BoxDecoration(
+                  border: Border.all(color: Colors.grey, width: 1),
+                  borderRadius: BorderRadius.circular(15)),
+              child: Form(
+                key: formKey,
+                child: Column(
+                  children: <Widget>[
+                    SizedBox(height: 8.0),
+                    Container(
+                      padding: EdgeInsets.all(10.0),
+                      decoration:  BoxDecoration(
+                          border: Border.all(color: Colors.grey, width: 3),
+                          borderRadius: BorderRadius.vertical()),
+                      child:  ListTile(
+                        leading: Icon(Icons.info),
+                        title: Text("Enter all information",style: GoogleFonts.poppins(textStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
+                        subtitle: Text("If there is no information to enter ' Type (none)' ,  "
+                            "But  please don't Leave any field empty '*Image and Location are must  & be sure it is uploaded*'",
+                            style: GoogleFonts.poppins(textStyle:
+                            TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+                      ),
                     ),
-                  ),
-                  SizedBox(height: 15.0,),
-                  Container(
-                    padding: EdgeInsets.all(1.0),
-                    decoration:  BoxDecoration(
-                        border: Border.all(color: Colors.blue, width: 3),
-                        borderRadius: BorderRadius.vertical()),
-                    child:  ListTile(
-                      leading: Icon(Icons.warning_amber_outlined,color: Colors.blue),
-                      title: Text("ADDING IN:$unitValue UNIT",style: GoogleFonts.poppins(textStyle: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.bold,color: Colors.blue))),
+                    SizedBox(height: 15.0,),
+                    Container(
+                      padding: EdgeInsets.all(1.0),
+                      decoration:  BoxDecoration(
+                          border: Border.all(color: Colors.blue, width: 3),
+                          borderRadius: BorderRadius.vertical()),
+                      child:  ListTile(
+                        leading: Icon(Icons.warning_amber_outlined,color: Colors.blue),
+                        title: Text("ADDING IN:$unitValue UNIT",style: GoogleFonts.poppins(textStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.bold,color: Colors.blue))),
+                      ),
                     ),
-                  ),
 
-                  DropdownButton(
-                    hint: Text("SELECT PLACE TYPE"),
-                    dropdownColor: Theme.of(context).secondaryHeaderColor,
-                    icon: Icon(Icons.arrow_drop_down),
-                    iconSize: 36,
-                    isExpanded: true,
-                    underline: SizedBox(),
-                    style: TextStyle(color: Colors.black, fontSize: 22),
-                    value: placeValue,
-                    onChanged: (newValue) {
-                      setState(() {
-                        placeValue = newValue;
-                        if (placeValue == "RELIGIOUS PLACES") {
-                          isVisibleReligious = !isVisibleReligious;
-                          isVisibleEducation = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                          youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        } else if (placeValue == "EDUCATIONAL INSTITUTIONS") {
-                          isVisibleEducation = !isVisibleEducation;
-                          isVisibleReligious = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-                          religiousDetailsVisible = false;
-                          youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        }else if (placeValue == "YOUTH SPOTS") {
-                          isVisibleYouth = !isVisibleYouth;
-                          isVisibleReligious = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleEducation = false;
-
-                          religiousDetailsVisible = false;
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                         // youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        } else if (placeValue == "PUBLIC SPOTS") {
-                          isVisiblePublic = !isVisiblePublic;
-                          isVisibleReligious = false;
-                          isVisibleEducation = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-                          religiousDetailsVisible = false;
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                          youthDetailsVisible = false;
-                         // publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        } else if (placeValue == "OFFICES") {
-                          isVisibleOffices = !isVisibleOffices;
-                          isVisibleReligious = false;
-                          isVisibleEducation = false;
-                          isVisiblePublic = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-                          religiousDetailsVisible = false;
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                          youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                         // officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        } else if (placeValue == "NGOSorORGANISATIONS") {
-                          isVisibleNgos = !isVisibleNgos;
-                          isVisibleReligious = false;
-                          isVisibleEducation = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-                          religiousDetailsVisible = false;
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                          youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                         // ngosDetailsVisible = false;
-                          hallsDetailsVisible = false;
-                        }
-                        else if (placeValue == "HALLS") {
-                          isVisibleHalls = !isVisibleHalls;
-                          isVisibleReligious = false;
-                          isVisibleEducation = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleYouth = false;
-
-                          religiousDetailsVisible = false;
-                          schoolDetailsVisible = false;
-                          collageDetailsVisible = false;
-                          instituteDetailsVisible = false;
-                          youthDetailsVisible = false;
-                          publicDetailsVisible = false;
-                          officeDetailsVisible = false;
-                          ngosDetailsVisible = false;
-                       //   hallsDetailsVisible = false;
-                        } else {
-                          isVisibleReligious = false;
-                          isVisibleEducation = false;
-                          isVisiblePublic = false;
-                          isVisibleOffices = false;
-                          isVisibleNgos = false;
-                          isVisibleHalls = false;
-                          isVisibleYouth = false;
-
-
-                        }
-                      });
-                    },
-                    items: placesList.map((valueItem) {
-                      return DropdownMenuItem(
-                        value: valueItem,
-                        child: Text(valueItem),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(height: 8.0),
-                  //RELIGIOUS PLACES
-                  Visibility(
-                    visible: isVisibleReligious,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
+                    DropdownButton(
+                      hint: Text("SELECT PLACE TYPE"),
                       dropdownColor: Theme.of(context).secondaryHeaderColor,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 36,
                       isExpanded: true,
                       underline: SizedBox(),
                       style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeReligiousValue,
+                      value: placeValue,
                       onChanged: (newValue) {
                         setState(() {
-                          placeTypeReligiousValue = newValue;
-                          if(placeTypeReligiousValue != null){
-                            religiousDetailsVisible = true;
-                          }else{
-                            religiousDetailsVisible = false;
-                          }
+                          placeValue = newValue;
+                          if (placeValue == "RELIGIOUS PLACES") {
+                            isVisibleReligious = !isVisibleReligious;
+                            isVisibleEducation = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
 
-                        });
-                      },
-                      items: placesTypeReligiousList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //EDUCATIONAL INSTITUTIONS
-                  Visibility(
-                    visible: isVisibleEducation,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeEducationValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypeEducationValue = newValue;
-                          switch(placeTypeEducationValue){
-                            case "SCHOOL":{
-                              schoolDetailsVisible = true;
-
-                              //schoolDetailsVisible = false;
-                              collageDetailsVisible = false;
-                              instituteDetailsVisible = false;
-                            }
-                            break;
-                            case "COLLEGE":{
-                              collageDetailsVisible = true;
-
-                              schoolDetailsVisible = false;
-                             // collageDetailsVisible = false;
-                              instituteDetailsVisible = false;
-                            }
-                            break;
-                            case "INSTITUTION":{
-                              instituteDetailsVisible = true;
-
-                              schoolDetailsVisible = false;
-                              collageDetailsVisible = false;
-                             // instituteDetailsVisible = false;
-                            }
-                            break;
-                            default:{
-                                schoolDetailsVisible = false;
-                                collageDetailsVisible = false;
-                                instituteDetailsVisible = false;
-                            }
-                            break;
-
-                          }
-                          // if(placeTypeEducationValue == "SCHOOL"){
-                          //   schoolDetailsVisible = true;
-                          // }else if(placeTypeEducationValue=="COLLAGE"){
-                          //   collageDetailsVisible = true;
-                          // }else if(placeTypeEducationValue=="INSTITUTION"){
-                          //   instituteDetailsVisible = true;
-                          // }
-                          // else{
-                          //   schoolDetailsVisible = false;
-                          //   collageDetailsVisible = false;
-                          //   instituteDetailsVisible = false;
-                          // }
-                        });
-                      },
-                      items: placesTypeEducationList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //YOUTH SPOTS
-                  Visibility(
-                    visible: isVisibleYouth,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeYouthValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypeYouthValue = newValue;
-                          if(placeTypeYouthValue != null){
-                            youthDetailsVisible = true;
-                          }else{
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
                             youthDetailsVisible = false;
-                          }
-                        });
-                      },
-                      items: placesTypeYouthList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //PUBLIC SPOTS
-                  Visibility(
-                    visible: isVisiblePublic,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypePublicValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypePublicValue = newValue;
-                          if(placeTypePublicValue != null){
-                            publicDetailsVisible = true;
-                          }else{
                             publicDetailsVisible = false;
-                          }
-                        });
-                      },
-                      items: placesTypePublicList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //OFFICES
-                  Visibility(
-                    visible: isVisibleOffices,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeOfficesValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypeOfficesValue = newValue;
-                          if(placeTypeOfficesValue != null){
-                            officeDetailsVisible = true;
-                          }else{
                             officeDetailsVisible = false;
-                          }
-                        });
-                      },
-                      items: placesTypeOfficesList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //NGOS/ORGANISATIONS
-                  Visibility(
-                    visible: isVisibleNgos,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeNgosValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypeNgosValue = newValue;
-                          if(placeTypeNgosValue != null){
-                            ngosDetailsVisible = true;
-                          }else{
                             ngosDetailsVisible = false;
-                          }
-                        });
-                      },
-                      items: placesTypeNgosList.map((valueItem) {
-                        return DropdownMenuItem(
-                          value: valueItem,
-                          child: Text(valueItem),
-                        );
-                      }).toList(),
-                    ),
-                  ),
-                  //HALLS
-                  Visibility(
-                    visible: isVisibleHalls,
-                    child: DropdownButton(
-                      hint: Text("SELECT PLACE NAME"),
-                      dropdownColor: Theme.of(context).secondaryHeaderColor,
-                      icon: Icon(Icons.arrow_drop_down),
-                      iconSize: 36,
-                      isExpanded: true,
-                      underline: SizedBox(),
-                      style: TextStyle(color: Colors.black, fontSize: 22),
-                      value: placeTypeHallsValue,
-                      onChanged: (newValue) {
-                        setState(() {
-                          placeTypeHallsValue = newValue;
-                          if(placeTypeHallsValue != null){
-                            hallsDetailsVisible = true;
-                          }else{
+                            hallsDetailsVisible = false;
+                          } else if (placeValue == "EDUCATIONAL INSTITUTIONS") {
+                            isVisibleEducation = !isVisibleEducation;
+                            isVisibleReligious = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
+
+                            religiousDetailsVisible = false;
+                            youthDetailsVisible = false;
+                            publicDetailsVisible = false;
+                            officeDetailsVisible = false;
+                            ngosDetailsVisible = false;
+                            hallsDetailsVisible = false;
+                          }else if (placeValue == "YOUTH SPOTS") {
+                            isVisibleYouth = !isVisibleYouth;
+                            isVisibleReligious = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleEducation = false;
+
+                            religiousDetailsVisible = false;
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
+                           // youthDetailsVisible = false;
+                            publicDetailsVisible = false;
+                            officeDetailsVisible = false;
+                            ngosDetailsVisible = false;
+                            hallsDetailsVisible = false;
+                          } else if (placeValue == "PUBLIC SPOTS") {
+                            isVisiblePublic = !isVisiblePublic;
+                            isVisibleReligious = false;
+                            isVisibleEducation = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
+
+                            religiousDetailsVisible = false;
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
+                            youthDetailsVisible = false;
+                           // publicDetailsVisible = false;
+                            officeDetailsVisible = false;
+                            ngosDetailsVisible = false;
+                            hallsDetailsVisible = false;
+                          } else if (placeValue == "OFFICES") {
+                            isVisibleOffices = !isVisibleOffices;
+                            isVisibleReligious = false;
+                            isVisibleEducation = false;
+                            isVisiblePublic = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
+
+                            religiousDetailsVisible = false;
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
+                            youthDetailsVisible = false;
+                            publicDetailsVisible = false;
+                           // officeDetailsVisible = false;
+                            ngosDetailsVisible = false;
+                            hallsDetailsVisible = false;
+                          } else if (placeValue == "NGOSorORGANISATIONS") {
+                            isVisibleNgos = !isVisibleNgos;
+                            isVisibleReligious = false;
+                            isVisibleEducation = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
+
+                            religiousDetailsVisible = false;
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
+                            youthDetailsVisible = false;
+                            publicDetailsVisible = false;
+                            officeDetailsVisible = false;
+                           // ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           }
+                          else if (placeValue == "HALLS") {
+                            isVisibleHalls = !isVisibleHalls;
+                            isVisibleReligious = false;
+                            isVisibleEducation = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleYouth = false;
+
+                            religiousDetailsVisible = false;
+                            schoolDetailsVisible = false;
+                            collageDetailsVisible = false;
+                            instituteDetailsVisible = false;
+                            youthDetailsVisible = false;
+                            publicDetailsVisible = false;
+                            officeDetailsVisible = false;
+                            ngosDetailsVisible = false;
+                         //   hallsDetailsVisible = false;
+                          } else {
+                            isVisibleReligious = false;
+                            isVisibleEducation = false;
+                            isVisiblePublic = false;
+                            isVisibleOffices = false;
+                            isVisibleNgos = false;
+                            isVisibleHalls = false;
+                            isVisibleYouth = false;
+
+
+                          }
                         });
                       },
-                      items: placesTypeHallsList.map((valueItem) {
+                      items: placesList.map((valueItem) {
                         return DropdownMenuItem(
                           value: valueItem,
                           child: Text(valueItem),
                         );
                       }).toList(),
                     ),
-                  ),
+                    SizedBox(height: 8.0),
+                    //RELIGIOUS PLACES
+                    Visibility(
+                      visible: isVisibleReligious,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeReligiousValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeReligiousValue = newValue;
+                            if(placeTypeReligiousValue != null){
+                              religiousDetailsVisible = true;
+                            }else{
+                              religiousDetailsVisible = false;
+                            }
 
-                  //-------------------------------------------------------------------------//
-                  //-------------------------------------------------------------------------//
-                  //-------------------------------------------------------------------------//
-                  //-------------------------------------------------------------------------//
+                          });
+                        },
+                        items: placesTypeReligiousList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //EDUCATIONAL INSTITUTIONS
+                    Visibility(
+                      visible: isVisibleEducation,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeEducationValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeEducationValue = newValue;
+                            switch(placeTypeEducationValue){
+                              case "SCHOOL":{
+                                schoolDetailsVisible = true;
 
-                  // More Details About the places
-                  Column(
-                    children: <Widget>[
-                      //RELIGIOUS PLACES Details
-                      Visibility(
-                        visible: religiousDetailsVisible,
-                        child: Column(
-                          children: [
-                            //Name of the Place
-                            TextFormField(
-                              controller: NameOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the Place*',
-                                  prefixIcon: Icon(Icons.home_sharp)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            // head of the place
-                            TextFormField(
-                              controller: HeadOfplace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Head of the Place',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: Contact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Type of Fiker
-                            TextFormField(
-                              controller: FikerType,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Type of Fiker*',
-                                  prefixIcon: Icon(Icons.accessibility_new_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //ASSOCIATED LIBRARIES/CENTRES
-                            TextFormField(
-                              controller: Libraries,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Associated Libraries/Centres ',
+                                //schoolDetailsVisible = false;
+                                collageDetailsVisible = false;
+                                instituteDetailsVisible = false;
+                              }
+                              break;
+                              case "COLLEGE":{
+                                collageDetailsVisible = true;
+
+                                schoolDetailsVisible = false;
+                               // collageDetailsVisible = false;
+                                instituteDetailsVisible = false;
+                              }
+                              break;
+                              case "INSTITUTION":{
+                                instituteDetailsVisible = true;
+
+                                schoolDetailsVisible = false;
+                                collageDetailsVisible = false;
+                               // instituteDetailsVisible = false;
+                              }
+                              break;
+                              default:{
+                                  schoolDetailsVisible = false;
+                                  collageDetailsVisible = false;
+                                  instituteDetailsVisible = false;
+                              }
+                              break;
+
+                            }
+                            // if(placeTypeEducationValue == "SCHOOL"){
+                            //   schoolDetailsVisible = true;
+                            // }else if(placeTypeEducationValue=="COLLAGE"){
+                            //   collageDetailsVisible = true;
+                            // }else if(placeTypeEducationValue=="INSTITUTION"){
+                            //   instituteDetailsVisible = true;
+                            // }
+                            // else{
+                            //   schoolDetailsVisible = false;
+                            //   collageDetailsVisible = false;
+                            //   instituteDetailsVisible = false;
+                            // }
+                          });
+                        },
+                        items: placesTypeEducationList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //YOUTH SPOTS
+                    Visibility(
+                      visible: isVisibleYouth,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeYouthValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeYouthValue = newValue;
+                            if(placeTypeYouthValue != null){
+                              youthDetailsVisible = true;
+                            }else{
+                              youthDetailsVisible = false;
+                            }
+                          });
+                        },
+                        items: placesTypeYouthList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //PUBLIC SPOTS
+                    Visibility(
+                      visible: isVisiblePublic,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypePublicValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypePublicValue = newValue;
+                            if(placeTypePublicValue != null){
+                              publicDetailsVisible = true;
+                            }else{
+                              publicDetailsVisible = false;
+                            }
+                          });
+                        },
+                        items: placesTypePublicList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //OFFICES
+                    Visibility(
+                      visible: isVisibleOffices,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeOfficesValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeOfficesValue = newValue;
+                            if(placeTypeOfficesValue != null){
+                              officeDetailsVisible = true;
+                            }else{
+                              officeDetailsVisible = false;
+                            }
+                          });
+                        },
+                        items: placesTypeOfficesList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //NGOS/ORGANISATIONS
+                    Visibility(
+                      visible: isVisibleNgos,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeNgosValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeNgosValue = newValue;
+                            if(placeTypeNgosValue != null){
+                              ngosDetailsVisible = true;
+                            }else{
+                              ngosDetailsVisible = false;
+                            }
+                          });
+                        },
+                        items: placesTypeNgosList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+                    //HALLS
+                    Visibility(
+                      visible: isVisibleHalls,
+                      child: DropdownButton(
+                        hint: Text("SELECT PLACE NAME"),
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
+                        icon: Icon(Icons.arrow_drop_down),
+                        iconSize: 36,
+                        isExpanded: true,
+                        underline: SizedBox(),
+                        style: TextStyle(color: Colors.black, fontSize: 22),
+                        value: placeTypeHallsValue,
+                        onChanged: (newValue) {
+                          setState(() {
+                            placeTypeHallsValue = newValue;
+                            if(placeTypeHallsValue != null){
+                              hallsDetailsVisible = true;
+                            }else{
+                              hallsDetailsVisible = false;
+                            }
+                          });
+                        },
+                        items: placesTypeHallsList.map((valueItem) {
+                          return DropdownMenuItem(
+                            value: valueItem,
+                            child: Text(valueItem),
+                          );
+                        }).toList(),
+                      ),
+                    ),
+
+                    //-------------------------------------------------------------------------//
+                    //-------------------------------------------------------------------------//
+                    //-------------------------------------------------------------------------//
+                    //-------------------------------------------------------------------------//
+
+                    // More Details About the places
+                    Column(
+                      children: <Widget>[
+                        //RELIGIOUS PLACES Details
+                        Visibility(
+                          visible: religiousDetailsVisible,
+                          child: Column(
+                            children: [
+                              //Name of the Place
+                              TextFormField(
+                                controller: NameOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Place*',
+                                    prefixIcon: Icon(Icons.home_sharp)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              // head of the place
+                              TextFormField(
+                                controller: HeadOfplace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Head of the Place',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: Contact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Type of Fiker
+                              TextFormField(
+                                controller: FikerType,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Type of Fiker*',
+                                    prefixIcon: Icon(Icons.accessibility_new_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //ASSOCIATED LIBRARIES/CENTRES
+                              TextFormField(
+                                controller: Libraries,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Associated Libraries/Centres ',
+                                    contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                    prefixIcon: Icon(Icons.account_balance_outlined ),),
+                                    scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: Capacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: Address,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
                                   contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.account_balance_outlined ),),
-                                  scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: Capacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: Address,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: Details,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: Details,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                                SizedBox(height: 20.0,),
+                                //Image upload
+                                Column(
+                                  children: [
+                                    Center(
+                                      child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                        style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    ),
+                                    Builder(
+                                      builder: (context)=>TextButton.icon(
+                                          onPressed: (){
+                                            getImage();
+                                      },
+                                          icon: Icon(
+                                              Icons.add_a_photo_outlined,
+                                            color: Colors.grey,
+                                          ),
+                                          label: Text(
+                                            "Add pic*",
+                                            style: TextStyle(
+                                              color: Colors.grey
+                                            ),
+                                          ),
+                                      ),
+                                    ),
+                                    Visibility(
+                                        visible:uploadProgressVisible,
+                                        child: CircularProgressIndicator(
+                                         // semanticsLabel: 'Linear progress indicator',
+                                        ),
+                                    ),
+                                    Visibility(
+                                        visible:uploadVisible,
+                                        child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                    ),
+
+                                  ],
+                                ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                 // color: Theme.of(context).primaryColor,
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.black26,
+                                    backgroundColor: Theme.of(context).primaryColor,
+                                    onSurface: Colors.blue,
+                                  ),
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 3));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadProgressVisible = false;
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }
+                                    else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
+                                    }
+
+                                  },
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
+                                  ),
+                                ),
+                              ),
+                                SizedBox(height: 20.0,),
+                                //location upload
+                                Column(
+                                  children: <Widget>[
+                                    Center(
+                                      child: Text("ADD LOCATION",
+                                          style: TextStyle(color: Colors.black54))
+                                    ),
+                                    Builder(
+                                      builder: (context)=>TextButton.icon(
+                                        onPressed: (){
+                                          getCurrentLoaction();
+                                        },
+                                        icon: Icon(
+                                          Icons.add_location_alt_outlined,
+                                          color: Colors.grey,
+                                        ),
+                                        label: Text(
+                                          "Add Location*",
+                                          style: TextStyle(
+                                              color: Colors.grey
+                                          ),
+                                        ),
+                                      ),
+                                    ),
+
+                                    Text(
+                                        "LATITUDE:{$latitudeData}",
+                                      style: TextStyle(
+                                          color: Colors.indigo
+                                      ),
+                                    ),
+                                    Text(
+                                        "LONGITUDE:{$longitudeData}",
+                                      style: TextStyle(
+                                          color: Colors.indigo
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(HeadOfplace.text.trim()==""){
+                                        HeadOfplace.text = "unknown";
+                                      }if(Contact.text.trim()==""){
+                                        Contact.text = "0000";
+                                      }if(Details.text.trim()==""){
+                                        Details.text = "none for now";
+                                      }if(Libraries.text.trim()==""){
+                                        Libraries.text =  "none";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //EDUCATIONAL INSTITUTIONS Details
+                        //SCHOOL
+                        Visibility(
+                          visible: schoolDetailsVisible,
+                          child: Column(
+                            children: [
+                              // Name of the School
+                              TextFormField(
+                                controller: schoolName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the School*',
+                                    prefixIcon: Icon(Icons.school_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Name of the principle
+                              TextFormField(
+                                controller: schoolPrinciple,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the principle',
+                                    prefixIcon: Icon(Icons.account_box_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Strength
+                              TextFormField(
+                                controller: schoolStrength,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Strength of the School*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: schoolContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: schoolAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Opportunities
+                              TextFormField(
+                                controller: schoolOpportunities,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Opportunities to work" ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Remarks
+                              TextFormField(
+                                controller: schoolRemarks,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Remarks & Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
                               SizedBox(height: 20.0,),
                               //Image upload
                               Column(
@@ -1023,28 +1342,23 @@ class _FormsState extends State<Forms>
                                     child: userImage == null ? Text("UPLOAD PLACE IMAGE",
                                       style: TextStyle(color: Colors.black54),):Image.file(userImage),
                                   ),
+
                                   Builder(
                                     builder: (context)=>TextButton.icon(
-                                        onPressed: (){
-                                          getImage();
-                                    },
-                                        icon: Icon(
-                                            Icons.add_a_photo_outlined,
-                                          color: Colors.grey,
-                                        ),
-                                        label: Text(
-                                          "Add pic*",
-                                          style: TextStyle(
-                                            color: Colors.grey
-                                          ),
-                                        ),
-                                    ),
-                                  ),
-                                  Visibility(
-                                      visible:uploadProgressVisible,
-                                      child: CircularProgressIndicator(
-                                       // semanticsLabel: 'Linear progress indicator',
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
                                       ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
                                   ),
                                   Visibility(
                                       visible:uploadVisible,
@@ -1053,46 +1367,44 @@ class _FormsState extends State<Forms>
 
                                 ],
                               ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                               // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 3));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadProgressVisible = false;
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }
-                                  else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.black26,
+                                    backgroundColor: Theme.of(context).primaryColor,
+                                    onSurface: Colors.blue,
+                                  ),
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
+                                    }
 
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
+                                  },
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
+                                  ),
                                 ),
                               ),
-                            ),
                               SizedBox(height: 20.0,),
                               //location upload
                               Column(
@@ -1120,2636 +1432,2332 @@ class _FormsState extends State<Forms>
                                   ),
 
                                   Text(
-                                      "LATITUDE:{$latitudeData}",
+                                    "LATITUDE:{$latitudeData}",
                                     style: TextStyle(
                                         color: Colors.indigo
                                     ),
                                   ),
                                   Text(
-                                      "LONGITUDE:{$longitudeData}",
+                                    "LONGITUDE:{$longitudeData}",
                                     style: TextStyle(
                                         color: Colors.indigo
                                     ),
                                   ),
                                 ],
                               ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(schoolPrinciple.text.trim() == ""){
+                                        schoolPrinciple.text = "unknown";
+                                      }if(schoolContact.text.trim() == ""){
+                                        schoolContact.text = "0000";
+                                      }if(schoolOpportunities.text.trim() == ""){
+                                        schoolOpportunities.text = "Couldn't Inquire";
+                                      }if(schoolRemarks.text.trim() == ""){
+                                        schoolRemarks.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //COLLAGE
+                        Visibility(
+                          visible: collageDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              //Name of the Collage
+                              TextFormField(
+                                controller: collageName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the College*',
+                                    prefixIcon: Icon(Icons.school_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //TYPE OF INSTITUTION
+                              SizedBox(height: 30.0,),
+                              Text(
+                                'TYPE OF COLLEGE*',
+                                style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+                                textAlign: TextAlign.left,
+                              ),
+                              //INTERMEDIATE
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('INTERMEDIATE'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueInter,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueInter = value;
+                                  });
+                                  if(valueInter == true){
+                                    typeOfCollegeList.add("INTERMEDIATE");
+                                  }else if(valueInter == false){
+                                    typeOfCollegeList.remove("INTERMEDIATE");
+                                  }
+                                },
+                              ),
+                              //UG
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('UNDER GRADUATION/DEGREE'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueUG,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueUG = value;
+                                  });
+                                  if(valueUG == true){
+                                    typeOfCollegeList.add("UNDER GRADUATION/DEGREE");
+                                  }else if(valueUG == false){
+                                    typeOfCollegeList.remove("UNDER GRADUATION/DEGREE");
+                                  }
+                                },
+                              ),
+                              //PG
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('POST GRADUATION'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valuePG,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valuePG = value;
+                                  });
+                                  if(valuePG == true){
+                                    typeOfCollegeList.add("POST GRADUATION");
+                                  }else if(valuePG == false){
+                                    typeOfCollegeList.remove("POST GRADUATION");
+                                  }
+                                },
+                              ),
+                              //VOCATIONAL
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('VOCATIONAL'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueVoc,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueVoc = value;
+                                  });
+                                  if(valueVoc == true){
+                                    typeOfCollegeList.add("VOCATIONAL");
+                                  }else if(valueVoc == false){
+                                    typeOfCollegeList.remove("VOCATIONAL");
+                                  }
+                                },
+                              ),
+                              //UNIVERSITY
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('UNIVERSITY'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueUni,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueUni = value;
+                                  });
+                                  if(valueUni == true){
+                                    typeOfCollegeList.add("UNIVERSITY");
+                                  }else if(valueUni == false){
+                                    typeOfCollegeList.remove("UNIVERSITY");
+                                  }
+                                },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Courses
+                              TextFormField(
+                                controller: collageCourses,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Courses Offered',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Strength
+                              TextFormField(
+                                controller: collageStrength,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Strength of the College*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: collageContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: collageAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Opportunities
+                              TextFormField(
+                                controller: collageOpportunities,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Opportunities to work" ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Remarks
+                              TextFormField(
+                                controller: collageRemarks,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Remarks & Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(HeadOfplace.text.trim()==""){
-                                      HeadOfplace.text = "unknown";
-                                    }if(Contact.text.trim()==""){
-                                      Contact.text = "0000";
-                                    }if(Details.text.trim()==""){
-                                      Details.text = "none for now";
-                                    }if(Libraries.text.trim()==""){
-                                      Libraries.text =  "none";
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //EDUCATIONAL INSTITUTIONS Details
-                      //SCHOOL
-                      Visibility(
-                        visible: schoolDetailsVisible,
-                        child: Column(
-                          children: [
-                            // Name of the School
-                            TextFormField(
-                              controller: schoolName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the School*',
-                                  prefixIcon: Icon(Icons.school_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Name of the principle
-                            TextFormField(
-                              controller: schoolPrinciple,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the principle',
-                                  prefixIcon: Icon(Icons.account_box_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Strength
-                            TextFormField(
-                              controller: schoolStrength,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Strength of the School*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: schoolContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: schoolAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Opportunities
-                            TextFormField(
-                              controller: schoolOpportunities,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Opportunities to work" ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Remarks
-                            TextFormField(
-                              controller: schoolRemarks,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Remarks & Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54))
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child:Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54)),
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(collageCourses.text.trim() == ""){
+                                        collageCourses.text = "Couldn't Inquire";
+                                      }if(collageContact.text.trim() == ""){
+                                        collageContact.text = "0000";
+                                      }if(collageOpportunities.text.trim() == ""){
+                                        collageOpportunities.text = "Couldn't Inquire";
+                                      }if(collageRemarks.text.trim() == ""){
+                                        collageRemarks.text = "none for now";
+                                      }if(typeOfCollegeList.isEmpty){
+                                        typeOfCollegeList.add("UNIVERSITY");
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //INSTITUTIONS
+                        Visibility(
+                          visible: instituteDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              //Name of the INSTITUTIONS
+                              TextFormField(
+                                controller: institutionName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the institute*',
+                                    prefixIcon: Icon(Icons.school_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //TYPE OF INSTITUTION
+                              SizedBox(height: 30.0,),
+                              Text(
+                                'TYPE OF INSTITUTION*',
+                                style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+                                textAlign: TextAlign.left,
+                              ),
+                              //MADRSA
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('MADRSA'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueMadrsa,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueMadrsa = value;
+                                  });
+                                  if(valueMadrsa == true){
+                                    typeOfInstitutionList.add("MADRSA");
+                                  }else if(valueMadrsa == false){
+                                    typeOfInstitutionList.remove("MADRSA");
+                                  }
+                                },
+                              ),
+                              //TUTORIAL
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('TUTORIAL'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueTut,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueTut = value;
+                                  });
+                                  if(valueTut == true){
+                                    typeOfInstitutionList.add("TUTORIAL");
+                                  }else if(valueTut == false){
+                                    typeOfInstitutionList.remove("TUTORIAL");
+                                  }
+                                },
+                              ),
+                              //LIBRARIES
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('LIBRARIES'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueLibraris,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueLibraris = value;
+                                  });
+                                  if(valueLibraris == true){
+                                    typeOfInstitutionList.add("LIBRARIES");
+                                  }else if(valueLibraris == false){
+                                    typeOfInstitutionList.remove("LIBRARIES");
+                                  }
+                                },
+                              ),
+                              //HOSTELS
+                              CheckboxListTile(
+                                secondary: const Icon(Icons.school_outlined),
+                                title: const Text('HOSTELS'),
+                                //subtitle: Text('Ringing after 12 hours'),
+                                value: this.valueHostal,
+                                onChanged: (bool value) {
+                                  setState(() {
+                                    this.valueHostal = value;
+                                  });
+                                  if(valueHostal == true){
+                                    typeOfInstitutionList.add("HOSTELS");
+                                  }else if(valueHostal == false){
+                                    typeOfInstitutionList.remove("HOSTELS");
+                                  }
+                                },
+                              ),
+                              SizedBox(height: 6.0,),
+                              //Courses
+                              TextFormField(
+                                controller: institutionCourses,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Courses Offered',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Strength
+                              TextFormField(
+                                controller: institutionStrength,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Strength of the Collage*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: institutionContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: institutionAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Opportunities
+                              TextFormField(
+                                controller: institutionOpportunities,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Opportunities to work" ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Remarks
+                              TextFormField(
+                                controller: institutionRemarks,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Remarks & Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(schoolPrinciple.text.trim() == ""){
-                                      schoolPrinciple.text = "unknown";
-                                    }if(schoolContact.text.trim() == ""){
-                                      schoolContact.text = "0000";
-                                    }if(schoolOpportunities.text.trim() == ""){
-                                      schoolOpportunities.text = "Couldn't Inquire";
-                                    }if(schoolRemarks.text.trim() == ""){
-                                      schoolRemarks.text = "none for now";
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //COLLAGE
-                      Visibility(
-                        visible: collageDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            //Name of the Collage
-                            TextFormField(
-                              controller: collageName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the College*',
-                                  prefixIcon: Icon(Icons.school_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //TYPE OF INSTITUTION
-                            SizedBox(height: 30.0,),
-                            Text(
-                              'TYPE OF COLLEGE*',
-                              style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
-                              textAlign: TextAlign.left,
-                            ),
-                            //INTERMEDIATE
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('INTERMEDIATE'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueInter,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueInter = value;
-                                });
-                                if(valueInter == true){
-                                  typeOfCollegeList.add("INTERMEDIATE");
-                                }else if(valueInter == false){
-                                  typeOfCollegeList.remove("INTERMEDIATE");
-                                }
-                              },
-                            ),
-                            //UG
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('UNDER GRADUATION/DEGREE'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueUG,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueUG = value;
-                                });
-                                if(valueUG == true){
-                                  typeOfCollegeList.add("UNDER GRADUATION/DEGREE");
-                                }else if(valueUG == false){
-                                  typeOfCollegeList.remove("UNDER GRADUATION/DEGREE");
-                                }
-                              },
-                            ),
-                            //PG
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('POST GRADUATION'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valuePG,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valuePG = value;
-                                });
-                                if(valuePG == true){
-                                  typeOfCollegeList.add("POST GRADUATION");
-                                }else if(valuePG == false){
-                                  typeOfCollegeList.remove("POST GRADUATION");
-                                }
-                              },
-                            ),
-                            //VOCATIONAL
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('VOCATIONAL'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueVoc,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueVoc = value;
-                                });
-                                if(valueVoc == true){
-                                  typeOfCollegeList.add("VOCATIONAL");
-                                }else if(valueVoc == false){
-                                  typeOfCollegeList.remove("VOCATIONAL");
-                                }
-                              },
-                            ),
-                            //UNIVERSITY
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('UNIVERSITY'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueUni,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueUni = value;
-                                });
-                                if(valueUni == true){
-                                  typeOfCollegeList.add("UNIVERSITY");
-                                }else if(valueUni == false){
-                                  typeOfCollegeList.remove("UNIVERSITY");
-                                }
-                              },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Courses
-                            TextFormField(
-                              controller: collageCourses,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Courses Offered',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Strength
-                            TextFormField(
-                              controller: collageStrength,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Strength of the College*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: collageContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: collageAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Opportunities
-                            TextFormField(
-                              controller: collageOpportunities,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Opportunities to work" ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Remarks
-                            TextFormField(
-                              controller: collageRemarks,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Remarks & Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child:Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)),
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child: Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54))
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(institutionCourses.text.trim() == ""){
+                                        institutionCourses.text = "Couldn't Inquire";
+                                      }if(institutionContact.text.trim() == ""){
+                                        institutionContact.text = "0000";
+                                      }if(institutionOpportunities.text.trim() == ""){
+                                        institutionOpportunities.text = "Couldn't Inquire";
+                                      }if(typeOfInstitutionList.isEmpty){
+                                        typeOfInstitutionList.add("TUTORIAL");
+                                      }
+                                      if(institutionRemarks.text.trim() == ""){
+                                        institutionRemarks.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                       // YOUTH SPOTS
+                        Visibility(
+                          visible: youthDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              //Name of the Place
+                              TextFormField(
+                                controller: youthPlaceName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Place*',
+                                    prefixIcon: Icon(Icons.home_sharp)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              // head of the place
+                              TextFormField(
+                                controller: youthHeadOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Responsible Head of the Place',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: youthContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: youthCapacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: youthAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: youthDetails,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(collageCourses.text.trim() == ""){
-                                      collageCourses.text = "Couldn't Inquire";
-                                    }if(collageContact.text.trim() == ""){
-                                      collageContact.text = "0000";
-                                    }if(collageOpportunities.text.trim() == ""){
-                                      collageOpportunities.text = "Couldn't Inquire";
-                                    }if(collageRemarks.text.trim() == ""){
-                                      collageRemarks.text = "none for now";
-                                    }if(typeOfCollegeList.isEmpty){
-                                      typeOfCollegeList.add("UNIVERSITY");
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //INSTITUTIONS
-                      Visibility(
-                        visible: instituteDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            //Name of the INSTITUTIONS
-                            TextFormField(
-                              controller: institutionName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the institute*',
-                                  prefixIcon: Icon(Icons.school_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //TYPE OF INSTITUTION
-                            SizedBox(height: 30.0,),
-                            Text(
-                              'TYPE OF INSTITUTION*',
-                              style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
-                              textAlign: TextAlign.left,
-                            ),
-                            //MADRSA
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('MADRSA'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueMadrsa,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueMadrsa = value;
-                                });
-                                if(valueMadrsa == true){
-                                  typeOfInstitutionList.add("MADRSA");
-                                }else if(valueMadrsa == false){
-                                  typeOfInstitutionList.remove("MADRSA");
-                                }
-                              },
-                            ),
-                            //TUTORIAL
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('TUTORIAL'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueTut,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueTut = value;
-                                });
-                                if(valueTut == true){
-                                  typeOfInstitutionList.add("TUTORIAL");
-                                }else if(valueTut == false){
-                                  typeOfInstitutionList.remove("TUTORIAL");
-                                }
-                              },
-                            ),
-                            //LIBRARIES
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('LIBRARIES'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueLibraris,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueLibraris = value;
-                                });
-                                if(valueLibraris == true){
-                                  typeOfInstitutionList.add("LIBRARIES");
-                                }else if(valueLibraris == false){
-                                  typeOfInstitutionList.remove("LIBRARIES");
-                                }
-                              },
-                            ),
-                            //HOSTELS
-                            CheckboxListTile(
-                              secondary: const Icon(Icons.school_outlined),
-                              title: const Text('HOSTELS'),
-                              //subtitle: Text('Ringing after 12 hours'),
-                              value: this.valueHostal,
-                              onChanged: (bool value) {
-                                setState(() {
-                                  this.valueHostal = value;
-                                });
-                                if(valueHostal == true){
-                                  typeOfInstitutionList.add("HOSTELS");
-                                }else if(valueHostal == false){
-                                  typeOfInstitutionList.remove("HOSTELS");
-                                }
-                              },
-                            ),
-                            SizedBox(height: 6.0,),
-                            //Courses
-                            TextFormField(
-                              controller: institutionCourses,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Courses Offered',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Strength
-                            TextFormField(
-                              controller: institutionStrength,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Strength of the Collage*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: institutionContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: institutionAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Opportunities
-                            TextFormField(
-                              controller: institutionOpportunities,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Opportunities to work" ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Remarks
-                            TextFormField(
-                              controller: institutionRemarks,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Remarks & Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54))
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child: Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54)),
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(youthHeadOfPlace.text.trim() == ""){
+                                        youthHeadOfPlace.text = "unknown";
+                                      }if(youthContact.text.trim() == ""){
+                                        youthContact.text = "0000";
+                                      }
+                                      if(youthDetails.text.trim() == ""){
+                                        youthDetails.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //PUBLIC SPOTS
+                        Visibility(
+                          visible: publicDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              //Name of the Place
+                              TextFormField(
+                                controller: publicPlaceName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Place*',
+                                    prefixIcon: Icon(Icons.home_sharp)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              // head of the place
+                              TextFormField(
+                                controller: publicHeadOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Responsible/Owner of the Place',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: publicContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: publicCapacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: publicAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: publicDetails,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(institutionCourses.text.trim() == ""){
-                                      institutionCourses.text = "Couldn't Inquire";
-                                    }if(institutionContact.text.trim() == ""){
-                                      institutionContact.text = "0000";
-                                    }if(institutionOpportunities.text.trim() == ""){
-                                      institutionOpportunities.text = "Couldn't Inquire";
-                                    }if(typeOfInstitutionList.isEmpty){
-                                      typeOfInstitutionList.add("TUTORIAL");
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if(institutionRemarks.text.trim() == ""){
-                                      institutionRemarks.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                     // YOUTH SPOTS
-                      Visibility(
-                        visible: youthDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            //Name of the Place
-                            TextFormField(
-                              controller: youthPlaceName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the Place*',
-                                  prefixIcon: Icon(Icons.home_sharp)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            // head of the place
-                            TextFormField(
-                              controller: youthHeadOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Responsible Head of the Place',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: youthContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: youthCapacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: youthAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: youthDetails,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)),
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child:Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54)),
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
-                                  style: TextButton.styleFrom(
-                                    primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    onSurface: Colors.blue,
-                                  ),
-                                  onPressed:() {
-                                    if(youthHeadOfPlace.text.trim() == ""){
-                                      youthHeadOfPlace.text = "unknown";
-                                    }if(youthContact.text.trim() == ""){
-                                      youthContact.text = "0000";
-                                    }
-                                    if(youthDetails.text.trim() == ""){
-                                      youthDetails.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
-
-                                    }
-                                  },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //PUBLIC SPOTS
-                      Visibility(
-                        visible: publicDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            //Name of the Place
-                            TextFormField(
-                              controller: publicPlaceName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the Place*',
-                                  prefixIcon: Icon(Icons.home_sharp)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            // head of the place
-                            TextFormField(
-                              controller: publicHeadOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Responsible/Owner of the Place',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: publicContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: publicCapacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: publicAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: publicDetails,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
                                     ),
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
-                                ),
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
+                                  ),
+                                ],
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child:Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)),
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
                                     ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
-                                  style: TextButton.styleFrom(
-                                    primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    onSurface: Colors.blue,
-                                  ),
-                                  onPressed:() {
-                                    if(publicHeadOfPlace.text.trim() == ""){
-                                      publicHeadOfPlace.text = "unknown";
-                                    }  if(publicContact.text.trim() == ""){
-                                      publicContact.text = "0000";
-                                    }
-                                    if(publicDetails.text.trim() == ""){
-                                      publicDetails.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
+                                    onPressed:() {
+                                      if(publicHeadOfPlace.text.trim() == ""){
+                                        publicHeadOfPlace.text = "unknown";
+                                      }  if(publicContact.text.trim() == ""){
+                                        publicContact.text = "0000";
                                       }
+                                      if(publicDetails.text.trim() == ""){
+                                        publicDetails.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
 
-                                    }
-                                  },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //OFFICES
-                      Visibility(
-                        visible: officeDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            // name of the office
-                            TextFormField(
-                              controller: officePlaceName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the Office*',
-                                  prefixIcon: Icon(Icons.work_outline_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                          //  Head of the Office
-                            TextFormField(
-                              controller: officeHeadOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Responsible/Head of the Office ',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: officeContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Timings
-                            TextFormField(
-                              controller: officeTiming,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Timings of the office in 24hrs ',
-                                  prefixIcon: Icon(Icons.timer_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: officeCapacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: officeAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: officeDetails,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
+                                      }
                                     },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
-                                ),
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54))
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
-                                  ),
-                                ),
-
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
-                                  style: TextButton.styleFrom(
-                                    primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
-                                    onSurface: Colors.blue,
-                                  ),
-                                  onPressed:() {
-                                    if(officeHeadOfPlace.text.trim() == ""){
-                                      officeHeadOfPlace.text = "unknown";
-                                    }if(officeContact.text.trim() == ""){
-                                      officeContact.text = "0000";
-                                    }if(officeTiming.text.trim() == ""){
-                                      officeTiming.text = "00:00 - 24:00 Hrs";
-                                    }
-                                    if(officeDetails.text.trim() == ""){
-                                      officeDetails.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
-
-                                    }
-                                  },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
+                            ],
+                          ),
                         ),
-                      ),
-                      //NGOS/ORGANISATIONS
-                      Visibility(
-                        visible: ngosDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            // name of the office
-                            TextFormField(
-                              controller: ngosPlaceName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the NGOS/ORGANISATION*',
-                                  prefixIcon: Icon(Icons.home_work)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
+                        //OFFICES
+                        Visibility(
+                          visible: officeDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              // name of the office
+                              TextFormField(
+                                controller: officePlaceName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Office*',
+                                    prefixIcon: Icon(Icons.work_outline_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
                             //  Head of the Office
-                            TextFormField(
-                              controller: ngosHeadOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Responsible/Head name ',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: ngosContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Timings
-                            TextFormField(
-                              controller: ngosTiming,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Timings of the office in 24hrs ',
-                                  prefixIcon: Icon(Icons.timer_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: ngosCapacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: ngosAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: ngosDetails,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
+                              TextFormField(
+                                controller: officeHeadOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Responsible/Head of the Office ',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
                                   }
-
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
                                 },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
-                                ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)),
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              //Contact num
+                              TextFormField(
+                                controller: officeContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Timings
+                              TextFormField(
+                                controller: officeTiming,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Timings of the office in 24hrs ',
+                                    prefixIcon: Icon(Icons.timer_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: officeCapacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: officeAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: officeDetails,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
-                                  ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(ngosHeadOfPlace.text.trim() == ""){
-                                      ngosHeadOfPlace.text = "unknown";
-                                    }if(ngosContact.text.trim() == ""){
-                                      ngosContact.text = "0000";
-                                    }if(ngosTiming.text.trim() == ""){
-                                      ngosTiming.text = "00:00 - 24:00 Hrs";
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if(ngosDetails.text.trim() == ""){
-                                      ngosDetails.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
-                        ),
-                      ),
-                      //HALLS
-                      Visibility(
-                        visible: hallsDetailsVisible,
-                        child: Column(
-                          children: <Widget>[
-                            //Name of the Halls
-                            TextFormField(
-                              controller: hallsPlaceName,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Name of the Place*',
-                                  prefixIcon: Icon(Icons.home_work_sharp)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            // head of the place
-                            TextFormField(
-                              controller: hallsHeadOfPlace,
-                              keyboardType: TextInputType.text,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Responsible/Owner of the Place',
-                                  prefixIcon: Icon(Icons.account_box_outlined)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Contact num
-                            TextFormField(
-                              controller: hallsContact,
-                              keyboardType: TextInputType.number,
-                              keyboardAppearance: Brightness.light,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Contact No',
-                                  prefixIcon: Icon(Icons.account_circle)),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Capacity
-                            TextFormField(
-                              controller: hallsCapacity,
-                              keyboardType: TextInputType.number,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                  hintText: 'Capacity to Accommodate*',
-                                  prefixIcon: Icon(Icons.people_alt_outlined )),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Address
-                            TextFormField(
-                              controller: hallsAddress,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Address* ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.add_location_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              validator: (value) {
-                                if (value.isEmpty) {
-                                  return 'Please enter the appropriate details';
-                                }
-                                // else if (value != realId) {
-                                //   return "please enter the right pass word";
-                                // }
-                                return null;
-                              },
-                            ),
-                            //Details
-                            TextFormField(
-                              controller: hallsDetails,
-                              keyboardType: TextInputType.multiline,
-                              minLines: 1,//Normal textInputField will be displayed
-                              maxLines: 5,
-                              decoration: InputDecoration(
-                                //border: InputBorder.none,
-                                hintText: 'Details"*if required " ',
-                                contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                prefixIcon: Icon(Icons.article_outlined  ),),
-                              scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
-                              // validator: (value) {
-                              //   if (value.isEmpty) {
-                              //     return 'Please enter the appropriate details';
-                              //   }
-                              //   // else if (value != realId) {
-                              //   //   return "please enter the right pass word";
-                              //   // }
-                              //   return null;
-                              // },
-                            ),
-                            SizedBox(height: 20.0,),
-                            //Image upload
-                            Column(
-                              children: [
-                                Center(
-                                  child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                    style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                ),
-
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getImage();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_a_photo_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add pic*",
-                                      style: TextStyle(
-                                          color: Colors.grey
-                                      ),
-                                    ),
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
                                   ),
-                                ),
-                                Visibility(
-                                    visible:uploadVisible,
-                                    child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                ),
-
-                              ],
-                            ),
-                            SizedBox(height: 10.0,),
-                            //upload Image button
-                            Builder(
-                              builder: (context) => TextButton(
-                                // color: Theme.of(context).primaryColor,
-                                style: TextButton.styleFrom(
-                                  primary: Colors.black26,
-                                  backgroundColor: Theme.of(context).primaryColor,
-                                  onSurface: Colors.blue,
-                                ),
-                                onPressed: () async {
-                                  await uploadImageToFirebase(context);
-                                  await Future.delayed(Duration(seconds: 1));
-                                  print("upload done : $imageLink");
-                                  if(imageLink!= null){
-                                    setState(() {
-                                      uploadVisible = true;
-                                    });
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Uploaded"),
-                                      ),
-                                    );
-                                  }else{
-                                    ScaffoldMessenger.of(context).showSnackBar(
-                                      SnackBar(
-                                        content: Text("Image Not upload try again"),
-                                      ),
-                                    );
-                                  }
-
-                                },
-                                child: Text(
-                                    'upload image',
-                                    style: TextStyle(color: Colors.white)
                                 ),
                               ),
-                            ),
-                            SizedBox(height: 20.0,),
-                            //location upload
-                            Column(
-                              children: <Widget>[
-                                Center(
-                                  child: Text("ADD LOCATION",
-                                      style: TextStyle(color: Colors.black54)),
-                                ),
-                                Builder(
-                                  builder: (context)=>TextButton.icon(
-                                    onPressed: (){
-                                      getCurrentLoaction();
-                                    },
-                                    icon: Icon(
-                                      Icons.add_location_alt_outlined,
-                                      color: Colors.grey,
-                                    ),
-                                    label: Text(
-                                      "Add Location*",
-                                      style: TextStyle(
-                                          color: Colors.grey
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child: Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54))
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
                                       ),
                                     ),
                                   ),
-                                ),
 
-                                Text(
-                                  "LATITUDE:{$latitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                                Text(
-                                  "LONGITUDE:{$longitudeData}",
-                                  style: TextStyle(
-                                      color: Colors.indigo
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
                                   ),
-                                ),
-                              ],
-                            ),
-                            //Done button
-                            Builder(
-                              builder: (context) => TextButton(
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(officeHeadOfPlace.text.trim() == ""){
+                                        officeHeadOfPlace.text = "unknown";
+                                      }if(officeContact.text.trim() == ""){
+                                        officeContact.text = "0000";
+                                      }if(officeTiming.text.trim() == ""){
+                                        officeTiming.text = "00:00 - 24:00 Hrs";
+                                      }
+                                      if(officeDetails.text.trim() == ""){
+                                        officeDetails.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                        //NGOS/ORGANISATIONS
+                        Visibility(
+                          visible: ngosDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              // name of the office
+                              TextFormField(
+                                controller: ngosPlaceName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the NGOS/ORGANISATION*',
+                                    prefixIcon: Icon(Icons.home_work)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //  Head of the Office
+                              TextFormField(
+                                controller: ngosHeadOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Responsible/Head name ',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: ngosContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Timings
+                              TextFormField(
+                                controller: ngosTiming,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Timings of the office in 24hrs ',
+                                    prefixIcon: Icon(Icons.timer_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: ngosCapacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: ngosAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: ngosDetails,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
                                     backgroundColor: Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
-                                  onPressed:() {
-                                    if(hallsHeadOfPlace.text.trim() == ""){
-                                      hallsHeadOfPlace.text = "unknown";
-                                    }if(hallsContact.text.trim() == ""){
-                                      hallsContact.text = "0000";
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
                                     }
-                                    if(hallsDetails.text.trim() == ""){
-                                      hallsDetails.text = "none for now";
-                                    }
-                                    if (formKey.currentState.validate()) {
-                                      if(imageLink!=null && latitudeData!=null){
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("All done!"),
-                                          ),
-                                        );
-                                        setState(() {
-                                          pressedFunc();
-                                        });
-                                      }else{
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("U did't upload location or Image"),
-                                          ),
-                                        );
-                                      }
 
-                                    }
                                   },
-                                  child: Center(
-                                      child: Text(
-                                        'Done',
-                                        style: TextStyle(color: Colors.white),
-                                      ))),
-                            ),
-                          ],
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child: Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54)),
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
+                                  ),
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(ngosHeadOfPlace.text.trim() == ""){
+                                        ngosHeadOfPlace.text = "unknown";
+                                      }if(ngosContact.text.trim() == ""){
+                                        ngosContact.text = "0000";
+                                      }if(ngosTiming.text.trim() == ""){
+                                        ngosTiming.text = "00:00 - 24:00 Hrs";
+                                      }
+                                      if(ngosDetails.text.trim() == ""){
+                                        ngosDetails.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
                         ),
-                      ),
-                    ],
-                  ),
-                  SizedBox(height: 8.0,),
-                  //SUBMIT BUTTON
-                  Visibility(
-                    visible: isEnabled,
-                    child: Builder(
-                        builder: (context) => TextButton(
-                            // color: Theme.of(context).primaryColor,
-                            style: TextButton.styleFrom(
-                              primary: Colors.black26,
-                              backgroundColor:Theme.of(context).primaryColor,
-                              onSurface: Colors.grey,
-                            ),
-                            onPressed: isEnabled?()=>submitFunc():null,
-                            child: Center(
-                                child: Text(
-                                  'Submit',
-                                  style: TextStyle(color: Colors.white70),
-                                ))),
+                        //HALLS
+                        Visibility(
+                          visible: hallsDetailsVisible,
+                          child: Column(
+                            children: <Widget>[
+                              //Name of the Halls
+                              TextFormField(
+                                controller: hallsPlaceName,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Name of the Place*',
+                                    prefixIcon: Icon(Icons.home_work_sharp)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              // head of the place
+                              TextFormField(
+                                controller: hallsHeadOfPlace,
+                                keyboardType: TextInputType.text,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Responsible/Owner of the Place',
+                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Contact num
+                              TextFormField(
+                                controller: hallsContact,
+                                keyboardType: TextInputType.number,
+                                keyboardAppearance: Brightness.light,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Contact No',
+                                    prefixIcon: Icon(Icons.account_circle)),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Capacity
+                              TextFormField(
+                                controller: hallsCapacity,
+                                keyboardType: TextInputType.number,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                    hintText: 'Capacity to Accommodate*',
+                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Address
+                              TextFormField(
+                                controller: hallsAddress,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Address* ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                validator: (value) {
+                                  if (value.isEmpty) {
+                                    return 'Please enter the appropriate details';
+                                  }
+                                  // else if (value != realId) {
+                                  //   return "please enter the right pass word";
+                                  // }
+                                  return null;
+                                },
+                              ),
+                              //Details
+                              TextFormField(
+                                controller: hallsDetails,
+                                keyboardType: TextInputType.multiline,
+                                minLines: 1,//Normal textInputField will be displayed
+                                maxLines: 5,
+                                decoration: InputDecoration(
+                                  //border: InputBorder.none,
+                                  hintText: 'Details"*if required " ',
+                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined  ),),
+                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                // validator: (value) {
+                                //   if (value.isEmpty) {
+                                //     return 'Please enter the appropriate details';
+                                //   }
+                                //   // else if (value != realId) {
+                                //   //   return "please enter the right pass word";
+                                //   // }
+                                //   return null;
+                                // },
+                              ),
+                              SizedBox(height: 20.0,),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
+                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                  ),
+
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+                                  Visibility(
+                                      visible:uploadVisible,
+                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
+                                  ),
+
+                                ],
+                              ),
+                              SizedBox(height: 10.0,),
+                              //upload Image button
+                              Builder(
+                                builder: (context) => TextButton(
+                                  // color: Theme.of(context).primaryColor,
+                                  style: TextButton.styleFrom(
+                                    primary: Colors.black26,
+                                    backgroundColor: Theme.of(context).primaryColor,
+                                    onSurface: Colors.blue,
+                                  ),
+                                  onPressed: () async {
+                                    await uploadImageToFirebase(context);
+                                    await Future.delayed(Duration(seconds: 1));
+                                    print("upload done : $imageLink");
+                                    if(imageLink!= null){
+                                      setState(() {
+                                        uploadVisible = true;
+                                      });
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Uploaded"),
+                                        ),
+                                      );
+                                    }else{
+                                      ScaffoldMessenger.of(context).showSnackBar(
+                                        SnackBar(
+                                          content: Text("Image Not upload try again"),
+                                        ),
+                                      );
+                                    }
+
+                                  },
+                                  child: Text(
+                                      'upload image',
+                                      style: TextStyle(color: Colors.white)
+                                  ),
+                                ),
+                              ),
+                              SizedBox(height: 20.0,),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
+                                    child: Text("ADD LOCATION",
+                                        style: TextStyle(color: Colors.black54)),
+                                  ),
+                                  Builder(
+                                    builder: (context)=>TextButton.icon(
+                                      onPressed: (){
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(
+                                            color: Colors.grey
+                                        ),
+                                      ),
+                                    ),
+                                  ),
+
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
+                                  ),
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(
+                                        color: Colors.indigo
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              //Done button
+                              Builder(
+                                builder: (context) => TextButton(
+                                    style: TextButton.styleFrom(
+                                      primary: Colors.black26,
+                                      backgroundColor: Theme.of(context).primaryColor,
+                                      onSurface: Colors.blue,
+                                    ),
+                                    onPressed:() {
+                                      if(hallsHeadOfPlace.text.trim() == ""){
+                                        hallsHeadOfPlace.text = "unknown";
+                                      }if(hallsContact.text.trim() == ""){
+                                        hallsContact.text = "0000";
+                                      }
+                                      if(hallsDetails.text.trim() == ""){
+                                        hallsDetails.text = "none for now";
+                                      }
+                                      if (formKey.currentState.validate()) {
+                                        if(imageLink!=null && latitudeData!=null){
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("All done!"),
+                                            ),
+                                          );
+                                          setState(() {
+                                            pressedFunc();
+                                          });
+                                        }else{
+                                          ScaffoldMessenger.of(context).showSnackBar(
+                                            SnackBar(
+                                              content: Text("U did't upload location or Image"),
+                                            ),
+                                          );
+                                        }
+
+                                      }
+                                    },
+                                    child: Center(
+                                        child: Text(
+                                          'Done',
+                                          style: TextStyle(color: Colors.white),
+                                        ))),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
                     ),
-                  ),
-                  SizedBox(height: 20.0,),
-                  checkForAd(),
-                  SizedBox(height: 15.0,),
-                ],
+                    SizedBox(height: 8.0,),
+                    //SUBMIT BUTTON
+                    Visibility(
+                      visible: isEnabled,
+                      child: Builder(
+                          builder: (context) => TextButton(
+                              // color: Theme.of(context).primaryColor,
+                              style: TextButton.styleFrom(
+                                primary: Colors.black26,
+                                backgroundColor:Theme.of(context).primaryColor,
+                                onSurface: Colors.grey,
+                              ),
+                              onPressed: isEnabled?()=>submitFunc():null,
+                              child: Center(
+                                  child: Text(
+                                    'Submit',
+                                    style: TextStyle(color: Colors.white70),
+                                  ))),
+                      ),
+                    ),
+                    SizedBox(height: 20.0,),
+                   // checkForAd(),
+                    SizedBox(height: 15.0,),
+                  ],
+                ),
               ),
             ),
-          ),
-        )),
+          )),
+        ),
       ),
     );
   }

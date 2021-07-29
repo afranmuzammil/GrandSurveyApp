@@ -53,7 +53,7 @@ class _EditPageState extends State<EditPage>
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
         size: AdSize.banner,
-        listener: AdListener(onAdLoaded: (_) {
+        listener: AdManagerBannerAdListener(onAdLoaded: (_) {
           print("Banner AD Called");
           setState(() {
             isloaded = true;
@@ -385,7 +385,7 @@ class _EditPageState extends State<EditPage>
                                       // )
                                       return Column(
                                         children: [
-                                          checkForAd(),
+                                          //checkForAd(),
                                           religiousInputs(),
                                           //religiousInput(),
                                           // TextFormField(

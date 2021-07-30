@@ -1,6 +1,7 @@
 import 'dart:ffi';
 //import 'dart:html';
 import 'dart:io';
+import 'dart:ui';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:connectivity/connectivity.dart';
 import 'package:firebase_core/firebase_core.dart';
@@ -897,7 +898,7 @@ class _MyHomePageState extends State<MyHomePage>
   //   }
   // }
 
-
+  List loadedList =[];
   @override
   Widget build(BuildContext context) {
 
@@ -1038,7 +1039,18 @@ class _MyHomePageState extends State<MyHomePage>
         // ),
         child: Column(
           children: [
+
           // checkForAd(),
+          //searchbar
+          //   TextField(
+          //    // onChanged: (value) => _runFilter(value),
+          //     decoration: InputDecoration(
+          //         labelText: 'Search', suffixIcon: Icon(Icons.search)),
+          //   ),
+            SizedBox(
+              height: 20,
+            ),
+
             Expanded(
               child: Container(
               padding: EdgeInsets.all(5.0),
@@ -1113,6 +1125,9 @@ class _MyHomePageState extends State<MyHomePage>
                               switch (placeValue) {
                                 case"RELIGIOUS PLACES":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
+                                    print(" list data :${loadedList.first.toString()} ${loadedList.length}");
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1170,6 +1185,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
+                                      docCount = 0;
                                       print("on :$e");
                                       return Center(
 
@@ -1198,6 +1214,8 @@ class _MyHomePageState extends State<MyHomePage>
                                     switch (placeTypeEducationValue) {
                                       case"SCHOOL":
                                         {
+                                          loadedList = snapshot.data.docs.toList();
+                                          docCount = loadedList.length;
                                           try {
                                             return Card(
                                               shadowColor: Colors.blue[200],
@@ -1275,6 +1293,8 @@ class _MyHomePageState extends State<MyHomePage>
                                               borderOnForeground: true,
                                             );
                                           } catch (e) {
+                                            print("error in school : $e");
+                                            docCount = 0;
                                             return Center(
 
                                               child: Container(
@@ -1299,6 +1319,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         break;
                                       case"COLLEGE":
                                         {
+                                          loadedList = snapshot.data.docs.toList();
+                                          docCount = loadedList.length;
                                           try {
                                             return Card(
                                               shadowColor: Colors.blue[200],
@@ -1379,6 +1401,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               borderOnForeground: true,
                                             );
                                           } catch (e) {
+                                            docCount = 0;
                                             return Center(
 
                                               child: Container(
@@ -1403,6 +1426,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         break;
                                       case"INSTITUTION":
                                         {
+                                          loadedList = snapshot.data.docs.toList();
+                                          docCount = loadedList.length;
                                           try {
                                             return Card(
                                               shadowColor: Colors.blue[200],
@@ -1482,6 +1507,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               borderOnForeground: true,
                                             );
                                           } catch (e) {
+                                            docCount = 0;
                                             return Center(
 
                                               child: Container(
@@ -1509,6 +1535,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   break;
                                 case"YOUTH SPOTS":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1585,6 +1613,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
+                                      docCount = 0;
                                       return Center(
 
                                         child: Container(
@@ -1609,6 +1638,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   break;
                                 case"PUBLIC SPOTS":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1685,6 +1716,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
+                                      docCount = 0;
                                       return Center(
 
                                         child: Container(
@@ -1709,6 +1741,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   break;
                                 case"OFFICES":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1785,7 +1819,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
-                                      return Center(
+                                      docCount = 0;
+                                        return Center(
 
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
@@ -1803,12 +1838,14 @@ class _MyHomePageState extends State<MyHomePage>
                                               ]
                                           ),
                                         ),
-                                      );;
+                                      );
                                     }
                                   }
                                   break;
                                 case"NGOSorORGANISATIONS":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1885,6 +1922,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
+                                      docCount = 0;
                                       return Center(
 
                                         child: Container(
@@ -1909,6 +1947,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   break;
                                 case"HALLS":
                                   {
+                                    loadedList = snapshot.data.docs.toList();
+                                    docCount = loadedList.length;
                                     try {
                                       return Card(
                                         shadowColor: Colors.blue[200],
@@ -1985,6 +2025,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         borderOnForeground: true,
                                       );
                                     } catch (e) {
+                                      docCount = 0;
                                       return Center(
 
                                         child: Container(
@@ -2009,8 +2050,8 @@ class _MyHomePageState extends State<MyHomePage>
                                   break;
                                 default:
                                   {
+                                    docCount = 0;
                                     return Center(
-
                                       child: Container(
                                         padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
                                         child: Column(
@@ -2116,6 +2157,7 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ),
       ),
+
       floatingActionButton: FloatingActionButton(
         onPressed: () {
          // await Future.delayed(Duration(seconds: 2));
@@ -2163,6 +2205,7 @@ class _MyHomePageState extends State<MyHomePage>
       bottomNavigationBar: BottomAppBar(
         color: Colors.blue,
         child: Row(
+          mainAxisAlignment: MainAxisAlignment.start,
           children: [
         Builder(
           builder: (context) =>
@@ -2584,6 +2627,8 @@ class _MyHomePageState extends State<MyHomePage>
                 },
               ),
         ),
+            Text("DataChips Loaded: $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
+                fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white70))),
             // Visibility(child:Container(
             //
             // )),

@@ -105,7 +105,7 @@ bool isVisibleNgos = false;
 List placesTypeNgosList = [
   "OLD AGE",
   "ORPHAN AGE",
-  "SOCIAL WELFARE",
+    "SOCIAL WELFARE",
   "CAREER GUIDANCE ",
   "COUNSELING CENTRES",
   "STUDENT&RELIGIOUS&CHARITY",
@@ -122,8 +122,8 @@ String placeTypeHallsValue = "COMMUNITY HALLS";
 
 bool isVisibleHalls = false;
 List placesTypeHallsList = [
-  "COMMUNITY HALLS",
-  "FUNCTION HALLS",
+   "COMMUNITY HALLS",
+   "FUNCTION HALLS",
   "MEETING HALLS",
   "MELAS ",
   "EXHIBITION ",
@@ -886,6 +886,36 @@ class _MyHomePageState extends State<MyHomePage>
 
 
   }
+
+  void _toggleSearch() {
+    setState(() {
+      SearchVisible = !SearchVisible;
+      enteredKeyword = "";
+    });
+  }
+
+  visibleSearchBar(){
+    if(SearchVisible == false){
+        return Container(
+          padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
+            child: Icon(Icons.search)
+        );
+    } else if(SearchVisible == true){
+        return Container(
+            padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
+            child: Icon(Icons.close)
+        );
+
+    }
+  }
+
+
+  checkNamesList(String placeValue){
+    if(NamesList.contains(placeValue) == false){
+      NamesList.add(placeValue);
+    }
+  }
+
 //this variable will make the home page loading
  bool isListIgnoring = true;
 
@@ -897,8 +927,12 @@ class _MyHomePageState extends State<MyHomePage>
   //     print("${selectType()} : $docCount");
   //   }
   // }
-
+  List NamesList =[];
   List loadedList =[];
+  var PlaceNamesToggle = "true";
+  var enteredKeyword ="";
+  bool SearchVisible = false;
+  bool SearchVisibleIcon = true;
   @override
   Widget build(BuildContext context) {
 
@@ -1042,14 +1076,79 @@ class _MyHomePageState extends State<MyHomePage>
 
           // checkForAd(),
           //searchbar
-          //   TextField(
-          //    // onChanged: (value) => _runFilter(value),
-          //     decoration: InputDecoration(
-          //         labelText: 'Search', suffixIcon: Icon(Icons.search)),
-          //   ),
-            SizedBox(
-              height: 20,
+            Row(
+              mainAxisAlignment: MainAxisAlignment.end,
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+               InkWell(
+                 onTap:_toggleSearch ,
+                 child: visibleSearchBar(),
+               )
+              ],
             ),
+            //searchBarFilltercode
+            Container(
+              alignment: Alignment.topLeft,
+              child: Visibility(
+                visible: SearchVisible,
+                child: Padding(
+                  padding: const EdgeInsets.only(left: 4.0,right: 4.0),
+                  child: DecoratedBox(
+                    decoration: BoxDecoration(
+                      border: Border.all(
+                        color: Theme.of(context).primaryColor,
+                        width: 2.0,
+                      ),
+
+                      borderRadius: BorderRadius.circular(6),
+
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                      child: Autocomplete(
+                        optionsBuilder: (TextEditingValue value) {
+
+                          // When the field is empty
+                          if (value.text.isEmpty) {
+                            setState(() {
+                              enteredKeyword = "";
+                            });
+                            return [];
+                          }
+                          // The logic to find out which ones should appear
+                          return NamesList.where((suggestion) => suggestion
+                              .toLowerCase()
+                              .contains(value.text.toLowerCase()));
+                        },
+                        onSelected: (value) {
+                          setState(() {
+                            enteredKeyword = value;
+                          });
+                        },
+                      ),
+                    ),
+                  ),
+                ),
+              ),
+            ),
+            // TextField(
+            //   onChanged: (value) => {enteredKeyword = value},
+            //   decoration: InputDecoration(
+            //       labelText: 'Search',
+            //       suffixIcon: IconButton(
+            //           icon: Icon(
+            //               Icons.search),
+            //         onPressed: (){
+            //             setState(() {
+            //               reload();
+            //             });
+            //         },
+            //       )
+            //   ),
+            // ),
+            // SizedBox(
+            //   height: 20,
+            // ),
 
             Expanded(
               child: Container(
@@ -1121,975 +1220,1189 @@ class _MyHomePageState extends State<MyHomePage>
                           radius: Radius.circular(8.0),
                           child: ListView(
                             children: snapshot.data.docs.map((document) {
+
                              // var UserDoc = document.id;
-                              switch (placeValue) {
-                                case"RELIGIOUS PLACES":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    print(" list data :${loadedList.first.toString()} ${loadedList.length}");
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]} ",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['PlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      // crossAxisAlignment: CrossAxisAlignment.start,
-                                                      children: [
-                                                        religiousDetailsDisplay(document)
-                                                      ],
+                          //    var enteredKeyword = "";
+
+                              if(enteredKeyword == ""||enteredKeyword == null){
+                                PlaceNamesToggle = "true";
+                              }
+                              // names = document["PlaceName"].toString()
+                              //     .toUpperCase()
+                              //     .contains(
+                              //     enteredKeyword.toUpperCase()).toString();
+                                switch (placeValue) {
+                                  case"RELIGIOUS PLACES":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      print(enteredKeyword);
+                                      try {
+                                        checkNamesList(document["PlaceName"]);
+                                      //  NamesList.add(document["PlaceName"]);
+                                        PlaceNamesToggle = document["PlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        //print(" list data :$PlaceNamesToggle , $NamesList");
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
                                                     ),
                                                   ),
-                                                ),
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]} ",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['PlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          // crossAxisAlignment: CrossAxisAlignment.start,
+                                                          children: [
+                                                            religiousDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ],
                                               ),
-                                            ],
-                                          ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
-                                      docCount = 0;
-                                      print("on :$e");
-                                      return Center(
+                                            ),
+                                            borderOnForeground: true,
+                                          );
+                                        }
 
-                                        child: Container(
-                                            padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
+                                      } catch (e) {
+                                        docCount = 0;
+                                        print("on :$e");
+                                        return Center(
+
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
                                             child: Column(
                                                 children: <Widget>[
-                                                   Icon( Icons.sentiment_dissatisfied_rounded,
-                                                        color: Colors.black12,
-                                                         size: 100.0,
-                                                       semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                   ),
-                                                  Text("NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
                                                   ),
                                                 ]
                                             ),
-                                        ),
-                                      );
+                                          ),
+                                        );
+                                      }
                                     }
-                                  }
-                                  break;
-                                case"EDUCATIONAL INSTITUTIONS":
-                                  {
-                                    switch (placeTypeEducationValue) {
-                                      case"SCHOOL":
-                                        {
-                                          loadedList = snapshot.data.docs.toList();
-                                          docCount = loadedList.length;
-                                          try {
-                                            return Card(
-                                              shadowColor: Colors.blue[200],
-                                              color:Colors.blue[50] ,
-                                              elevation: 5.0,
-                                              child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .center,
-                                                  children: [
-                                                    AspectRatio(
-                                                      aspectRatio: 4/2,
-                                                      child: Image(
-                                                        image: NetworkImage(document['PlaceImage']),
-                                                        fit: BoxFit.cover,
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 10.0,),
-                                                    Text(
-                                                      "Name of the ${document["PlaceType"]} ",
-                                                      style: GoogleFonts.poppins(textStyle:
-                                                      TextStyle(fontSize: 20,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black54)),),
-                                                    Text(
-                                                      " ${document['schoolName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts.poppins(textStyle:
-                                                      TextStyle(fontSize: 20,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black87)),),
-                                                    SizedBox(height: 10.0,),
-                                                    // ListTile(
-                                                    //     // onTap:(){
-                                                    //     //   print(UserDoc);
-                                                    //     // },
-                                                    //   leading: Text(document['PlaceName']),
-                                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                    //   // children: <Widget>[
-                                                    //   title:Text(document['PlaceType']),
-                                                    //   //   Text(document['PlaceType']),
-                                                    //   // ],
-                                                    // ),
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                                    //   children: <Widget>[
-                                                    //     TextButton(
-                                                    //       child: const Text('More'),
-                                                    //       onPressed: () {isVisible = !isVisible;},
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-                                                    ClipRect(
-                                                      child: SingleChildScrollView(
-                                                        physics: BouncingScrollPhysics(),
-                                                        child: Container(
-                                                          padding: EdgeInsets.all(8.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              schoolDetailsDisplay(document)
-                                                            ],
-                                                          ),
+                                    break;
+                                  case"EDUCATIONAL INSTITUTIONS":
+                                    {
+                                      switch (placeTypeEducationValue) {
+                                        case"SCHOOL":
+                                          {
+                                            loadedList =
+                                                snapshot.data.docs.toList();
+                                            docCount = loadedList.length;
+                                            try {
+                                              return Card(
+                                                shadowColor: Colors.blue[200],
+                                                color: Colors.blue[50],
+                                                elevation: 5.0,
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment
+                                                        .center,
+                                                    children: [
+                                                      AspectRatio(
+                                                        aspectRatio: 4 / 2,
+                                                        child: Image(
+                                                          image: NetworkImage(
+                                                              document['PlaceImage']),
+                                                          fit: BoxFit.cover,
+                                                          width: double
+                                                              .infinity,
+                                                          height: double
+                                                              .infinity,
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
-                                                ),
-                                              ),
-                                              borderOnForeground: true,
-                                            );
-                                          } catch (e) {
-                                            print("error in school : $e");
-                                            docCount = 0;
-                                            return Center(
-
-                                              child: Container(
-                                                padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                                child: Column(
-                                                    children: <Widget>[
-                                                      Icon( Icons.sentiment_dissatisfied_rounded,
-                                                        color: Colors.black12,
-                                                        size: 100.0,
-                                                        semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                      ),
-                                                      Text("NO DATA PRESENT PULL TO REFRESH",
-                                                          style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                      ),
-                                                    ]
-                                                ),
-                                              ),
-                                            );
-                                          }
-                                        }
-                                        break;
-                                      case"COLLEGE":
-                                        {
-                                          loadedList = snapshot.data.docs.toList();
-                                          docCount = loadedList.length;
-                                          try {
-                                            return Card(
-                                              shadowColor: Colors.blue[200],
-                                              color:Colors.blue[50] ,
-                                              elevation: 5.0,
-                                              child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .center,
-                                                  children: [
-                                                    AspectRatio(
-                                                      aspectRatio: 4/2,
-                                                      child: Image(
-                                                        image: NetworkImage(document['PlaceImage']),
-                                                        fit: BoxFit.cover,
-                                                        width: double.infinity,
-                                                        height: double.infinity,
-                                                      ),
-                                                    ),
-                                                    SizedBox(height: 10.0,),
-                                                    Text(
+                                                      SizedBox(height: 10.0,),
+                                                      Text(
                                                         "Name of the ${document["PlaceType"]} ",
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                            TextStyle(fontSize: 20,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black54))),
-                                                    Text(
-                                                        " ${document['collageName']
+                                                        style: GoogleFonts
+                                                            .poppins(textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54)),),
+                                                      Text(
+                                                        " ${document['schoolName']
                                                             .toString()
                                                             .toUpperCase()}",
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                            TextStyle(fontSize: 20,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black87))),
-                                                    SizedBox(height: 10.0,),
-                                                    // ListTile(
-                                                    //     // onTap:(){
-                                                    //     //   print(UserDoc);
-                                                    //     // },
-                                                    //   leading: Text(document['PlaceName']),
-                                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                    //   // children: <Widget>[
-                                                    //   title:Text(document['PlaceType']),
-                                                    //   //   Text(document['PlaceType']),
-                                                    //   // ],
-                                                    // ),
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                                    //   children: <Widget>[
-                                                    //     TextButton(
-                                                    //       child: const Text('More'),
-                                                    //       onPressed: () {isVisible = !isVisible;},
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-                                                    ClipRect(
-                                                      child: SingleChildScrollView(
-                                                        physics: BouncingScrollPhysics(),
-                                                        child: Container(
-                                                          padding: EdgeInsets.all(8.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              collageDetailsDisplay(
-                                                                  document)
-                                                            ],
+                                                        style: GoogleFonts
+                                                            .poppins(textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87)),),
+                                                      SizedBox(height: 10.0,),
+                                                      // ListTile(
+                                                      //     // onTap:(){
+                                                      //     //   print(UserDoc);
+                                                      //     // },
+                                                      //   leading: Text(document['PlaceName']),
+                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                      //   // children: <Widget>[
+                                                      //   title:Text(document['PlaceType']),
+                                                      //   //   Text(document['PlaceType']),
+                                                      //   // ],
+                                                      // ),
+                                                      // Row(
+                                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                                      //   children: <Widget>[
+                                                      //     TextButton(
+                                                      //       child: const Text('More'),
+                                                      //       onPressed: () {isVisible = !isVisible;},
+                                                      //     ),
+                                                      //   ],
+                                                      // ),
+                                                      ClipRect(
+                                                        child: SingleChildScrollView(
+                                                          physics: BouncingScrollPhysics(),
+                                                          child: Container(
+                                                            padding: EdgeInsets
+                                                                .all(8.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                schoolDetailsDisplay(
+                                                                    document)
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              borderOnForeground: true,
-                                            );
-                                          } catch (e) {
-                                            docCount = 0;
-                                            return Center(
+                                                borderOnForeground: true,
+                                              );
+                                            } catch (e) {
+                                              print("error in school : $e");
+                                              docCount = 0;
+                                              return Center(
 
-                                              child: Container(
-                                                padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                                child: Column(
-                                                    children: <Widget>[
-                                                      Icon( Icons.sentiment_dissatisfied_rounded,
-                                                        color: Colors.black12,
-                                                        size: 100.0,
-                                                        semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                      ),
-                                                      Text("NO DATA PRESENT PULL TO REFRESH",
-                                                          style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                      ),
-                                                    ]
+                                                child: Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      0.0, 250.0, 0.0, 250.0),
+                                                  child: Column(
+                                                      children: <Widget>[
+                                                        Icon(Icons
+                                                            .sentiment_dissatisfied_rounded,
+                                                          color: Colors.black12,
+                                                          size: 100.0,
+                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                        ),
+                                                        Text(
+                                                            "NO DATA PRESENT PULL TO REFRESH",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black54))
+                                                        ),
+                                                      ]
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                            }
                                           }
-                                        }
-                                        break;
-                                      case"INSTITUTION":
-                                        {
-                                          loadedList = snapshot.data.docs.toList();
-                                          docCount = loadedList.length;
-                                          try {
-                                            return Card(
-                                              shadowColor: Colors.blue[200],
-                                              color:Colors.blue[50] ,
-                                              elevation: 5.0,
-                                              child: Container(
-                                                padding: EdgeInsets.all(10.0),
-                                                child: Column(
-                                                  crossAxisAlignment: CrossAxisAlignment
-                                                      .center,
-                                                  children: [
-                                                    AspectRatio(
-                                                      aspectRatio: 4/2,
-                                                      child: Image(
-                                                        image: NetworkImage(document['PlaceImage']),
-                                                        fit: BoxFit.cover,
-                                                        width: double.infinity,
-                                                        height: double.infinity,
+                                          break;
+                                        case"COLLEGE":
+                                          {
+                                            loadedList =
+                                                snapshot.data.docs.toList();
+                                            docCount = loadedList.length;
+                                            try {
+                                              return Card(
+                                                shadowColor: Colors.blue[200],
+                                                color: Colors.blue[50],
+                                                elevation: 5.0,
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment
+                                                        .center,
+                                                    children: [
+                                                      AspectRatio(
+                                                        aspectRatio: 4 / 2,
+                                                        child: Image(
+                                                          image: NetworkImage(
+                                                              document['PlaceImage']),
+                                                          fit: BoxFit.cover,
+                                                          width: double
+                                                              .infinity,
+                                                          height: double
+                                                              .infinity,
+                                                        ),
                                                       ),
-                                                    ),
-                                                    SizedBox(height: 10.0,),
-                                                    Text(
-                                                        "Name of the ${document["PlaceType"]}",
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                            TextStyle(fontSize: 20,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black54))),
-                                                    Text(
-                                                        "${document['institutionName']
-                                                            .toString()
-                                                            .toUpperCase()}",
-                                                        style: GoogleFonts.poppins(
-                                                            textStyle:
-                                                            TextStyle(fontSize: 20,
-                                                                fontWeight: FontWeight.w500,
-                                                                color: Colors.black87))),
-                                                    SizedBox(height: 10.0,),
-                                                    // ListTile(
-                                                    //     // onTap:(){
-                                                    //     //   print(UserDoc);
-                                                    //     // },
-                                                    //   leading: Text(document['PlaceName']),
-                                                    //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                    //   // children: <Widget>[
-                                                    //   title:Text(document['PlaceType']),
-                                                    //   //   Text(document['PlaceType']),
-                                                    //   // ],
-                                                    // ),
-                                                    // Row(
-                                                    //   mainAxisAlignment: MainAxisAlignment.end,
-                                                    //   children: <Widget>[
-                                                    //     TextButton(
-                                                    //       child: const Text('More'),
-                                                    //       onPressed: () {isVisible = !isVisible;},
-                                                    //     ),
-                                                    //   ],
-                                                    // ),
-                                                    ClipRect(
-                                                      child: SingleChildScrollView(
-                                                        physics: BouncingScrollPhysics(),
-                                                        child: Container(
-                                                          padding: EdgeInsets.all(8.0),
-                                                          child: Column(
-                                                            mainAxisAlignment: MainAxisAlignment
-                                                                .start,
-                                                            children: [
-                                                              instituteDetailsDisplay(document)
-                                                            ],
+                                                      SizedBox(height: 10.0,),
+                                                      Text(
+                                                          "Name of the ${document["PlaceType"]} ",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black54))),
+                                                      Text(
+                                                          " ${document['collageName']
+                                                              .toString()
+                                                              .toUpperCase()}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black87))),
+                                                      SizedBox(height: 10.0,),
+                                                      // ListTile(
+                                                      //     // onTap:(){
+                                                      //     //   print(UserDoc);
+                                                      //     // },
+                                                      //   leading: Text(document['PlaceName']),
+                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                      //   // children: <Widget>[
+                                                      //   title:Text(document['PlaceType']),
+                                                      //   //   Text(document['PlaceType']),
+                                                      //   // ],
+                                                      // ),
+                                                      // Row(
+                                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                                      //   children: <Widget>[
+                                                      //     TextButton(
+                                                      //       child: const Text('More'),
+                                                      //       onPressed: () {isVisible = !isVisible;},
+                                                      //     ),
+                                                      //   ],
+                                                      // ),
+                                                      ClipRect(
+                                                        child: SingleChildScrollView(
+                                                          physics: BouncingScrollPhysics(),
+                                                          child: Container(
+                                                            padding: EdgeInsets
+                                                                .all(8.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                collageDetailsDisplay(
+                                                                    document)
+                                                              ],
+                                                            ),
                                                           ),
                                                         ),
                                                       ),
-                                                    ),
-                                                  ],
+                                                    ],
+                                                  ),
                                                 ),
-                                              ),
-                                              borderOnForeground: true,
-                                            );
-                                          } catch (e) {
-                                            docCount = 0;
-                                            return Center(
+                                                borderOnForeground: true,
+                                              );
+                                            } catch (e) {
+                                              docCount = 0;
+                                              return Center(
 
-                                              child: Container(
-                                                padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                                child: Column(
-                                                    children: <Widget>[
-                                                      Icon( Icons.sentiment_dissatisfied_rounded,
-                                                        color: Colors.black12,
-                                                        size: 100.0,
-                                                        semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                      ),
-                                                      Text("NO DATA PRESENT PULL TO REFRESH",
-                                                          style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                      ),
-                                                    ]
+                                                child: Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      0.0, 250.0, 0.0, 250.0),
+                                                  child: Column(
+                                                      children: <Widget>[
+                                                        Icon(Icons
+                                                            .sentiment_dissatisfied_rounded,
+                                                          color: Colors.black12,
+                                                          size: 100.0,
+                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                        ),
+                                                        Text(
+                                                            "NO DATA PRESENT PULL TO REFRESH",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black54))
+                                                        ),
+                                                      ]
+                                                  ),
                                                 ),
-                                              ),
-                                            );
+                                              );
+                                            }
                                           }
-                                        }
-                                        break;
-                                    }
-                                  }
-                                  break;
-                                case"YOUTH SPOTS":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['youthPlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              // ListTile(
-                                              //     // onTap:(){
-                                              //     //   print(UserDoc);
-                                              //     // },
-                                              //   leading: Text(document['PlaceName']),
-                                              //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   // children: <Widget>[
-                                              //   title:Text(document['PlaceType']),
-                                              //   //   Text(document['PlaceType']),
-                                              //   // ],
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.end,
-                                              //   children: <Widget>[
-                                              //     TextButton(
-                                              //       child: const Text('More'),
-                                              //       onPressed: () {isVisible = !isVisible;},
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        youthDetailsDisplay(document)
-                                                      ],
-                                                    ),
+                                          break;
+                                        case"INSTITUTION":
+                                          {
+                                            loadedList =
+                                                snapshot.data.docs.toList();
+                                            docCount = loadedList.length;
+                                            try {
+                                              return Card(
+                                                shadowColor: Colors.blue[200],
+                                                color: Colors.blue[50],
+                                                elevation: 5.0,
+                                                child: Container(
+                                                  padding: EdgeInsets.all(10.0),
+                                                  child: Column(
+                                                    crossAxisAlignment: CrossAxisAlignment
+                                                        .center,
+                                                    children: [
+                                                      AspectRatio(
+                                                        aspectRatio: 4 / 2,
+                                                        child: Image(
+                                                          image: NetworkImage(
+                                                              document['PlaceImage']),
+                                                          fit: BoxFit.cover,
+                                                          width: double
+                                                              .infinity,
+                                                          height: double
+                                                              .infinity,
+                                                        ),
+                                                      ),
+                                                      SizedBox(height: 10.0,),
+                                                      Text(
+                                                          "Name of the ${document["PlaceType"]}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black54))),
+                                                      Text(
+                                                          "${document['institutionName']
+                                                              .toString()
+                                                              .toUpperCase()}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black87))),
+                                                      SizedBox(height: 10.0,),
+                                                      // ListTile(
+                                                      //     // onTap:(){
+                                                      //     //   print(UserDoc);
+                                                      //     // },
+                                                      //   leading: Text(document['PlaceName']),
+                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                      //   // children: <Widget>[
+                                                      //   title:Text(document['PlaceType']),
+                                                      //   //   Text(document['PlaceType']),
+                                                      //   // ],
+                                                      // ),
+                                                      // Row(
+                                                      //   mainAxisAlignment: MainAxisAlignment.end,
+                                                      //   children: <Widget>[
+                                                      //     TextButton(
+                                                      //       child: const Text('More'),
+                                                      //       onPressed: () {isVisible = !isVisible;},
+                                                      //     ),
+                                                      //   ],
+                                                      // ),
+                                                      ClipRect(
+                                                        child: SingleChildScrollView(
+                                                          physics: BouncingScrollPhysics(),
+                                                          child: Container(
+                                                            padding: EdgeInsets
+                                                                .all(8.0),
+                                                            child: Column(
+                                                              mainAxisAlignment: MainAxisAlignment
+                                                                  .start,
+                                                              children: [
+                                                                instituteDetailsDisplay(
+                                                                    document)
+                                                              ],
+                                                            ),
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ],
                                                   ),
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
-                                      docCount = 0;
-                                      return Center(
+                                                borderOnForeground: true,
+                                              );
+                                            } catch (e) {
+                                              docCount = 0;
+                                              return Center(
 
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                          child: Column(
-                                              children: <Widget>[
-                                                Icon( Icons.sentiment_dissatisfied_rounded,
-                                                  color: Colors.black12,
-                                                  size: 100.0,
-                                                  semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
+                                                child: Container(
+                                                  padding: EdgeInsets.fromLTRB(
+                                                      0.0, 250.0, 0.0, 250.0),
+                                                  child: Column(
+                                                      children: <Widget>[
+                                                        Icon(Icons
+                                                            .sentiment_dissatisfied_rounded,
+                                                          color: Colors.black12,
+                                                          size: 100.0,
+                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                        ),
+                                                        Text(
+                                                            "NO DATA PRESENT PULL TO REFRESH",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize: 14,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black54))
+                                                        ),
+                                                      ]
+                                                  ),
                                                 ),
-                                                Text("NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                ),
-                                              ]
-                                          ),
-                                        ),
-                                      );
+                                              );
+                                            }
+                                          }
+                                          break;
+                                      }
                                     }
-                                  }
-                                  break;
-                                case"PUBLIC SPOTS":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
+                                    break;
+                                  case"YOUTH SPOTS":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      try {
+                                        return Card(
+                                          shadowColor: Colors.blue[200],
+                                          color: Colors.blue[50],
+                                          elevation: 5.0,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                AspectRatio(
+                                                  aspectRatio: 4 / 2,
+                                                  child: Image(
+                                                    image: NetworkImage(
+                                                        document['PlaceImage']),
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['publicPlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              // ListTile(
-                                              //     // onTap:(){
-                                              //     //   print(UserDoc);
-                                              //     // },
-                                              //   leading: Text(document['PlaceName']),
-                                              //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   // children: <Widget>[
-                                              //   title:Text(document['PlaceType']),
-                                              //   //   Text(document['PlaceType']),
-                                              //   // ],
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.end,
-                                              //   children: <Widget>[
-                                              //     TextButton(
-                                              //       child: const Text('More'),
-                                              //       onPressed: () {isVisible = !isVisible;},
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        publicDetailsDisplay(document)
-                                                      ],
+                                                SizedBox(height: 10.0,),
+                                                Text(
+                                                    "Name of the ${document["PlaceType"]}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))),
+                                                Text(
+                                                    "${document['youthPlaceName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87))),
+                                                SizedBox(height: 10.0,),
+                                                // ListTile(
+                                                //     // onTap:(){
+                                                //     //   print(UserDoc);
+                                                //     // },
+                                                //   leading: Text(document['PlaceName']),
+                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   // children: <Widget>[
+                                                //   title:Text(document['PlaceType']),
+                                                //   //   Text(document['PlaceType']),
+                                                //   // ],
+                                                // ),
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                                //   children: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text('More'),
+                                                //       onPressed: () {isVisible = !isVisible;},
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                ClipRect(
+                                                  child: SingleChildScrollView(
+                                                    physics: BouncingScrollPhysics(),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                          8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          youthDetailsDisplay(
+                                                              document)
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
-                                      docCount = 0;
-                                      return Center(
-
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                          child: Column(
-                                              children: <Widget>[
-                                                Icon( Icons.sentiment_dissatisfied_rounded,
-                                                  color: Colors.black12,
-                                                  size: 100.0,
-                                                  semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                ),
-                                                Text("NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                ),
-                                              ]
-                                          ),
-                                        ),
-                                      );
-                                    }
-                                  }
-                                  break;
-                                case"OFFICES":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
-                                                ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['officePlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              // ListTile(
-                                              //     // onTap:(){
-                                              //     //   print(UserDoc);
-                                              //     // },
-                                              //   leading: Text(document['PlaceName']),
-                                              //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   // children: <Widget>[
-                                              //   title:Text(document['PlaceType']),
-                                              //   //   Text(document['PlaceType']),
-                                              //   // ],
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.end,
-                                              //   children: <Widget>[
-                                              //     TextButton(
-                                              //       child: const Text('More'),
-                                              //       onPressed: () {isVisible = !isVisible;},
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        officeDetailsDisplay(document)
-                                                      ],
-                                                    ),
-                                                  ),
-                                                ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
-                                      docCount = 0;
+                                          borderOnForeground: true,
+                                        );
+                                      } catch (e) {
+                                        docCount = 0;
                                         return Center(
 
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                          child: Column(
-                                              children: <Widget>[
-                                                Icon( Icons.sentiment_dissatisfied_rounded,
-                                                  color: Colors.black12,
-                                                  size: 100.0,
-                                                  semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                ),
-                                                Text("NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                ),
-                                              ]
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
+                                            child: Column(
+                                                children: <Widget>[
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
+                                                  ),
+                                                ]
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      }
                                     }
-                                  }
-                                  break;
-                                case"NGOSorORGANISATIONS":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
+                                    break;
+                                  case"PUBLIC SPOTS":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      try {
+                                        return Card(
+                                          shadowColor: Colors.blue[200],
+                                          color: Colors.blue[50],
+                                          elevation: 5.0,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                AspectRatio(
+                                                  aspectRatio: 4 / 2,
+                                                  child: Image(
+                                                    image: NetworkImage(
+                                                        document['PlaceImage']),
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['ngosPlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              // ListTile(
-                                              //     // onTap:(){
-                                              //     //   print(UserDoc);
-                                              //     // },
-                                              //   leading: Text(document['PlaceName']),
-                                              //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   // children: <Widget>[
-                                              //   title:Text(document['PlaceType']),
-                                              //   //   Text(document['PlaceType']),
-                                              //   // ],
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.end,
-                                              //   children: <Widget>[
-                                              //     TextButton(
-                                              //       child: const Text('More'),
-                                              //       onPressed: () {isVisible = !isVisible;},
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        ngosDetailsDisplay(document)
-                                                      ],
+                                                SizedBox(height: 10.0,),
+                                                Text(
+                                                    "Name of the ${document["PlaceType"]}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))),
+                                                Text(
+                                                    "${document['publicPlaceName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87))),
+                                                SizedBox(height: 10.0,),
+                                                // ListTile(
+                                                //     // onTap:(){
+                                                //     //   print(UserDoc);
+                                                //     // },
+                                                //   leading: Text(document['PlaceName']),
+                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   // children: <Widget>[
+                                                //   title:Text(document['PlaceType']),
+                                                //   //   Text(document['PlaceType']),
+                                                //   // ],
+                                                // ),
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                                //   children: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text('More'),
+                                                //       onPressed: () {isVisible = !isVisible;},
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                ClipRect(
+                                                  child: SingleChildScrollView(
+                                                    physics: BouncingScrollPhysics(),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                          8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          publicDetailsDisplay(
+                                                              document)
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
-                                      docCount = 0;
-                                      return Center(
+                                          borderOnForeground: true,
+                                        );
+                                      } catch (e) {
+                                        docCount = 0;
+                                        return Center(
 
-                                        child: Container(
-                                          padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                          child: Column(
-                                              children: <Widget>[
-                                                Icon( Icons.sentiment_dissatisfied_rounded,
-                                                  color: Colors.black12,
-                                                  size: 100.0,
-                                                  semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                                ),
-                                                Text("NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                                ),
-                                              ]
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
+                                            child: Column(
+                                                children: <Widget>[
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
+                                                  ),
+                                                ]
+                                            ),
                                           ),
-                                        ),
-                                      );
+                                        );
+                                      }
                                     }
-                                  }
-                                  break;
-                                case"HALLS":
-                                  {
-                                    loadedList = snapshot.data.docs.toList();
-                                    docCount = loadedList.length;
-                                    try {
-                                      return Card(
-                                        shadowColor: Colors.blue[200],
-                                        color:Colors.blue[50] ,
-                                        elevation: 5.0,
-                                        child: Container(
-                                          padding: EdgeInsets.all(10.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.center,
-                                            children: [
-                                              AspectRatio(
-                                                aspectRatio: 4/2,
-                                                child: Image(
-                                                  image: NetworkImage(document['PlaceImage']),
-                                                  fit: BoxFit.cover,
-                                                  width: double.infinity,
-                                                  height: double.infinity,
+                                    break;
+                                  case"OFFICES":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      try {
+                                        return Card(
+                                          shadowColor: Colors.blue[200],
+                                          color: Colors.blue[50],
+                                          elevation: 5.0,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                AspectRatio(
+                                                  aspectRatio: 4 / 2,
+                                                  child: Image(
+                                                    image: NetworkImage(
+                                                        document['PlaceImage']),
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
                                                 ),
-                                              ),
-                                              SizedBox(height: 10.0,),
-                                              Text(
-                                                  "Name of the ${document["PlaceType"]}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black54))),
-                                              Text(
-                                                  "${document['hallsPlaceName']
-                                                      .toString()
-                                                      .toUpperCase()}",
-                                                  style: GoogleFonts.poppins(textStyle:
-                                                  TextStyle(fontSize: 20,
-                                                      fontWeight: FontWeight.w500,
-                                                      color: Colors.black87))),
-                                              SizedBox(height: 10.0,),
-                                              // ListTile(
-                                              //     // onTap:(){
-                                              //     //   print(UserDoc);
-                                              //     // },
-                                              //   leading: Text(document['PlaceName']),
-                                              //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                              //   // children: <Widget>[
-                                              //   title:Text(document['PlaceType']),
-                                              //   //   Text(document['PlaceType']),
-                                              //   // ],
-                                              // ),
-                                              // Row(
-                                              //   mainAxisAlignment: MainAxisAlignment.end,
-                                              //   children: <Widget>[
-                                              //     TextButton(
-                                              //       child: const Text('More'),
-                                              //       onPressed: () {isVisible = !isVisible;},
-                                              //     ),
-                                              //   ],
-                                              // ),
-                                              ClipRect(
-                                                child: SingleChildScrollView(
-                                                  physics: BouncingScrollPhysics(),
-                                                  child: Container(
-                                                    padding: EdgeInsets.all(8.0),
-                                                    child: Column(
-                                                      mainAxisAlignment: MainAxisAlignment
-                                                          .start,
-                                                      children: [
-                                                        hallsDetailsDisplay(document)
-                                                      ],
+                                                SizedBox(height: 10.0,),
+                                                Text(
+                                                    "Name of the ${document["PlaceType"]}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))),
+                                                Text(
+                                                    "${document['officePlaceName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87))),
+                                                SizedBox(height: 10.0,),
+                                                // ListTile(
+                                                //     // onTap:(){
+                                                //     //   print(UserDoc);
+                                                //     // },
+                                                //   leading: Text(document['PlaceName']),
+                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   // children: <Widget>[
+                                                //   title:Text(document['PlaceType']),
+                                                //   //   Text(document['PlaceType']),
+                                                //   // ],
+                                                // ),
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                                //   children: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text('More'),
+                                                //       onPressed: () {isVisible = !isVisible;},
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                ClipRect(
+                                                  child: SingleChildScrollView(
+                                                    physics: BouncingScrollPhysics(),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                          8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          officeDetailsDisplay(
+                                                              document)
+                                                        ],
+                                                      ),
                                                     ),
                                                   ),
                                                 ),
-                                              ),
-                                            ],
+                                              ],
+                                            ),
                                           ),
-                                        ),
-                                        borderOnForeground: true,
-                                      );
-                                    } catch (e) {
+                                          borderOnForeground: true,
+                                        );
+                                      } catch (e) {
+                                        docCount = 0;
+                                        return Center(
+
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
+                                            child: Column(
+                                                children: <Widget>[
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    break;
+                                  case"NGOSorORGANISATIONS":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      try {
+                                        return Card(
+                                          shadowColor: Colors.blue[200],
+                                          color: Colors.blue[50],
+                                          elevation: 5.0,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                AspectRatio(
+                                                  aspectRatio: 4 / 2,
+                                                  child: Image(
+                                                    image: NetworkImage(
+                                                        document['PlaceImage']),
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10.0,),
+                                                Text(
+                                                    "Name of the ${document["PlaceType"]}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))),
+                                                Text(
+                                                    "${document['ngosPlaceName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87))),
+                                                SizedBox(height: 10.0,),
+                                                // ListTile(
+                                                //     // onTap:(){
+                                                //     //   print(UserDoc);
+                                                //     // },
+                                                //   leading: Text(document['PlaceName']),
+                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   // children: <Widget>[
+                                                //   title:Text(document['PlaceType']),
+                                                //   //   Text(document['PlaceType']),
+                                                //   // ],
+                                                // ),
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                                //   children: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text('More'),
+                                                //       onPressed: () {isVisible = !isVisible;},
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                ClipRect(
+                                                  child: SingleChildScrollView(
+                                                    physics: BouncingScrollPhysics(),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                          8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          ngosDetailsDisplay(
+                                                              document)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          borderOnForeground: true,
+                                        );
+                                      } catch (e) {
+                                        docCount = 0;
+                                        return Center(
+
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
+                                            child: Column(
+                                                children: <Widget>[
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    break;
+                                  case"HALLS":
+                                    {
+                                      loadedList = snapshot.data.docs.toList();
+                                      docCount = loadedList.length;
+                                      try {
+                                        return Card(
+                                          shadowColor: Colors.blue[200],
+                                          color: Colors.blue[50],
+                                          elevation: 5.0,
+                                          child: Container(
+                                            padding: EdgeInsets.all(10.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                AspectRatio(
+                                                  aspectRatio: 4 / 2,
+                                                  child: Image(
+                                                    image: NetworkImage(
+                                                        document['PlaceImage']),
+                                                    fit: BoxFit.cover,
+                                                    width: double.infinity,
+                                                    height: double.infinity,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 10.0,),
+                                                Text(
+                                                    "Name of the ${document["PlaceType"]}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))),
+                                                Text(
+                                                    "${document['hallsPlaceName']
+                                                        .toString()
+                                                        .toUpperCase()}",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle:
+                                                        TextStyle(fontSize: 20,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black87))),
+                                                SizedBox(height: 10.0,),
+                                                // ListTile(
+                                                //     // onTap:(){
+                                                //     //   print(UserDoc);
+                                                //     // },
+                                                //   leading: Text(document['PlaceName']),
+                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                //   // children: <Widget>[
+                                                //   title:Text(document['PlaceType']),
+                                                //   //   Text(document['PlaceType']),
+                                                //   // ],
+                                                // ),
+                                                // Row(
+                                                //   mainAxisAlignment: MainAxisAlignment.end,
+                                                //   children: <Widget>[
+                                                //     TextButton(
+                                                //       child: const Text('More'),
+                                                //       onPressed: () {isVisible = !isVisible;},
+                                                //     ),
+                                                //   ],
+                                                // ),
+                                                ClipRect(
+                                                  child: SingleChildScrollView(
+                                                    physics: BouncingScrollPhysics(),
+                                                    child: Container(
+                                                      padding: EdgeInsets.all(
+                                                          8.0),
+                                                      child: Column(
+                                                        mainAxisAlignment: MainAxisAlignment
+                                                            .start,
+                                                        children: [
+                                                          hallsDetailsDisplay(
+                                                              document)
+                                                        ],
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                          borderOnForeground: true,
+                                        );
+                                      } catch (e) {
+                                        docCount = 0;
+                                        return Center(
+
+                                          child: Container(
+                                            padding: EdgeInsets.fromLTRB(
+                                                0.0, 250.0, 0.0, 250.0),
+                                            child: Column(
+                                                children: <Widget>[
+                                                  Icon(Icons
+                                                      .sentiment_dissatisfied_rounded,
+                                                    color: Colors.black12,
+                                                    size: 100.0,
+                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
+                                                  ),
+                                                  Text(
+                                                      "NO DATA PRESENT PULL TO REFRESH",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle: TextStyle(
+                                                              fontSize: 14,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))
+                                                  ),
+                                                ]
+                                            ),
+                                          ),
+                                        );
+                                      }
+                                    }
+                                    break;
+                                  default:
+                                    {
                                       docCount = 0;
                                       return Center(
-
                                         child: Container(
-                                          padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
+                                          padding: EdgeInsets.fromLTRB(
+                                              0.0, 250.0, 0.0, 250.0),
                                           child: Column(
                                               children: <Widget>[
-                                                Icon( Icons.sentiment_dissatisfied_rounded,
+                                                Icon(Icons
+                                                    .sentiment_dissatisfied_rounded,
                                                   color: Colors.black12,
                                                   size: 100.0,
-                                                  semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
+                                                  semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
                                                 ),
-                                                Text("NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                        fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                                                Text(
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                                    style: GoogleFonts.poppins(
+                                                        textStyle: TextStyle(
+                                                            fontSize: 14,
+                                                            fontWeight: FontWeight
+                                                                .w500,
+                                                            color: Colors
+                                                                .black54))
                                                 ),
                                               ]
                                           ),
                                         ),
                                       );
                                     }
-                                  }
-                                  break;
-                                default:
-                                  {
-                                    docCount = 0;
-                                    return Center(
-                                      child: Container(
-                                        padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                        child: Column(
-                                            children: <Widget>[
-                                              Icon( Icons.sentiment_dissatisfied_rounded,
-                                                color: Colors.black12,
-                                                size: 100.0,
-                                                semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                              ),
-                                              Text("NO DATA PRESENT PULL TO REFRESH",
-                                                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                              ),
-                                            ]
-                                        ),
-                                      ),
-                                    );
-                                  }
-                              }
-                              return Center(
+                                }
 
-                                child: Container(
-                                  padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                                  child: Column(
-                                      children: <Widget>[
-                                        Icon( Icons.sentiment_dissatisfied_rounded,
-                                          color: Colors.black12,
-                                          size: 100.0,
-                                          semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                                        ),
-                                        Text("NO DATA PRESENT PULL TO REFRESH",
-                                            style: GoogleFonts.poppins(textStyle: TextStyle(
-                                                fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                                        ),
-                                      ]
-                                  ),
-                                ),
-                              );
+                              return SizedBox(height: 2.0,);
+                              //   Center(
+                              //
+                              //   child: Container(
+                              //     padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
+                              //     child: Column(
+                              //         children: <Widget>[
+                              //           Icon( Icons.sentiment_dissatisfied_rounded,
+                              //             color: Colors.black12,
+                              //             size: 100.0,
+                              //             semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
+                              //           ),
+                              //           Text("NO DATA PRESENT PULL TO REFRESH",
+                              //               style: GoogleFonts.poppins(textStyle: TextStyle(
+                              //                   fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                              //           ),
+                              //         ]
+                              //     ),
+                              //   ),
+                              // );
                               // return  Card(
                               //   elevation: 5.0,
                               //   child: Container(
@@ -2627,7 +2940,7 @@ class _MyHomePageState extends State<MyHomePage>
                 },
               ),
         ),
-            Text("DataChips Loaded: $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
+            Text("Loaded ${selectType().toLowerCase()}'s : $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
                 fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white70))),
             // Visibility(child:Container(
             //

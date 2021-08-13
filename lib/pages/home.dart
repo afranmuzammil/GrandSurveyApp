@@ -118,7 +118,7 @@ List placesTypeNgosList = [
 
 
 //HALLS
-String placeTypeHallsValue = "COMMUNITY HALLS";
+String placeTypeHallsValue = "FUNCTION HALLS";
 
 bool isVisibleHalls = false;
 List placesTypeHallsList = [
@@ -910,9 +910,11 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
 
-  checkNamesList(String placeValue){
-    if(NamesList.contains(placeValue) == false){
-      NamesList.add(placeValue);
+  var test = "MASJID";
+  checkNamesList(String placeNameValue){
+    //print("${selectType()} and $test");
+      if(NamesList.contains(placeNameValue) == false){
+        NamesList.add(placeNameValue);
     }
   }
 
@@ -1077,16 +1079,22 @@ class _MyHomePageState extends State<MyHomePage>
           // checkForAd(),
           //searchbar
             Row(
-              mainAxisAlignment: MainAxisAlignment.end,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                Padding(
+                  padding: const EdgeInsets.only(left: 12.0,top: 8.0,bottom: 8.0),
+                  child: Text("Loaded ${selectType()}'s : $docCount".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
+                      fontSize: 15, fontWeight: FontWeight.w600,color: Colors.grey),
+                  )),
+                ),
                InkWell(
                  onTap:_toggleSearch ,
                  child: visibleSearchBar(),
                )
               ],
             ),
-            //searchBarFilltercode
+            //searchBarFilterCode
             Container(
               alignment: Alignment.topLeft,
               child: Visibility(
@@ -1222,7 +1230,7 @@ class _MyHomePageState extends State<MyHomePage>
                             children: snapshot.data.docs.map((document) {
 
                              // var UserDoc = document.id;
-                          //    var enteredKeyword = "";
+                             //var enteredKeyword = "";
 
                               if(enteredKeyword == ""||enteredKeyword == null){
                                 PlaceNamesToggle = "true";
@@ -1236,15 +1244,20 @@ class _MyHomePageState extends State<MyHomePage>
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
-                                      print(enteredKeyword);
+                                      // print(FirebaseFirestore.instance
+                                      //     .collection(unitValue)
+                                      //     .doc(placeValue).collection(selectType()).doc(document.id).get().then((value) => print(value["PlaceName"])));
                                       try {
-                                        checkNamesList(document["PlaceName"]);
-                                      //  NamesList.add(document["PlaceName"]);
+                                        // checkNamesList(nameingListAdd);
+                                        //  NamesList.add(document["PlaceName"]);
+                                        FirebaseFirestore.instance
+                                              .collection(unitValue)
+                                              .doc(placeValue).collection(selectType()).doc(document.id).get().then((value) => checkNamesList(value["PlaceName"]));
                                         PlaceNamesToggle = document["PlaceName"].toString()
                                             .toUpperCase()
                                             .contains(
                                             enteredKeyword.toUpperCase()).toString();
-                                        //print(" list data :$PlaceNamesToggle , $NamesList");
+                                       // print(" list data :$PlaceNamesToggle , $NamesList");
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
@@ -1316,7 +1329,6 @@ class _MyHomePageState extends State<MyHomePage>
                                             borderOnForeground: true,
                                           );
                                         }
-
                                       } catch (e) {
                                         docCount = 0;
                                         print("on :$e");
@@ -1328,7 +1340,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1338,11 +1350,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -1360,92 +1372,108 @@ class _MyHomePageState extends State<MyHomePage>
                                                 snapshot.data.docs.toList();
                                             docCount = loadedList.length;
                                             try {
-                                              return Card(
-                                                shadowColor: Colors.blue[200],
-                                                color: Colors.blue[50],
-                                                elevation: 5.0,
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      AspectRatio(
-                                                        aspectRatio: 4 / 2,
-                                                        child: Image(
-                                                          image: NetworkImage(
-                                                              document['PlaceImage']),
-                                                          fit: BoxFit.cover,
-                                                          width: double
-                                                              .infinity,
-                                                          height: double
-                                                              .infinity,
+                                              FirebaseFirestore.instance
+                                                  .collection(unitValue)
+                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(document.id)
+                                                  .get().then((value) => checkNamesList(value["schoolName"]));
+                                              PlaceNamesToggle = document["schoolName"].toString()
+                                                  .toUpperCase()
+                                                  .contains(
+                                                  enteredKeyword.toUpperCase()).toString();
+                                              if(PlaceNamesToggle == "true") {
+                                                return Card(
+                                                  shadowColor: Colors.blue[200],
+                                                  color: Colors.blue[50],
+                                                  elevation: 5.0,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(
+                                                        10.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .center,
+                                                      children: [
+                                                        AspectRatio(
+                                                          aspectRatio: 4 / 2,
+                                                          child: Image(
+                                                            image: NetworkImage(
+                                                                document['PlaceImage']),
+                                                            fit: BoxFit.cover,
+                                                            width: double
+                                                                .infinity,
+                                                            height: double
+                                                                .infinity,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(height: 10.0,),
-                                                      Text(
-                                                        "Name of the ${document["PlaceType"]} ",
-                                                        style: GoogleFonts
-                                                            .poppins(textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54)),),
-                                                      Text(
-                                                        " ${document['schoolName']
-                                                            .toString()
-                                                            .toUpperCase()}",
-                                                        style: GoogleFonts
-                                                            .poppins(textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87)),),
-                                                      SizedBox(height: 10.0,),
-                                                      // ListTile(
-                                                      //     // onTap:(){
-                                                      //     //   print(UserDoc);
-                                                      //     // },
-                                                      //   leading: Text(document['PlaceName']),
-                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                      //   // children: <Widget>[
-                                                      //   title:Text(document['PlaceType']),
-                                                      //   //   Text(document['PlaceType']),
-                                                      //   // ],
-                                                      // ),
-                                                      // Row(
-                                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                                      //   children: <Widget>[
-                                                      //     TextButton(
-                                                      //       child: const Text('More'),
-                                                      //       onPressed: () {isVisible = !isVisible;},
-                                                      //     ),
-                                                      //   ],
-                                                      // ),
-                                                      ClipRect(
-                                                        child: SingleChildScrollView(
-                                                          physics: BouncingScrollPhysics(),
-                                                          child: Container(
-                                                            padding: EdgeInsets
-                                                                .all(8.0),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                schoolDetailsDisplay(
-                                                                    document)
-                                                              ],
+                                                        SizedBox(height: 10.0,),
+                                                        Text(
+                                                          "Name of the ${document["PlaceType"]} ",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black54)),),
+                                                        Text(
+                                                          " ${document['schoolName']
+                                                              .toString()
+                                                              .toUpperCase()}",
+                                                          style: GoogleFonts
+                                                              .poppins(
+                                                              textStyle:
+                                                              TextStyle(
+                                                                  fontSize: 20,
+                                                                  fontWeight: FontWeight
+                                                                      .w500,
+                                                                  color: Colors
+                                                                      .black87)),),
+                                                        SizedBox(height: 10.0,),
+                                                        // ListTile(
+                                                        //     // onTap:(){
+                                                        //     //   print(UserDoc);
+                                                        //     // },
+                                                        //   leading: Text(document['PlaceName']),
+                                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                        //   // children: <Widget>[
+                                                        //   title:Text(document['PlaceType']),
+                                                        //   //   Text(document['PlaceType']),
+                                                        //   // ],
+                                                        // ),
+                                                        // Row(
+                                                        //   mainAxisAlignment: MainAxisAlignment.end,
+                                                        //   children: <Widget>[
+                                                        //     TextButton(
+                                                        //       child: const Text('More'),
+                                                        //       onPressed: () {isVisible = !isVisible;},
+                                                        //     ),
+                                                        //   ],
+                                                        // ),
+                                                        ClipRect(
+                                                          child: SingleChildScrollView(
+                                                            physics: BouncingScrollPhysics(),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .all(8.0),
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  schoolDetailsDisplay(
+                                                                      document)
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                borderOnForeground: true,
-                                              );
+                                                  borderOnForeground: true,
+                                                );
+                                              }
                                             } catch (e) {
                                               print("error in school : $e");
                                               docCount = 0;
@@ -1457,7 +1485,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                   child: Column(
                                                       children: <Widget>[
                                                         Icon(Icons
-                                                            .sentiment_dissatisfied_rounded,
+                                                            .refresh_rounded,
                                                           color: Colors.black12,
                                                           size: 100.0,
                                                           semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1467,11 +1495,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                             style: GoogleFonts
                                                                 .poppins(
                                                                 textStyle: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 16,
                                                                     fontWeight: FontWeight
-                                                                        .w500,
+                                                                        .bold,
                                                                     color: Colors
-                                                                        .black54))
+                                                                        .black26))
                                                         ),
                                                       ]
                                                   ),
@@ -1486,96 +1514,108 @@ class _MyHomePageState extends State<MyHomePage>
                                                 snapshot.data.docs.toList();
                                             docCount = loadedList.length;
                                             try {
-                                              return Card(
-                                                shadowColor: Colors.blue[200],
-                                                color: Colors.blue[50],
-                                                elevation: 5.0,
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      AspectRatio(
-                                                        aspectRatio: 4 / 2,
-                                                        child: Image(
-                                                          image: NetworkImage(
-                                                              document['PlaceImage']),
-                                                          fit: BoxFit.cover,
-                                                          width: double
-                                                              .infinity,
-                                                          height: double
-                                                              .infinity,
+                                              FirebaseFirestore.instance
+                                                  .collection(unitValue)
+                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(document.id)
+                                                  .get().then((value) => checkNamesList(value["collageName"]));
+                                              PlaceNamesToggle = document["collageName"].toString()
+                                                  .toUpperCase()
+                                                  .contains(
+                                                  enteredKeyword.toUpperCase()).toString();
+                                              if(PlaceNamesToggle == "true") {
+                                                return Card(
+                                                  shadowColor: Colors.blue[200],
+                                                  color: Colors.blue[50],
+                                                  elevation: 5.0,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(
+                                                        10.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .center,
+                                                      children: [
+                                                        AspectRatio(
+                                                          aspectRatio: 4 / 2,
+                                                          child: Image(
+                                                            image: NetworkImage(
+                                                                document['PlaceImage']),
+                                                            fit: BoxFit.cover,
+                                                            width: double
+                                                                .infinity,
+                                                            height: double
+                                                                .infinity,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(height: 10.0,),
-                                                      Text(
-                                                          "Name of the ${document["PlaceType"]} ",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .black54))),
-                                                      Text(
-                                                          " ${document['collageName']
-                                                              .toString()
-                                                              .toUpperCase()}",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .black87))),
-                                                      SizedBox(height: 10.0,),
-                                                      // ListTile(
-                                                      //     // onTap:(){
-                                                      //     //   print(UserDoc);
-                                                      //     // },
-                                                      //   leading: Text(document['PlaceName']),
-                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                      //   // children: <Widget>[
-                                                      //   title:Text(document['PlaceType']),
-                                                      //   //   Text(document['PlaceType']),
-                                                      //   // ],
-                                                      // ),
-                                                      // Row(
-                                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                                      //   children: <Widget>[
-                                                      //     TextButton(
-                                                      //       child: const Text('More'),
-                                                      //       onPressed: () {isVisible = !isVisible;},
-                                                      //     ),
-                                                      //   ],
-                                                      // ),
-                                                      ClipRect(
-                                                        child: SingleChildScrollView(
-                                                          physics: BouncingScrollPhysics(),
-                                                          child: Container(
-                                                            padding: EdgeInsets
-                                                                .all(8.0),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                collageDetailsDisplay(
-                                                                    document)
-                                                              ],
+                                                        SizedBox(height: 10.0,),
+                                                        Text(
+                                                            "Name of the ${document["PlaceType"]} ",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle:
+                                                                TextStyle(
+                                                                    fontSize: 20,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black54))),
+                                                        Text(
+                                                            " ${document['collageName']
+                                                                .toString()
+                                                                .toUpperCase()}",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle:
+                                                                TextStyle(
+                                                                    fontSize: 20,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black87))),
+                                                        SizedBox(height: 10.0,),
+                                                        // ListTile(
+                                                        //     // onTap:(){
+                                                        //     //   print(UserDoc);
+                                                        //     // },
+                                                        //   leading: Text(document['PlaceName']),
+                                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                        //   // children: <Widget>[
+                                                        //   title:Text(document['PlaceType']),
+                                                        //   //   Text(document['PlaceType']),
+                                                        //   // ],
+                                                        // ),
+                                                        // Row(
+                                                        //   mainAxisAlignment: MainAxisAlignment.end,
+                                                        //   children: <Widget>[
+                                                        //     TextButton(
+                                                        //       child: const Text('More'),
+                                                        //       onPressed: () {isVisible = !isVisible;},
+                                                        //     ),
+                                                        //   ],
+                                                        // ),
+                                                        ClipRect(
+                                                          child: SingleChildScrollView(
+                                                            physics: BouncingScrollPhysics(),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .all(8.0),
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  collageDetailsDisplay(
+                                                                      document)
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                borderOnForeground: true,
-                                              );
+                                                  borderOnForeground: true,
+                                                );
+                                              }
                                             } catch (e) {
                                               docCount = 0;
                                               return Center(
@@ -1586,7 +1626,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                   child: Column(
                                                       children: <Widget>[
                                                         Icon(Icons
-                                                            .sentiment_dissatisfied_rounded,
+                                                            .refresh_rounded,
                                                           color: Colors.black12,
                                                           size: 100.0,
                                                           semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1596,11 +1636,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                             style: GoogleFonts
                                                                 .poppins(
                                                                 textStyle: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 16,
                                                                     fontWeight: FontWeight
-                                                                        .w500,
+                                                                        .bold,
                                                                     color: Colors
-                                                                        .black54))
+                                                                        .black26))
                                                         ),
                                                       ]
                                                   ),
@@ -1615,98 +1655,110 @@ class _MyHomePageState extends State<MyHomePage>
                                                 snapshot.data.docs.toList();
                                             docCount = loadedList.length;
                                             try {
-                                              return Card(
-                                                shadowColor: Colors.blue[200],
-                                                color: Colors.blue[50],
-                                                elevation: 5.0,
-                                                child: Container(
-                                                  padding: EdgeInsets.all(10.0),
-                                                  child: Column(
-                                                    crossAxisAlignment: CrossAxisAlignment
-                                                        .center,
-                                                    children: [
-                                                      AspectRatio(
-                                                        aspectRatio: 4 / 2,
-                                                        child: Image(
-                                                          image: NetworkImage(
-                                                              document['PlaceImage']),
-                                                          fit: BoxFit.cover,
-                                                          width: double
-                                                              .infinity,
-                                                          height: double
-                                                              .infinity,
+                                              FirebaseFirestore.instance
+                                                  .collection(unitValue)
+                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(document.id)
+                                                  .get().then((value) => checkNamesList(value["institutionName"]));
+                                              PlaceNamesToggle = document["institutionName"].toString()
+                                                  .toUpperCase()
+                                                  .contains(
+                                                  enteredKeyword.toUpperCase()).toString();
+                                              if(PlaceNamesToggle == "true") {
+                                                return Card(
+                                                  shadowColor: Colors.blue[200],
+                                                  color: Colors.blue[50],
+                                                  elevation: 5.0,
+                                                  child: Container(
+                                                    padding: EdgeInsets.all(
+                                                        10.0),
+                                                    child: Column(
+                                                      crossAxisAlignment: CrossAxisAlignment
+                                                          .center,
+                                                      children: [
+                                                        AspectRatio(
+                                                          aspectRatio: 4 / 2,
+                                                          child: Image(
+                                                            image: NetworkImage(
+                                                                document['PlaceImage']),
+                                                            fit: BoxFit.cover,
+                                                            width: double
+                                                                .infinity,
+                                                            height: double
+                                                                .infinity,
+                                                          ),
                                                         ),
-                                                      ),
-                                                      SizedBox(height: 10.0,),
-                                                      Text(
-                                                          "Name of the ${document["PlaceType"]}",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .black54))),
-                                                      Text(
-                                                          "${document['institutionName']
-                                                              .toString()
-                                                              .toUpperCase()}",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
-                                                                  fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
-                                                                  color: Colors
-                                                                      .black87))),
-                                                      SizedBox(height: 10.0,),
-                                                      // ListTile(
-                                                      //     // onTap:(){
-                                                      //     //   print(UserDoc);
-                                                      //     // },
-                                                      //   leading: Text(document['PlaceName']),
-                                                      //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                      //   // children: <Widget>[
-                                                      //   title:Text(document['PlaceType']),
-                                                      //   //   Text(document['PlaceType']),
-                                                      //   // ],
-                                                      // ),
-                                                      // Row(
-                                                      //   mainAxisAlignment: MainAxisAlignment.end,
-                                                      //   children: <Widget>[
-                                                      //     TextButton(
-                                                      //       child: const Text('More'),
-                                                      //       onPressed: () {isVisible = !isVisible;},
-                                                      //     ),
-                                                      //   ],
-                                                      // ),
-                                                      ClipRect(
-                                                        child: SingleChildScrollView(
-                                                          physics: BouncingScrollPhysics(),
-                                                          child: Container(
-                                                            padding: EdgeInsets
-                                                                .all(8.0),
-                                                            child: Column(
-                                                              mainAxisAlignment: MainAxisAlignment
-                                                                  .start,
-                                                              children: [
-                                                                instituteDetailsDisplay(
-                                                                    document)
-                                                              ],
+                                                        SizedBox(height: 10.0,),
+                                                        Text(
+                                                            "Name of the ${document["PlaceType"]}",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle:
+                                                                TextStyle(
+                                                                    fontSize: 20,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black54))),
+                                                        Text(
+                                                            "${document['institutionName']
+                                                                .toString()
+                                                                .toUpperCase()}",
+                                                            style: GoogleFonts
+                                                                .poppins(
+                                                                textStyle:
+                                                                TextStyle(
+                                                                    fontSize: 20,
+                                                                    fontWeight: FontWeight
+                                                                        .w500,
+                                                                    color: Colors
+                                                                        .black87))),
+                                                        SizedBox(height: 10.0,),
+                                                        // ListTile(
+                                                        //     // onTap:(){
+                                                        //     //   print(UserDoc);
+                                                        //     // },
+                                                        //   leading: Text(document['PlaceName']),
+                                                        //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                        //   // children: <Widget>[
+                                                        //   title:Text(document['PlaceType']),
+                                                        //   //   Text(document['PlaceType']),
+                                                        //   // ],
+                                                        // ),
+                                                        // Row(
+                                                        //   mainAxisAlignment: MainAxisAlignment.end,
+                                                        //   children: <Widget>[
+                                                        //     TextButton(
+                                                        //       child: const Text('More'),
+                                                        //       onPressed: () {isVisible = !isVisible;},
+                                                        //     ),
+                                                        //   ],
+                                                        // ),
+                                                        ClipRect(
+                                                          child: SingleChildScrollView(
+                                                            physics: BouncingScrollPhysics(),
+                                                            child: Container(
+                                                              padding: EdgeInsets
+                                                                  .all(8.0),
+                                                              child: Column(
+                                                                mainAxisAlignment: MainAxisAlignment
+                                                                    .start,
+                                                                children: [
+                                                                  instituteDetailsDisplay(
+                                                                      document)
+                                                                ],
+                                                              ),
                                                             ),
                                                           ),
                                                         ),
-                                                      ),
-                                                    ],
+                                                      ],
+                                                    ),
                                                   ),
-                                                ),
-                                                borderOnForeground: true,
-                                              );
+                                                  borderOnForeground: true,
+                                                );
+                                              }
                                             } catch (e) {
-                                              docCount = 0;
+                                              //docCount = 0;
                                               return Center(
 
                                                 child: Container(
@@ -1715,7 +1767,7 @@ class _MyHomePageState extends State<MyHomePage>
                                                   child: Column(
                                                       children: <Widget>[
                                                         Icon(Icons
-                                                            .sentiment_dissatisfied_rounded,
+                                                            .refresh_rounded,
                                                           color: Colors.black12,
                                                           size: 100.0,
                                                           semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1725,11 +1777,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                             style: GoogleFonts
                                                                 .poppins(
                                                                 textStyle: TextStyle(
-                                                                    fontSize: 14,
+                                                                    fontSize: 16,
                                                                     fontWeight: FontWeight
-                                                                        .w500,
+                                                                        .bold,
                                                                     color: Colors
-                                                                        .black54))
+                                                                        .black26))
                                                         ),
                                                       ]
                                                   ),
@@ -1746,92 +1798,107 @@ class _MyHomePageState extends State<MyHomePage>
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
-                                        return Card(
-                                          shadowColor: Colors.blue[200],
-                                          color: Colors.blue[50],
-                                          elevation: 5.0,
-                                          child: Container(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                AspectRatio(
-                                                  aspectRatio: 4 / 2,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                        document['PlaceImage']),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
+                                        FirebaseFirestore.instance
+                                            .collection(unitValue)
+                                            .doc(placeValue).collection(selectType())
+                                            .doc(document.id)
+                                            .get().then((value) => checkNamesList(value["youthPlaceName"]));
+                                        PlaceNamesToggle = document["youthPlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10.0,),
-                                                Text(
-                                                    "Name of the ${document["PlaceType"]}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54))),
-                                                Text(
-                                                    "${document['youthPlaceName']
-                                                        .toString()
-                                                        .toUpperCase()}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87))),
-                                                SizedBox(height: 10.0,),
-                                                // ListTile(
-                                                //     // onTap:(){
-                                                //     //   print(UserDoc);
-                                                //     // },
-                                                //   leading: Text(document['PlaceName']),
-                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                //   // children: <Widget>[
-                                                //   title:Text(document['PlaceType']),
-                                                //   //   Text(document['PlaceType']),
-                                                //   // ],
-                                                // ),
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                                //   children: <Widget>[
-                                                //     TextButton(
-                                                //       child: const Text('More'),
-                                                //       onPressed: () {isVisible = !isVisible;},
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                ClipRect(
-                                                  child: SingleChildScrollView(
-                                                    physics: BouncingScrollPhysics(),
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(
-                                                          8.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          youthDetailsDisplay(
-                                                              document)
-                                                        ],
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['youthPlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            youthDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          borderOnForeground: true,
-                                        );
+                                            borderOnForeground: true,
+                                          );
+                                        }
                                       } catch (e) {
-                                        docCount = 0;
+                                       // docCount = 0;
                                         return Center(
 
                                           child: Container(
@@ -1840,7 +1907,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1850,11 +1917,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -1868,92 +1935,107 @@ class _MyHomePageState extends State<MyHomePage>
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
-                                        return Card(
-                                          shadowColor: Colors.blue[200],
-                                          color: Colors.blue[50],
-                                          elevation: 5.0,
-                                          child: Container(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                AspectRatio(
-                                                  aspectRatio: 4 / 2,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                        document['PlaceImage']),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
+                                        FirebaseFirestore.instance
+                                            .collection(unitValue)
+                                            .doc(placeValue).collection(selectType())
+                                            .doc(document.id)
+                                            .get().then((value) => checkNamesList(value["publicPlaceName"]));
+                                        PlaceNamesToggle = document["publicPlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10.0,),
-                                                Text(
-                                                    "Name of the ${document["PlaceType"]}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54))),
-                                                Text(
-                                                    "${document['publicPlaceName']
-                                                        .toString()
-                                                        .toUpperCase()}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87))),
-                                                SizedBox(height: 10.0,),
-                                                // ListTile(
-                                                //     // onTap:(){
-                                                //     //   print(UserDoc);
-                                                //     // },
-                                                //   leading: Text(document['PlaceName']),
-                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                //   // children: <Widget>[
-                                                //   title:Text(document['PlaceType']),
-                                                //   //   Text(document['PlaceType']),
-                                                //   // ],
-                                                // ),
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                                //   children: <Widget>[
-                                                //     TextButton(
-                                                //       child: const Text('More'),
-                                                //       onPressed: () {isVisible = !isVisible;},
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                ClipRect(
-                                                  child: SingleChildScrollView(
-                                                    physics: BouncingScrollPhysics(),
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(
-                                                          8.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          publicDetailsDisplay(
-                                                              document)
-                                                        ],
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['publicPlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            publicDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          borderOnForeground: true,
-                                        );
+                                            borderOnForeground: true,
+                                          );
+                                        }
                                       } catch (e) {
-                                        docCount = 0;
+                                       // docCount = 0;
                                         return Center(
 
                                           child: Container(
@@ -1962,7 +2044,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -1972,11 +2054,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -1990,92 +2072,107 @@ class _MyHomePageState extends State<MyHomePage>
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
-                                        return Card(
-                                          shadowColor: Colors.blue[200],
-                                          color: Colors.blue[50],
-                                          elevation: 5.0,
-                                          child: Container(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                AspectRatio(
-                                                  aspectRatio: 4 / 2,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                        document['PlaceImage']),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
+                                        FirebaseFirestore.instance
+                                            .collection(unitValue)
+                                            .doc(placeValue).collection(selectType())
+                                            .doc(document.id)
+                                            .get().then((value) => checkNamesList(value["officePlaceName"]));
+                                        PlaceNamesToggle = document["officePlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10.0,),
-                                                Text(
-                                                    "Name of the ${document["PlaceType"]}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54))),
-                                                Text(
-                                                    "${document['officePlaceName']
-                                                        .toString()
-                                                        .toUpperCase()}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87))),
-                                                SizedBox(height: 10.0,),
-                                                // ListTile(
-                                                //     // onTap:(){
-                                                //     //   print(UserDoc);
-                                                //     // },
-                                                //   leading: Text(document['PlaceName']),
-                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                //   // children: <Widget>[
-                                                //   title:Text(document['PlaceType']),
-                                                //   //   Text(document['PlaceType']),
-                                                //   // ],
-                                                // ),
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                                //   children: <Widget>[
-                                                //     TextButton(
-                                                //       child: const Text('More'),
-                                                //       onPressed: () {isVisible = !isVisible;},
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                ClipRect(
-                                                  child: SingleChildScrollView(
-                                                    physics: BouncingScrollPhysics(),
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(
-                                                          8.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          officeDetailsDisplay(
-                                                              document)
-                                                        ],
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['officePlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            officeDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          borderOnForeground: true,
-                                        );
+                                            borderOnForeground: true,
+                                          );
+                                        }
                                       } catch (e) {
-                                        docCount = 0;
+                                       // docCount = 0;
                                         return Center(
 
                                           child: Container(
@@ -2084,7 +2181,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -2094,11 +2191,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -2112,92 +2209,107 @@ class _MyHomePageState extends State<MyHomePage>
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
-                                        return Card(
-                                          shadowColor: Colors.blue[200],
-                                          color: Colors.blue[50],
-                                          elevation: 5.0,
-                                          child: Container(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                AspectRatio(
-                                                  aspectRatio: 4 / 2,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                        document['PlaceImage']),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
+                                        FirebaseFirestore.instance
+                                            .collection(unitValue)
+                                            .doc(placeValue).collection(selectType())
+                                            .doc(document.id)
+                                            .get().then((value) => checkNamesList(value["ngosPlaceName"]));
+                                        PlaceNamesToggle = document["ngosPlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10.0,),
-                                                Text(
-                                                    "Name of the ${document["PlaceType"]}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54))),
-                                                Text(
-                                                    "${document['ngosPlaceName']
-                                                        .toString()
-                                                        .toUpperCase()}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87))),
-                                                SizedBox(height: 10.0,),
-                                                // ListTile(
-                                                //     // onTap:(){
-                                                //     //   print(UserDoc);
-                                                //     // },
-                                                //   leading: Text(document['PlaceName']),
-                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                //   // children: <Widget>[
-                                                //   title:Text(document['PlaceType']),
-                                                //   //   Text(document['PlaceType']),
-                                                //   // ],
-                                                // ),
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                                //   children: <Widget>[
-                                                //     TextButton(
-                                                //       child: const Text('More'),
-                                                //       onPressed: () {isVisible = !isVisible;},
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                ClipRect(
-                                                  child: SingleChildScrollView(
-                                                    physics: BouncingScrollPhysics(),
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(
-                                                          8.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          ngosDetailsDisplay(
-                                                              document)
-                                                        ],
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['ngosPlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            ngosDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          borderOnForeground: true,
-                                        );
+                                            borderOnForeground: true,
+                                          );
+                                        }
                                       } catch (e) {
-                                        docCount = 0;
+                                      //  docCount = 0;
                                         return Center(
 
                                           child: Container(
@@ -2206,7 +2318,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -2216,11 +2328,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -2234,92 +2346,107 @@ class _MyHomePageState extends State<MyHomePage>
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
-                                        return Card(
-                                          shadowColor: Colors.blue[200],
-                                          color: Colors.blue[50],
-                                          elevation: 5.0,
-                                          child: Container(
-                                            padding: EdgeInsets.all(10.0),
-                                            child: Column(
-                                              crossAxisAlignment: CrossAxisAlignment
-                                                  .center,
-                                              children: [
-                                                AspectRatio(
-                                                  aspectRatio: 4 / 2,
-                                                  child: Image(
-                                                    image: NetworkImage(
-                                                        document['PlaceImage']),
-                                                    fit: BoxFit.cover,
-                                                    width: double.infinity,
-                                                    height: double.infinity,
+                                        FirebaseFirestore.instance
+                                            .collection(unitValue)
+                                            .doc(placeValue).collection(selectType())
+                                            .doc(document.id)
+                                            .get().then((value) => checkNamesList(value["hallsPlaceName"]));
+                                        PlaceNamesToggle = document["hallsPlaceName"].toString()
+                                            .toUpperCase()
+                                            .contains(
+                                            enteredKeyword.toUpperCase()).toString();
+                                        if(PlaceNamesToggle == "true") {
+                                          return Card(
+                                            shadowColor: Colors.blue[200],
+                                            color: Colors.blue[50],
+                                            elevation: 5.0,
+                                            child: Container(
+                                              padding: EdgeInsets.all(10.0),
+                                              child: Column(
+                                                crossAxisAlignment: CrossAxisAlignment
+                                                    .center,
+                                                children: [
+                                                  AspectRatio(
+                                                    aspectRatio: 4 / 2,
+                                                    child: Image(
+                                                      image: NetworkImage(
+                                                          document['PlaceImage']),
+                                                      fit: BoxFit.cover,
+                                                      width: double.infinity,
+                                                      height: double.infinity,
+                                                    ),
                                                   ),
-                                                ),
-                                                SizedBox(height: 10.0,),
-                                                Text(
-                                                    "Name of the ${document["PlaceType"]}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black54))),
-                                                Text(
-                                                    "${document['hallsPlaceName']
-                                                        .toString()
-                                                        .toUpperCase()}",
-                                                    style: GoogleFonts.poppins(
-                                                        textStyle:
-                                                        TextStyle(fontSize: 20,
-                                                            fontWeight: FontWeight
-                                                                .w500,
-                                                            color: Colors
-                                                                .black87))),
-                                                SizedBox(height: 10.0,),
-                                                // ListTile(
-                                                //     // onTap:(){
-                                                //     //   print(UserDoc);
-                                                //     // },
-                                                //   leading: Text(document['PlaceName']),
-                                                //   // crossAxisAlignment: CrossAxisAlignment.start,
-                                                //   // children: <Widget>[
-                                                //   title:Text(document['PlaceType']),
-                                                //   //   Text(document['PlaceType']),
-                                                //   // ],
-                                                // ),
-                                                // Row(
-                                                //   mainAxisAlignment: MainAxisAlignment.end,
-                                                //   children: <Widget>[
-                                                //     TextButton(
-                                                //       child: const Text('More'),
-                                                //       onPressed: () {isVisible = !isVisible;},
-                                                //     ),
-                                                //   ],
-                                                // ),
-                                                ClipRect(
-                                                  child: SingleChildScrollView(
-                                                    physics: BouncingScrollPhysics(),
-                                                    child: Container(
-                                                      padding: EdgeInsets.all(
-                                                          8.0),
-                                                      child: Column(
-                                                        mainAxisAlignment: MainAxisAlignment
-                                                            .start,
-                                                        children: [
-                                                          hallsDetailsDisplay(
-                                                              document)
-                                                        ],
+                                                  SizedBox(height: 10.0,),
+                                                  Text(
+                                                      "Name of the ${document["PlaceType"]}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black54))),
+                                                  Text(
+                                                      "${document['hallsPlaceName']
+                                                          .toString()
+                                                          .toUpperCase()}",
+                                                      style: GoogleFonts
+                                                          .poppins(
+                                                          textStyle:
+                                                          TextStyle(
+                                                              fontSize: 20,
+                                                              fontWeight: FontWeight
+                                                                  .w500,
+                                                              color: Colors
+                                                                  .black87))),
+                                                  SizedBox(height: 10.0,),
+                                                  // ListTile(
+                                                  //     // onTap:(){
+                                                  //     //   print(UserDoc);
+                                                  //     // },
+                                                  //   leading: Text(document['PlaceName']),
+                                                  //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                                  //   // children: <Widget>[
+                                                  //   title:Text(document['PlaceType']),
+                                                  //   //   Text(document['PlaceType']),
+                                                  //   // ],
+                                                  // ),
+                                                  // Row(
+                                                  //   mainAxisAlignment: MainAxisAlignment.end,
+                                                  //   children: <Widget>[
+                                                  //     TextButton(
+                                                  //       child: const Text('More'),
+                                                  //       onPressed: () {isVisible = !isVisible;},
+                                                  //     ),
+                                                  //   ],
+                                                  // ),
+                                                  ClipRect(
+                                                    child: SingleChildScrollView(
+                                                      physics: BouncingScrollPhysics(),
+                                                      child: Container(
+                                                        padding: EdgeInsets.all(
+                                                            8.0),
+                                                        child: Column(
+                                                          mainAxisAlignment: MainAxisAlignment
+                                                              .start,
+                                                          children: [
+                                                            hallsDetailsDisplay(
+                                                                document)
+                                                          ],
+                                                        ),
                                                       ),
                                                     ),
                                                   ),
-                                                ),
-                                              ],
+                                                ],
+                                              ),
                                             ),
-                                          ),
-                                          borderOnForeground: true,
-                                        );
+                                            borderOnForeground: true,
+                                          );
+                                        }
                                       } catch (e) {
-                                        docCount = 0;
+                                       //docCount = 0;
                                         return Center(
 
                                           child: Container(
@@ -2328,7 +2455,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Column(
                                                 children: <Widget>[
                                                   Icon(Icons
-                                                      .sentiment_dissatisfied_rounded,
+                                                      .refresh_rounded,
                                                     color: Colors.black12,
                                                     size: 100.0,
                                                     semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
@@ -2338,11 +2465,11 @@ class _MyHomePageState extends State<MyHomePage>
                                                       style: GoogleFonts
                                                           .poppins(
                                                           textStyle: TextStyle(
-                                                              fontSize: 14,
+                                                              fontSize: 16,
                                                               fontWeight: FontWeight
-                                                                  .w500,
+                                                                  .bold,
                                                               color: Colors
-                                                                  .black54))
+                                                                  .black26))
                                                   ),
                                                 ]
                                             ),
@@ -2355,26 +2482,28 @@ class _MyHomePageState extends State<MyHomePage>
                                     {
                                       docCount = 0;
                                       return Center(
+
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(
                                               0.0, 250.0, 0.0, 250.0),
                                           child: Column(
                                               children: <Widget>[
                                                 Icon(Icons
-                                                    .sentiment_dissatisfied_rounded,
+                                                    .refresh_rounded,
                                                   color: Colors.black12,
                                                   size: 100.0,
                                                   semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
                                                 ),
                                                 Text(
                                                     "NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts.poppins(
+                                                    style: GoogleFonts
+                                                        .poppins(
                                                         textStyle: TextStyle(
-                                                            fontSize: 14,
+                                                            fontSize: 16,
                                                             fontWeight: FontWeight
-                                                                .w500,
+                                                                .bold,
                                                             color: Colors
-                                                                .black54))
+                                                                .black26))
                                                 ),
                                               ]
                                           ),
@@ -2588,7 +2717,9 @@ class _MyHomePageState extends State<MyHomePage>
                                         value: placeValue,
 
                                         onChanged: (newValue) {
+                                          refreshList();
                                           setState(() {
+                                            NamesList.clear();
                                             placeValue = newValue;
                                             if (placeValue ==
                                                 "RELIGIOUS PLACES") {
@@ -2705,7 +2836,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeReligiousValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeReligiousValue =
                                                   newValue;
                                               // if(placeTypeReligiousValue != null){
@@ -2713,9 +2846,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               // }else{
                                               //   religiousDetailsVisible = false;
                                               // }
-
+                                              test = newValue;
                                             });
                                             Navigator.pop(context);
+                                            print("from dropdown : $NamesList");
                                           },
                                           items: placesTypeReligiousList.map((
                                               valueItem) {
@@ -2744,8 +2878,10 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeEducationValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             //MyHomePage()._callRefesh();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeEducationValue =
                                                   newValue;
                                             });
@@ -2778,7 +2914,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeYouthValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeYouthValue = newValue;
                                             });
                                             Navigator.pop(context);
@@ -2810,7 +2948,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypePublicValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypePublicValue = newValue;
                                             });
                                             Navigator.pop(context);
@@ -2842,7 +2982,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeOfficesValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeOfficesValue =
                                                   newValue;
                                             });
@@ -2875,7 +3017,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeNgosValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeNgosValue = newValue;
                                             });
                                             Navigator.pop(context);
@@ -2907,7 +3051,9 @@ class _MyHomePageState extends State<MyHomePage>
                                               fontSize: 22),
                                           value: placeTypeHallsValue,
                                           onChanged: (newValue) {
+                                            refreshList();
                                             setState(() {
+                                              NamesList.clear();
                                               placeTypeHallsValue = newValue;
                                             });
                                             Navigator.pop(context);
@@ -2940,8 +3086,8 @@ class _MyHomePageState extends State<MyHomePage>
                 },
               ),
         ),
-            Text("Loaded ${selectType().toLowerCase()}'s : $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
-                fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white70))),
+            // Text("Loaded ${selectType().toLowerCase()}'s : $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
+            //     fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white70))),
             // Visibility(child:Container(
             //
             // )),

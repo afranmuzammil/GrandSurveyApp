@@ -898,12 +898,12 @@ class _MyHomePageState extends State<MyHomePage>
     if(SearchVisible == false){
         return Container(
           padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
-            child: Icon(Icons.search)
+            child: Icon(Icons.search_rounded,color: Colors.grey,)
         );
     } else if(SearchVisible == true){
         return Container(
             padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
-            child: Icon(Icons.close)
+            child: Icon(Icons.close,color: Colors.grey,)
         );
 
     }
@@ -1252,7 +1252,9 @@ class _MyHomePageState extends State<MyHomePage>
                                         //  NamesList.add(document["PlaceName"]);
                                         FirebaseFirestore.instance
                                               .collection(unitValue)
-                                              .doc(placeValue).collection(selectType()).doc(document.id).get().then((value) => checkNamesList(value["PlaceName"]));
+                                              .doc(placeValue).collection(selectType())
+                                              .doc(document.id).get()
+                                              .then((value) => checkNamesList(value["PlaceName"]));
                                         PlaceNamesToggle = document["PlaceName"].toString()
                                             .toUpperCase()
                                             .contains(

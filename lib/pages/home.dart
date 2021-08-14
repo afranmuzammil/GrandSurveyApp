@@ -2728,7 +2728,7 @@ class _MyHomePageState extends State<MyHomePage>
                                     children: [
                                       DropdownButton(
                                         hint: Text("SELECT PLACE TYPE"),
-                                        dropdownColor: Color(0xff54b4d4),
+                                        dropdownColor: Theme.of(context).primaryColor,
                                         icon: Icon(Icons.arrow_drop_down),
                                         iconSize: 36,
                                         iconEnabledColor: Colors.white70,
@@ -2845,7 +2845,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleReligious,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -2885,7 +2885,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleEducation,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
@@ -2919,7 +2919,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleYouth,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
@@ -2951,7 +2951,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisiblePublic,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -2983,7 +2983,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleOffices,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -3016,7 +3016,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleNgos,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -3048,7 +3048,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleHalls,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Color(0xff54b4d4),
+                                          dropdownColor: Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,

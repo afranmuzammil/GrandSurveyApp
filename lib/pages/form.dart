@@ -386,9 +386,12 @@ class _FormsState extends State<Forms>
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
-          'GRAND SURVEY',
-          style:
-              TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+          'Daerah',
+            style: GoogleFonts.poppins(textStyle:
+            TextStyle(fontSize: 20,
+                fontWeight: FontWeight.bold,
+                color: Colors.white70))
+         // style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,

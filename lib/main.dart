@@ -55,7 +55,7 @@ class MyForm extends StatelessWidget {
           // primaryColorDark: ,
           // primaryColorLight: ,
           // primaryTextTheme: ,
-          // backgroundColor: ,
+           backgroundColor: Color(0xffe7f2f7),
           // buttonColor: ,
           // appBarTheme: ,
           scrollbarTheme: ScrollbarThemeData(

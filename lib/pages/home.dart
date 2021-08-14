@@ -426,7 +426,7 @@ class _MyHomePageState extends State<MyHomePage>
                       fontWeight: FontWeight.w500,
                       color: Colors.black87)),),
                   SizedBox(height: 10.0,),
-                  Text("Now you can add edit and delete Data of ur UNIT",
+                  Text("Now you can add edit and delete Data of your UNIT",
                     style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
                         fontWeight: FontWeight.w500,
                         color: Colors.black54)),),
@@ -752,10 +752,10 @@ class _MyHomePageState extends State<MyHomePage>
                               width: 250,
                               height: 5,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text('Loading data...'),
-                            )
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 16),
+                            //   child: Text('Loading data...'),
+                            // )
                           ],
                         ),
                       );
@@ -821,10 +821,10 @@ class _MyHomePageState extends State<MyHomePage>
                               width: 250,
                               height: 5,
                             ),
-                            Padding(
-                              padding: EdgeInsets.only(top: 16),
-                              child: Text('Loading data...'),
-                            )
+                            // Padding(
+                            //   padding: EdgeInsets.only(top: 16),
+                            //   child: Text('Loading data...'),
+                            // )
                           ],
                         ),
                       );
@@ -873,10 +873,10 @@ class _MyHomePageState extends State<MyHomePage>
                   width: 250,
                   height: 5,
                 ),
-                Padding(
-                  padding: EdgeInsets.only(top: 16),
-                  child: Text('Loading data...'),
-                )
+                // Padding(
+                //   padding: EdgeInsets.only(top: 16),
+                //   child: Text('Loading data...'),
+                // )
               ],
             ),
           );
@@ -956,16 +956,16 @@ class _MyHomePageState extends State<MyHomePage>
           children: <Widget>[
             DrawerHeader(
               decoration: BoxDecoration(
-                color: Colors.blue,
+                color: Theme.of(context).primaryColor,
               ),
               child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Drawer name
                     Text(
-                      'Grand Survey App'.toUpperCase(),
+                      'Daerah',
                         style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 18, fontWeight: FontWeight.bold,color: Colors.white70))
+                            fontSize: 22, fontWeight: FontWeight.bold,color: Colors.white70))
                     ),
                     SizedBox(height: 10.0,),
                     // displaying user id
@@ -973,7 +973,7 @@ class _MyHomePageState extends State<MyHomePage>
                       children: [
                         SizedBox(width: 10.0,),
                         Icon(
-                          Icons.account_circle_rounded, color: Colors.white,),
+                          Icons.home_work_rounded, color: Colors.white,),
                         SizedBox(width: 10.0,),
                         displayMail(),
                       // Text("$userIdSave", style: TextStyle(color: Colors.white),)
@@ -2622,7 +2622,27 @@ class _MyHomePageState extends State<MyHomePage>
           }
           else if(connectivityStatus == "Connected"){
             print(connectivityStatus);
-            Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+          //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+            Navigator.of(context).push(
+                PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400  ),
+                    transitionsBuilder: (BuildContext context, Animation<double> anim,
+                    Animation<double> secAnim,
+
+                    Widget child){
+                      anim = CurvedAnimation(parent: anim, curve: Curves.easeInCirc) ;
+                    return ScaleTransition(
+                      alignment: Alignment.bottomRight,
+                        scale: anim,
+                      child: child,
+                    );
+
+                    },
+                    pageBuilder: (BuildContext context,
+                        Animation<double> anim,
+                        Animation<double> secAnim ){
+                      return Forms(unitName: unitValue);
+                    }));
           }else if(connectivityStatus == "NotConnected"){
             ScaffoldMessenger.of(context).showSnackBar(
               SnackBar(

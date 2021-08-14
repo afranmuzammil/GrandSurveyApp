@@ -167,7 +167,7 @@ class _AboutState extends State<About>
                         onLongPress: (){
                           showAboutDialog(
                             context: context,
-                            applicationName: "GSF",
+                            applicationName: "Daerah",
                             applicationIcon: CircleAvatar(
                               foregroundImage: AssetImage('assets/ico_1024.png'),
                               backgroundColor: Colors.white,
@@ -183,12 +183,13 @@ class _AboutState extends State<About>
                           );
                         },
                         leading: Icon(Icons.info_outline_rounded,color: Colors.black54,),
-                        title: Text("ABOUT GSF",style: GoogleFonts.poppins(textStyle: TextStyle(
+                        title: Text("About Daerah",style: GoogleFonts.poppins(textStyle: TextStyle(
                             fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
                       ),
                     ],
                   ),
                 ),
+                SizedBox(height: 20,),
                 FutureBuilder<DocumentSnapshot>(
                   future: _getUnitCredentialsData(),
                     builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){

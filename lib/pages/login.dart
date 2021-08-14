@@ -2,6 +2,7 @@ import 'dart:ui';
 
 import 'package:flutter/material.dart';
 import 'package:form_app/pages/home.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -52,9 +53,20 @@ class _LoginFormState extends State<LoginForm> {
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
               children: <Widget>[
+                Image(
+                  image: AssetImage('assets/ico_1024.png'),
+                  width: 100.0,
+                  height: 100.0,
+                ),
+//               SizedBox(height: 10.0,),
+
                 Text(
                   'LOGIN',
-                  style: Theme.of(context).textTheme.headline3,
+                    style: GoogleFonts.poppins(textStyle:
+                    TextStyle(fontSize: 40,
+                      fontWeight: FontWeight.bold,
+                           color: Color(0xff54b4d4)))
+                  //Theme.of(context).textTheme.headline3,
                 ),
                 //id field
                 TextFormField(
@@ -180,6 +192,13 @@ class _LoginFormState extends State<LoginForm> {
 
                 ),
                 SizedBox(height: 10.0),
+                Text(
+                  'Daerah',
+                  style: GoogleFonts.poppins(textStyle:
+                  TextStyle(fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff54b4d4))),
+                ),
                 //skip Login
                 // Builder(
                 //     builder: (context) => OutlinedButton.icon(

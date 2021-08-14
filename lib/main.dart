@@ -17,15 +17,15 @@ Future<void> main() async {
   MobileAds.instance.initialize();
  // PushNotificationService().initialise();
   runApp(
-      MyForm()
+     MyForm()
    //  MaterialApp(
    //    debugShowCheckedModeBanner: false,
    //    initialRoute: '/',
    //    routes: {
-   //      '/':(context) =>Loading(),
-   //      '/login':(context) =>LoginForm(),
-   //      '/home':(context)=>MyHomePage(),
-   //      '/form':(context) => Forms(),
+   //     // '/':(context) =>Loading(),
+   //      // '/login':(context) =>LoginForm(),
+   //      // '/home':(context)=>MyHomePage(),
+   //      // '/form':(context) => Forms(),
    //    },
    // )
   );
@@ -49,7 +49,8 @@ class MyForm extends StatelessWidget {
       child: MaterialApp(
         debugShowCheckedModeBanner: false,
         theme: ThemeData(
-          // primaryColor: ,
+          primaryColor: Color(0xff048cbc),
+            secondaryHeaderColor: Color(0xffe7f2f7),
           // primaryColorBrightness: ,
           // primaryColorDark: ,
           // primaryColorLight: ,

@@ -28,7 +28,7 @@ class _HelpState extends State<Help>
     );
 
     animation =
-        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+        controller.drive(ColorTween(begin: Color(0xff54b4d4) , end:Color(0xff048cbc)));
     controller.repeat();
   }
 

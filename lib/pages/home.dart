@@ -201,7 +201,7 @@ class _MyHomePageState extends State<MyHomePage>
     );
 
     animation =
-        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+        controller.drive(ColorTween(begin: Color(0xff54b4d4) , end:Color(0xff048cbc)));
     controller.repeat();
    // _readData();
 
@@ -917,7 +917,6 @@ class _MyHomePageState extends State<MyHomePage>
         NamesList.add(placeNameValue);
     }
   }
-
 //this variable will make the home page loading
  bool isListIgnoring = true;
 
@@ -1250,6 +1249,7 @@ class _MyHomePageState extends State<MyHomePage>
                                       try {
                                         // checkNamesList(nameingListAdd);
                                         //  NamesList.add(document["PlaceName"]);
+
                                         FirebaseFirestore.instance
                                               .collection(unitValue)
                                               .doc(placeValue).collection(selectType())
@@ -1263,7 +1263,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Colors.blue[50],
+                                            color: Theme.of(context).secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
@@ -1331,6 +1331,7 @@ class _MyHomePageState extends State<MyHomePage>
                                             borderOnForeground: true,
                                           );
                                         }
+
                                       } catch (e) {
                                         docCount = 0;
                                         print("on :$e");
@@ -1386,7 +1387,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               if(PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color: Colors.blue[50],
+                                                  color: Theme.of(context).secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
                                                     padding: EdgeInsets.all(
@@ -1528,7 +1529,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               if(PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color: Colors.blue[50],
+                                                  color:Theme.of(context).secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
                                                     padding: EdgeInsets.all(
@@ -1669,7 +1670,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               if(PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color: Colors.blue[50],
+                                                  color: Theme.of(context).secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
                                                     padding: EdgeInsets.all(
@@ -1812,7 +1813,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Colors.blue[50],
+                                            color: Theme.of(context).secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
@@ -1949,7 +1950,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Colors.blue[50],
+                                            color:Theme.of(context).secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
@@ -2086,7 +2087,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Colors.blue[50],
+                                            color: Theme.of(context).secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
@@ -2223,7 +2224,7 @@ class _MyHomePageState extends State<MyHomePage>
                                         if(PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Colors.blue[50],
+                                            color: Theme.of(context).secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
@@ -2603,6 +2604,7 @@ class _MyHomePageState extends State<MyHomePage>
       ),
 
       floatingActionButton: FloatingActionButton(
+          backgroundColor: Color(0xff54b4d4),
         onPressed: () {
          // await Future.delayed(Duration(seconds: 2));
           if(floatingButtonClickable == false){
@@ -2643,11 +2645,11 @@ class _MyHomePageState extends State<MyHomePage>
            // unitValue = unitValue;
           });
         },
-        child: Icon(Icons.add_outlined, color: Colors.white70,size: 25,),
+        child: Icon(Icons.add_rounded, color: Colors.white70,size: 25,),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(
-        color: Colors.blue,
+        color: Theme.of(context).primaryColor,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
@@ -2671,7 +2673,7 @@ class _MyHomePageState extends State<MyHomePage>
                             left: 8, right: 8),
                         height: 250,
                         decoration: BoxDecoration(
-                            color: Colors.blue,
+                            color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(10),
                               topRight: const Radius.circular(10),
@@ -2706,16 +2708,14 @@ class _MyHomePageState extends State<MyHomePage>
                                     children: [
                                       DropdownButton(
                                         hint: Text("SELECT PLACE TYPE"),
-                                        dropdownColor: Theme
-                                            .of(context)
-                                            .secondaryHeaderColor,
+                                        dropdownColor: Color(0xff54b4d4),
                                         icon: Icon(Icons.arrow_drop_down),
                                         iconSize: 36,
                                         iconEnabledColor: Colors.white70,
                                         isExpanded: true,
                                         underline: SizedBox(),
-                                        style: TextStyle(color: Colors.black54,
-                                            fontSize: 22),
+                                        style: TextStyle(color: Colors.white70,
+                                            fontSize: 22,fontWeight: FontWeight.w500),
                                         value: placeValue,
 
                                         onChanged: (newValue) {
@@ -2825,17 +2825,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleReligious,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeReligiousValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2867,17 +2865,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleEducation,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeEducationValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2903,17 +2899,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleYouth,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeYouthValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2937,17 +2931,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisiblePublic,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypePublicValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2971,17 +2963,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleOffices,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeOfficesValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -3006,17 +2996,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleNgos,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeNgosValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -3040,17 +3028,15 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleHalls,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme
-                                              .of(context)
-                                              .secondaryHeaderColor,
+                                          dropdownColor: Color(0xff54b4d4),
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
                                           isExpanded: true,
                                           underline: SizedBox(),
                                           style: TextStyle(
-                                              color: Colors.black54,
-                                              fontSize: 22),
+                                              color: Colors.white70,
+                                              fontSize: 22,fontWeight: FontWeight.w500),
                                           value: placeTypeHallsValue,
                                           onChanged: (newValue) {
                                             refreshList();

@@ -1,4 +1,5 @@
 import 'dart:ffi';
+
 //import 'dart:html';
 import 'dart:io';
 import 'dart:ui';
@@ -26,7 +27,6 @@ import 'package:form_app/services/autentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'form.dart';
 
-
 String placeValue = "RELIGIOUS PLACES";
 List placesList = [
   "RELIGIOUS PLACES",
@@ -37,7 +37,6 @@ List placesList = [
   "NGOSorORGANISATIONS",
   "HALLS",
 ];
-
 
 String placeTypeReligiousValue = "MASJID";
 bool isVisibleReligious = true;
@@ -105,7 +104,7 @@ bool isVisibleNgos = false;
 List placesTypeNgosList = [
   "OLD AGE",
   "ORPHAN AGE",
-    "SOCIAL WELFARE",
+  "SOCIAL WELFARE",
   "CAREER GUIDANCE ",
   "COUNSELING CENTRES",
   "STUDENT&RELIGIOUS&CHARITY",
@@ -116,59 +115,56 @@ List placesTypeNgosList = [
   "FORUMS",
 ];
 
-
 //HALLS
 String placeTypeHallsValue = "FUNCTION HALLS";
 
 bool isVisibleHalls = false;
 List placesTypeHallsList = [
-   "COMMUNITY HALLS",
-   "FUNCTION HALLS",
+  "COMMUNITY HALLS",
+  "FUNCTION HALLS",
   "MEETING HALLS",
   "MELAS ",
   "EXHIBITION ",
   "PRESS HALLS"
 ];
 
-
 class MyHomePage extends StatefulWidget {
   final String userIdSave;
-  MyHomePage({Key key,@required this.userIdSave}) : super(key :key);
-  _callRefesh()  => createState().reload();
-  
+
+  MyHomePage({Key key, @required this.userIdSave}) : super(key: key);
+
+  _callRefesh() => createState().reload();
+
   @override
   _MyHomePageState createState() => _MyHomePageState(userIdSave);
-
 }
 
 class _MyHomePageState extends State<MyHomePage>
     with SingleTickerProviderStateMixin {
- // Future<SharedPreferences> prefs = SharedPreferences.getInstance();
+  // Future<SharedPreferences> prefs = SharedPreferences.getInstance();
 
   var indicator = new GlobalKey<RefreshIndicatorState>();
 
-
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
 
-    String userIdSave ;
+  String userIdSave;
+
   _MyHomePageState(this.userIdSave);
-   String userMail;
-   String saveMail;
 
-
-
+  String userMail;
+  String saveMail;
 
   AnimationController controller;
   Animation<Color> animation;
   double progress = 0;
 
-    BannerAd _ad;
-   bool isloaded = false;
+  BannerAd _ad;
+  bool isloaded = false;
 
   @override
   void initState() {
     _saveData();
-   setButtonsVisible();
+    setButtonsVisible();
     floatingClickable();
     _getUnitCredentialsData();
     refreshList();
@@ -177,14 +173,12 @@ class _MyHomePageState extends State<MyHomePage>
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
         size: AdSize.banner,
-        listener: AdManagerBannerAdListener(
-            onAdLoaded: (ad) {
-              print("ad lod${ad.adUnitId}");
-              setState(() {
-                isloaded = true;
-              });
-
-            }, onAdFailedToLoad: (_, error) {
+        listener: AdManagerBannerAdListener(onAdLoaded: (ad) {
+          print("ad lod${ad.adUnitId}");
+          setState(() {
+            isloaded = true;
+          });
+        }, onAdFailedToLoad: (_, error) {
           print("Ad faild to Load with error : $error");
         }));
     _ad?.load();
@@ -192,34 +186,27 @@ class _MyHomePageState extends State<MyHomePage>
     super.initState();
     checkInternetStatus();
 
-
-
-
     controller = AnimationController(
       duration: Duration(seconds: 3),
       vsync: this,
     );
 
-    animation =
-        controller.drive(ColorTween(begin: Color(0xff54b4d4) , end:Color(0xff048cbc)));
+    animation = controller
+        .drive(ColorTween(begin: Color(0xff54b4d4), end: Color(0xff048cbc)));
     controller.repeat();
-   // _readData();
-
+    // _readData();
   }
 
   @override
   void dispose() {
     print("disp");
-  controller.dispose();
+    controller.dispose();
     super.dispose();
     _ad?.dispose();
     _ad = null;
-
   }
 
-
   Widget checkForAd() {
-
     if (isloaded == true) {
       return Container(
         child: AdWidget(
@@ -232,163 +219,184 @@ class _MyHomePageState extends State<MyHomePage>
     } else {
       return Text("AD here");
     }
-
   }
 
-
   //saving User id
-   _saveData() async {
-   SharedPreferences prefs = await SharedPreferences.getInstance();
+  _saveData() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     //final prefs = await SharedPreferences.getInstance();
     setState(() {
-    userMail = prefs.getString("displayMail");
+      userMail = prefs.getString("displayMail");
     });
   }
 
   // userMail = prefs.getString ("userMail") ?? "Welcome user";
   //displaying user id
- displayMail(){
-    if(userMail != null){
+  displayMail() {
+    if (userMail != null) {
       setState(() {
         saveMail = userMail.toString().trim();
       });
-      if (userMail == "guest-user@sio.com"){
-        return Text("Welcome GuestUser",style: GoogleFonts.poppins(textStyle: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
-      }else  if (userMail == "guestId@sio.com"){
-        return Text("Welcome GuestUser",style: GoogleFonts.poppins(textStyle: TextStyle(
-            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
+      if (userMail == "guest-user@sio.com") {
+        return Text("Welcome GuestUser",
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)));
+      } else if (userMail == "guestId@sio.com") {
+        return Text("Welcome GuestUser",
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)));
       }
       // print("on login :${userMail.toString().trim()}");
-      return Text("$userMail", style: GoogleFonts.poppins(textStyle: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)) );
-    }else{
-      return Text("Welcome user",style: GoogleFonts.poppins(textStyle: TextStyle(
-          fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)));
+      return Text("$userMail",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white)));
+    } else {
+      return Text("Welcome user",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 14,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.white)));
     }
- }
+  }
 
-  bool isVisibleButtons= false;
+  bool isVisibleButtons = false;
   bool floatingButtonClickable;
 
   DocumentSnapshot unitCradSnaps;
   var unitCradData;
 
-  Future<DocumentSnapshot> _getUnitCredentialsData() async{
-
+  Future<DocumentSnapshot> _getUnitCredentialsData() async {
     await Future.delayed(Duration(seconds: 2));
     print("from data $saveMail");
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitCredentials")
-        .doc(saveMail).collection(saveMail).doc(saveMail)
-        .get().then((value) {print("my : ${value["UnitId"]} "); return getunitCrad(value); });
-   // print("done: $unitCradSnaps ");
-   unitCradSnaps = variable;
+        .doc(saveMail)
+        .collection(saveMail)
+        .doc(saveMail)
+        .get()
+        .then((value) {
+      print("my : ${value["UnitId"]} ");
+      return getunitCrad(value);
+    });
+    // print("done: $unitCradSnaps ");
+    unitCradSnaps = variable;
     return unitCradSnaps;
   }
 
-
-
-  Future<DocumentSnapshot> getunitCrad(data) async{
-    await Future.delayed(Duration(seconds: 2)).then((value) => {unitCradData = data});
+  Future<DocumentSnapshot> getunitCrad(data) async {
+    await Future.delayed(Duration(seconds: 2))
+        .then((value) => {unitCradData = data});
     //  var userData = await _getData();
     // print(" on: ${userData["Address"]}");
     // unitNameList = unitData["unitName"];
     // unitNameList.sort();
     // unitListFun(unitNameList);
-     print("from unit cred : ${unitCradData["UnitId"]}");
-  //  unitValue = unitCradData["UnitName"];
+    print("from unit cred : ${unitCradData["UnitId"]}");
+    //  unitValue = unitCradData["UnitName"];
     return unitCradData;
   }
 
   //setting EDIT & DELETE button Visibility
-  setButtonsVisible()async{
+  setButtonsVisible() async {
     await Future.delayed(Duration(milliseconds: 20)).then((value) => {
-    if(saveMail == "afranadmin@sio.com"){
-      print(saveMail),
-        isVisibleButtons = true,
-        floatingVisible = true
-    }
-    // else if(unitCradData["isadmin"]){
-    //   print(saveMail),
-    //   isVisibleButtons = true
-    // }
-    else if(saveMail == unitCradData["UnitId"] && unitValue == unitCradData["UnitName"])
-    {
-
-        isVisibleButtons = true
-
-    }
-    else if(saveMail == "guest-user@sio.com")
-    {
-        isVisibleButtons = false
-    }else if(saveMail == "guestId@sio.com")
-    {
-        isVisibleButtons = false
-    }else{
-          isVisibleButtons = false
-        },
-        refreshList(),
-
-    });
+          if (saveMail == "afranadmin@sio.com")
+            {print(saveMail), isVisibleButtons = true, floatingVisible = true}
+          // else if(unitCradData["isadmin"]){
+          //   print(saveMail),
+          //   isVisibleButtons = true
+          // }
+          else if (saveMail == unitCradData["UnitId"] &&
+              unitValue == unitCradData["UnitName"])
+            {isVisibleButtons = true}
+          else if (saveMail == "guest-user@sio.com")
+            {isVisibleButtons = false}
+          else if (saveMail == "guestId@sio.com")
+            {isVisibleButtons = false}
+          else
+            {isVisibleButtons = false},
+          refreshList(),
+        });
 //    print("Saved mail:$saveMail");
-   // print("${unitCradData["UnitName"]}");
+    // print("${unitCradData["UnitName"]}");
   }
 
   //setting floating Button Clickable
   bool floatingVisible = true;
-   floatingClickable() async {
-     await Future.delayed(Duration(seconds: 2)).then((value) =>{
-     if(saveMail == "guest-user@sio.com")
-     {
-       guestLoginWellCome(),
-       floatingButtonClickable = false
-     }else if(saveMail == "guestId@sio.com"){
-       guestLoginWellCome(),
-       floatingButtonClickable = false
-     }
-     else{
-       floatingButtonClickable = true
-     }
 
-        }
-       );
-   }
+  floatingClickable() async {
+    await Future.delayed(Duration(seconds: 2)).then((value) => {
+          if (saveMail == "guest-user@sio.com")
+            {guestLoginWellCome(), floatingButtonClickable = false}
+          else if (saveMail == "guestId@sio.com")
+            {guestLoginWellCome(), floatingButtonClickable = false}
+          else
+            {floatingButtonClickable = true}
+        });
+  }
 
   final keyIsFirstLoaded = 'is_first_loaded';
-   //guest log in wellCome
+
+  //guest log in wellCome
   guestLoginWellCome() async {
     // saving the bool value not load the welcome Dialog again
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstLoaded = prefs.getBool(keyIsFirstLoaded);
-    if(isFirstLoaded == null){
+    if (isFirstLoaded == null) {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('WELCOME!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87)),),
+            title: Text(
+              'WELCOME!',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87)),
+            ),
             backgroundColor: Colors.white,
-
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('Your Login as a Guest user!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black87)),),
-                  SizedBox(height: 10.0,),
-                  Text("A Guest User can't Add, Edit or Delete!",
-                    style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black54)),),
+                  Text(
+                    'Your Login as a Guest user!',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black87)),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "A Guest User can't Add, Edit or Delete!",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54)),
+                  ),
                 ],
               ),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('OK',style: TextStyle(color: Colors.white70),),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white70),
+                ),
                 onPressed: () {
                   Navigator.of(context).pop();
                   prefs.setBool(keyIsFirstLoaded, false);
@@ -406,38 +414,55 @@ class _MyHomePageState extends State<MyHomePage>
     }
   }
 
-
-  welcomeScreen()async{
+  welcomeScreen() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isFirstLoaded = prefs.getBool(keyIsFirstLoaded);
-    if(isFirstLoaded == null){
+    if (isFirstLoaded == null) {
       return showDialog<void>(
         context: context,
         barrierDismissible: false, // user must tap button!
         builder: (BuildContext context) {
           return AlertDialog(
-            title: Text('congratulations!'.toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                fontWeight: FontWeight.w600,
-                color: Colors.black87)),),
+            title: Text(
+              'congratulations!'.toUpperCase(),
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w600,
+                      color: Colors.black87)),
+            ),
             backgroundColor: Colors.white,
-
             content: SingleChildScrollView(
               child: ListBody(
                 children: <Widget>[
-                  Text('Your Login as $saveMail',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
-                      fontWeight: FontWeight.w500,
-                      color: Colors.black87)),),
-                  SizedBox(height: 10.0,),
-                  Text("Now you can add edit and delete Data of your UNIT",
-                    style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.black54)),),
+                  Text(
+                    'Your Login as $saveMail',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black87)),
+                  ),
+                  SizedBox(
+                    height: 10.0,
+                  ),
+                  Text(
+                    "Now you can add edit and delete Data of your UNIT",
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.black54)),
+                  ),
                 ],
               ),
             ),
             actions: <Widget>[
               TextButton(
-                child: Text('OK',style: TextStyle(color: Colors.white70),),
+                child: Text(
+                  'OK',
+                  style: TextStyle(color: Colors.white70),
+                ),
                 onPressed: () {
                   refreshList();
                   Navigator.of(context).pop();
@@ -466,25 +491,29 @@ class _MyHomePageState extends State<MyHomePage>
   String units;
   List unitNameList = [];
 
-  Future<DocumentSnapshot> _getUnitNamesData() async{
+  Future<DocumentSnapshot> _getUnitNamesData() async {
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitNameList")
         .doc("NameList")
-        .get().then((value) { return getLists(value); });
+        .get()
+        .then((value) {
+      return getLists(value);
+    });
     // setState(() {
     //   data = variable;
     // });
     unitSanpShots = variable;
     return unitSanpShots;
   }
-  Future<DocumentSnapshot> getLists(data) async{
-    await Future.delayed(Duration(seconds: 2)).then((value) => {unitData = data});
+
+  Future<DocumentSnapshot> getLists(data) async {
+    await Future.delayed(Duration(seconds: 2))
+        .then((value) => {unitData = data});
     //  var userData = await _getData();
     // print(" on: ${userData["Address"]}");
-    if(unitCradData["Super"]){
+    if (unitCradData["Super"]) {
       unitNameList = unitData["unitName"];
-    }else if(unitCradData["Super"] == false)
-    {
+    } else if (unitCradData["Super"] == false) {
       //print("from lits $saveMail");
       unitNameList = unitData[unitCradData["UnitId"]];
     }
@@ -495,27 +524,12 @@ class _MyHomePageState extends State<MyHomePage>
     return unitData;
   }
 
-  Future<List> unitListFun(list)async{
+  Future<List> unitListFun(list) async {
     unitNameList = list;
     print(unitNameList);
     //setButtonsVisible();
     return unitNameList;
   }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
   String selectedPlaceType;
 
@@ -557,67 +571,72 @@ class _MyHomePageState extends State<MyHomePage>
 
   // getting Location data
   static Future<void> openMap(var latitude, var longitude) async {
-    String googleUrl = 'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
+    String googleUrl =
+        'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
     if (await canLaunch(googleUrl)) {
       await launch(googleUrl);
     } else {
       throw 'Could not open the map.';
     }
   }
+
   // Future<Null> refreshList()async{
   //   await Future.delayed(Duration(seconds: 2));
   // }
 
   //refreshing the page data
-  Future<void> refreshList()async{
+  Future<void> refreshList() async {
     //setButtonsVisible();
     await Future.delayed(Duration(seconds: 2));
     setState(() {
-      FirebaseFirestore.instance.collection(unitValue).doc(
-          placeValue).collection(selectType()).snapshots().toList();
+      FirebaseFirestore.instance
+          .collection(unitValue)
+          .doc(placeValue)
+          .collection(selectType())
+          .snapshots()
+          .toList();
       print("hello refresh is called");
       _getUnitNamesData();
     });
-
   }
 
-
   bool show = true;
-  reload()async{
-    if(show){
+
+  reload() async {
+    if (show) {
       refreshList();
     }
   }
 
-  String  connectivityStatus;
+  String connectivityStatus;
+
   //Check internet
   void checkInternetStatus() {
     //await Future.delayed(Duration(seconds: 2));
-     Connectivity().onConnectivityChanged.listen((ConnectivityResult result ){
-        if(result == ConnectivityResult.mobile || result == ConnectivityResult.wifi){
-          changeValues("Connected");
-
-        }else{
-          changeValues("NotConnected");
-        }
-        print(result);
-      });
-      print("result");
-  }
-
-  void changeValues( String result)async{
-    await Future.delayed(Duration(seconds: 2)).then((value) => {
-      setState(() {
-        connectivityStatus = result;
-        print(result);
-      })
+    Connectivity().onConnectivityChanged.listen((ConnectivityResult result) {
+      if (result == ConnectivityResult.mobile ||
+          result == ConnectivityResult.wifi) {
+        changeValues("Connected");
+      } else {
+        changeValues("NotConnected");
+      }
+      print(result);
     });
-
+    print("result");
   }
 
-  displaySignIn(){
-    if(userMail == "guest-user@sio.com"){
-      return  OutlinedButton.icon(
+  void changeValues(String result) async {
+    await Future.delayed(Duration(seconds: 2)).then((value) => {
+          setState(() {
+            connectivityStatus = result;
+            print(result);
+          })
+        });
+  }
+
+  displaySignIn() {
+    if (userMail == "guest-user@sio.com") {
+      return OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();
             setState(() {
@@ -633,12 +652,21 @@ class _MyHomePageState extends State<MyHomePage>
             backgroundColor: Colors.blue,
             onSurface: Colors.blue,
           ),
-          icon: Icon(Icons.login_outlined,color: Colors.white,size: 20,),
-          label: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
-      );
-    }else  if(userMail == "guestId@sio.com"){
-      return  OutlinedButton.icon(
+          icon: Icon(
+            Icons.login_outlined,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            "LogIn",
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+          ));
+    } else if (userMail == "guestId@sio.com") {
+      return OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();
             setState(() {
@@ -654,13 +682,21 @@ class _MyHomePageState extends State<MyHomePage>
             backgroundColor: Colors.blue,
             onSurface: Colors.blue,
           ),
-          icon: Icon(Icons.login_outlined,color: Colors.white,size: 20,),
-          label: Text("LogIn",style: GoogleFonts.poppins(textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
-      );
-    }
-    else
-      return  OutlinedButton.icon(
+          icon: Icon(
+            Icons.login_outlined,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            "LogIn",
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+          ));
+    } else
+      return OutlinedButton.icon(
           onPressed: () {
             context.read<AuthenticationService>().signOut();
             setState(() {
@@ -676,19 +712,28 @@ class _MyHomePageState extends State<MyHomePage>
             backgroundColor: Colors.grey,
             onSurface: Colors.grey,
           ),
-          icon: Icon(Icons.logout,color: Colors.white,size: 20,),
-          label: Text("signOut",style: GoogleFonts.poppins(textStyle: TextStyle(
-              fontSize: 14, fontWeight: FontWeight.w500,color: Colors.white)),)
-      );
-
+          icon: Icon(
+            Icons.logout,
+            color: Colors.white,
+            size: 20,
+          ),
+          label: Text(
+            "signOut",
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 14,
+                    fontWeight: FontWeight.w500,
+                    color: Colors.white)),
+          ));
   }
 
-  titleDisplay(){
-   return FutureBuilder(
-      future:_getUnitCredentialsData(),
-      builder:(BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
-        if(snapshot.hasData){
-          if(unitCradData["isadmin"]){
+  titleDisplay() {
+    return FutureBuilder(
+      future: _getUnitCredentialsData(),
+      builder:
+          (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {
+        if (snapshot.hasData) {
+          if (unitCradData["isadmin"]) {
             isListIgnoring = false;
             reload();
             show = false;
@@ -696,22 +741,34 @@ class _MyHomePageState extends State<MyHomePage>
             print(" is Ignoting  value : $isListIgnoring");
             return FutureBuilder<DocumentSnapshot>(
                 future: _getUnitNamesData(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
                   print("dis unit is : $unitValue");
-                  try{
-                    if(snapshot.hasData){
+                  try {
+                    if (snapshot.hasData) {
                       return DropdownButton(
-                        hint: Text("LIST OF UNIT NAMES", textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),),
-                        dropdownColor: Theme
-                            .of(context)
-                            .primaryColor,
-                        icon: Icon(Icons.arrow_drop_down, color: Colors.black12,),
+                        hint: Text(
+                          "LIST OF UNIT NAMES",
+                          textAlign: TextAlign.center,
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w500,
+                                  color: Colors.white70)),
+                        ),
+                        dropdownColor: Theme.of(context).primaryColor,
+                        icon: Icon(
+                          Icons.arrow_drop_down,
+                          color: Colors.black12,
+                        ),
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white70)),
                         value: units,
                         onChanged: (newValue) {
                           setState(() {
@@ -723,11 +780,14 @@ class _MyHomePageState extends State<MyHomePage>
                         items: unitNameList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
-                            child: Text(valueItem, textAlign: TextAlign.center,),
+                            child: Text(
+                              valueItem,
+                              textAlign: TextAlign.center,
+                            ),
                           );
                         }).toList(),
                       );
-                    }else if(snapshot.hasError){
+                    } else if (snapshot.hasError) {
                       print("e :${snapshot.error}");
                       return Center(
                         child: Column(
@@ -743,12 +803,11 @@ class _MyHomePageState extends State<MyHomePage>
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: Text('Error: '),
-
                             )
                           ],
                         ),
                       );
-                    } else{
+                    } else {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -770,7 +829,7 @@ class _MyHomePageState extends State<MyHomePage>
                         ),
                       );
                     }
-                  }catch(e){
+                  } catch (e) {
                     print("Error : $e ");
                     return Center(
                       child: Text("Error : $e "),
@@ -780,24 +839,31 @@ class _MyHomePageState extends State<MyHomePage>
                   return Center(
                     child: Text("hello i am end return"),
                   );
-                }
-            );
-          }else{
+                });
+          } else {
             welcomeScreen();
             return FutureBuilder<DocumentSnapshot>(
                 future: _getUnitCredentialsData(),
-                builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-                  try{
-                    if(snapshot.hasData){
+                builder: (BuildContext context,
+                    AsyncSnapshot<DocumentSnapshot> snapshot) {
+                  try {
+                    if (snapshot.hasData) {
                       unitValue = unitCradData["UnitName"];
-                      isListIgnoring= false;
+                      isListIgnoring = false;
                       reload();
                       show = false;
                       isVisibleButtons = true;
                       floatingVisible = true;
-                      return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
-                          fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
-                    }else if(snapshot.hasError){
+                      return Text(
+                        unitCradData["UnitName"],
+                        textAlign: TextAlign.center,
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.w500,
+                                color: Colors.white70)),
+                      );
+                    } else if (snapshot.hasError) {
                       print("e :${snapshot.error}");
                       return Center(
                         child: Column(
@@ -813,12 +879,11 @@ class _MyHomePageState extends State<MyHomePage>
                             Padding(
                               padding: const EdgeInsets.only(top: 16),
                               child: Text('Error: '),
-
                             )
                           ],
                         ),
                       );
-                    } else{
+                    } else {
                       return Center(
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
@@ -840,37 +905,39 @@ class _MyHomePageState extends State<MyHomePage>
                         ),
                       );
                     }
-                  }catch(e){
+                  } catch (e) {
                     print("Error : $e ");
                     return Center(
                       child: Text("Error : "),
                     );
                   }
-
-                }
-            );
+                });
             // unitValue = unitCradData["UnitName"];
             // return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
             //     fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
           }
-        } else if(connectivityStatus == "NotConnected"){
+        } else if (connectivityStatus == "NotConnected") {
           return Center(
             child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 crossAxisAlignment: CrossAxisAlignment.center,
-                children:[
-                 Icon(Icons.error,color: Colors.grey,),
+                children: [
+                  Icon(
+                    Icons.error,
+                    color: Colors.grey,
+                  ),
                   Text(
                     "Check Your InterNet!",
-                    style: GoogleFonts.poppins(textStyle:
-                    TextStyle(fontSize: 12,
-                        fontWeight: FontWeight.w500,
-                        color: Colors.grey)),textAlign: TextAlign.center ,),
-                ]
-            ),
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w500,
+                            color: Colors.grey)),
+                    textAlign: TextAlign.center,
+                  ),
+                ]),
           );
-        }
-        else{
+        } else {
           return Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -894,8 +961,6 @@ class _MyHomePageState extends State<MyHomePage>
         }
       },
     );
-
-
   }
 
   void _toggleSearch() {
@@ -905,33 +970,40 @@ class _MyHomePageState extends State<MyHomePage>
     });
   }
 
-  visibleSearchBar(){
-    if(SearchVisible == false){
-        return Container(
-          padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
-            child: Icon(Icons.search_rounded,color: Colors.grey,)
-        );
-    } else if(SearchVisible == true){
-        return Container(
-            padding: EdgeInsets.only(top: 8.0,bottom: 8.0,right: 10.0,left: 10.0),
-            child: Icon(Icons.close,color: Colors.grey,)
-        );
-
+  visibleSearchBar() {
+    if (SearchVisible == false) {
+      return Container(
+          padding:
+              EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10.0, left: 10.0),
+          child: Icon(
+            Icons.search_rounded,
+            color: Colors.grey,
+          ));
+    } else if (SearchVisible == true) {
+      return Container(
+          padding:
+              EdgeInsets.only(top: 8.0, bottom: 8.0, right: 10.0, left: 10.0),
+          child: Icon(
+            Icons.close,
+            color: Colors.grey,
+          ));
     }
   }
-
 
   var test = "MASJID";
-  checkNamesList(String placeNameValue){
+
+  checkNamesList(String placeNameValue) {
     //print("${selectType()} and $test");
-      if(NamesList.contains(placeNameValue) == false){
-        NamesList.add(placeNameValue);
+    if (NamesList.contains(placeNameValue) == false) {
+      NamesList.add(placeNameValue);
     }
   }
+
 //this variable will make the home page loading
- bool isListIgnoring = true;
+  bool isListIgnoring = true;
 
   var docCount = 0;
+
   // docsCounting(){
   //   if(placeValue == "RELIGIOUS PLACES"){
   //     docCount++;
@@ -939,23 +1011,19 @@ class _MyHomePageState extends State<MyHomePage>
   //     print("${selectType()} : $docCount");
   //   }
   // }
-  List NamesList =[];
-  List loadedList =[];
+  List NamesList = [];
+  List loadedList = [];
   var PlaceNamesToggle = "true";
-  var enteredKeyword ="";
+  var enteredKeyword = "";
   bool SearchVisible = false;
   bool SearchVisibleIcon = true;
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
-      backgroundColor: Theme
-          .of(context)
-          .secondaryHeaderColor,
+      backgroundColor: Theme.of(context).secondaryHeaderColor,
       appBar: AppBar(
-        backgroundColor: Theme
-            .of(context)
-            .primaryColor,
+        backgroundColor: Theme.of(context).primaryColor,
         //dropdown to select the unitName
         title: titleDisplay(),
         centerTitle: true,
@@ -973,25 +1041,33 @@ class _MyHomePageState extends State<MyHomePage>
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     // Drawer name
-                    Text(
-                      'Daerah',
-                        style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 22, fontWeight: FontWeight.bold,color: Colors.white70))
+                    Text('Daerah',
+                        style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 22,
+                                fontWeight: FontWeight.bold,
+                                color: Colors.white70))),
+                    SizedBox(
+                      height: 10.0,
                     ),
-                    SizedBox(height: 10.0,),
                     // displaying user id
                     Row(
                       children: [
-                        SizedBox(width: 10.0,),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         Icon(
-                          Icons.home_work_rounded, color: Colors.white,),
-                        SizedBox(width: 10.0,),
+                          Icons.home_work_rounded,
+                          color: Colors.white,
+                        ),
+                        SizedBox(
+                          width: 10.0,
+                        ),
                         displayMail(),
-                      // Text("$userIdSave", style: TextStyle(color: Colors.white),)
+                        // Text("$userIdSave", style: TextStyle(color: Colors.white),)
                       ],
                     ),
-                  ]
-              ),
+                  ]),
             ),
             Container(
               padding: EdgeInsets.all(5.0),
@@ -1009,13 +1085,17 @@ class _MyHomePageState extends State<MyHomePage>
                 Navigator.push(
                     context,
                     MaterialPageRoute(
-                      builder: (context) => About(saveMail:userMail),
+                      builder: (context) => About(saveMail: userMail),
                     ));
                 print(userMail);
               },
               leading: Icon(Icons.settings),
-              title: Text( 'Settings',style: GoogleFonts.poppins(textStyle: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+              title: Text('Settings',
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87))),
             ),
             Divider(
               height: 2,
@@ -1031,8 +1111,12 @@ class _MyHomePageState extends State<MyHomePage>
                     ));
               },
               leading: Icon(Icons.code_rounded),
-              title: Text("Developer Info",style: GoogleFonts.poppins(textStyle: TextStyle(
-                  fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+              title: Text("Developer Info",
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 14,
+                          fontWeight: FontWeight.w500,
+                          color: Colors.black87))),
             ),
             Divider(
               height: 2,
@@ -1052,15 +1136,23 @@ class _MyHomePageState extends State<MyHomePage>
                         ));
                   },
                   leading: Icon(Icons.help_outline_rounded),
-                  title: Text("Help & feedBack",style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                  title: Text("Help & feedBack",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87))),
                 ),
                 //virsions
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V : 1.0.1-beta",style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
-                  onLongPress: (){
+                  title: Text("V : 1.0.1-beta",
+                      style: GoogleFonts.poppins(
+                          textStyle: TextStyle(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: Colors.black87))),
+                  onLongPress: () {
                     Navigator.push(
                         context,
                         MaterialPageRoute(
@@ -1085,23 +1177,28 @@ class _MyHomePageState extends State<MyHomePage>
         // ),
         child: Column(
           children: [
-
-          // checkForAd(),
-          //searchbar
+            // checkForAd(),
+            //searchbar
             Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Padding(
-                  padding: const EdgeInsets.only(left: 12.0,top: 8.0,bottom: 8.0),
-                  child: Text("Loaded ${selectType()}'s : $docCount".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
-                      fontSize: 15, fontWeight: FontWeight.w600,color: Colors.grey),
-                  )),
+                  padding:
+                      const EdgeInsets.only(left: 12.0, top: 8.0, bottom: 8.0),
+                  child:
+                      Text("Loaded ${selectType()}'s : $docCount".toUpperCase(),
+                          style: GoogleFonts.poppins(
+                            textStyle: TextStyle(
+                                fontSize: 15,
+                                fontWeight: FontWeight.w600,
+                                color: Colors.grey),
+                          )),
                 ),
-               InkWell(
-                 onTap:_toggleSearch ,
-                 child: visibleSearchBar(),
-               )
+                InkWell(
+                  onTap: _toggleSearch,
+                  child: visibleSearchBar(),
+                )
               ],
             ),
             //searchBarFilterCode
@@ -1110,22 +1207,19 @@ class _MyHomePageState extends State<MyHomePage>
               child: Visibility(
                 visible: SearchVisible,
                 child: Padding(
-                  padding: const EdgeInsets.only(left: 4.0,right: 4.0),
+                  padding: const EdgeInsets.only(left: 4.0, right: 4.0),
                   child: DecoratedBox(
                     decoration: BoxDecoration(
                       border: Border.all(
                         color: Theme.of(context).primaryColor,
                         width: 2.0,
                       ),
-
                       borderRadius: BorderRadius.circular(6),
-
                     ),
                     child: Padding(
-                      padding: const EdgeInsets.only(left:8.0,right: 8.0),
+                      padding: const EdgeInsets.only(left: 8.0, right: 8.0),
                       child: Autocomplete(
                         optionsBuilder: (TextEditingValue value) {
-
                           // When the field is empty
                           if (value.text.isEmpty) {
                             setState(() {
@@ -1170,87 +1264,91 @@ class _MyHomePageState extends State<MyHomePage>
 
             Expanded(
               child: Container(
-              padding: EdgeInsets.all(5.0),
+                padding: EdgeInsets.all(5.0),
                 child: StreamBuilder(
-                stream: FirebaseFirestore.instance.collection(unitValue).doc(
-                    placeValue).collection(selectType()).snapshots(),
-                //stream: documentStream,
-                builder: (BuildContext context,
-                    AsyncSnapshot<QuerySnapshot> snapshot) {
-                  if (!snapshot.hasData) {
-                    return Center(
-                      child: CircularProgressIndicator(
-                        valueColor: animation,
-                        backgroundColor: Colors.white,
-                      ),
-                    );
-                  }else if(snapshot.hasError){
-                    print("e :${snapshot.error}");
-                    return Center(
-                      child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children: [
-                          //Text('Error: '),
-                          const Icon(
-                            Icons.error_outline,
-                            color: Colors.red,
-                            size: 10,
-                          ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 16),
-                            child: Text('Error: '),
-
-                          )
-                        ],
-                      ),
-                    );
-                  }
-                  else {
-                    if(isListIgnoring){
-                      return Center(child: Column(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        crossAxisAlignment: CrossAxisAlignment.center,
-                        children:[
-                          CircularProgressIndicator(
-                            valueColor: animation,
-                            backgroundColor: Colors.white,
+                  stream: FirebaseFirestore.instance
+                      .collection(unitValue)
+                      .doc(placeValue)
+                      .collection(selectType())
+                      .snapshots(),
+                  //stream: documentStream,
+                  builder: (BuildContext context,
+                      AsyncSnapshot<QuerySnapshot> snapshot) {
+                    if (!snapshot.hasData) {
+                      return Center(
+                        child: CircularProgressIndicator(
+                          valueColor: animation,
+                          backgroundColor: Colors.white,
                         ),
-                          Text(
-                              "Your Unit's Data is Loading... ",
-                              style: GoogleFonts.poppins(textStyle:
-                              TextStyle(fontSize: 12,
-                                  fontWeight: FontWeight.w500,
-                                  color: Colors.black54)),textAlign: TextAlign.center ,),
-                  ]
-                      ));
-                    }
-                    return RefreshIndicator(
-                      onRefresh:refreshList ,
-                      child: IgnorePointer(
-                        ignoring: isListIgnoring,
-                        child: Scrollbar(
-                          isAlwaysShown: true,
-                          //  controller: _controllerOne,
-                          showTrackOnHover: true,
-                          hoverThickness: 24,
-                          thickness: 10,
-                          radius: Radius.circular(8.0),
-                          child: ListView(
-                            children: snapshot.data.docs.map((document) {
+                      );
+                    } else if (snapshot.hasError) {
+                      print("e :${snapshot.error}");
+                      return Center(
+                        child: Column(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          crossAxisAlignment: CrossAxisAlignment.center,
+                          children: [
+                            //Text('Error: '),
+                            const Icon(
+                              Icons.error_outline,
+                              color: Colors.red,
+                              size: 10,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.only(top: 16),
+                              child: Text('Error: '),
+                            )
+                          ],
+                        ),
+                      );
+                    } else {
+                      if (isListIgnoring) {
+                        return Center(
+                            child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.center,
+                                children: [
+                              CircularProgressIndicator(
+                                valueColor: animation,
+                                backgroundColor: Colors.white,
+                              ),
+                              Text(
+                                "Your Unit's Data is Loading... ",
+                                style: GoogleFonts.poppins(
+                                    textStyle: TextStyle(
+                                        fontSize: 12,
+                                        fontWeight: FontWeight.w500,
+                                        color: Colors.black54)),
+                                textAlign: TextAlign.center,
+                              ),
+                            ]));
+                      }
+                      return RefreshIndicator(
+                        onRefresh: refreshList,
+                        child: IgnorePointer(
+                          ignoring: isListIgnoring,
+                          child: Scrollbar(
+                            isAlwaysShown: true,
+                            //  controller: _controllerOne,
+                            showTrackOnHover: true,
+                            hoverThickness: 24,
+                            thickness: 10,
+                            radius: Radius.circular(8.0),
+                            child: ListView(
+                              children: snapshot.data.docs.map((document) {
+                                // var UserDoc = document.id;
+                                //var enteredKeyword = "";
 
-                             // var UserDoc = document.id;
-                             //var enteredKeyword = "";
-
-                              if(enteredKeyword == ""||enteredKeyword == null){
-                                PlaceNamesToggle = "true";
-                              }
-                              // names = document["PlaceName"].toString()
-                              //     .toUpperCase()
-                              //     .contains(
-                              //     enteredKeyword.toUpperCase()).toString();
+                                if (enteredKeyword == "" ||
+                                    enteredKeyword == null) {
+                                  PlaceNamesToggle = "true";
+                                }
+                                // names = document["PlaceName"].toString()
+                                //     .toUpperCase()
+                                //     .contains(
+                                //     enteredKeyword.toUpperCase()).toString();
                                 switch (placeValue) {
-                                  case"RELIGIOUS PLACES":
+                                  case "RELIGIOUS PLACES":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
@@ -1262,71 +1360,81 @@ class _MyHomePageState extends State<MyHomePage>
                                         //  NamesList.add(document["PlaceName"]);
 
                                         FirebaseFirestore.instance
-                                              .collection(unitValue)
-                                              .doc(placeValue).collection(selectType())
-                                              .doc(document.id).get()
-                                              .then((value) => checkNamesList(value["PlaceName"]));
-                                        PlaceNamesToggle = document["PlaceName"].toString()
+                                            .collection(unitValue)
+                                            .doc(placeValue)
+                                            .collection(selectType())
+                                            .doc(document.id)
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["PlaceName"]));
+                                        PlaceNamesToggle = document["PlaceName"]
+                                            .toString()
                                             .toUpperCase()
                                             .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                       // print(" list data :$PlaceNamesToggle , $NamesList");
-                                        if(PlaceNamesToggle == "true") {
+                                                enteredKeyword.toUpperCase())
+                                            .toString();
+                                        // print(" list data :$PlaceNamesToggle , $NamesList");
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Theme.of(context).secondaryHeaderColor,
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]} ",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['PlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['PlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           // crossAxisAlignment: CrossAxisAlignment.start,
                                                           children: [
                                                             religiousDetailsDisplay(
@@ -1342,45 +1450,40 @@ class _MyHomePageState extends State<MyHomePage>
                                             borderOnForeground: true,
                                           );
                                         }
-
                                       } catch (e) {
                                         docCount = 0;
                                         print("on :$e");
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
                                     }
                                     break;
-                                  case"EDUCATIONAL INSTITUTIONS":
+                                  case "EDUCATIONAL INSTITUTIONS":
                                     {
                                       switch (placeTypeEducationValue) {
-                                        case"SCHOOL":
+                                        case "SCHOOL":
                                           {
                                             loadedList =
                                                 snapshot.data.docs.toList();
@@ -1388,63 +1491,75 @@ class _MyHomePageState extends State<MyHomePage>
                                             try {
                                               FirebaseFirestore.instance
                                                   .collection(unitValue)
-                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(placeValue)
+                                                  .collection(selectType())
                                                   .doc(document.id)
-                                                  .get().then((value) => checkNamesList(value["schoolName"]));
-                                              PlaceNamesToggle = document["schoolName"].toString()
-                                                  .toUpperCase()
-                                                  .contains(
-                                                  enteredKeyword.toUpperCase()).toString();
-                                              if(PlaceNamesToggle == "true") {
+                                                  .get()
+                                                  .then((value) =>
+                                                      checkNamesList(
+                                                          value["schoolName"]));
+                                              PlaceNamesToggle =
+                                                  document["schoolName"]
+                                                      .toString()
+                                                      .toUpperCase()
+                                                      .contains(enteredKeyword
+                                                          .toUpperCase())
+                                                      .toString();
+                                              if (PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color: Theme.of(context).secondaryHeaderColor,
+                                                  color: Theme.of(context)
+                                                      .secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
-                                                    padding: EdgeInsets.all(
-                                                        10.0),
+                                                    padding:
+                                                        EdgeInsets.all(10.0),
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         AspectRatio(
                                                           aspectRatio: 4 / 2,
                                                           child: Image(
                                                             image: NetworkImage(
-                                                                document['PlaceImage']),
+                                                                document[
+                                                                    'PlaceImage']),
                                                             fit: BoxFit.cover,
-                                                            width: double
-                                                                .infinity,
-                                                            height: double
-                                                                .infinity,
+                                                            width:
+                                                                double.infinity,
+                                                            height:
+                                                                double.infinity,
                                                           ),
                                                         ),
-                                                        SizedBox(height: 10.0,),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         Text(
                                                           "Name of the ${document["PlaceType"]} ",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: TextStyle(
                                                                   fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
                                                                   color: Colors
-                                                                      .black54)),),
+                                                                      .black54)),
+                                                        ),
                                                         Text(
-                                                          " ${document['schoolName']
-                                                              .toString()
-                                                              .toUpperCase()}",
-                                                          style: GoogleFonts
-                                                              .poppins(
-                                                              textStyle:
-                                                              TextStyle(
+                                                          " ${document['schoolName'].toString().toUpperCase()}",
+                                                          style: GoogleFonts.poppins(
+                                                              textStyle: TextStyle(
                                                                   fontSize: 20,
-                                                                  fontWeight: FontWeight
-                                                                      .w500,
+                                                                  fontWeight:
+                                                                      FontWeight
+                                                                          .w500,
                                                                   color: Colors
-                                                                      .black87)),),
-                                                        SizedBox(height: 10.0,),
+                                                                      .black87)),
+                                                        ),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         // ListTile(
                                                         //     // onTap:(){
                                                         //     //   print(UserDoc);
@@ -1466,14 +1581,18 @@ class _MyHomePageState extends State<MyHomePage>
                                                         //   ],
                                                         // ),
                                                         ClipRect(
-                                                          child: SingleChildScrollView(
-                                                            physics: BouncingScrollPhysics(),
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            physics:
+                                                                BouncingScrollPhysics(),
                                                             child: Container(
-                                                              padding: EdgeInsets
-                                                                  .all(8.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
                                                               child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment
-                                                                    .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
                                                                 children: [
                                                                   schoolDetailsDisplay(
                                                                       document)
@@ -1492,37 +1611,35 @@ class _MyHomePageState extends State<MyHomePage>
                                               print("error in school : $e");
                                               docCount = 0;
                                               return Center(
-
                                                 child: Container(
                                                   padding: EdgeInsets.fromLTRB(
                                                       0.0, 250.0, 0.0, 250.0),
-                                                  child: Column(
-                                                      children: <Widget>[
-                                                        Icon(Icons
-                                                            .refresh_rounded,
-                                                          color: Colors.black12,
-                                                          size: 100.0,
-                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                        ),
-                                                        Text(
-                                                            "NO DATA PRESENT PULL TO REFRESH",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle: TextStyle(
-                                                                    fontSize: 16,
-                                                                    fontWeight: FontWeight
+                                                  child:
+                                                      Column(children: <Widget>[
+                                                    Icon(
+                                                      Icons.refresh_rounded,
+                                                      color: Colors.black12,
+                                                      size: 100.0,
+                                                      semanticLabel:
+                                                          "NO DATA PRESENT PULL TO REFRESH",
+                                                    ),
+                                                    Text(
+                                                        "NO DATA PRESENT PULL TO REFRESH",
+                                                        style: GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
                                                                         .bold,
-                                                                    color: Colors
-                                                                        .black26))
-                                                        ),
-                                                      ]
-                                                  ),
+                                                                color: Colors
+                                                                    .black26))),
+                                                  ]),
                                                 ),
                                               );
                                             }
                                           }
                                           break;
-                                        case"COLLEGE":
+                                        case "COLLEGE":
                                           {
                                             loadedList =
                                                 snapshot.data.docs.toList();
@@ -1530,63 +1647,75 @@ class _MyHomePageState extends State<MyHomePage>
                                             try {
                                               FirebaseFirestore.instance
                                                   .collection(unitValue)
-                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(placeValue)
+                                                  .collection(selectType())
                                                   .doc(document.id)
-                                                  .get().then((value) => checkNamesList(value["collageName"]));
-                                              PlaceNamesToggle = document["collageName"].toString()
-                                                  .toUpperCase()
-                                                  .contains(
-                                                  enteredKeyword.toUpperCase()).toString();
-                                              if(PlaceNamesToggle == "true") {
+                                                  .get()
+                                                  .then((value) =>
+                                                      checkNamesList(value[
+                                                          "collageName"]));
+                                              PlaceNamesToggle =
+                                                  document["collageName"]
+                                                      .toString()
+                                                      .toUpperCase()
+                                                      .contains(enteredKeyword
+                                                          .toUpperCase())
+                                                      .toString();
+                                              if (PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color:Theme.of(context).secondaryHeaderColor,
+                                                  color: Theme.of(context)
+                                                      .secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
-                                                    padding: EdgeInsets.all(
-                                                        10.0),
+                                                    padding:
+                                                        EdgeInsets.all(10.0),
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         AspectRatio(
                                                           aspectRatio: 4 / 2,
                                                           child: Image(
                                                             image: NetworkImage(
-                                                                document['PlaceImage']),
+                                                                document[
+                                                                    'PlaceImage']),
                                                             fit: BoxFit.cover,
-                                                            width: double
-                                                                .infinity,
-                                                            height: double
-                                                                .infinity,
+                                                            width:
+                                                                double.infinity,
+                                                            height:
+                                                                double.infinity,
                                                           ),
                                                         ),
-                                                        SizedBox(height: 10.0,),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         Text(
                                                             "Name of the ${document["PlaceType"]} ",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle:
-                                                                TextStyle(
-                                                                    fontSize: 20,
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     color: Colors
                                                                         .black54))),
                                                         Text(
-                                                            " ${document['collageName']
-                                                                .toString()
-                                                                .toUpperCase()}",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle:
-                                                                TextStyle(
-                                                                    fontSize: 20,
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                            " ${document['collageName'].toString().toUpperCase()}",
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     color: Colors
                                                                         .black87))),
-                                                        SizedBox(height: 10.0,),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         // ListTile(
                                                         //     // onTap:(){
                                                         //     //   print(UserDoc);
@@ -1608,14 +1737,18 @@ class _MyHomePageState extends State<MyHomePage>
                                                         //   ],
                                                         // ),
                                                         ClipRect(
-                                                          child: SingleChildScrollView(
-                                                            physics: BouncingScrollPhysics(),
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            physics:
+                                                                BouncingScrollPhysics(),
                                                             child: Container(
-                                                              padding: EdgeInsets
-                                                                  .all(8.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
                                                               child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment
-                                                                    .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
                                                                 children: [
                                                                   collageDetailsDisplay(
                                                                       document)
@@ -1633,37 +1766,35 @@ class _MyHomePageState extends State<MyHomePage>
                                             } catch (e) {
                                               docCount = 0;
                                               return Center(
-
                                                 child: Container(
                                                   padding: EdgeInsets.fromLTRB(
                                                       0.0, 250.0, 0.0, 250.0),
-                                                  child: Column(
-                                                      children: <Widget>[
-                                                        Icon(Icons
-                                                            .refresh_rounded,
-                                                          color: Colors.black12,
-                                                          size: 100.0,
-                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                        ),
-                                                        Text(
-                                                            "NO DATA PRESENT PULL TO REFRESH",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle: TextStyle(
-                                                                    fontSize: 16,
-                                                                    fontWeight: FontWeight
+                                                  child:
+                                                      Column(children: <Widget>[
+                                                    Icon(
+                                                      Icons.refresh_rounded,
+                                                      color: Colors.black12,
+                                                      size: 100.0,
+                                                      semanticLabel:
+                                                          "NO DATA PRESENT PULL TO REFRESH",
+                                                    ),
+                                                    Text(
+                                                        "NO DATA PRESENT PULL TO REFRESH",
+                                                        style: GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
                                                                         .bold,
-                                                                    color: Colors
-                                                                        .black26))
-                                                        ),
-                                                      ]
-                                                  ),
+                                                                color: Colors
+                                                                    .black26))),
+                                                  ]),
                                                 ),
                                               );
                                             }
                                           }
                                           break;
-                                        case"INSTITUTION":
+                                        case "INSTITUTION":
                                           {
                                             loadedList =
                                                 snapshot.data.docs.toList();
@@ -1671,63 +1802,75 @@ class _MyHomePageState extends State<MyHomePage>
                                             try {
                                               FirebaseFirestore.instance
                                                   .collection(unitValue)
-                                                  .doc(placeValue).collection(selectType())
+                                                  .doc(placeValue)
+                                                  .collection(selectType())
                                                   .doc(document.id)
-                                                  .get().then((value) => checkNamesList(value["institutionName"]));
-                                              PlaceNamesToggle = document["institutionName"].toString()
-                                                  .toUpperCase()
-                                                  .contains(
-                                                  enteredKeyword.toUpperCase()).toString();
-                                              if(PlaceNamesToggle == "true") {
+                                                  .get()
+                                                  .then((value) =>
+                                                      checkNamesList(value[
+                                                          "institutionName"]));
+                                              PlaceNamesToggle =
+                                                  document["institutionName"]
+                                                      .toString()
+                                                      .toUpperCase()
+                                                      .contains(enteredKeyword
+                                                          .toUpperCase())
+                                                      .toString();
+                                              if (PlaceNamesToggle == "true") {
                                                 return Card(
                                                   shadowColor: Colors.blue[200],
-                                                  color: Theme.of(context).secondaryHeaderColor,
+                                                  color: Theme.of(context)
+                                                      .secondaryHeaderColor,
                                                   elevation: 5.0,
                                                   child: Container(
-                                                    padding: EdgeInsets.all(
-                                                        10.0),
+                                                    padding:
+                                                        EdgeInsets.all(10.0),
                                                     child: Column(
-                                                      crossAxisAlignment: CrossAxisAlignment
-                                                          .center,
+                                                      crossAxisAlignment:
+                                                          CrossAxisAlignment
+                                                              .center,
                                                       children: [
                                                         AspectRatio(
                                                           aspectRatio: 4 / 2,
                                                           child: Image(
                                                             image: NetworkImage(
-                                                                document['PlaceImage']),
+                                                                document[
+                                                                    'PlaceImage']),
                                                             fit: BoxFit.cover,
-                                                            width: double
-                                                                .infinity,
-                                                            height: double
-                                                                .infinity,
+                                                            width:
+                                                                double.infinity,
+                                                            height:
+                                                                double.infinity,
                                                           ),
                                                         ),
-                                                        SizedBox(height: 10.0,),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         Text(
                                                             "Name of the ${document["PlaceType"]}",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle:
-                                                                TextStyle(
-                                                                    fontSize: 20,
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     color: Colors
                                                                         .black54))),
                                                         Text(
-                                                            "${document['institutionName']
-                                                                .toString()
-                                                                .toUpperCase()}",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle:
-                                                                TextStyle(
-                                                                    fontSize: 20,
-                                                                    fontWeight: FontWeight
-                                                                        .w500,
+                                                            "${document['institutionName'].toString().toUpperCase()}",
+                                                            style: GoogleFonts.poppins(
+                                                                textStyle: TextStyle(
+                                                                    fontSize:
+                                                                        20,
+                                                                    fontWeight:
+                                                                        FontWeight
+                                                                            .w500,
                                                                     color: Colors
                                                                         .black87))),
-                                                        SizedBox(height: 10.0,),
+                                                        SizedBox(
+                                                          height: 10.0,
+                                                        ),
                                                         // ListTile(
                                                         //     // onTap:(){
                                                         //     //   print(UserDoc);
@@ -1749,14 +1892,18 @@ class _MyHomePageState extends State<MyHomePage>
                                                         //   ],
                                                         // ),
                                                         ClipRect(
-                                                          child: SingleChildScrollView(
-                                                            physics: BouncingScrollPhysics(),
+                                                          child:
+                                                              SingleChildScrollView(
+                                                            physics:
+                                                                BouncingScrollPhysics(),
                                                             child: Container(
-                                                              padding: EdgeInsets
-                                                                  .all(8.0),
+                                                              padding:
+                                                                  EdgeInsets
+                                                                      .all(8.0),
                                                               child: Column(
-                                                                mainAxisAlignment: MainAxisAlignment
-                                                                    .start,
+                                                                mainAxisAlignment:
+                                                                    MainAxisAlignment
+                                                                        .start,
                                                                 children: [
                                                                   instituteDetailsDisplay(
                                                                       document)
@@ -1774,31 +1921,29 @@ class _MyHomePageState extends State<MyHomePage>
                                             } catch (e) {
                                               //docCount = 0;
                                               return Center(
-
                                                 child: Container(
                                                   padding: EdgeInsets.fromLTRB(
                                                       0.0, 250.0, 0.0, 250.0),
-                                                  child: Column(
-                                                      children: <Widget>[
-                                                        Icon(Icons
-                                                            .refresh_rounded,
-                                                          color: Colors.black12,
-                                                          size: 100.0,
-                                                          semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                        ),
-                                                        Text(
-                                                            "NO DATA PRESENT PULL TO REFRESH",
-                                                            style: GoogleFonts
-                                                                .poppins(
-                                                                textStyle: TextStyle(
-                                                                    fontSize: 16,
-                                                                    fontWeight: FontWeight
+                                                  child:
+                                                      Column(children: <Widget>[
+                                                    Icon(
+                                                      Icons.refresh_rounded,
+                                                      color: Colors.black12,
+                                                      size: 100.0,
+                                                      semanticLabel:
+                                                          "NO DATA PRESENT PULL TO REFRESH",
+                                                    ),
+                                                    Text(
+                                                        "NO DATA PRESENT PULL TO REFRESH",
+                                                        style: GoogleFonts.poppins(
+                                                            textStyle: TextStyle(
+                                                                fontSize: 16,
+                                                                fontWeight:
+                                                                    FontWeight
                                                                         .bold,
-                                                                    color: Colors
-                                                                        .black26))
-                                                        ),
-                                                      ]
-                                                  ),
+                                                                color: Colors
+                                                                    .black26))),
+                                                  ]),
                                                 ),
                                               );
                                             }
@@ -1807,67 +1952,75 @@ class _MyHomePageState extends State<MyHomePage>
                                       }
                                     }
                                     break;
-                                  case"YOUTH SPOTS":
+                                  case "YOUTH SPOTS":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
                                         FirebaseFirestore.instance
                                             .collection(unitValue)
-                                            .doc(placeValue).collection(selectType())
+                                            .doc(placeValue)
+                                            .collection(selectType())
                                             .doc(document.id)
-                                            .get().then((value) => checkNamesList(value["youthPlaceName"]));
-                                        PlaceNamesToggle = document["youthPlaceName"].toString()
-                                            .toUpperCase()
-                                            .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                        if(PlaceNamesToggle == "true") {
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["youthPlaceName"]));
+                                        PlaceNamesToggle =
+                                            document["youthPlaceName"]
+                                                .toString()
+                                                .toUpperCase()
+                                                .contains(enteredKeyword
+                                                    .toUpperCase())
+                                                .toString();
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Theme.of(context).secondaryHeaderColor,
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['youthPlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['youthPlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   // ListTile(
                                                   //     // onTap:(){
                                                   //     //   print(UserDoc);
@@ -1889,14 +2042,17 @@ class _MyHomePageState extends State<MyHomePage>
                                                   //   ],
                                                   // ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             youthDetailsDisplay(
                                                                 document)
@@ -1912,99 +2068,103 @@ class _MyHomePageState extends State<MyHomePage>
                                           );
                                         }
                                       } catch (e) {
-                                       // docCount = 0;
+                                        // docCount = 0;
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
                                     }
                                     break;
-                                  case"PUBLIC SPOTS":
+                                  case "PUBLIC SPOTS":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
                                         FirebaseFirestore.instance
                                             .collection(unitValue)
-                                            .doc(placeValue).collection(selectType())
+                                            .doc(placeValue)
+                                            .collection(selectType())
                                             .doc(document.id)
-                                            .get().then((value) => checkNamesList(value["publicPlaceName"]));
-                                        PlaceNamesToggle = document["publicPlaceName"].toString()
-                                            .toUpperCase()
-                                            .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                        if(PlaceNamesToggle == "true") {
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["publicPlaceName"]));
+                                        PlaceNamesToggle =
+                                            document["publicPlaceName"]
+                                                .toString()
+                                                .toUpperCase()
+                                                .contains(enteredKeyword
+                                                    .toUpperCase())
+                                                .toString();
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color:Theme.of(context).secondaryHeaderColor,
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['publicPlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['publicPlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   // ListTile(
                                                   //     // onTap:(){
                                                   //     //   print(UserDoc);
@@ -2026,14 +2186,17 @@ class _MyHomePageState extends State<MyHomePage>
                                                   //   ],
                                                   // ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             publicDetailsDisplay(
                                                                 document)
@@ -2049,99 +2212,103 @@ class _MyHomePageState extends State<MyHomePage>
                                           );
                                         }
                                       } catch (e) {
-                                       // docCount = 0;
+                                        // docCount = 0;
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
                                     }
                                     break;
-                                  case"OFFICES":
+                                  case "OFFICES":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
                                         FirebaseFirestore.instance
                                             .collection(unitValue)
-                                            .doc(placeValue).collection(selectType())
+                                            .doc(placeValue)
+                                            .collection(selectType())
                                             .doc(document.id)
-                                            .get().then((value) => checkNamesList(value["officePlaceName"]));
-                                        PlaceNamesToggle = document["officePlaceName"].toString()
-                                            .toUpperCase()
-                                            .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                        if(PlaceNamesToggle == "true") {
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["officePlaceName"]));
+                                        PlaceNamesToggle =
+                                            document["officePlaceName"]
+                                                .toString()
+                                                .toUpperCase()
+                                                .contains(enteredKeyword
+                                                    .toUpperCase())
+                                                .toString();
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Theme.of(context).secondaryHeaderColor,
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['officePlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['officePlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   // ListTile(
                                                   //     // onTap:(){
                                                   //     //   print(UserDoc);
@@ -2163,14 +2330,17 @@ class _MyHomePageState extends State<MyHomePage>
                                                   //   ],
                                                   // ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             officeDetailsDisplay(
                                                                 document)
@@ -2186,99 +2356,103 @@ class _MyHomePageState extends State<MyHomePage>
                                           );
                                         }
                                       } catch (e) {
-                                       // docCount = 0;
+                                        // docCount = 0;
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
                                     }
                                     break;
-                                  case"NGOSorORGANISATIONS":
+                                  case "NGOSorORGANISATIONS":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
                                         FirebaseFirestore.instance
                                             .collection(unitValue)
-                                            .doc(placeValue).collection(selectType())
+                                            .doc(placeValue)
+                                            .collection(selectType())
                                             .doc(document.id)
-                                            .get().then((value) => checkNamesList(value["ngosPlaceName"]));
-                                        PlaceNamesToggle = document["ngosPlaceName"].toString()
-                                            .toUpperCase()
-                                            .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                        if(PlaceNamesToggle == "true") {
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["ngosPlaceName"]));
+                                        PlaceNamesToggle =
+                                            document["ngosPlaceName"]
+                                                .toString()
+                                                .toUpperCase()
+                                                .contains(enteredKeyword
+                                                    .toUpperCase())
+                                                .toString();
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
-                                            color: Theme.of(context).secondaryHeaderColor,
+                                            color: Theme.of(context)
+                                                .secondaryHeaderColor,
                                             elevation: 5.0,
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['ngosPlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['ngosPlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   // ListTile(
                                                   //     // onTap:(){
                                                   //     //   print(UserDoc);
@@ -2300,14 +2474,17 @@ class _MyHomePageState extends State<MyHomePage>
                                                   //   ],
                                                   // ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             ngosDetailsDisplay(
                                                                 document)
@@ -2323,53 +2500,55 @@ class _MyHomePageState extends State<MyHomePage>
                                           );
                                         }
                                       } catch (e) {
-                                      //  docCount = 0;
+                                        //  docCount = 0;
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
                                     }
                                     break;
-                                  case"HALLS":
+                                  case "HALLS":
                                     {
                                       loadedList = snapshot.data.docs.toList();
                                       docCount = loadedList.length;
                                       try {
                                         FirebaseFirestore.instance
                                             .collection(unitValue)
-                                            .doc(placeValue).collection(selectType())
+                                            .doc(placeValue)
+                                            .collection(selectType())
                                             .doc(document.id)
-                                            .get().then((value) => checkNamesList(value["hallsPlaceName"]));
-                                        PlaceNamesToggle = document["hallsPlaceName"].toString()
-                                            .toUpperCase()
-                                            .contains(
-                                            enteredKeyword.toUpperCase()).toString();
-                                        if(PlaceNamesToggle == "true") {
+                                            .get()
+                                            .then((value) => checkNamesList(
+                                                value["hallsPlaceName"]));
+                                        PlaceNamesToggle =
+                                            document["hallsPlaceName"]
+                                                .toString()
+                                                .toUpperCase()
+                                                .contains(enteredKeyword
+                                                    .toUpperCase())
+                                                .toString();
+                                        if (PlaceNamesToggle == "true") {
                                           return Card(
                                             shadowColor: Colors.blue[200],
                                             color: Colors.blue[50],
@@ -2377,45 +2556,46 @@ class _MyHomePageState extends State<MyHomePage>
                                             child: Container(
                                               padding: EdgeInsets.all(10.0),
                                               child: Column(
-                                                crossAxisAlignment: CrossAxisAlignment
-                                                    .center,
+                                                crossAxisAlignment:
+                                                    CrossAxisAlignment.center,
                                                 children: [
                                                   AspectRatio(
                                                     aspectRatio: 4 / 2,
                                                     child: Image(
                                                       image: NetworkImage(
-                                                          document['PlaceImage']),
+                                                          document[
+                                                              'PlaceImage']),
                                                       fit: BoxFit.cover,
                                                       width: double.infinity,
                                                       height: double.infinity,
                                                     ),
                                                   ),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   Text(
                                                       "Name of the ${document["PlaceType"]}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black54))),
                                                   Text(
-                                                      "${document['hallsPlaceName']
-                                                          .toString()
-                                                          .toUpperCase()}",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle:
-                                                          TextStyle(
+                                                      "${document['hallsPlaceName'].toString().toUpperCase()}",
+                                                      style: GoogleFonts.poppins(
+                                                          textStyle: TextStyle(
                                                               fontSize: 20,
-                                                              fontWeight: FontWeight
-                                                                  .w500,
+                                                              fontWeight:
+                                                                  FontWeight
+                                                                      .w500,
                                                               color: Colors
                                                                   .black87))),
-                                                  SizedBox(height: 10.0,),
+                                                  SizedBox(
+                                                    height: 10.0,
+                                                  ),
                                                   // ListTile(
                                                   //     // onTap:(){
                                                   //     //   print(UserDoc);
@@ -2437,14 +2617,17 @@ class _MyHomePageState extends State<MyHomePage>
                                                   //   ],
                                                   // ),
                                                   ClipRect(
-                                                    child: SingleChildScrollView(
-                                                      physics: BouncingScrollPhysics(),
+                                                    child:
+                                                        SingleChildScrollView(
+                                                      physics:
+                                                          BouncingScrollPhysics(),
                                                       child: Container(
-                                                        padding: EdgeInsets.all(
-                                                            8.0),
+                                                        padding:
+                                                            EdgeInsets.all(8.0),
                                                         child: Column(
-                                                          mainAxisAlignment: MainAxisAlignment
-                                                              .start,
+                                                          mainAxisAlignment:
+                                                              MainAxisAlignment
+                                                                  .start,
                                                           children: [
                                                             hallsDetailsDisplay(
                                                                 document)
@@ -2460,33 +2643,29 @@ class _MyHomePageState extends State<MyHomePage>
                                           );
                                         }
                                       } catch (e) {
-                                       //docCount = 0;
+                                        //docCount = 0;
                                         return Center(
-
                                           child: Container(
                                             padding: EdgeInsets.fromLTRB(
                                                 0.0, 250.0, 0.0, 250.0),
-                                            child: Column(
-                                                children: <Widget>[
-                                                  Icon(Icons
-                                                      .refresh_rounded,
-                                                    color: Colors.black12,
-                                                    size: 100.0,
-                                                    semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                  ),
-                                                  Text(
-                                                      "NO DATA PRESENT PULL TO REFRESH",
-                                                      style: GoogleFonts
-                                                          .poppins(
-                                                          textStyle: TextStyle(
-                                                              fontSize: 16,
-                                                              fontWeight: FontWeight
-                                                                  .bold,
-                                                              color: Colors
-                                                                  .black26))
-                                                  ),
-                                                ]
-                                            ),
+                                            child: Column(children: <Widget>[
+                                              Icon(
+                                                Icons.refresh_rounded,
+                                                color: Colors.black12,
+                                                size: 100.0,
+                                                semanticLabel:
+                                                    "NO DATA PRESENT PULL TO REFRESH",
+                                              ),
+                                              Text(
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                                  style: GoogleFonts.poppins(
+                                                      textStyle: TextStyle(
+                                                          fontSize: 16,
+                                                          fontWeight:
+                                                              FontWeight.bold,
+                                                          color:
+                                                              Colors.black26))),
+                                            ]),
                                           ),
                                         );
                                       }
@@ -2496,175 +2675,167 @@ class _MyHomePageState extends State<MyHomePage>
                                     {
                                       docCount = 0;
                                       return Center(
-
                                         child: Container(
                                           padding: EdgeInsets.fromLTRB(
                                               0.0, 250.0, 0.0, 250.0),
-                                          child: Column(
-                                              children: <Widget>[
-                                                Icon(Icons
-                                                    .refresh_rounded,
-                                                  color: Colors.black12,
-                                                  size: 100.0,
-                                                  semanticLabel: "NO DATA PRESENT PULL TO REFRESH",
-                                                ),
-                                                Text(
-                                                    "NO DATA PRESENT PULL TO REFRESH",
-                                                    style: GoogleFonts
-                                                        .poppins(
-                                                        textStyle: TextStyle(
-                                                            fontSize: 16,
-                                                            fontWeight: FontWeight
-                                                                .bold,
-                                                            color: Colors
-                                                                .black26))
-                                                ),
-                                              ]
-                                          ),
+                                          child: Column(children: <Widget>[
+                                            Icon(
+                                              Icons.refresh_rounded,
+                                              color: Colors.black12,
+                                              size: 100.0,
+                                              semanticLabel:
+                                                  "NO DATA PRESENT PULL TO REFRESH",
+                                            ),
+                                            Text(
+                                                "NO DATA PRESENT PULL TO REFRESH",
+                                                style: GoogleFonts.poppins(
+                                                    textStyle: TextStyle(
+                                                        fontSize: 16,
+                                                        fontWeight:
+                                                            FontWeight.bold,
+                                                        color:
+                                                            Colors.black26))),
+                                          ]),
                                         ),
                                       );
                                     }
                                 }
 
-                              return SizedBox(height: 2.0,);
-                              //   Center(
-                              //
-                              //   child: Container(
-                              //     padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
-                              //     child: Column(
-                              //         children: <Widget>[
-                              //           Icon( Icons.sentiment_dissatisfied_rounded,
-                              //             color: Colors.black12,
-                              //             size: 100.0,
-                              //             semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
-                              //           ),
-                              //           Text("NO DATA PRESENT PULL TO REFRESH",
-                              //               style: GoogleFonts.poppins(textStyle: TextStyle(
-                              //                   fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                              //           ),
-                              //         ]
-                              //     ),
-                              //   ),
-                              // );
-                              // return  Card(
-                              //   elevation: 5.0,
-                              //   child: Container(
-                              //     padding: EdgeInsets.all(10.0),
-                              //     child: Column(
-                              //       crossAxisAlignment: CrossAxisAlignment.center,
-                              //       children: [
-                              //         Image(
-                              //           image: NetworkImage(document['PlaceImage']),
-                              //           fit: BoxFit.cover,
-                              //           width: double.infinity,
-                              //           height: 200,
-                              //         ) ,
-                              //         SizedBox(height: 10.0,),
-                              //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
-                              //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
-                              //         SizedBox(height: 10.0,),
-                              //         // ListTile(
-                              //         //     // onTap:(){
-                              //         //     //   print(UserDoc);
-                              //         //     // },
-                              //         //   leading: Text(document['PlaceName']),
-                              //         //   // crossAxisAlignment: CrossAxisAlignment.start,
-                              //         //   // children: <Widget>[
-                              //         //   title:Text(document['PlaceType']),
-                              //         //   //   Text(document['PlaceType']),
-                              //         //   // ],
-                              //         // ),
-                              //         // Row(
-                              //         //   mainAxisAlignment: MainAxisAlignment.end,
-                              //         //   children: <Widget>[
-                              //         //     TextButton(
-                              //         //       child: const Text('More'),
-                              //         //       onPressed: () {isVisible = !isVisible;},
-                              //         //     ),
-                              //         //   ],
-                              //         // ),
-                              //         ClipRect(
-                              //           child: SingleChildScrollView(
-                              //             physics:BouncingScrollPhysics(),
-                              //             child: Column(
-                              //               mainAxisAlignment: MainAxisAlignment.start,
-                              //               children: [
-                              //                 religiousDetailsDisplay(document)
-                              //               ],
-                              //             ),
-                              //           ),
-                              //         ),
-                              //       ],
-                              //     ),
-                              //   ),
-                              //   borderOnForeground: true,
-                              // );
-                            }).toList(),
+                                return SizedBox(
+                                  height: 2.0,
+                                );
+                                //   Center(
+                                //
+                                //   child: Container(
+                                //     padding: EdgeInsets.fromLTRB(0.0, 250.0, 0.0, 250.0),
+                                //     child: Column(
+                                //         children: <Widget>[
+                                //           Icon( Icons.sentiment_dissatisfied_rounded,
+                                //             color: Colors.black12,
+                                //             size: 100.0,
+                                //             semanticLabel:"NO DATA PRESENT PULL TO REFRESH",
+                                //           ),
+                                //           Text("NO DATA PRESENT PULL TO REFRESH",
+                                //               style: GoogleFonts.poppins(textStyle: TextStyle(
+                                //                   fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                                //           ),
+                                //         ]
+                                //     ),
+                                //   ),
+                                // );
+                                // return  Card(
+                                //   elevation: 5.0,
+                                //   child: Container(
+                                //     padding: EdgeInsets.all(10.0),
+                                //     child: Column(
+                                //       crossAxisAlignment: CrossAxisAlignment.center,
+                                //       children: [
+                                //         Image(
+                                //           image: NetworkImage(document['PlaceImage']),
+                                //           fit: BoxFit.cover,
+                                //           width: double.infinity,
+                                //           height: 200,
+                                //         ) ,
+                                //         SizedBox(height: 10.0,),
+                                //         Text("Name of the ${document["PlaceType"]} : ${document['PlaceName']}",
+                                //           style: TextStyle(fontSize: 15, fontWeight: FontWeight.w500),),
+                                //         SizedBox(height: 10.0,),
+                                //         // ListTile(
+                                //         //     // onTap:(){
+                                //         //     //   print(UserDoc);
+                                //         //     // },
+                                //         //   leading: Text(document['PlaceName']),
+                                //         //   // crossAxisAlignment: CrossAxisAlignment.start,
+                                //         //   // children: <Widget>[
+                                //         //   title:Text(document['PlaceType']),
+                                //         //   //   Text(document['PlaceType']),
+                                //         //   // ],
+                                //         // ),
+                                //         // Row(
+                                //         //   mainAxisAlignment: MainAxisAlignment.end,
+                                //         //   children: <Widget>[
+                                //         //     TextButton(
+                                //         //       child: const Text('More'),
+                                //         //       onPressed: () {isVisible = !isVisible;},
+                                //         //     ),
+                                //         //   ],
+                                //         // ),
+                                //         ClipRect(
+                                //           child: SingleChildScrollView(
+                                //             physics:BouncingScrollPhysics(),
+                                //             child: Column(
+                                //               mainAxisAlignment: MainAxisAlignment.start,
+                                //               children: [
+                                //                 religiousDetailsDisplay(document)
+                                //               ],
+                                //             ),
+                                //           ),
+                                //         ),
+                                //       ],
+                                //     ),
+                                //   ),
+                                //   borderOnForeground: true,
+                                // );
+                              }).toList(),
+                            ),
                           ),
                         ),
-                      ),
-                    );
-                  } //else
-
-                },
-              ),
+                      );
+                    } //else
+                  },
                 ),
+              ),
             ),
           ],
         ),
       ),
-
       floatingActionButton: Visibility(
         visible: floatingVisible,
         child: FloatingActionButton(
-          
-            backgroundColor: Color(0xff54b4d4),
+          backgroundColor: Color(0xff54b4d4),
           onPressed: () {
-           // await Future.delayed(Duration(seconds: 2));
-            if(floatingButtonClickable == false){
+            // await Future.delayed(Duration(seconds: 2));
+            if (floatingButtonClickable == false) {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text("A GuestUser can't add"),
                   action: SnackBarAction(
                     label: "OK",
-                    onPressed: (){
+                    onPressed: () {
                       //Navigator.pop(context);
                     },
                   ),
                 ),
               );
-            }
-            else if(connectivityStatus == "Connected"){
+            } else if (connectivityStatus == "Connected") {
               print(connectivityStatus);
               print("come in flotinhg");
-            //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
-              Navigator.of(context).push(
-                  PageRouteBuilder(
-                    transitionDuration: Duration(milliseconds: 400  ),
-                      transitionsBuilder: (BuildContext context, Animation<double> anim,
+              //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+              Navigator.of(context).push(PageRouteBuilder(
+                  transitionDuration: Duration(milliseconds: 400),
+                  transitionsBuilder: (BuildContext context,
+                      Animation<double> anim,
                       Animation<double> secAnim,
-
-                      Widget child){
-                        anim = CurvedAnimation(parent: anim, curve: Curves.easeInCirc) ;
-                      return ScaleTransition(
-                        alignment: Alignment.bottomRight,
-                          scale: anim,
-                        child: child,
-                      );
-
-                      },
-                      pageBuilder: (BuildContext context,
-                          Animation<double> anim,
-                          Animation<double> secAnim ){
-                        return Forms(unitName: unitValue);
-                      }));
-            }else if(connectivityStatus == "NotConnected"){
+                      Widget child) {
+                    anim =
+                        CurvedAnimation(parent: anim, curve: Curves.easeInCirc);
+                    return ScaleTransition(
+                      alignment: Alignment.bottomRight,
+                      scale: anim,
+                      child: child,
+                    );
+                  },
+                  pageBuilder: (BuildContext context, Animation<double> anim,
+                      Animation<double> secAnim) {
+                    return Forms(unitName: unitValue);
+                  }));
+            } else if (connectivityStatus == "NotConnected") {
               ScaffoldMessenger.of(context).showSnackBar(
                 SnackBar(
                   content: Text("Check Your Internet"),
                   action: SnackBarAction(
                     label: "OK",
-                    onPressed: (){
+                    onPressed: () {
                       //Navigator.pop(context);
                     },
                   ),
@@ -2677,10 +2848,14 @@ class _MyHomePageState extends State<MyHomePage>
 
             //Navigator.pushNamed(context, '/form', arguments: unitValue);
             setState(() {
-             // unitValue = unitValue;
+              // unitValue = unitValue;
             });
           },
-          child: Icon(Icons.add_rounded, color: Colors.white70,size: 25,),
+          child: Icon(
+            Icons.add_rounded,
+            color: Colors.white70,
+            size: 25,
+          ),
         ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
@@ -2689,11 +2864,13 @@ class _MyHomePageState extends State<MyHomePage>
         child: Row(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
-        Builder(
-          builder: (context) =>
-              IconButton(
+            Builder(
+              builder: (context) => IconButton(
                 tooltip: 'Filter the bar',
-                icon: const Icon(Icons.filter_list_outlined, size: 28,),
+                icon: const Icon(
+                  Icons.filter_list_outlined,
+                  size: 28,
+                ),
                 color: Colors.white,
                 onPressed: () {
                   // BottomBar();
@@ -2701,24 +2878,21 @@ class _MyHomePageState extends State<MyHomePage>
                   //Navigator.of(context).push(MaterialPageRoute(builder: (context)=> BottomSheetShow(reload:refreshList())));
                   showModalBottomSheet(
                     backgroundColor: Colors.transparent,
-                    barrierColor:Colors.transparent,
+                    barrierColor: Colors.transparent,
                     context: context,
-                    builder :(BuildContext context) {
+                    builder: (BuildContext context) {
                       return Container(
-                        padding: EdgeInsets.only(
-                            left: 8, right: 8),
+                        padding: EdgeInsets.only(left: 8, right: 8),
                         height: 250,
                         decoration: BoxDecoration(
                             color: Theme.of(context).primaryColor,
                             borderRadius: BorderRadius.only(
                               topLeft: const Radius.circular(10),
                               topRight: const Radius.circular(10),
-                            )
-                        ),
-
+                            )),
                         child: Center(
                           child: Builder(
-                            builder: (context)=> Column(
+                            builder: (context) => Column(
                               mainAxisAlignment: MainAxisAlignment.start,
                               crossAxisAlignment: CrossAxisAlignment.center,
                               //mainAxisSize: MainAxisSize.min,
@@ -2729,7 +2903,6 @@ class _MyHomePageState extends State<MyHomePage>
                                         Icons.arrow_downward_rounded),
                                     color: Colors.white70,
                                     onPressed: () {
-
                                       Navigator.pop(context);
                                     }),
 
@@ -2738,22 +2911,23 @@ class _MyHomePageState extends State<MyHomePage>
                                   decoration: BoxDecoration(
                                       border: Border.all(
                                           color: Colors.white60, width: 1),
-                                      borderRadius: BorderRadius.circular(
-                                          15)),
+                                      borderRadius: BorderRadius.circular(15)),
                                   child: Column(
                                     children: [
                                       DropdownButton(
                                         hint: Text("SELECT PLACE TYPE"),
-                                        dropdownColor: Theme.of(context).primaryColor,
+                                        dropdownColor:
+                                            Theme.of(context).primaryColor,
                                         icon: Icon(Icons.arrow_drop_down),
                                         iconSize: 36,
                                         iconEnabledColor: Colors.white70,
                                         isExpanded: true,
                                         underline: SizedBox(),
-                                        style: TextStyle(color: Colors.white70,
-                                            fontSize: 22,fontWeight: FontWeight.w500),
+                                        style: TextStyle(
+                                            color: Colors.white70,
+                                            fontSize: 22,
+                                            fontWeight: FontWeight.w500),
                                         value: placeValue,
-
                                         onChanged: (newValue) {
                                           refreshList();
                                           setState(() {
@@ -2772,17 +2946,17 @@ class _MyHomePageState extends State<MyHomePage>
                                             } else if (placeValue ==
                                                 "EDUCATIONAL INSTITUTIONS") {
                                               isVisibleEducation = true;
-                                            //  !isVisibleEducation;
+                                              //  !isVisibleEducation;
                                               isVisibleReligious = false;
                                               isVisiblePublic = false;
                                               isVisibleOffices = false;
                                               isVisibleNgos = false;
                                               isVisibleHalls = false;
                                               isVisibleYouth = false;
-                                            } else
-                                            if (placeValue == "YOUTH SPOTS") {
-                                              isVisibleYouth  = true;
-                                          //    !isVisibleYouth;
+                                            } else if (placeValue ==
+                                                "YOUTH SPOTS") {
+                                              isVisibleYouth = true;
+                                              //    !isVisibleYouth;
                                               isVisibleReligious = false;
                                               isVisiblePublic = false;
                                               isVisibleOffices = false;
@@ -2791,18 +2965,18 @@ class _MyHomePageState extends State<MyHomePage>
                                               isVisibleEducation = false;
                                             } else if (placeValue ==
                                                 "PUBLIC SPOTS") {
-                                              isVisiblePublic  = true;
-                                          //    !isVisiblePublic;
+                                              isVisiblePublic = true;
+                                              //    !isVisiblePublic;
                                               isVisibleReligious = false;
                                               isVisibleEducation = false;
                                               isVisibleOffices = false;
                                               isVisibleNgos = false;
                                               isVisibleHalls = false;
                                               isVisibleYouth = false;
-                                            } else
-                                            if (placeValue == "OFFICES") {
-                                              isVisibleOffices  = true;
-                                           //   !isVisibleOffices;
+                                            } else if (placeValue ==
+                                                "OFFICES") {
+                                              isVisibleOffices = true;
+                                              //   !isVisibleOffices;
                                               isVisibleReligious = false;
                                               isVisibleEducation = false;
                                               isVisiblePublic = false;
@@ -2811,7 +2985,7 @@ class _MyHomePageState extends State<MyHomePage>
                                               isVisibleYouth = false;
                                             } else if (placeValue ==
                                                 "NGOSorORGANISATIONS") {
-                                              isVisibleNgos  = true;
+                                              isVisibleNgos = true;
                                               //!isVisibleNgos;
                                               isVisibleReligious = false;
                                               isVisibleEducation = false;
@@ -2819,9 +2993,8 @@ class _MyHomePageState extends State<MyHomePage>
                                               isVisibleOffices = false;
                                               isVisibleHalls = false;
                                               isVisibleYouth = false;
-                                            }
-                                            else if (placeValue == "HALLS") {
-                                              isVisibleHalls  = true;
+                                            } else if (placeValue == "HALLS") {
+                                              isVisibleHalls = true;
                                               //!isVisibleHalls;
                                               isVisibleReligious = false;
                                               isVisibleEducation = false;
@@ -2841,7 +3014,6 @@ class _MyHomePageState extends State<MyHomePage>
                                           });
                                           Navigator.pop(context);
                                         },
-
                                         items: placesList.map((valueItem) {
                                           return DropdownMenuItem(
                                             value: valueItem,
@@ -2861,7 +3033,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleReligious,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -2869,7 +3042,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeReligiousValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2887,8 +3061,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             Navigator.pop(context);
                                             print("from dropdown : $NamesList");
                                           },
-                                          items: placesTypeReligiousList.map((
-                                              valueItem) {
+                                          items: placesTypeReligiousList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -2901,7 +3075,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleEducation,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
@@ -2909,7 +3084,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeEducationValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2921,8 +3097,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypeEducationList.map((
-                                              valueItem) {
+                                          items: placesTypeEducationList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -2935,7 +3111,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleYouth,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconSize: 36,
                                           iconEnabledColor: Colors.white70,
@@ -2943,7 +3120,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeYouthValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2953,8 +3131,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypeYouthList.map((
-                                              valueItem) {
+                                          items: placesTypeYouthList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -2967,7 +3145,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisiblePublic,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -2975,7 +3154,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypePublicValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -2985,8 +3165,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypePublicList.map((
-                                              valueItem) {
+                                          items: placesTypePublicList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -2999,7 +3179,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleOffices,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -3007,19 +3188,19 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeOfficesValue,
                                           onChanged: (newValue) {
                                             refreshList();
                                             setState(() {
                                               NamesList.clear();
-                                              placeTypeOfficesValue =
-                                                  newValue;
+                                              placeTypeOfficesValue = newValue;
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypeOfficesList.map((
-                                              valueItem) {
+                                          items: placesTypeOfficesList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -3032,7 +3213,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleNgos,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -3040,7 +3222,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeNgosValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -3050,8 +3233,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypeNgosList.map((
-                                              valueItem) {
+                                          items: placesTypeNgosList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -3064,7 +3247,8 @@ class _MyHomePageState extends State<MyHomePage>
                                         visible: isVisibleHalls,
                                         child: DropdownButton(
                                           hint: Text("SELECT PLACE NAME"),
-                                          dropdownColor: Theme.of(context).primaryColor,
+                                          dropdownColor:
+                                              Theme.of(context).primaryColor,
                                           icon: Icon(Icons.arrow_drop_down),
                                           iconEnabledColor: Colors.white70,
                                           iconSize: 36,
@@ -3072,7 +3256,8 @@ class _MyHomePageState extends State<MyHomePage>
                                           underline: SizedBox(),
                                           style: TextStyle(
                                               color: Colors.white70,
-                                              fontSize: 22,fontWeight: FontWeight.w500),
+                                              fontSize: 22,
+                                              fontWeight: FontWeight.w500),
                                           value: placeTypeHallsValue,
                                           onChanged: (newValue) {
                                             refreshList();
@@ -3082,8 +3267,8 @@ class _MyHomePageState extends State<MyHomePage>
                                             });
                                             Navigator.pop(context);
                                           },
-                                          items: placesTypeHallsList.map((
-                                              valueItem) {
+                                          items: placesTypeHallsList
+                                              .map((valueItem) {
                                             return DropdownMenuItem(
                                               value: valueItem,
                                               child: Text(valueItem),
@@ -3093,8 +3278,14 @@ class _MyHomePageState extends State<MyHomePage>
                                       ),
                                       Padding(
                                         padding: const EdgeInsets.all(8.0),
-                                        child: Text("pull to Refresh and Apply changes".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
-                                            fontSize: 14, fontWeight: FontWeight.w600,color: Colors.white70))),
+                                        child: Text(
+                                            "pull to Refresh and Apply changes"
+                                                .toUpperCase(),
+                                            style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 14,
+                                                    fontWeight: FontWeight.w600,
+                                                    color: Colors.white70))),
                                       ),
                                     ],
                                   ),
@@ -3104,12 +3295,11 @@ class _MyHomePageState extends State<MyHomePage>
                           ),
                         ),
                       );
-
                     },
                   );
                 },
               ),
-        ),
+            ),
             // Text("Loaded ${selectType().toLowerCase()}'s : $docCount",style: GoogleFonts.poppins(textStyle: TextStyle(
             //     fontSize: 12, fontWeight: FontWeight.w600,color: Colors.white70))),
             // Visibility(child:Container(
@@ -3118,29 +3308,31 @@ class _MyHomePageState extends State<MyHomePage>
           ],
         ),
       ),
-
     );
   }
 
   ExpansionTile religiousDetailsDisplay(QueryDocumentSnapshot document) {
-   //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
+    //print("posted on :  ${document["dataTime"].toDate().toString().trim()}");
     //docsCounting();
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-
             Text(
-              "Head of The ${document["PlaceType"]} : ${document["HeadOfplace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of The ${document["PlaceType"]} : ${document["HeadOfplace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -3153,17 +3345,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["ContactNO"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["ContactNO"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -3174,57 +3364,62 @@ class _MyHomePageState extends State<MyHomePage>
               ],
             ),
             SizedBox(height: 5.0),
-            Text("FikerType :  ${document["FikerType"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "FikerType :  ${document["FikerType"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Libraries :  ${document["Libraries"]}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500))),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["Capacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["Address"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["Details"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -3233,326 +3428,359 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              //checkForAd(),
-                                              SizedBox(height: 10,),
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          //checkForAd(),
+                                          SizedBox(
+                                            height: 10,
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                  // return showDialog<void>(
-                                  //   context: context,
-                                  //   barrierDismissible: false, // user must tap button!
-                                  //   builder: (BuildContext context) {
-                                  //     return AlertDialog(
-                                  //       title: Text('Delete'),
-                                  //       content: SingleChildScrollView(
-                                  //         child: ListBody(
-                                  //           children: <Widget>[
-                                  //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                  //             SizedBox(height: 5.0,),
-                                  //             Text('Once Deleted cant be Undone!'),
-                                  //           ],
-                                  //         ),
-                                  //       ),
-                                  //       actions: <Widget>[
-                                  //         TextButton(
-                                  //           child: Text('Yes'),
-                                  //           onPressed: () async{
-                                  //             try{
-                                  //               await firebase_storage.FirebaseStorage.instance
-                                  //                 .refFromURL(document["PlaceImage"])
-                                  //                 .delete()
-                                  //                 .then(
-                                  //                     (_) =>
-                                  //                     print("File deleted successfully")
-                                  //             );
-                                  //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                  //             }catch(e){
-                                  //               ScaffoldMessenger.of(context).showSnackBar(
-                                  //                 SnackBar(
-                                  //                   content: Text("Could not Delete try again"),
-                                  //                 ),
-                                  //               );
-                                  //             }
-                                  //             Navigator.of(context).pop();
-                                  //             print("deleted");
-                                  //
-                                  //           },
-                                  //           // style: TextButton.styleFrom(
-                                  //           //   primary: Colors.white,
-                                  //           //   backgroundColor: Colors.redAccent,
-                                  //           // ),
-                                  //         ),
-                                  //         TextButton(
-                                  //           child: Text('No!'),
-                                  //           onPressed: () {
-                                  //             Navigator.of(context).pop();
-                                  //             print("not Deleted");
-                                  //           },
-                                  //           style: TextButton.styleFrom(
-                                  //             primary: Colors.white,
-                                  //             backgroundColor: Colors.blue,
-                                  //           ),
-                                  //         ),
-                                  //       ],
-                                  //     );
-                                  //   },
-                                  // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
-
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile schoolDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "${document["PlaceType"]} Principle : ${document["schoolPrinciple"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "${document["PlaceType"]} Principle : ${document["schoolPrinciple"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -3565,17 +3793,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["schoolContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["schoolContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -3586,51 +3812,57 @@ class _MyHomePageState extends State<MyHomePage>
               ],
             ),
             SizedBox(height: 5.0),
-            Text("School Strength :  ${document["schoolStrength"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "School Strength :  ${document["schoolStrength"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Opportunities to Work :  ${document["schoolOpportunities"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["schoolAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Remarks :  ${document["schoolRemarks"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -3639,310 +3871,343 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile collageDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
@@ -3950,9 +4215,11 @@ class _MyHomePageState extends State<MyHomePage>
           children: [
             Text(
               "Courses : ${document["collageCourses"]}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -3965,17 +4232,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["collageContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["collageContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -3988,56 +4253,64 @@ class _MyHomePageState extends State<MyHomePage>
             SizedBox(height: 5.0),
             Text(
               "Type Of College : ${document["typeOfCollegeList"].toString().toLowerCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
-            Text("College Strength :  ${document["collageStrength"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "College Strength :  ${document["collageStrength"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Opportunities to Work :  ${document["collageOpportunities"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["collageAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Remarks :  ${document["collageRemarks"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -4046,310 +4319,343 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile instituteDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
@@ -4357,9 +4663,11 @@ class _MyHomePageState extends State<MyHomePage>
           children: [
             Text(
               "Courses : ${document["institutionCourses"].toString().toLowerCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 16,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -4372,17 +4680,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["institutionContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["institutionContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -4395,56 +4701,65 @@ class _MyHomePageState extends State<MyHomePage>
             SizedBox(height: 5.0),
             Text(
               "Type Of Institution : ${document["typeOfInstitutionList"]}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
-            Text("Strength :  ${document["institutionStrength"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "Strength :  ${document["institutionStrength"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("Opportunities to Work :  ${document["institutionOpportunities"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+            Text(
+                "Opportunities to Work :  ${document["institutionOpportunities"]}",
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["institutionAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Remarks :  ${document["institutionRemarks"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -4453,322 +4768,355 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile youthDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Head of The ${document["PlaceType"]} : ${document["youthHeadOfPlace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of The ${document["PlaceType"]} : ${document["youthHeadOfPlace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -4781,17 +5129,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["youthContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["youthContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -4803,41 +5149,50 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["youthCapacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["youthAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["youthDetails"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -4846,322 +5201,355 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile publicDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Head of The ${document["PlaceType"]} : ${document["publicHeadOfPlace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of The ${document["PlaceType"]} : ${document["publicHeadOfPlace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -5174,17 +5562,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["publicContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["publicContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -5196,41 +5582,50 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["publicCapacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["publicAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["publicDetails"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -5239,322 +5634,355 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile officeDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Head of the ${document["PlaceType"]} Office: ${document["officeHeadOfPlace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of the ${document["PlaceType"]} Office: ${document["officeHeadOfPlace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -5567,17 +5995,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["officeContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["officeContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -5588,51 +6014,57 @@ class _MyHomePageState extends State<MyHomePage>
               ],
             ),
             SizedBox(height: 5.0),
-            Text("Office Timing :  ${document["officeTiming"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "Office Timing :  ${document["officeTiming"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["officeCapacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["officeAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["officeDetails"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -5641,322 +6073,355 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile ngosDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Head of ${document["PlaceType"]} : ${document["ngosHeadOfPlace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of ${document["PlaceType"]} : ${document["ngosHeadOfPlace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -5969,17 +6434,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["ngosContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["ngosContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -5990,51 +6453,57 @@ class _MyHomePageState extends State<MyHomePage>
               ],
             ),
             SizedBox(height: 5.0),
-            Text("Office Timing :  ${document["ngosTiming"]
-                .toString()
-                .toUpperCase()}",
+            Text(
+                "Office Timing :  ${document["ngosTiming"].toString().toUpperCase()}",
                 style: GoogleFonts.poppins(
-                    textStyle: TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w500)
-                )),
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["ngosCapacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["ngosAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["ngosDetails"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -6043,322 +6512,355 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
 
   ExpansionTile hallsDetailsDisplay(QueryDocumentSnapshot document) {
     return ExpansionTile(
-      title: Text("DETAILS", style: GoogleFonts.poppins(textStyle:
-      TextStyle(fontSize: 16,fontWeight: FontWeight.w500,color: Colors.black54))),
+      title: Text("DETAILS",
+          style: GoogleFonts.poppins(
+              textStyle: TextStyle(
+                  fontSize: 16,
+                  fontWeight: FontWeight.w500,
+                  color: Colors.black54))),
       //childrenPadding: EdgeInsets.all(16).copyWith(top: 0),
       children: [
         Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              "Head of The ${document["PlaceType"]}  : ${document["hallsHeadOfPlace"]
-                  .toString()
-                  .toUpperCase()}",
-              style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                  fontWeight: FontWeight.w500,
-                  color: Colors.black87)),
+              "Head of The ${document["PlaceType"]}  : ${document["hallsHeadOfPlace"].toString().toUpperCase()}",
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.w500,
+                      color: Colors.black87)),
             ),
             SizedBox(height: 5.0),
             Row(
@@ -6371,17 +6873,15 @@ class _MyHomePageState extends State<MyHomePage>
                       textStyle: TextStyle(
                           fontSize: 16,
                           fontWeight: FontWeight.w500,
-                          color: Colors.black87
-                      )
-                  ),
+                          color: Colors.black87)),
                 ),
                 TextButton(
-                  onPressed: () => customLunch("tel:${document["hallsContact"]}",),
+                  onPressed: () => customLunch(
+                    "tel:${document["hallsContact"]}",
+                  ),
                   child: Text(
                     "Call",
-                    style: TextStyle(
-                        color: Colors.white
-                    ),
+                    style: TextStyle(color: Colors.white),
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
@@ -6393,41 +6893,50 @@ class _MyHomePageState extends State<MyHomePage>
             ),
             SizedBox(height: 5.0),
             Text("Capacity :  ${document["hallsCapacity"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Address :   ${document["hallsAddress"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Details :  ${document["hallsDetails"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
             Text("Unit Name :  ${document["unitName"]}",
-                style: GoogleFonts.poppins(textStyle: TextStyle(
-                    fontSize: 16, fontWeight: FontWeight.w500))),
+                style: GoogleFonts.poppins(
+                    textStyle:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.w500))),
             SizedBox(height: 5.0),
-            Text("${document["isPosted"]} on : ${document["dataTime"].toDate()}", style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 11,fontWeight: FontWeight.w500,color: Colors.grey))),
+            Text(
+                "${document["isPosted"]} on : ${document["dataTime"].toDate()}",
+                style: GoogleFonts.poppins(
+                    textStyle: TextStyle(
+                        fontSize: 11,
+                        fontWeight: FontWeight.w500,
+                        color: Colors.grey))),
             SizedBox(height: 5.0),
             Builder(
-                builder: (context) =>
-                    TextButton(
-                        style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor: Colors.green,
-                          onSurface: Colors.grey,
-                        ),
-                        onPressed: () {
-                          openMap(document["latitudeData"],
-                              document["longitudeData"]);
-                        },
-                        child: Center(
-                          child: Icon(
-                            Icons.navigation_rounded, color: Colors.white,),
-                        ))
-            ),
+                builder: (context) => TextButton(
+                    style: TextButton.styleFrom(
+                      primary: Colors.black26,
+                      backgroundColor: Colors.green,
+                      onSurface: Colors.grey,
+                    ),
+                    onPressed: () {
+                      openMap(
+                          document["latitudeData"], document["longitudeData"]);
+                    },
+                    child: Center(
+                      child: Icon(
+                        Icons.navigation_rounded,
+                        color: Colors.white,
+                      ),
+                    ))),
             Visibility(
               visible: isVisibleButtons,
               child: Row(
@@ -6436,431 +6945,429 @@ class _MyHomePageState extends State<MyHomePage>
                 children: [
                   //DELETE BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton  (
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.redAccent,
-                                onSurface: Colors.grey,
-                                //minimumSize: Size(10, 2),
-                              ),
-
-                              onPressed: ()  async{
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Delete'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('Once Deleted cant be Undone!'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.redAccent,
+                            onSurface: Colors.grey,
+                            //minimumSize: Size(10, 2),
+                          ),
+                          onPressed: () async {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Delete'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Delete this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async{
-                                              try{
-                                                await firebase_storage.FirebaseStorage.instance
-                                                    .refFromURL(document["PlaceImage"])
-                                                    .delete()
-                                                    .then(
-                                                        (_) =>
-                                                        print("File deleted successfully")
-                                                );
-                                                FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                              }catch(e){
-                                                ScaffoldMessenger.of(context).showSnackBar(
-                                                  SnackBar(
-                                                    content: Text("Could not Delete try again"),
-                                                  ),
-                                                );
-                                              }
-                                              Navigator.of(context).pop();
-                                              print("deleted");
-
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text('Once Deleted cant be Undone!'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Delete Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          try {
+                                            await firebase_storage
+                                                .FirebaseStorage.instance
+                                                .refFromURL(
+                                                    document["PlaceImage"])
+                                                .delete()
+                                                .then((_) => print(
+                                                    "File deleted successfully"));
+                                            FirebaseFirestore.instance
+                                                .collection(unitValue)
+                                                .doc(placeValue)
+                                                .collection(selectType())
+                                                .doc(document.id)
+                                                .delete();
+                                          } catch (e) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              SnackBar(
+                                                content: Text(
+                                                    "Could not Delete try again"),
+                                              ),
+                                            );
+                                          }
+                                          Navigator.of(context).pop();
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
                                   );
-                                }
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Delete'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('Once Deleted cant be Undone!'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async{
-                                //             try{
-                                //               await firebase_storage.FirebaseStorage.instance
-                                //                 .refFromURL(document["PlaceImage"])
-                                //                 .delete()
-                                //                 .then(
-                                //                     (_) =>
-                                //                     print("File deleted successfully")
-                                //             );
-                                //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
-                                //             }catch(e){
-                                //               ScaffoldMessenger.of(context).showSnackBar(
-                                //                 SnackBar(
-                                //                   content: Text("Could not Delete try again"),
-                                //                 ),
-                                //               );
-                                //             }
-                                //             Navigator.of(context).pop();
-                                //             print("deleted");
-                                //
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Delete Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Delete'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Delete this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('Once Deleted cant be Undone!'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async{
+                            //             try{
+                            //               await firebase_storage.FirebaseStorage.instance
+                            //                 .refFromURL(document["PlaceImage"])
+                            //                 .delete()
+                            //                 .then(
+                            //                     (_) =>
+                            //                     print("File deleted successfully")
+                            //             );
+                            //             FirebaseFirestore.instance.collection(unitValue).doc(placeValue).collection(selectType()).doc(document.id).delete();
+                            //             }catch(e){
+                            //               ScaffoldMessenger.of(context).showSnackBar(
+                            //                 SnackBar(
+                            //                   content: Text("Could not Delete try again"),
+                            //                 ),
+                            //               );
+                            //             }
+                            //             Navigator.of(context).pop();
+                            //             print("deleted");
+                            //
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
 
-                                //
-                                // await firebase_storage.FirebaseStorage.instance
-                                //     .ref()
-                                //     .child(document["PlaceImage"].trim())
-                                //     .delete()
-                                //     .then(
-                                //         (_) =>
-                                //         print("File deleted successfully")
-                                // );
-                                // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
-
-                              },
-                              child: Center(
-                                child: Icon(Icons.delete_forever_rounded,
-                                  color: Colors.white,),
-                              ))
-                  ),
+                            //
+                            // await firebase_storage.FirebaseStorage.instance
+                            //     .ref()
+                            //     .child(document["PlaceImage"].trim())
+                            //     .delete()
+                            //     .then(
+                            //         (_) =>
+                            //         print("File deleted successfully")
+                            // );
+                            // FirebaseFirestore.instance.collection('MOULALI@HYD').doc(placeValue).collection(selectType()).doc(document.id).delete();
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.delete_forever_rounded,
+                              color: Colors.white,
+                            ),
+                          ))),
 
                   //EDIT BUTTON
                   Builder(
-                      builder: (context) =>
-                          TextButton(
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor: Colors.blue,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: () {
-
-                                if(connectivityStatus == "Connected"){
-                                  print(connectivityStatus);
-                                  return showDialog<void>(
-                                    context: context,
-                                    barrierDismissible: false, // user must tap button!
-                                    builder: (BuildContext context) {
-                                      return AlertDialog(
-                                        title: Text('Edit'),
-                                        content: SingleChildScrollView(
-                                          child: ListBody(
-                                            children: <Widget>[
-                                              Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                              SizedBox(height: 5.0,),
-                                              Text('You can Edit and Change the text in Post'),
-                                            ],
+                      builder: (context) => TextButton(
+                          style: TextButton.styleFrom(
+                            primary: Colors.black26,
+                            backgroundColor: Colors.blue,
+                            onSurface: Colors.grey,
+                          ),
+                          onPressed: () {
+                            if (connectivityStatus == "Connected") {
+                              print(connectivityStatus);
+                              return showDialog<void>(
+                                context: context,
+                                barrierDismissible: false,
+                                // user must tap button!
+                                builder: (BuildContext context) {
+                                  return AlertDialog(
+                                    title: Text('Edit'),
+                                    content: SingleChildScrollView(
+                                      child: ListBody(
+                                        children: <Widget>[
+                                          Text(
+                                            'Do u Want to Edit this Post',
+                                            style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                fontSize: 18),
                                           ),
-                                        ),
-                                        actions: <Widget>[
-                                          TextButton(
-                                            child: Text('Yes'),
-                                            onPressed: () async {
-                                              await  Navigator.push(
-                                                  context,
-                                                  MaterialPageRoute(
-                                                    builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                                  )).then((value) => Navigator.of(context).pop());
-
-                                              print("deleted");
-                                            },
-                                            // style: TextButton.styleFrom(
-                                            //   primary: Colors.white,
-                                            //   backgroundColor: Colors.redAccent,
-                                            // ),
+                                          SizedBox(
+                                            height: 5.0,
                                           ),
-                                          TextButton(
-                                            child: Text('No!'),
-                                            onPressed: () {
-                                              Navigator.of(context).pop();
-                                              print("not Deleted");
-                                            },
-                                            style: TextButton.styleFrom(
-                                              primary: Colors.white,
-                                              backgroundColor: Colors.blue,
-                                            ),
-                                          ),
+                                          Text(
+                                              'You can Edit and Change the text in Post'),
                                         ],
-                                      );
-                                    },
-                                  );
-                                }else if(connectivityStatus == "NotConnected"){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Can't Edit Check Your Internet"),
-                                      action: SnackBarAction(
-                                        label: "OK",
-                                        onPressed: (){
-                                          //Navigator.pop(context);
-                                        },
                                       ),
                                     ),
-                                  );
-                                }
+                                    actions: <Widget>[
+                                      TextButton(
+                                        child: Text('Yes'),
+                                        onPressed: () async {
+                                          await Navigator.push(
+                                                  context,
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        EditPage(
+                                                      unitValue: unitValue,
+                                                      placeValue: placeValue,
+                                                      selectType: selectType()
+                                                          .toString(),
+                                                      docID: document.id,
+                                                    ),
+                                                  ))
+                                              .then((value) =>
+                                                  Navigator.of(context).pop());
 
-                                // return showDialog<void>(
-                                //   context: context,
-                                //   barrierDismissible: false, // user must tap button!
-                                //   builder: (BuildContext context) {
-                                //     return AlertDialog(
-                                //       title: Text('Edit'),
-                                //       content: SingleChildScrollView(
-                                //         child: ListBody(
-                                //           children: <Widget>[
-                                //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                                //             SizedBox(height: 5.0,),
-                                //             Text('You can Edit and Change the text in Post'),
-                                //           ],
-                                //         ),
-                                //       ),
-                                //       actions: <Widget>[
-                                //         TextButton(
-                                //           child: Text('Yes'),
-                                //           onPressed: () async {
-                                //           await  Navigator.push(
-                                //                 context,
-                                //                 MaterialPageRoute(
-                                //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
-                                //                 )).then((value) => Navigator.of(context).pop());
-                                //
-                                //             print("deleted");
-                                //           },
-                                //           // style: TextButton.styleFrom(
-                                //           //   primary: Colors.white,
-                                //           //   backgroundColor: Colors.redAccent,
-                                //           // ),
-                                //         ),
-                                //         TextButton(
-                                //           child: Text('No!'),
-                                //           onPressed: () {
-                                //             Navigator.of(context).pop();
-                                //             print("not Deleted");
-                                //           },
-                                //           style: TextButton.styleFrom(
-                                //             primary: Colors.white,
-                                //             backgroundColor: Colors.blue,
-                                //           ),
-                                //         ),
-                                //       ],
-                                //     );
-                                //   },
-                                // );
-                              },
-                              child: Center(
-                                child: Icon(
-                                  Icons.edit_outlined, color: Colors.white,),
-                              ))
-                  ),
+                                          print("deleted");
+                                        },
+                                        // style: TextButton.styleFrom(
+                                        //   primary: Colors.white,
+                                        //   backgroundColor: Colors.redAccent,
+                                        // ),
+                                      ),
+                                      TextButton(
+                                        child: Text('No!'),
+                                        onPressed: () {
+                                          Navigator.of(context).pop();
+                                          print("not Deleted");
+                                        },
+                                        style: TextButton.styleFrom(
+                                          primary: Colors.white,
+                                          backgroundColor: Colors.blue,
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                },
+                              );
+                            } else if (connectivityStatus == "NotConnected") {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                SnackBar(
+                                  content:
+                                      Text("Can't Edit Check Your Internet"),
+                                  action: SnackBarAction(
+                                    label: "OK",
+                                    onPressed: () {
+                                      //Navigator.pop(context);
+                                    },
+                                  ),
+                                ),
+                              );
+                            }
+
+                            // return showDialog<void>(
+                            //   context: context,
+                            //   barrierDismissible: false, // user must tap button!
+                            //   builder: (BuildContext context) {
+                            //     return AlertDialog(
+                            //       title: Text('Edit'),
+                            //       content: SingleChildScrollView(
+                            //         child: ListBody(
+                            //           children: <Widget>[
+                            //             Text('Do u Want to Edit this Post',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                            //             SizedBox(height: 5.0,),
+                            //             Text('You can Edit and Change the text in Post'),
+                            //           ],
+                            //         ),
+                            //       ),
+                            //       actions: <Widget>[
+                            //         TextButton(
+                            //           child: Text('Yes'),
+                            //           onPressed: () async {
+                            //           await  Navigator.push(
+                            //                 context,
+                            //                 MaterialPageRoute(
+                            //                   builder: (context) => EditPage(unitValue:unitValue,placeValue: placeValue,selectType: selectType().toString(),docID: document.id,),
+                            //                 )).then((value) => Navigator.of(context).pop());
+                            //
+                            //             print("deleted");
+                            //           },
+                            //           // style: TextButton.styleFrom(
+                            //           //   primary: Colors.white,
+                            //           //   backgroundColor: Colors.redAccent,
+                            //           // ),
+                            //         ),
+                            //         TextButton(
+                            //           child: Text('No!'),
+                            //           onPressed: () {
+                            //             Navigator.of(context).pop();
+                            //             print("not Deleted");
+                            //           },
+                            //           style: TextButton.styleFrom(
+                            //             primary: Colors.white,
+                            //             backgroundColor: Colors.blue,
+                            //           ),
+                            //         ),
+                            //       ],
+                            //     );
+                            //   },
+                            // );
+                          },
+                          child: Center(
+                            child: Icon(
+                              Icons.edit_outlined,
+                              color: Colors.white,
+                            ),
+                          ))),
                 ],
               ),
             ),
           ],
         ),
-
       ],
     );
   }
-
-
-
 }
 
-
 class BottomSheetShow extends StatefulWidget {
-
   @override
   _BottomSheetShowState createState() => _BottomSheetShowState();
 }
 
 class _BottomSheetShowState extends State<BottomSheetShow> {
-
-
-
-
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(
-          left: 8, right: 8),
+      padding: EdgeInsets.only(left: 8, right: 8),
       height: 250,
       decoration: BoxDecoration(
           color: Colors.blue,
           borderRadius: BorderRadius.only(
             topLeft: const Radius.circular(10),
             topRight: const Radius.circular(10),
-          )
-      ),
-
+          )),
       child: Center(
         child: Builder(
-          builder: (context)=> Column(
+          builder: (context) => Column(
             mainAxisAlignment: MainAxisAlignment.start,
             crossAxisAlignment: CrossAxisAlignment.center,
             //mainAxisSize: MainAxisSize.min,
             children: <Widget>[
               //const Text('BottomSheet'),
               IconButton(
-                  icon: const Icon(
-                      Icons.arrow_downward_rounded),
+                  icon: const Icon(Icons.arrow_downward_rounded),
                   color: Colors.white70,
                   onPressed: () {
-
                     Navigator.pop(context);
                   }),
 
               Container(
                 padding: EdgeInsets.all(16.0),
                 decoration: BoxDecoration(
-                    border: Border.all(
-                        color: Colors.white60, width: 1),
-                    borderRadius: BorderRadius.circular(
-                        15)),
+                    border: Border.all(color: Colors.white60, width: 1),
+                    borderRadius: BorderRadius.circular(15)),
                 child: Column(
                   children: [
                     DropdownButton(
                       hint: Text("SELECT PLACE TYPE"),
-                      dropdownColor: Theme
-                          .of(context)
-                          .secondaryHeaderColor,
+                      dropdownColor: Theme.of(context).secondaryHeaderColor,
                       icon: Icon(Icons.arrow_drop_down),
                       iconSize: 36,
                       iconEnabledColor: Colors.white70,
                       isExpanded: true,
                       underline: SizedBox(),
-                      style: TextStyle(color: Colors.black54,
-                          fontSize: 22),
+                      style: TextStyle(color: Colors.black54, fontSize: 22),
                       value: placeValue,
-
                       onChanged: (newValue) {
                         setState(() {
                           placeValue = newValue;
-                          if (placeValue ==
-                              "RELIGIOUS PLACES") {
-                            isVisibleReligious =
-                            !isVisibleReligious;
+                          if (placeValue == "RELIGIOUS PLACES") {
+                            isVisibleReligious = !isVisibleReligious;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-                          } else if (placeValue ==
-                              "EDUCATIONAL INSTITUTIONS") {
-                            isVisibleEducation =
-                            !isVisibleEducation;
+                          } else if (placeValue == "EDUCATIONAL INSTITUTIONS") {
+                            isVisibleEducation = !isVisibleEducation;
                             isVisibleReligious = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-                          } else
-                          if (placeValue == "YOUTH SPOTS") {
-                            isVisibleYouth =
-                            !isVisibleYouth;
+                          } else if (placeValue == "YOUTH SPOTS") {
+                            isVisibleYouth = !isVisibleYouth;
                             isVisibleReligious = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleEducation = false;
-                          } else if (placeValue ==
-                              "PUBLIC SPOTS") {
-                            isVisiblePublic =
-                            !isVisiblePublic;
+                          } else if (placeValue == "PUBLIC SPOTS") {
+                            isVisiblePublic = !isVisiblePublic;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisibleOffices = false;
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-                          } else
-                          if (placeValue == "OFFICES") {
-                            isVisibleOffices =
-                            !isVisibleOffices;
+                          } else if (placeValue == "OFFICES") {
+                            isVisibleOffices = !isVisibleOffices;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-                          } else if (placeValue ==
-                              "NGOSorORGANISATIONS") {
+                          } else if (placeValue == "NGOSorORGANISATIONS") {
                             isVisibleNgos = !isVisibleNgos;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
@@ -6868,10 +7375,8 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                             isVisibleOffices = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-                          }
-                          else if (placeValue == "HALLS") {
-                            isVisibleHalls =
-                            !isVisibleHalls;
+                          } else if (placeValue == "HALLS") {
+                            isVisibleHalls = !isVisibleHalls;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
@@ -6908,33 +7413,26 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleReligious,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconEnabledColor: Colors.white70,
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeReligiousValue,
                         onChanged: (newValue) {
                           setState(() {
-                            placeTypeReligiousValue =
-                                newValue;
+                            placeTypeReligiousValue = newValue;
                             // if(placeTypeReligiousValue != null){
                             //   religiousDetailsVisible = true;
                             // }else{
                             //   religiousDetailsVisible = false;
                             // }
-
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeReligiousList.map((
-                            valueItem) {
+                        items: placesTypeReligiousList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -6947,28 +7445,22 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleEducation,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconSize: 36,
                         iconEnabledColor: Colors.white70,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeEducationValue,
                         onChanged: (newValue) {
                           //MyHomePage()._callRefesh();
                           setState(() {
-                            placeTypeEducationValue =
-                                newValue;
+                            placeTypeEducationValue = newValue;
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeEducationList.map((
-                            valueItem) {
+                        items: placesTypeEducationList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -6981,17 +7473,13 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleYouth,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconSize: 36,
                         iconEnabledColor: Colors.white70,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeYouthValue,
                         onChanged: (newValue) {
                           setState(() {
@@ -6999,8 +7487,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeYouthList.map((
-                            valueItem) {
+                        items: placesTypeYouthList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -7013,17 +7500,13 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisiblePublic,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconEnabledColor: Colors.white70,
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypePublicValue,
                         onChanged: (newValue) {
                           setState(() {
@@ -7031,8 +7514,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypePublicList.map((
-                            valueItem) {
+                        items: placesTypePublicList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -7045,27 +7527,21 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleOffices,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconEnabledColor: Colors.white70,
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeOfficesValue,
                         onChanged: (newValue) {
                           setState(() {
-                            placeTypeOfficesValue =
-                                newValue;
+                            placeTypeOfficesValue = newValue;
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeOfficesList.map((
-                            valueItem) {
+                        items: placesTypeOfficesList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -7078,17 +7554,13 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleNgos,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconEnabledColor: Colors.white70,
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeNgosValue,
                         onChanged: (newValue) {
                           setState(() {
@@ -7096,8 +7568,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeNgosList.map((
-                            valueItem) {
+                        items: placesTypeNgosList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -7110,17 +7581,13 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                       visible: isVisibleHalls,
                       child: DropdownButton(
                         hint: Text("SELECT PLACE NAME"),
-                        dropdownColor: Theme
-                            .of(context)
-                            .secondaryHeaderColor,
+                        dropdownColor: Theme.of(context).secondaryHeaderColor,
                         icon: Icon(Icons.arrow_drop_down),
                         iconEnabledColor: Colors.white70,
                         iconSize: 36,
                         isExpanded: true,
                         underline: SizedBox(),
-                        style: TextStyle(
-                            color: Colors.black54,
-                            fontSize: 22),
+                        style: TextStyle(color: Colors.black54, fontSize: 22),
                         value: placeTypeHallsValue,
                         onChanged: (newValue) {
                           setState(() {
@@ -7128,8 +7595,7 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                           });
                           Navigator.pop(context);
                         },
-                        items: placesTypeHallsList.map((
-                            valueItem) {
+                        items: placesTypeHallsList.map((valueItem) {
                           return DropdownMenuItem(
                             value: valueItem,
                             child: Text(valueItem),
@@ -7139,8 +7605,13 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
                     ),
                     Padding(
                       padding: const EdgeInsets.all(8.0),
-                      child: Text("pull to Refresh and Apply changes".toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(
-                          fontSize: 14, fontWeight: FontWeight.w600,color: Colors.white70))),
+                      child: Text(
+                          "pull to Refresh and Apply changes".toUpperCase(),
+                          style: GoogleFonts.poppins(
+                              textStyle: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.w600,
+                                  color: Colors.white70))),
                     ),
                   ],
                 ),
@@ -7152,9 +7623,3 @@ class _BottomSheetShowState extends State<BottomSheetShow> {
     );
   }
 }
-
-
-
-
-
-

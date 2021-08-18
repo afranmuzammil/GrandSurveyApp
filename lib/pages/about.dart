@@ -386,15 +386,15 @@ class _AboutState extends State<About>
                             mainAxisAlignment: MainAxisAlignment.center,
                             crossAxisAlignment: CrossAxisAlignment.center,
                             children: [
-                              SizedBox(
-                                child: CircularProgressIndicator(
-                                  valueColor: animation,
-                                  backgroundColor: Colors.white,
-                                  strokeWidth: 5,
-                                ),
-                                width: 60,
-                                height: 60,
-                              ),
+                              // SizedBox(
+                              //   // child: CircularProgressIndicator(
+                              //   //   valueColor: animation,
+                              //   //   backgroundColor: Colors.white,
+                              //   //   strokeWidth: 5,
+                              //   // ),
+                              //   width: 60,
+                              //   height: 60,
+                              // ),
                               Padding(
                                 padding: EdgeInsets.only(top: 16),
                                 child: Text('Loading data...'),

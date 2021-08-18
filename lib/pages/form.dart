@@ -12,28 +12,26 @@ import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
 
-
 class Forms extends StatefulWidget {
   final String unitName;
   final String unitMail;
-  Forms({Key key,@required this.unitName,this.unitMail}) : super(key :key);
+
+  Forms({Key key, @required this.unitName, this.unitMail}) : super(key: key);
+
   @override
-  _FormsState createState() => _FormsState(unitName,unitMail);
+  _FormsState createState() => _FormsState(unitName, unitMail);
 }
 
-class _FormsState extends State<Forms>
-    with SingleTickerProviderStateMixin{
-
-
+class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
   final ScrollController _controllerOne = ScrollController();
-  String  unitValue ;
-  String  unitMail ;
-  _FormsState(this.unitValue,this.unitMail);
+  String unitValue;
 
-  void back(){
+  String unitMail;
 
-    Navigator.pop(context,Forms().unitName);
+  _FormsState(this.unitValue, this.unitMail);
 
+  void back() {
+    Navigator.pop(context, Forms().unitName);
   }
 
   final formKey = GlobalKey<FormState>();
@@ -43,8 +41,12 @@ class _FormsState extends State<Forms>
   //To get a image
   File userImage;
   final picker = ImagePicker();
-  Future getImage() async{
-    final image = await picker.getImage(source: ImageSource.camera,imageQuality: 65,);
+
+  Future getImage() async {
+    final image = await picker.pickImage(
+      source: ImageSource.camera,
+      imageQuality: 65,
+    );
     setState(() {
       userImage = File(image.path);
     });
@@ -83,11 +85,9 @@ class _FormsState extends State<Forms>
     return imageLink;
   }
 
-
-
-
   //To get the location
-  String latitudeData ;
+  String latitudeData;
+
   String longitudeData;
 
   AnimationController controller;
@@ -99,8 +99,6 @@ class _FormsState extends State<Forms>
 
   @override
   void initState() {
-
-
     _ad = BannerAd(
         adUnitId: AdHelper.bannerAdUnitId,
         request: AdRequest(),
@@ -123,9 +121,8 @@ class _FormsState extends State<Forms>
     );
 
     animation =
-        controller.drive(ColorTween(begin: Colors.yellow, end: Colors.red));
+        controller.drive(ColorTween(begin: Color(0xff54b4d4), end: Color(0xff048cbc)));
     controller.repeat();
-
   }
 
   @override
@@ -151,8 +148,8 @@ class _FormsState extends State<Forms>
   }
 
   getCurrentLoaction() async {
-    final geoPosition =
-        await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.high);
+    final geoPosition = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.high);
     setState(() {
       latitudeData = "${geoPosition.latitude}";
       longitudeData = "${geoPosition.longitude}";
@@ -179,6 +176,7 @@ class _FormsState extends State<Forms>
     "NGOSorORGANISATIONS",
     "HALLS",
   ];
+
   //controllers
 
   //RELIGIOUS PLACES
@@ -190,6 +188,7 @@ class _FormsState extends State<Forms>
     "GURUDWARS",
     "TEMPLE",
   ];
+
   //controllers
   final NameOfPlace = new TextEditingController();
   final HeadOfplace = new TextEditingController();
@@ -200,7 +199,6 @@ class _FormsState extends State<Forms>
   final Address = new TextEditingController();
   final Details = new TextEditingController();
 
-
   //EDUCATIONAL INSTITUTIONS
   String placeTypeEducationValue;
   bool isVisibleEducation = false;
@@ -209,6 +207,7 @@ class _FormsState extends State<Forms>
     "COLLEGE",
     "INSTITUTION",
   ];
+
   //controllers SCHOOL
   final schoolName = new TextEditingController();
   final schoolPrinciple = new TextEditingController();
@@ -217,6 +216,7 @@ class _FormsState extends State<Forms>
   final schoolOpportunities = new TextEditingController();
   final schoolRemarks = new TextEditingController();
   final schoolAddress = new TextEditingController();
+
   //controllers COLLAGE
   final collageName = new TextEditingController();
   final collageCourses = new TextEditingController();
@@ -226,6 +226,7 @@ class _FormsState extends State<Forms>
   final collageRemarks = new TextEditingController();
   final collageAddress = new TextEditingController();
   List typeOfCollegeList = [];
+
   //controllers INSTITUTION
   final institutionName = new TextEditingController();
   final institutionCourses = new TextEditingController();
@@ -236,8 +237,6 @@ class _FormsState extends State<Forms>
   final institutionAddress = new TextEditingController();
   List typeOfInstitutionList = [];
 
-
-
   //YOUTH SPOTS
   String placeTypeYouthValue;
   bool isVisibleYouth = false;
@@ -247,6 +246,7 @@ class _FormsState extends State<Forms>
     "GAME ROOMS",
     "SPORTS CLUB",
   ];
+
   //controllers
   final youthPlaceName = new TextEditingController();
   final youthHeadOfPlace = new TextEditingController();
@@ -270,6 +270,7 @@ class _FormsState extends State<Forms>
     "YOGA CENTRES",
     "FITNESS CENTRES",
   ];
+
   //controllers
   final publicPlaceName = new TextEditingController();
   final publicHeadOfPlace = new TextEditingController();
@@ -293,6 +294,7 @@ class _FormsState extends State<Forms>
     "MP",
     "CORPORATOR",
   ];
+
   //controllers
   final officePlaceName = new TextEditingController();
   final officeHeadOfPlace = new TextEditingController();
@@ -301,7 +303,6 @@ class _FormsState extends State<Forms>
   final officeCapacity = new TextEditingController();
   final officeAddress = new TextEditingController();
   final officeDetails = new TextEditingController();
-
 
   //NGOS/ORGANISATIONS
   String placeTypeNgosValue;
@@ -319,6 +320,7 @@ class _FormsState extends State<Forms>
     "ASSOCIATIONS",
     "FORUMS",
   ];
+
   //controllers
   final ngosPlaceName = new TextEditingController();
   final ngosHeadOfPlace = new TextEditingController();
@@ -339,6 +341,7 @@ class _FormsState extends State<Forms>
     "EXHIBITION ",
     "PRESS HALLS"
   ];
+
   //controllers
   final hallsPlaceName = new TextEditingController();
   final hallsHeadOfPlace = new TextEditingController();
@@ -347,17 +350,17 @@ class _FormsState extends State<Forms>
   final hallsAddress = new TextEditingController();
   final hallsDetails = new TextEditingController();
 
-
 //Details visibility Values
- bool religiousDetailsVisible = false;
- bool schoolDetailsVisible = false;
- bool collageDetailsVisible = false;
- bool instituteDetailsVisible = false;
- bool youthDetailsVisible = false;
- bool publicDetailsVisible = false;
- bool officeDetailsVisible = false;
- bool ngosDetailsVisible = false;
- bool hallsDetailsVisible = false;
+  bool religiousDetailsVisible = false;
+  bool schoolDetailsVisible = false;
+  bool collageDetailsVisible = false;
+  bool instituteDetailsVisible = false;
+  bool youthDetailsVisible = false;
+  bool publicDetailsVisible = false;
+  bool officeDetailsVisible = false;
+  bool ngosDetailsVisible = false;
+  bool hallsDetailsVisible = false;
+
   // int _Value = 1;
 
   //Check boxes Values
@@ -367,6 +370,7 @@ class _FormsState extends State<Forms>
   bool valueUG = false;
   bool valueVoc = false;
   bool valueUni = false;
+
 //Institution
   bool valueMadrsa = false;
   bool valueTut = false;
@@ -380,26 +384,25 @@ class _FormsState extends State<Forms>
 
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
-        title: Text(
-          'Daerah',
-            style: GoogleFonts.poppins(textStyle:
-            TextStyle(fontSize: 20,
-                fontWeight: FontWeight.bold,
-                color: Colors.white70))
-         // style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
-        ),
+        title: Text('Daerah',
+            style: GoogleFonts.poppins(
+                textStyle: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
+                    color: Colors.white70))
+            // style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+            ),
         centerTitle: true,
         elevation: 0,
       ),
       body: SafeArea(
         child: Scrollbar(
           isAlwaysShown: true,
-        //  controller: _controllerOne,
+          //  controller: _controllerOne,
           showTrackOnHover: true,
           hoverThickness: 24,
           thickness: 10,
@@ -407,7 +410,7 @@ class _FormsState extends State<Forms>
           child: SingleChildScrollView(
               child: Padding(
             padding: const EdgeInsets.all(16.0),
-              child: Container(
+            child: Container(
               padding: EdgeInsets.only(left: 16, right: 16),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 1),
@@ -419,29 +422,44 @@ class _FormsState extends State<Forms>
                     SizedBox(height: 8.0),
                     Container(
                       padding: EdgeInsets.all(10.0),
-                      decoration:  BoxDecoration(
+                      decoration: BoxDecoration(
                           border: Border.all(color: Colors.grey, width: 3),
                           borderRadius: BorderRadius.vertical()),
-                      child:  ListTile(
+                      child: ListTile(
                         leading: Icon(Icons.info),
-                        title: Text("Enter all information",style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold,color: Colors.black54))),
-                        subtitle: Text("If there is no information to enter ' Type (none)' ,  "
+                        title: Text("Enter all information",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.black54))),
+                        subtitle: Text(
+                            "If there is no information to enter ' Type (none)' ,  "
                             "But  please don't Leave any field empty '*Image and Location are must  & be sure it is uploaded*'",
-                            style: GoogleFonts.poppins(textStyle:
-                            TextStyle(fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black54))),
                       ),
                     ),
-                    SizedBox(height: 15.0,),
+                    SizedBox(
+                      height: 15.0,
+                    ),
                     Container(
                       padding: EdgeInsets.all(1.0),
-                      decoration:  BoxDecoration(
+                      decoration: BoxDecoration(
                           border: Border.all(color: Colors.blue, width: 3),
                           borderRadius: BorderRadius.vertical()),
-                      child:  ListTile(
-                        leading: Icon(Icons.warning_amber_outlined,color: Colors.blue),
-                        title: Text("ADDING IN:$unitValue UNIT",style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.bold,color: Colors.blue))),
+                      child: ListTile(
+                        leading: Icon(Icons.warning_amber_outlined,
+                            color: Colors.blue),
+                        title: Text("ADDING IN:$unitValue UNIT",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue))),
                       ),
                     ),
 
@@ -489,7 +507,7 @@ class _FormsState extends State<Forms>
                             officeDetailsVisible = false;
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
-                          }else if (placeValue == "YOUTH SPOTS") {
+                          } else if (placeValue == "YOUTH SPOTS") {
                             isVisibleYouth = !isVisibleYouth;
                             isVisibleReligious = false;
                             isVisiblePublic = false;
@@ -502,7 +520,7 @@ class _FormsState extends State<Forms>
                             schoolDetailsVisible = false;
                             collageDetailsVisible = false;
                             instituteDetailsVisible = false;
-                           // youthDetailsVisible = false;
+                            // youthDetailsVisible = false;
                             publicDetailsVisible = false;
                             officeDetailsVisible = false;
                             ngosDetailsVisible = false;
@@ -521,7 +539,7 @@ class _FormsState extends State<Forms>
                             collageDetailsVisible = false;
                             instituteDetailsVisible = false;
                             youthDetailsVisible = false;
-                           // publicDetailsVisible = false;
+                            // publicDetailsVisible = false;
                             officeDetailsVisible = false;
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
@@ -540,7 +558,7 @@ class _FormsState extends State<Forms>
                             instituteDetailsVisible = false;
                             youthDetailsVisible = false;
                             publicDetailsVisible = false;
-                           // officeDetailsVisible = false;
+                            // officeDetailsVisible = false;
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "NGOSorORGANISATIONS") {
@@ -559,10 +577,9 @@ class _FormsState extends State<Forms>
                             youthDetailsVisible = false;
                             publicDetailsVisible = false;
                             officeDetailsVisible = false;
-                           // ngosDetailsVisible = false;
+                            // ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
-                          }
-                          else if (placeValue == "HALLS") {
+                          } else if (placeValue == "HALLS") {
                             isVisibleHalls = !isVisibleHalls;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
@@ -579,7 +596,7 @@ class _FormsState extends State<Forms>
                             publicDetailsVisible = false;
                             officeDetailsVisible = false;
                             ngosDetailsVisible = false;
-                         //   hallsDetailsVisible = false;
+                            //   hallsDetailsVisible = false;
                           } else {
                             isVisibleReligious = false;
                             isVisibleEducation = false;
@@ -588,8 +605,6 @@ class _FormsState extends State<Forms>
                             isVisibleNgos = false;
                             isVisibleHalls = false;
                             isVisibleYouth = false;
-
-
                           }
                         });
                       },
@@ -616,12 +631,11 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeReligiousValue = newValue;
-                            if(placeTypeReligiousValue != null){
+                            if (placeTypeReligiousValue != null) {
                               religiousDetailsVisible = true;
-                            }else{
+                            } else {
                               religiousDetailsVisible = false;
                             }
-
                           });
                         },
                         items: placesTypeReligiousList.map((valueItem) {
@@ -647,38 +661,41 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeEducationValue = newValue;
-                            switch(placeTypeEducationValue){
-                              case "SCHOOL":{
-                                schoolDetailsVisible = true;
+                            switch (placeTypeEducationValue) {
+                              case "SCHOOL":
+                                {
+                                  schoolDetailsVisible = true;
 
-                                //schoolDetailsVisible = false;
-                                collageDetailsVisible = false;
-                                instituteDetailsVisible = false;
-                              }
-                              break;
-                              case "COLLEGE":{
-                                collageDetailsVisible = true;
+                                  //schoolDetailsVisible = false;
+                                  collageDetailsVisible = false;
+                                  instituteDetailsVisible = false;
+                                }
+                                break;
+                              case "COLLEGE":
+                                {
+                                  collageDetailsVisible = true;
 
-                                schoolDetailsVisible = false;
-                               // collageDetailsVisible = false;
-                                instituteDetailsVisible = false;
-                              }
-                              break;
-                              case "INSTITUTION":{
-                                instituteDetailsVisible = true;
+                                  schoolDetailsVisible = false;
+                                  // collageDetailsVisible = false;
+                                  instituteDetailsVisible = false;
+                                }
+                                break;
+                              case "INSTITUTION":
+                                {
+                                  instituteDetailsVisible = true;
 
-                                schoolDetailsVisible = false;
-                                collageDetailsVisible = false;
-                               // instituteDetailsVisible = false;
-                              }
-                              break;
-                              default:{
+                                  schoolDetailsVisible = false;
+                                  collageDetailsVisible = false;
+                                  // instituteDetailsVisible = false;
+                                }
+                                break;
+                              default:
+                                {
                                   schoolDetailsVisible = false;
                                   collageDetailsVisible = false;
                                   instituteDetailsVisible = false;
-                              }
-                              break;
-
+                                }
+                                break;
                             }
                             // if(placeTypeEducationValue == "SCHOOL"){
                             //   schoolDetailsVisible = true;
@@ -717,9 +734,9 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeYouthValue = newValue;
-                            if(placeTypeYouthValue != null){
+                            if (placeTypeYouthValue != null) {
                               youthDetailsVisible = true;
-                            }else{
+                            } else {
                               youthDetailsVisible = false;
                             }
                           });
@@ -747,9 +764,9 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypePublicValue = newValue;
-                            if(placeTypePublicValue != null){
+                            if (placeTypePublicValue != null) {
                               publicDetailsVisible = true;
-                            }else{
+                            } else {
                               publicDetailsVisible = false;
                             }
                           });
@@ -777,9 +794,9 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeOfficesValue = newValue;
-                            if(placeTypeOfficesValue != null){
+                            if (placeTypeOfficesValue != null) {
                               officeDetailsVisible = true;
-                            }else{
+                            } else {
                               officeDetailsVisible = false;
                             }
                           });
@@ -807,9 +824,9 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeNgosValue = newValue;
-                            if(placeTypeNgosValue != null){
+                            if (placeTypeNgosValue != null) {
                               ngosDetailsVisible = true;
-                            }else{
+                            } else {
                               ngosDetailsVisible = false;
                             }
                           });
@@ -837,9 +854,9 @@ class _FormsState extends State<Forms>
                         onChanged: (newValue) {
                           setState(() {
                             placeTypeHallsValue = newValue;
-                            if(placeTypeHallsValue != null){
+                            if (placeTypeHallsValue != null) {
                               hallsDetailsVisible = true;
-                            }else{
+                            } else {
                               hallsDetailsVisible = false;
                             }
                           });
@@ -871,7 +888,7 @@ class _FormsState extends State<Forms>
                                 controller: NameOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the Place*',
                                     prefixIcon: Icon(Icons.home_sharp)),
                                 validator: (value) {
@@ -889,9 +906,10 @@ class _FormsState extends State<Forms>
                                 controller: HeadOfplace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Head of the Place',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -908,7 +926,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -926,9 +944,10 @@ class _FormsState extends State<Forms>
                                 controller: FikerType,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Type of Fiker*',
-                                    prefixIcon: Icon(Icons.accessibility_new_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.accessibility_new_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -943,14 +962,19 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: Libraries,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
-                                    hintText: 'Associated Libraries/Centres ',
-                                    contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                    prefixIcon: Icon(Icons.account_balance_outlined ),),
-                                    scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  hintText: 'Associated Libraries/Centres ',
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon:
+                                      Icon(Icons.account_balance_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -965,12 +989,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: Capacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -985,14 +1011,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: Address,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1007,14 +1037,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: Details,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -1025,145 +1059,154 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                                SizedBox(height: 20.0,),
-                                //Image upload
-                                Column(
-                                  children: [
-                                    Center(
-                                      child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                        style: TextStyle(color: Colors.black54),):Image.file(userImage),
-                                    ),
-                                    Builder(
-                                      builder: (context)=>TextButton.icon(
-                                          onPressed: (){
-                                            getImage();
-                                      },
-                                          icon: Icon(
-                                              Icons.add_a_photo_outlined,
-                                            color: Colors.grey,
-                                          ),
-                                          label: Text(
-                                            "Add pic*",
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              //Image upload
+                              Column(
+                                children: [
+                                  Center(
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
                                             style: TextStyle(
-                                              color: Colors.grey
-                                            ),
-                                          ),
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
+                                  ),
+                                  Builder(
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
+                                        getImage();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_a_photo_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add pic*",
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
-                                    Visibility(
-                                        visible:uploadProgressVisible,
-                                        child: CircularProgressIndicator(
-                                         // semanticsLabel: 'Linear progress indicator',
+                                  ),
+                                  Visibility(
+                                    visible: uploadProgressVisible,
+                                    child: CircularProgressIndicator(
+                                        // semanticsLabel: 'Linear progress indicator',
                                         ),
-                                    ),
-                                    Visibility(
-                                        visible:uploadVisible,
-                                        child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                    ),
-
-                                  ],
-                                ),
-                              SizedBox(height: 10.0,),
+                                  ),
+                                  Visibility(
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
+                                ],
+                              ),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
-                                 // color: Theme.of(context).primaryColor,
+                                  // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 3));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadProgressVisible = false;
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }
-                                    else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                                SizedBox(height: 20.0,),
-                                //location upload
-                                Column(
-                                  children: <Widget>[
-                                    Center(
+                              SizedBox(
+                                height: 20.0,
+                              ),
+                              //location upload
+                              Column(
+                                children: <Widget>[
+                                  Center(
                                       child: Text("ADD LOCATION",
-                                          style: TextStyle(color: Colors.black54))
-                                    ),
-                                    Builder(
-                                      builder: (context)=>TextButton.icon(
-                                        onPressed: (){
-                                          getCurrentLoaction();
-                                        },
-                                        icon: Icon(
-                                          Icons.add_location_alt_outlined,
-                                          color: Colors.grey,
-                                        ),
-                                        label: Text(
-                                          "Add Location*",
                                           style: TextStyle(
-                                              color: Colors.grey
-                                          ),
-                                        ),
+                                              color: Colors.black54))),
+                                  Builder(
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
+                                        getCurrentLoaction();
+                                      },
+                                      icon: Icon(
+                                        Icons.add_location_alt_outlined,
+                                        color: Colors.grey,
+                                      ),
+                                      label: Text(
+                                        "Add Location*",
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
-
-                                    Text(
-                                        "LATITUDE:{$latitudeData}",
-                                      style: TextStyle(
-                                          color: Colors.indigo
-                                      ),
-                                    ),
-                                    Text(
-                                        "LONGITUDE:{$longitudeData}",
-                                      style: TextStyle(
-                                          color: Colors.indigo
-                                      ),
-                                    ),
-                                  ],
-                                ),
+                                  ),
+                                  Text(
+                                    "LATITUDE:{$latitudeData}",
+                                    style: TextStyle(color: Colors.indigo),
+                                  ),
+                                  Text(
+                                    "LONGITUDE:{$longitudeData}",
+                                    style: TextStyle(color: Colors.indigo),
+                                  ),
+                                ],
+                              ),
                               //Done button
                               Builder(
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(HeadOfplace.text.trim()==""){
+                                    onPressed: () {
+                                      if (HeadOfplace.text.trim() == "") {
                                         HeadOfplace.text = "unknown";
-                                      }if(Contact.text.trim()==""){
+                                      }
+                                      if (Contact.text.trim() == "") {
                                         Contact.text = "0000";
-                                      }if(Details.text.trim()==""){
+                                      }
+                                      if (Details.text.trim() == "") {
                                         Details.text = "none for now";
-                                      }if(Libraries.text.trim()==""){
-                                        Libraries.text =  "none";
+                                      }
+                                      if (Libraries.text.trim() == "") {
+                                        Libraries.text = "none";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -1171,21 +1214,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -1201,9 +1245,9 @@ class _FormsState extends State<Forms>
                                 controller: schoolName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the School*',
-                                    prefixIcon: Icon(Icons.school_outlined )),
+                                    prefixIcon: Icon(Icons.school_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1219,9 +1263,10 @@ class _FormsState extends State<Forms>
                                 controller: schoolPrinciple,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the principle',
-                                    prefixIcon: Icon(Icons.account_box_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1236,12 +1281,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: schoolStrength,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Strength of the School*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1258,7 +1305,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -1275,14 +1322,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: schoolAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1297,14 +1348,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: schoolOpportunities,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Opportunities to work" ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1319,14 +1374,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: schoolRemarks,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Remarks & Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -1337,18 +1396,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -1357,68 +1422,72 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
-                                    child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54))
-                                  ),
+                                      child: Text("ADD LOCATION",
+                                          style: TextStyle(
+                                              color: Colors.black54))),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -1427,24 +1496,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -1453,22 +1515,30 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(schoolPrinciple.text.trim() == ""){
+                                    onPressed: () {
+                                      if (schoolPrinciple.text.trim() == "") {
                                         schoolPrinciple.text = "unknown";
-                                      }if(schoolContact.text.trim() == ""){
+                                      }
+                                      if (schoolContact.text.trim() == "") {
                                         schoolContact.text = "0000";
-                                      }if(schoolOpportunities.text.trim() == ""){
-                                        schoolOpportunities.text = "Couldn't Inquire";
-                                      }if(schoolRemarks.text.trim() == ""){
+                                      }
+                                      if (schoolOpportunities.text.trim() ==
+                                          "") {
+                                        schoolOpportunities.text =
+                                            "Couldn't Inquire";
+                                      }
+                                      if (schoolRemarks.text.trim() == "") {
                                         schoolRemarks.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -1476,21 +1546,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -1505,9 +1576,9 @@ class _FormsState extends State<Forms>
                                 controller: collageName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the College*',
-                                    prefixIcon: Icon(Icons.school_outlined )),
+                                    prefixIcon: Icon(Icons.school_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1519,10 +1590,14 @@ class _FormsState extends State<Forms>
                                 },
                               ),
                               //TYPE OF INSTITUTION
-                              SizedBox(height: 30.0,),
+                              SizedBox(
+                                height: 30.0,
+                              ),
                               Text(
                                 'TYPE OF COLLEGE*',
-                                style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    backgroundColor: Colors.black12),
                                 textAlign: TextAlign.left,
                               ),
                               //INTERMEDIATE
@@ -1535,9 +1610,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueInter = value;
                                   });
-                                  if(valueInter == true){
+                                  if (valueInter == true) {
                                     typeOfCollegeList.add("INTERMEDIATE");
-                                  }else if(valueInter == false){
+                                  } else if (valueInter == false) {
                                     typeOfCollegeList.remove("INTERMEDIATE");
                                   }
                                 },
@@ -1552,10 +1627,12 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueUG = value;
                                   });
-                                  if(valueUG == true){
-                                    typeOfCollegeList.add("UNDER GRADUATION/DEGREE");
-                                  }else if(valueUG == false){
-                                    typeOfCollegeList.remove("UNDER GRADUATION/DEGREE");
+                                  if (valueUG == true) {
+                                    typeOfCollegeList
+                                        .add("UNDER GRADUATION/DEGREE");
+                                  } else if (valueUG == false) {
+                                    typeOfCollegeList
+                                        .remove("UNDER GRADUATION/DEGREE");
                                   }
                                 },
                               ),
@@ -1569,9 +1646,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valuePG = value;
                                   });
-                                  if(valuePG == true){
+                                  if (valuePG == true) {
                                     typeOfCollegeList.add("POST GRADUATION");
-                                  }else if(valuePG == false){
+                                  } else if (valuePG == false) {
                                     typeOfCollegeList.remove("POST GRADUATION");
                                   }
                                 },
@@ -1586,9 +1663,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueVoc = value;
                                   });
-                                  if(valueVoc == true){
+                                  if (valueVoc == true) {
                                     typeOfCollegeList.add("VOCATIONAL");
-                                  }else if(valueVoc == false){
+                                  } else if (valueVoc == false) {
                                     typeOfCollegeList.remove("VOCATIONAL");
                                   }
                                 },
@@ -1603,26 +1680,32 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueUni = value;
                                   });
-                                  if(valueUni == true){
+                                  if (valueUni == true) {
                                     typeOfCollegeList.add("UNIVERSITY");
-                                  }else if(valueUni == false){
+                                  } else if (valueUni == false) {
                                     typeOfCollegeList.remove("UNIVERSITY");
                                   }
                                 },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Courses
                               TextFormField(
                                 controller: collageCourses,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Courses Offered',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1637,12 +1720,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: collageStrength,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Strength of the College*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1659,7 +1744,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -1676,14 +1761,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: collageAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1698,14 +1787,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: collageOpportunities,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Opportunities to work" ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1720,14 +1813,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: collageRemarks,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Remarks & Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -1738,18 +1835,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -1758,68 +1861,73 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
-                                    child:Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54)),
+                                    child: Text("ADD LOCATION",
+                                        style:
+                                            TextStyle(color: Colors.black54)),
                                   ),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -1828,24 +1936,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -1854,24 +1955,34 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(collageCourses.text.trim() == ""){
-                                        collageCourses.text = "Couldn't Inquire";
-                                      }if(collageContact.text.trim() == ""){
+                                    onPressed: () {
+                                      if (collageCourses.text.trim() == "") {
+                                        collageCourses.text =
+                                            "Couldn't Inquire";
+                                      }
+                                      if (collageContact.text.trim() == "") {
                                         collageContact.text = "0000";
-                                      }if(collageOpportunities.text.trim() == ""){
-                                        collageOpportunities.text = "Couldn't Inquire";
-                                      }if(collageRemarks.text.trim() == ""){
+                                      }
+                                      if (collageOpportunities.text.trim() ==
+                                          "") {
+                                        collageOpportunities.text =
+                                            "Couldn't Inquire";
+                                      }
+                                      if (collageRemarks.text.trim() == "") {
                                         collageRemarks.text = "none for now";
-                                      }if(typeOfCollegeList.isEmpty){
+                                      }
+                                      if (typeOfCollegeList.isEmpty) {
                                         typeOfCollegeList.add("UNIVERSITY");
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -1879,21 +1990,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -1908,9 +2020,9 @@ class _FormsState extends State<Forms>
                                 controller: institutionName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the institute*',
-                                    prefixIcon: Icon(Icons.school_outlined )),
+                                    prefixIcon: Icon(Icons.school_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -1922,10 +2034,14 @@ class _FormsState extends State<Forms>
                                 },
                               ),
                               //TYPE OF INSTITUTION
-                              SizedBox(height: 30.0,),
+                              SizedBox(
+                                height: 30.0,
+                              ),
                               Text(
                                 'TYPE OF INSTITUTION*',
-                                style: TextStyle(fontSize: 20.0,backgroundColor: Colors.black12 ),
+                                style: TextStyle(
+                                    fontSize: 20.0,
+                                    backgroundColor: Colors.black12),
                                 textAlign: TextAlign.left,
                               ),
                               //MADRSA
@@ -1938,9 +2054,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueMadrsa = value;
                                   });
-                                  if(valueMadrsa == true){
+                                  if (valueMadrsa == true) {
                                     typeOfInstitutionList.add("MADRSA");
-                                  }else if(valueMadrsa == false){
+                                  } else if (valueMadrsa == false) {
                                     typeOfInstitutionList.remove("MADRSA");
                                   }
                                 },
@@ -1955,9 +2071,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueTut = value;
                                   });
-                                  if(valueTut == true){
+                                  if (valueTut == true) {
                                     typeOfInstitutionList.add("TUTORIAL");
-                                  }else if(valueTut == false){
+                                  } else if (valueTut == false) {
                                     typeOfInstitutionList.remove("TUTORIAL");
                                   }
                                 },
@@ -1972,9 +2088,9 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueLibraris = value;
                                   });
-                                  if(valueLibraris == true){
+                                  if (valueLibraris == true) {
                                     typeOfInstitutionList.add("LIBRARIES");
-                                  }else if(valueLibraris == false){
+                                  } else if (valueLibraris == false) {
                                     typeOfInstitutionList.remove("LIBRARIES");
                                   }
                                 },
@@ -1989,26 +2105,32 @@ class _FormsState extends State<Forms>
                                   setState(() {
                                     this.valueHostal = value;
                                   });
-                                  if(valueHostal == true){
+                                  if (valueHostal == true) {
                                     typeOfInstitutionList.add("HOSTELS");
-                                  }else if(valueHostal == false){
+                                  } else if (valueHostal == false) {
                                     typeOfInstitutionList.remove("HOSTELS");
                                   }
                                 },
                               ),
-                              SizedBox(height: 6.0,),
+                              SizedBox(
+                                height: 6.0,
+                              ),
                               //Courses
                               TextFormField(
                                 controller: institutionCourses,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Courses Offered',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2023,12 +2145,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: institutionStrength,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Strength of the Collage*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2045,7 +2169,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -2062,14 +2186,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: institutionAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2084,14 +2212,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: institutionOpportunities,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Opportunities to work" ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2106,14 +2238,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: institutionRemarks,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Remarks & Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -2124,18 +2260,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -2144,68 +2286,72 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
-                                    child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54))
-                                  ),
+                                      child: Text("ADD LOCATION",
+                                          style: TextStyle(
+                                              color: Colors.black54))),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -2214,24 +2360,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -2240,25 +2379,39 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(institutionCourses.text.trim() == ""){
-                                        institutionCourses.text = "Couldn't Inquire";
-                                      }if(institutionContact.text.trim() == ""){
+                                    onPressed: () {
+                                      if (institutionCourses.text.trim() ==
+                                          "") {
+                                        institutionCourses.text =
+                                            "Couldn't Inquire";
+                                      }
+                                      if (institutionContact.text.trim() ==
+                                          "") {
                                         institutionContact.text = "0000";
-                                      }if(institutionOpportunities.text.trim() == ""){
-                                        institutionOpportunities.text = "Couldn't Inquire";
-                                      }if(typeOfInstitutionList.isEmpty){
+                                      }
+                                      if (institutionOpportunities.text
+                                              .trim() ==
+                                          "") {
+                                        institutionOpportunities.text =
+                                            "Couldn't Inquire";
+                                      }
+                                      if (typeOfInstitutionList.isEmpty) {
                                         typeOfInstitutionList.add("TUTORIAL");
                                       }
-                                      if(institutionRemarks.text.trim() == ""){
-                                        institutionRemarks.text = "none for now";
+                                      if (institutionRemarks.text.trim() ==
+                                          "") {
+                                        institutionRemarks.text =
+                                            "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -2266,26 +2419,27 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
                         ),
-                       // YOUTH SPOTS
+                        // YOUTH SPOTS
                         Visibility(
                           visible: youthDetailsVisible,
                           child: Column(
@@ -2295,7 +2449,7 @@ class _FormsState extends State<Forms>
                                 controller: youthPlaceName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the Place*',
                                     prefixIcon: Icon(Icons.home_sharp)),
                                 validator: (value) {
@@ -2313,9 +2467,10 @@ class _FormsState extends State<Forms>
                                 controller: youthHeadOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Responsible Head of the Place',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2332,7 +2487,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -2349,12 +2504,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: youthCapacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2369,14 +2526,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: youthAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2391,14 +2552,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: youthDetails,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -2409,18 +2574,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -2429,68 +2600,73 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
                                     child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54)),
+                                        style:
+                                            TextStyle(color: Colors.black54)),
                                   ),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -2499,24 +2675,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -2525,21 +2694,25 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(youthHeadOfPlace.text.trim() == ""){
+                                    onPressed: () {
+                                      if (youthHeadOfPlace.text.trim() == "") {
                                         youthHeadOfPlace.text = "unknown";
-                                      }if(youthContact.text.trim() == ""){
+                                      }
+                                      if (youthContact.text.trim() == "") {
                                         youthContact.text = "0000";
                                       }
-                                      if(youthDetails.text.trim() == ""){
+                                      if (youthDetails.text.trim() == "") {
                                         youthDetails.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -2547,21 +2720,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -2576,7 +2750,7 @@ class _FormsState extends State<Forms>
                                 controller: publicPlaceName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the Place*',
                                     prefixIcon: Icon(Icons.home_sharp)),
                                 validator: (value) {
@@ -2594,9 +2768,10 @@ class _FormsState extends State<Forms>
                                 controller: publicHeadOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Responsible/Owner of the Place',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2613,7 +2788,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -2630,12 +2805,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: publicCapacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2650,14 +2827,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: publicAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2672,14 +2853,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: publicDetails,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -2690,18 +2875,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -2710,68 +2901,73 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
-                                    child:Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54)),
+                                    child: Text("ADD LOCATION",
+                                        style:
+                                            TextStyle(color: Colors.black54)),
                                   ),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -2780,24 +2976,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -2806,21 +2995,25 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(publicHeadOfPlace.text.trim() == ""){
+                                    onPressed: () {
+                                      if (publicHeadOfPlace.text.trim() == "") {
                                         publicHeadOfPlace.text = "unknown";
-                                      }  if(publicContact.text.trim() == ""){
+                                      }
+                                      if (publicContact.text.trim() == "") {
                                         publicContact.text = "0000";
                                       }
-                                      if(publicDetails.text.trim() == ""){
+                                      if (publicDetails.text.trim() == "") {
                                         publicDetails.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -2828,21 +3021,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -2857,9 +3051,10 @@ class _FormsState extends State<Forms>
                                 controller: officePlaceName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the Office*',
-                                    prefixIcon: Icon(Icons.work_outline_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.work_outline_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2870,14 +3065,15 @@ class _FormsState extends State<Forms>
                                   return null;
                                 },
                               ),
-                            //  Head of the Office
+                              //  Head of the Office
                               TextFormField(
                                 controller: officeHeadOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Responsible/Head of the Office ',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2894,7 +3090,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -2912,7 +3108,7 @@ class _FormsState extends State<Forms>
                                 controller: officeTiming,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Timings of the office in 24hrs ',
                                     prefixIcon: Icon(Icons.timer_outlined)),
                                 validator: (value) {
@@ -2929,12 +3125,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: officeCapacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2949,14 +3147,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: officeAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -2971,14 +3173,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: officeDetails,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -2989,18 +3195,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -3009,68 +3221,72 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
-                                    child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54))
-                                  ),
+                                      child: Text("ADD LOCATION",
+                                          style: TextStyle(
+                                              color: Colors.black54))),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -3079,24 +3295,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -3105,23 +3314,28 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(officeHeadOfPlace.text.trim() == ""){
+                                    onPressed: () {
+                                      if (officeHeadOfPlace.text.trim() == "") {
                                         officeHeadOfPlace.text = "unknown";
-                                      }if(officeContact.text.trim() == ""){
+                                      }
+                                      if (officeContact.text.trim() == "") {
                                         officeContact.text = "0000";
-                                      }if(officeTiming.text.trim() == ""){
+                                      }
+                                      if (officeTiming.text.trim() == "") {
                                         officeTiming.text = "00:00 - 24:00 Hrs";
                                       }
-                                      if(officeDetails.text.trim() == ""){
+                                      if (officeDetails.text.trim() == "") {
                                         officeDetails.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -3129,21 +3343,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -3158,7 +3373,7 @@ class _FormsState extends State<Forms>
                                 controller: ngosPlaceName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the NGOS/ORGANISATION*',
                                     prefixIcon: Icon(Icons.home_work)),
                                 validator: (value) {
@@ -3176,9 +3391,10 @@ class _FormsState extends State<Forms>
                                 controller: ngosHeadOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Responsible/Head name ',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3195,7 +3411,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -3213,7 +3429,7 @@ class _FormsState extends State<Forms>
                                 controller: ngosTiming,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Timings of the office in 24hrs ',
                                     prefixIcon: Icon(Icons.timer_outlined)),
                                 validator: (value) {
@@ -3230,12 +3446,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: ngosCapacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3250,14 +3468,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: ngosAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3272,14 +3494,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: ngosDetails,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -3290,18 +3516,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -3310,68 +3542,73 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
                                     child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54)),
+                                        style:
+                                            TextStyle(color: Colors.black54)),
                                   ),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -3380,24 +3617,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -3406,23 +3636,28 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(ngosHeadOfPlace.text.trim() == ""){
+                                    onPressed: () {
+                                      if (ngosHeadOfPlace.text.trim() == "") {
                                         ngosHeadOfPlace.text = "unknown";
-                                      }if(ngosContact.text.trim() == ""){
+                                      }
+                                      if (ngosContact.text.trim() == "") {
                                         ngosContact.text = "0000";
-                                      }if(ngosTiming.text.trim() == ""){
+                                      }
+                                      if (ngosTiming.text.trim() == "") {
                                         ngosTiming.text = "00:00 - 24:00 Hrs";
                                       }
-                                      if(ngosDetails.text.trim() == ""){
+                                      if (ngosDetails.text.trim() == "") {
                                         ngosDetails.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -3430,21 +3665,22 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
@@ -3459,7 +3695,7 @@ class _FormsState extends State<Forms>
                                 controller: hallsPlaceName,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Name of the Place*',
                                     prefixIcon: Icon(Icons.home_work_sharp)),
                                 validator: (value) {
@@ -3477,9 +3713,10 @@ class _FormsState extends State<Forms>
                                 controller: hallsHeadOfPlace,
                                 keyboardType: TextInputType.text,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Responsible/Owner of the Place',
-                                    prefixIcon: Icon(Icons.account_box_outlined)),
+                                    prefixIcon:
+                                        Icon(Icons.account_box_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3496,7 +3733,7 @@ class _FormsState extends State<Forms>
                                 keyboardType: TextInputType.number,
                                 keyboardAppearance: Brightness.light,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Contact No',
                                     prefixIcon: Icon(Icons.account_circle)),
                                 validator: (value) {
@@ -3513,12 +3750,14 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: hallsCapacity,
                                 keyboardType: TextInputType.number,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
-                                  //border: InputBorder.none,
+                                    //border: InputBorder.none,
                                     hintText: 'Capacity to Accommodate*',
-                                    prefixIcon: Icon(Icons.people_alt_outlined )),
+                                    prefixIcon:
+                                        Icon(Icons.people_alt_outlined)),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3533,14 +3772,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: hallsAddress,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Address* ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.add_location_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.add_location_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 validator: (value) {
                                   if (value.isEmpty) {
                                     return 'Please enter the appropriate details';
@@ -3555,14 +3798,18 @@ class _FormsState extends State<Forms>
                               TextFormField(
                                 controller: hallsDetails,
                                 keyboardType: TextInputType.multiline,
-                                minLines: 1,//Normal textInputField will be displayed
+                                minLines: 1,
+                                //Normal textInputField will be displayed
                                 maxLines: 5,
                                 decoration: InputDecoration(
                                   //border: InputBorder.none,
                                   hintText: 'Details"*if required " ',
-                                  contentPadding: new EdgeInsets.symmetric(vertical: 50.0, horizontal: 10.0),
-                                  prefixIcon: Icon(Icons.article_outlined  ),),
-                                scrollPadding: EdgeInsets.symmetric(vertical: 50.0),
+                                  contentPadding: new EdgeInsets.symmetric(
+                                      vertical: 50.0, horizontal: 10.0),
+                                  prefixIcon: Icon(Icons.article_outlined),
+                                ),
+                                scrollPadding:
+                                    EdgeInsets.symmetric(vertical: 50.0),
                                 // validator: (value) {
                                 //   if (value.isEmpty) {
                                 //     return 'Please enter the appropriate details';
@@ -3573,18 +3820,24 @@ class _FormsState extends State<Forms>
                                 //   return null;
                                 // },
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //Image upload
                               Column(
                                 children: [
                                   Center(
-                                    child: userImage == null ? Text("UPLOAD PLACE IMAGE",
-                                      style: TextStyle(color: Colors.black54),):Image.file(userImage),
+                                    child: userImage == null
+                                        ? Text(
+                                            "UPLOAD PLACE IMAGE",
+                                            style: TextStyle(
+                                                color: Colors.black54),
+                                          )
+                                        : Image.file(userImage),
                                   ),
-
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getImage();
                                       },
                                       icon: Icon(
@@ -3593,68 +3846,73 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add pic*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
                                   Visibility(
-                                      visible:uploadVisible,
-                                      child: Icon(Icons.cloud_upload_rounded,color: Colors.green,)
-                                  ),
-
+                                      visible: uploadVisible,
+                                      child: Icon(
+                                        Icons.cloud_upload_rounded,
+                                        color: Colors.green,
+                                      )),
                                 ],
                               ),
-                              SizedBox(height: 10.0,),
+                              SizedBox(
+                                height: 10.0,
+                              ),
                               //upload Image button
                               Builder(
                                 builder: (context) => TextButton(
                                   // color: Theme.of(context).primaryColor,
                                   style: TextButton.styleFrom(
                                     primary: Colors.black26,
-                                    backgroundColor: Theme.of(context).primaryColor,
+                                    backgroundColor:
+                                        Theme.of(context).primaryColor,
                                     onSurface: Colors.blue,
                                   ),
                                   onPressed: () async {
                                     await uploadImageToFirebase(context);
                                     await Future.delayed(Duration(seconds: 1));
                                     print("upload done : $imageLink");
-                                    if(imageLink!= null){
+                                    if (imageLink != null) {
                                       setState(() {
                                         uploadVisible = true;
                                       });
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
                                           content: Text("Image Uploaded"),
                                         ),
                                       );
-                                    }else{
-                                      ScaffoldMessenger.of(context).showSnackBar(
+                                    } else {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(
                                         SnackBar(
-                                          content: Text("Image Not upload try again"),
+                                          content: Text(
+                                              "Image Not upload try again"),
                                         ),
                                       );
                                     }
-
                                   },
-                                  child: Text(
-                                      'upload image',
-                                      style: TextStyle(color: Colors.white)
-                                  ),
+                                  child: Text('upload image',
+                                      style: TextStyle(color: Colors.white)),
                                 ),
                               ),
-                              SizedBox(height: 20.0,),
+                              SizedBox(
+                                height: 20.0,
+                              ),
                               //location upload
                               Column(
                                 children: <Widget>[
                                   Center(
                                     child: Text("ADD LOCATION",
-                                        style: TextStyle(color: Colors.black54)),
+                                        style:
+                                            TextStyle(color: Colors.black54)),
                                   ),
                                   Builder(
-                                    builder: (context)=>TextButton.icon(
-                                      onPressed: (){
+                                    builder: (context) => TextButton.icon(
+                                      onPressed: () {
                                         getCurrentLoaction();
                                       },
                                       icon: Icon(
@@ -3663,24 +3921,17 @@ class _FormsState extends State<Forms>
                                       ),
                                       label: Text(
                                         "Add Location*",
-                                        style: TextStyle(
-                                            color: Colors.grey
-                                        ),
+                                        style: TextStyle(color: Colors.grey),
                                       ),
                                     ),
                                   ),
-
                                   Text(
                                     "LATITUDE:{$latitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                   Text(
                                     "LONGITUDE:{$longitudeData}",
-                                    style: TextStyle(
-                                        color: Colors.indigo
-                                    ),
+                                    style: TextStyle(color: Colors.indigo),
                                   ),
                                 ],
                               ),
@@ -3689,21 +3940,25 @@ class _FormsState extends State<Forms>
                                 builder: (context) => TextButton(
                                     style: TextButton.styleFrom(
                                       primary: Colors.black26,
-                                      backgroundColor: Theme.of(context).primaryColor,
+                                      backgroundColor:
+                                          Theme.of(context).primaryColor,
                                       onSurface: Colors.blue,
                                     ),
-                                    onPressed:() {
-                                      if(hallsHeadOfPlace.text.trim() == ""){
+                                    onPressed: () {
+                                      if (hallsHeadOfPlace.text.trim() == "") {
                                         hallsHeadOfPlace.text = "unknown";
-                                      }if(hallsContact.text.trim() == ""){
+                                      }
+                                      if (hallsContact.text.trim() == "") {
                                         hallsContact.text = "0000";
                                       }
-                                      if(hallsDetails.text.trim() == ""){
+                                      if (hallsDetails.text.trim() == "") {
                                         hallsDetails.text = "none for now";
                                       }
                                       if (formKey.currentState.validate()) {
-                                        if(imageLink!=null && latitudeData!=null){
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        if (imageLink != null &&
+                                            latitudeData != null) {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
                                               content: Text("All done!"),
                                             ),
@@ -3711,50 +3966,57 @@ class _FormsState extends State<Forms>
                                           setState(() {
                                             pressedFunc();
                                           });
-                                        }else{
-                                          ScaffoldMessenger.of(context).showSnackBar(
+                                        } else {
+                                          ScaffoldMessenger.of(context)
+                                              .showSnackBar(
                                             SnackBar(
-                                              content: Text("U did't upload location or Image"),
+                                              content: Text(
+                                                  "U did't upload location or Image"),
                                             ),
                                           );
                                         }
-
                                       }
                                     },
                                     child: Center(
                                         child: Text(
-                                          'Done',
-                                          style: TextStyle(color: Colors.white),
-                                        ))),
+                                      'Done',
+                                      style: TextStyle(color: Colors.white),
+                                    ))),
                               ),
                             ],
                           ),
                         ),
                       ],
                     ),
-                    SizedBox(height: 8.0,),
+                    SizedBox(
+                      height: 8.0,
+                    ),
                     //SUBMIT BUTTON
                     Visibility(
                       visible: isEnabled,
                       child: Builder(
-                          builder: (context) => TextButton(
-                              // color: Theme.of(context).primaryColor,
-                              style: TextButton.styleFrom(
-                                primary: Colors.black26,
-                                backgroundColor:Theme.of(context).primaryColor,
-                                onSurface: Colors.grey,
-                              ),
-                              onPressed: isEnabled?()=>submitFunc():null,
-                              child: Center(
-                                  child: Text(
-                                    'Submit',
-                                    style: TextStyle(color: Colors.white70),
-                                  ))),
+                        builder: (context) => TextButton(
+                            // color: Theme.of(context).primaryColor,
+                            style: TextButton.styleFrom(
+                              primary: Colors.black26,
+                              backgroundColor: Theme.of(context).primaryColor,
+                              onSurface: Colors.grey,
+                            ),
+                            onPressed: isEnabled ? () => submitFunc() : null,
+                            child: Center(
+                                child: Text(
+                              'Submit',
+                              style: TextStyle(color: Colors.white70),
+                            ))),
                       ),
                     ),
-                    SizedBox(height: 20.0,),
-                   // checkForAd(),
-                    SizedBox(height: 15.0,),
+                    SizedBox(
+                      height: 20.0,
+                    ),
+                    // checkForAd(),
+                    SizedBox(
+                      height: 15.0,
+                    ),
                   ],
                 ),
               ),
@@ -3764,1336 +4026,1455 @@ class _FormsState extends State<Forms>
       ),
     );
   }
+
   //Button function
- void pressedFunc(){
-
-   setState(() {
-     isEnabled = true;
-   });
- }
-void submitFunc(){
-  // Scaffold.of(context).showSnackBar(
-  //   SnackBar(
-  //     content: Text("Submit Scuss"),
-  //   ),
-  // );
-   setState((){
-     try{
-
-
-    print("code run");
-    switch(placeValue){
-      case "RELIGIOUS PLACES":{
-        switch(placeTypeReligiousValue){
-          case "MASJID":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
-              "PlaceName":NameOfPlace.text,
-              "HeadOfplace":HeadOfplace.text,
-              "ContactNO":Contact.text,
-              "FikerType":FikerType.text,
-              "Libraries":Libraries.text,
-              "Capacity":Capacity.text,
-              "Address":Address.text,
-              "Details":Details.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("RELIGIOUS PLACES").collection("MASJID")
-                .add(data);
-          }break;
-          case "CHURCH":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
-              "PlaceName":NameOfPlace.text,
-              "HeadOfplace":HeadOfplace.text,
-              "ContactNO":Contact.text,
-              "FikerType":FikerType.text,
-              "Libraries":Libraries.text,
-              "Capacity":Capacity.text,
-              "Address":Address.text,
-              "Details":Details.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("RELIGIOUS PLACES").collection("CHURCH")
-                .add(data);
-          }break;
-          case "GURUDWARS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
-              "PlaceName":NameOfPlace.text,
-              "HeadOfplace":HeadOfplace.text,
-              "ContactNO":Contact.text,
-              "FikerType":FikerType.text,
-              "Libraries":Libraries.text,
-              "Capacity":Capacity.text,
-              "Address":Address.text,
-              "Details":Details.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("RELIGIOUS PLACES").collection("GURUDWARS")
-                .add(data);
-          }break;
-          case "TEMPLE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeReligiousValue.toLowerCase().toString(),
-              "PlaceName":NameOfPlace.text,
-              "HeadOfplace":HeadOfplace.text,
-              "ContactNO":Contact.text,
-              "FikerType":FikerType.text,
-              "Libraries":Libraries.text,
-              "Capacity":Capacity.text,
-              "Address":Address.text,
-              "Details":Details.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("RELIGIOUS PLACES").collection("TEMPLE")
-                .add(data);
-          }break;
-        }
-      }
-      break;
-
-      case "EDUCATIONAL INSTITUTIONS":{
-        switch(placeTypeEducationValue){
-          case "SCHOOL":{
-          Map<String, dynamic> data = {
-            "PlaceValue":placeValue.toLowerCase().toString(),
-            "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-            "schoolName":schoolName.text,
-            "schoolPrinciple":schoolPrinciple.text,
-            "schoolContact":schoolContact.text,
-            "schoolStrength":schoolStrength.text,
-            "schoolOpportunities":schoolOpportunities.text,
-            "schoolRemarks":schoolRemarks.text,
-            "schoolAddress":schoolAddress.text,
-            "PlaceImage": imageLink,
-            "latitudeData":latitudeData,
-            "longitudeData":longitudeData,
-
-            "unitName":unitValue,
-            "uid": unitMail,
-            "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-            "isPosted":"Posted",
-          };
-          FirebaseFirestore.instance
-              .collection(unitValue)
-              .doc("EDUCATIONAL INSTITUTIONS").collection("SCHOOL")
-              .add(data);
-        }break;
-          case "COLLEGE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-              "collageName":collageName.text,
-              "collageCourses":collageCourses.text,
-              "collageContact":collageContact.text,
-              "collageStrength":collageStrength.text,
-              "collageOpportunities":collageOpportunities.text,
-              "collageRemarks":collageRemarks.text,
-              "collageAddress":collageAddress.text,
-              "typeOfCollegeList":typeOfCollegeList.toString(),
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("EDUCATIONAL INSTITUTIONS").collection("COLLEGE")
-                .add(data);
-
-          }break;
-          case "INSTITUTION":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeEducationValue.toLowerCase().toString(),
-              "institutionName":institutionName.text,
-              "institutionCourses":institutionCourses.text,
-              "institutionContact":institutionContact.text,
-              "institutionStrength":institutionStrength.text,
-              "institutionOpportunities":institutionOpportunities.text,
-              "institutionRemarks":institutionRemarks.text,
-              "institutionAddress":institutionAddress.text,
-              "typeOfInstitutionList":typeOfInstitutionList.toString(),
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("EDUCATIONAL INSTITUTIONS").collection("INSTITUTION")
-                .add(data);
-
-          }break;
-        }
-      }
-      break;
-
-      case"YOUTH SPOTS":{
-        switch(placeTypeYouthValue){
-          case"GYM":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-              "youthPlaceName":youthPlaceName.text,
-              "youthHeadOfPlace":youthHeadOfPlace.text,
-              "youthContact":youthContact.text,
-              "youthCapacity":youthCapacity.text,
-              "youthAddress":youthAddress.text,
-              "youthDetails":youthDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("YOUTH SPOTS").collection("GYM")
-                .add(data);
-
-          }break;
-          case"PLAY GROUND":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-              "youthPlaceName":youthPlaceName.text,
-              "youthHeadOfPlace":youthHeadOfPlace.text,
-              "youthContact":youthContact.text,
-              "youthCapacity":youthCapacity.text,
-              "youthAddress":youthAddress.text,
-              "youthDetails":youthDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("YOUTH SPOTS").collection("PLAY GROUND")
-                .add(data);
-
-          }break;
-          case"GAME ROOMS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-              "youthPlaceName":youthPlaceName.text,
-              "youthHeadOfPlace":youthHeadOfPlace.text,
-              "youthContact":youthContact.text,
-              "youthCapacity":youthCapacity.text,
-              "youthAddress":youthAddress.text,
-              "youthDetails":youthDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("YOUTH SPOTS").collection("GAME ROOMS")
-                .add(data);
-
-          }break;
-          case"SPORTS CLUB":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeYouthValue.toLowerCase().toString(),
-              "youthPlaceName":youthPlaceName.text,
-              "youthHeadOfPlace":youthHeadOfPlace.text,
-              "youthContact":youthContact.text,
-              "youthCapacity":youthCapacity.text,
-              "youthAddress":youthAddress.text,
-              "youthDetails":youthDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("YOUTH SPOTS").collection("SPORTS CLUB")
-                .add(data);
-
-          }break;
-        }
-
-      }
-      break;
-
-      case"PUBLIC SPOTS":{
-        switch(placeTypePublicValue){
-          case"HOTELS & RESTAURANT'S":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("HOTELS & RESTAURANT'S")
-                .add(data);
-
-
-          }break;
-          case"HOSPITAL'S":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("HOSPITAL'S")
-                .add(data);
-
-
-          }break;
-          case"BUS STOPS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("BUS STOPS")
-                .add(data);
-
-          }break;
-          case"PAN SHOPorTEA STALL":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("PAN SHOPorTEA STALL")
-                .add(data);
-
-          }break;
-          case"THEATERS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("THEATERS")
-                .add(data);
-
-          }break;
-          case"TOURIST PLACES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("TOURIST PLACES")
-                .add(data);
-
-          }break;
-          case"GARDENS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("GARDENS")
-                .add(data);
-
-          }break;
-          case"PARKS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("PARKS")
-                .add(data);
-
-          }break;
-          case"YOGA CENTRES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("YOGA CENTRES")
-                .add(data);
-
-          }break;
-          case"FITNESS CENTRES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypePublicValue.toLowerCase().toString(),
-              "publicPlaceName":publicPlaceName.text,
-              "publicHeadOfPlace":publicHeadOfPlace.text,
-              "publicContact":publicContact.text,
-              "publicCapacity":publicCapacity.text,
-              "publicAddress":publicAddress.text,
-              "publicDetails":publicDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("PUBLIC SPOTS").collection("FITNESS CENTRES")
-                .add(data);
-
-          }break;
-        }
-
-      }
-      break;
-
-      case"OFFICES":{
-        switch(placeTypeOfficesValue){
-          case"ELECTRICITY":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("ELECTRICITY")
-                .add(data);
-
-          }break;
-          case"POLICE STATION'S":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("POLICE STATION'S")
-                .add(data);
-
-          }break;
-          case"POST OFFICES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("POST OFFICES")
-                .add(data);
-
-          }break;
-          case"MRO":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("MRO")
-                .add(data);
-
-          }break;
-          case"MPDO":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("MPDO")
-                .add(data);
-
-          }break;
-          case"WATER":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("WATER")
-                .add(data);
-
-          }break;
-          case"TAHSILDAAR":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("TAHSILDAAR")
-                .add(data);
-
-          }break;
-          case"MLA":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("MLA")
-                .add(data);
-
-          }break;
-          case"MP":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("MP")
-                .add(data);
-
-          }break;
-          case"CORPORATOR":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeOfficesValue.toLowerCase().toString(),
-              "officePlaceName":officePlaceName.text,
-              "officeHeadOfPlace":officeHeadOfPlace.text,
-              "officeContact":officeContact.text,
-              "officeTiming":officeTiming.text,
-              "officeCapacity":officeCapacity.text,
-              "officeAddress":officeAddress.text,
-              "officeDetails":officeDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("OFFICES").collection("CORPORATOR")
-                .add(data);
-
-          }break;
-
-        }
-      }
-      break;
-
-      case"NGOSorORGANISATIONS":{
-        switch(placeTypeNgosValue){
-          case"OLD AGE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("OLD AGE")
-                .add(data);
-
-          }break;
-          case"ORPHAN AGE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("ORPHAN AGE")
-                .add(data);
-
-          }break;
-          case"SOCIAL WELFARE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("SOCIAL WELFARE")
-                .add(data);
-
-          }break;
-          case"CAREER GUIDANCE ":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("CAREER GUIDANCE")
-                .add(data);
-
-          }break;
-          case"COUNSELING CENTRES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("COUNSELING CENTRES")
-                .add(data);
-
-          }break;
-          case"STUDENT&RELIGIOUS&CHARITY":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("STUDENT&RELIGIOUS&CHARITY")
-                .add(data);
-
-          }break;
-          case"YOUTH ORGANISATIONS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("YOUTH ORGANISATIONS")
-                .add(data);
-
-          }break;
-          case"HWF CENTRES":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("HWF CENTRES")
-                .add(data);
-
-          }break;
-          case"CHILD CARE":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("CHILD CARE")
-                .add(data);
-          }break;
-          case"ASSOCIATIONS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("ASSOCIATIONS")
-                .add(data);
-
-          }break;
-          case"FORUMS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeNgosValue.toLowerCase().toString(),
-              "ngosPlaceName":ngosPlaceName.text,
-              "ngosHeadOfPlace":ngosHeadOfPlace.text,
-              "ngosContact":ngosContact.text,
-              "ngosTiming":ngosTiming.text,
-              "ngosCapacity":ngosCapacity.text,
-              "ngosAddress":ngosAddress.text,
-              "ngosDetails":ngosDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("NGOSorORGANISATIONS").collection("FORUMS")
-                .add(data);
-
-          }break;
-
-        }
-      }
-      break;
-
-      case"HALLS":{
-        switch(placeTypeHallsValue){
-          case"COMMUNITY HALLS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("COMMUNITY HALLS")
-                .add(data);
-
-          }break;
-          case"FUNCTION HALLS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("FUNCTION HALLS")
-                .add(data);
-
-          }break;
-          case"MEETING HALLS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("MEETING HALLS")
-                .add(data);
-
-          }break;
-          case"MELAS ":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("MELAS")
-                .add(data);
-
-          }break;
-          case"EXHIBITION ":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("EXHIBITION")
-                .add(data);
-
-          }break;
-          case"PRESS HALLS":{
-            Map<String, dynamic> data = {
-              "PlaceValue":placeValue.toLowerCase().toString(),
-              "PlaceType":placeTypeHallsValue.toLowerCase().toString(),
-              "hallsPlaceName":hallsPlaceName.text,
-              "hallsHeadOfPlace":hallsHeadOfPlace.text,
-              "hallsContact":hallsContact.text,
-              "hallsCapacity":hallsCapacity.text,
-              "hallsAddress":hallsAddress.text,
-              "hallsDetails":hallsDetails.text,
-              "PlaceImage": imageLink,
-              "latitudeData":latitudeData,
-              "longitudeData":longitudeData,
-
-              "unitName":unitValue,
-              "uid": unitMail,
-              "dataTime":DateTime.parse(DateTime.now().toString().trim()),
-              "isPosted":"Posted",
-            };
-            FirebaseFirestore.instance
-                .collection(unitValue)
-                .doc("HALLS").collection("PRESS HALLS")
-                .add(data);
-
-          }break;
-
-        }
-      }
-      break;
-
-
-    }
-    ScaffoldMessenger.of(context).showSnackBar(
-      SnackBar(
-        content: Text("yay! Uploaded! Thank You:)"),
-        action: SnackBarAction(
-          label: "OK",
-          onPressed: (){
-            //Navigator.pop(context);
-          },
-        ),
-      ),
-    );
-    Navigator.pop(context,{
-
+  void pressedFunc() {
+    setState(() {
+      isEnabled = true;
     });
-     }catch(e){
-       ScaffoldMessenger.of(context).showSnackBar(
-         SnackBar(
-           content: Text("we Could not upload ur data check ur internet and try again"),
-           action: SnackBarAction(
-             label: "OK",
-             onPressed: (){
-
-             },
-           ),
-         ),
-       );
-       print("error : $e");
-     }
   }
 
-  );
-}
+  void submitFunc() {
+    // Scaffold.of(context).showSnackBar(
+    //   SnackBar(
+    //     content: Text("Submit Scuss"),
+    //   ),
+    // );
+    setState(() {
+      try {
+        print("code run");
+        switch (placeValue) {
+          case "RELIGIOUS PLACES":
+            {
+              switch (placeTypeReligiousValue) {
+                case "MASJID":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeReligiousValue.toLowerCase().toString(),
+                      "PlaceName": NameOfPlace.text,
+                      "HeadOfplace": HeadOfplace.text,
+                      "ContactNO": Contact.text,
+                      "FikerType": FikerType.text,
+                      "Libraries": Libraries.text,
+                      "Capacity": Capacity.text,
+                      "Address": Address.text,
+                      "Details": Details.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("RELIGIOUS PLACES")
+                        .collection("MASJID")
+                        .add(data);
+                  }
+                  break;
+                case "CHURCH":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeReligiousValue.toLowerCase().toString(),
+                      "PlaceName": NameOfPlace.text,
+                      "HeadOfplace": HeadOfplace.text,
+                      "ContactNO": Contact.text,
+                      "FikerType": FikerType.text,
+                      "Libraries": Libraries.text,
+                      "Capacity": Capacity.text,
+                      "Address": Address.text,
+                      "Details": Details.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("RELIGIOUS PLACES")
+                        .collection("CHURCH")
+                        .add(data);
+                  }
+                  break;
+                case "GURUDWARS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeReligiousValue.toLowerCase().toString(),
+                      "PlaceName": NameOfPlace.text,
+                      "HeadOfplace": HeadOfplace.text,
+                      "ContactNO": Contact.text,
+                      "FikerType": FikerType.text,
+                      "Libraries": Libraries.text,
+                      "Capacity": Capacity.text,
+                      "Address": Address.text,
+                      "Details": Details.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("RELIGIOUS PLACES")
+                        .collection("GURUDWARS")
+                        .add(data);
+                  }
+                  break;
+                case "TEMPLE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeReligiousValue.toLowerCase().toString(),
+                      "PlaceName": NameOfPlace.text,
+                      "HeadOfplace": HeadOfplace.text,
+                      "ContactNO": Contact.text,
+                      "FikerType": FikerType.text,
+                      "Libraries": Libraries.text,
+                      "Capacity": Capacity.text,
+                      "Address": Address.text,
+                      "Details": Details.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("RELIGIOUS PLACES")
+                        .collection("TEMPLE")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
 
+          case "EDUCATIONAL INSTITUTIONS":
+            {
+              switch (placeTypeEducationValue) {
+                case "SCHOOL":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeEducationValue.toLowerCase().toString(),
+                      "schoolName": schoolName.text,
+                      "schoolPrinciple": schoolPrinciple.text,
+                      "schoolContact": schoolContact.text,
+                      "schoolStrength": schoolStrength.text,
+                      "schoolOpportunities": schoolOpportunities.text,
+                      "schoolRemarks": schoolRemarks.text,
+                      "schoolAddress": schoolAddress.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("EDUCATIONAL INSTITUTIONS")
+                        .collection("SCHOOL")
+                        .add(data);
+                  }
+                  break;
+                case "COLLEGE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeEducationValue.toLowerCase().toString(),
+                      "collageName": collageName.text,
+                      "collageCourses": collageCourses.text,
+                      "collageContact": collageContact.text,
+                      "collageStrength": collageStrength.text,
+                      "collageOpportunities": collageOpportunities.text,
+                      "collageRemarks": collageRemarks.text,
+                      "collageAddress": collageAddress.text,
+                      "typeOfCollegeList": typeOfCollegeList.toString(),
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("EDUCATIONAL INSTITUTIONS")
+                        .collection("COLLEGE")
+                        .add(data);
+                  }
+                  break;
+                case "INSTITUTION":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeEducationValue.toLowerCase().toString(),
+                      "institutionName": institutionName.text,
+                      "institutionCourses": institutionCourses.text,
+                      "institutionContact": institutionContact.text,
+                      "institutionStrength": institutionStrength.text,
+                      "institutionOpportunities": institutionOpportunities.text,
+                      "institutionRemarks": institutionRemarks.text,
+                      "institutionAddress": institutionAddress.text,
+                      "typeOfInstitutionList": typeOfInstitutionList.toString(),
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("EDUCATIONAL INSTITUTIONS")
+                        .collection("INSTITUTION")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
 
+          case "YOUTH SPOTS":
+            {
+              switch (placeTypeYouthValue) {
+                case "GYM":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeYouthValue.toLowerCase().toString(),
+                      "youthPlaceName": youthPlaceName.text,
+                      "youthHeadOfPlace": youthHeadOfPlace.text,
+                      "youthContact": youthContact.text,
+                      "youthCapacity": youthCapacity.text,
+                      "youthAddress": youthAddress.text,
+                      "youthDetails": youthDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("YOUTH SPOTS")
+                        .collection("GYM")
+                        .add(data);
+                  }
+                  break;
+                case "PLAY GROUND":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeYouthValue.toLowerCase().toString(),
+                      "youthPlaceName": youthPlaceName.text,
+                      "youthHeadOfPlace": youthHeadOfPlace.text,
+                      "youthContact": youthContact.text,
+                      "youthCapacity": youthCapacity.text,
+                      "youthAddress": youthAddress.text,
+                      "youthDetails": youthDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("YOUTH SPOTS")
+                        .collection("PLAY GROUND")
+                        .add(data);
+                  }
+                  break;
+                case "GAME ROOMS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeYouthValue.toLowerCase().toString(),
+                      "youthPlaceName": youthPlaceName.text,
+                      "youthHeadOfPlace": youthHeadOfPlace.text,
+                      "youthContact": youthContact.text,
+                      "youthCapacity": youthCapacity.text,
+                      "youthAddress": youthAddress.text,
+                      "youthDetails": youthDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("YOUTH SPOTS")
+                        .collection("GAME ROOMS")
+                        .add(data);
+                  }
+                  break;
+                case "SPORTS CLUB":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeYouthValue.toLowerCase().toString(),
+                      "youthPlaceName": youthPlaceName.text,
+                      "youthHeadOfPlace": youthHeadOfPlace.text,
+                      "youthContact": youthContact.text,
+                      "youthCapacity": youthCapacity.text,
+                      "youthAddress": youthAddress.text,
+                      "youthDetails": youthDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("YOUTH SPOTS")
+                        .collection("SPORTS CLUB")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
+
+          case "PUBLIC SPOTS":
+            {
+              switch (placeTypePublicValue) {
+                case "HOTELS & RESTAURANT'S":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("HOTELS & RESTAURANT'S")
+                        .add(data);
+                  }
+                  break;
+                case "HOSPITAL'S":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("HOSPITAL'S")
+                        .add(data);
+                  }
+                  break;
+                case "BUS STOPS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("BUS STOPS")
+                        .add(data);
+                  }
+                  break;
+                case "PAN SHOPorTEA STALL":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("PAN SHOPorTEA STALL")
+                        .add(data);
+                  }
+                  break;
+                case "THEATERS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("THEATERS")
+                        .add(data);
+                  }
+                  break;
+                case "TOURIST PLACES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("TOURIST PLACES")
+                        .add(data);
+                  }
+                  break;
+                case "GARDENS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("GARDENS")
+                        .add(data);
+                  }
+                  break;
+                case "PARKS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("PARKS")
+                        .add(data);
+                  }
+                  break;
+                case "YOGA CENTRES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("YOGA CENTRES")
+                        .add(data);
+                  }
+                  break;
+                case "FITNESS CENTRES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypePublicValue.toLowerCase().toString(),
+                      "publicPlaceName": publicPlaceName.text,
+                      "publicHeadOfPlace": publicHeadOfPlace.text,
+                      "publicContact": publicContact.text,
+                      "publicCapacity": publicCapacity.text,
+                      "publicAddress": publicAddress.text,
+                      "publicDetails": publicDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("PUBLIC SPOTS")
+                        .collection("FITNESS CENTRES")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
+
+          case "OFFICES":
+            {
+              switch (placeTypeOfficesValue) {
+                case "ELECTRICITY":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("ELECTRICITY")
+                        .add(data);
+                  }
+                  break;
+                case "POLICE STATION'S":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("POLICE STATION'S")
+                        .add(data);
+                  }
+                  break;
+                case "POST OFFICES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("POST OFFICES")
+                        .add(data);
+                  }
+                  break;
+                case "MRO":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("MRO")
+                        .add(data);
+                  }
+                  break;
+                case "MPDO":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("MPDO")
+                        .add(data);
+                  }
+                  break;
+                case "WATER":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("WATER")
+                        .add(data);
+                  }
+                  break;
+                case "TAHSILDAAR":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("TAHSILDAAR")
+                        .add(data);
+                  }
+                  break;
+                case "MLA":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("MLA")
+                        .add(data);
+                  }
+                  break;
+                case "MP":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("MP")
+                        .add(data);
+                  }
+                  break;
+                case "CORPORATOR":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType":
+                          placeTypeOfficesValue.toLowerCase().toString(),
+                      "officePlaceName": officePlaceName.text,
+                      "officeHeadOfPlace": officeHeadOfPlace.text,
+                      "officeContact": officeContact.text,
+                      "officeTiming": officeTiming.text,
+                      "officeCapacity": officeCapacity.text,
+                      "officeAddress": officeAddress.text,
+                      "officeDetails": officeDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("OFFICES")
+                        .collection("CORPORATOR")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
+
+          case "NGOSorORGANISATIONS":
+            {
+              switch (placeTypeNgosValue) {
+                case "OLD AGE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("OLD AGE")
+                        .add(data);
+                  }
+                  break;
+                case "ORPHAN AGE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("ORPHAN AGE")
+                        .add(data);
+                  }
+                  break;
+                case "SOCIAL WELFARE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("SOCIAL WELFARE")
+                        .add(data);
+                  }
+                  break;
+                case "CAREER GUIDANCE ":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("CAREER GUIDANCE")
+                        .add(data);
+                  }
+                  break;
+                case "COUNSELING CENTRES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("COUNSELING CENTRES")
+                        .add(data);
+                  }
+                  break;
+                case "STUDENT&RELIGIOUS&CHARITY":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("STUDENT&RELIGIOUS&CHARITY")
+                        .add(data);
+                  }
+                  break;
+                case "YOUTH ORGANISATIONS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("YOUTH ORGANISATIONS")
+                        .add(data);
+                  }
+                  break;
+                case "HWF CENTRES":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("HWF CENTRES")
+                        .add(data);
+                  }
+                  break;
+                case "CHILD CARE":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("CHILD CARE")
+                        .add(data);
+                  }
+                  break;
+                case "ASSOCIATIONS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("ASSOCIATIONS")
+                        .add(data);
+                  }
+                  break;
+                case "FORUMS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeNgosValue.toLowerCase().toString(),
+                      "ngosPlaceName": ngosPlaceName.text,
+                      "ngosHeadOfPlace": ngosHeadOfPlace.text,
+                      "ngosContact": ngosContact.text,
+                      "ngosTiming": ngosTiming.text,
+                      "ngosCapacity": ngosCapacity.text,
+                      "ngosAddress": ngosAddress.text,
+                      "ngosDetails": ngosDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("NGOSorORGANISATIONS")
+                        .collection("FORUMS")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
+
+          case "HALLS":
+            {
+              switch (placeTypeHallsValue) {
+                case "COMMUNITY HALLS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("COMMUNITY HALLS")
+                        .add(data);
+                  }
+                  break;
+                case "FUNCTION HALLS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("FUNCTION HALLS")
+                        .add(data);
+                  }
+                  break;
+                case "MEETING HALLS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("MEETING HALLS")
+                        .add(data);
+                  }
+                  break;
+                case "MELAS ":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("MELAS")
+                        .add(data);
+                  }
+                  break;
+                case "EXHIBITION ":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("EXHIBITION")
+                        .add(data);
+                  }
+                  break;
+                case "PRESS HALLS":
+                  {
+                    Map<String, dynamic> data = {
+                      "PlaceValue": placeValue.toLowerCase().toString(),
+                      "PlaceType": placeTypeHallsValue.toLowerCase().toString(),
+                      "hallsPlaceName": hallsPlaceName.text,
+                      "hallsHeadOfPlace": hallsHeadOfPlace.text,
+                      "hallsContact": hallsContact.text,
+                      "hallsCapacity": hallsCapacity.text,
+                      "hallsAddress": hallsAddress.text,
+                      "hallsDetails": hallsDetails.text,
+                      "PlaceImage": imageLink,
+                      "latitudeData": latitudeData,
+                      "longitudeData": longitudeData,
+                      "unitName": unitValue,
+                      "uid": unitMail,
+                      "dataTime":
+                          DateTime.parse(DateTime.now().toString().trim()),
+                      "isPosted": "Posted",
+                    };
+                    FirebaseFirestore.instance
+                        .collection(unitValue)
+                        .doc("HALLS")
+                        .collection("PRESS HALLS")
+                        .add(data);
+                  }
+                  break;
+              }
+            }
+            break;
+        }
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text("yay! Uploaded! Thank You:)"),
+            action: SnackBarAction(
+              label: "OK",
+              onPressed: () {
+                //Navigator.pop(context);
+              },
+            ),
+          ),
+        );
+        Navigator.pop(context, {});
+      } catch (e) {
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(
+            content: Text(
+                "we Could not upload ur data check ur internet and try again"),
+            action: SnackBarAction(
+              label: "OK",
+              onPressed: () {},
+            ),
+          ),
+        );
+        print("error : $e");
+      }
+    });
+  }
 }

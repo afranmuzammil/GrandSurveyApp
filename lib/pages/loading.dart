@@ -9,12 +9,10 @@ class Loading extends StatefulWidget {
   _LoadingState createState() => _LoadingState();
 }
 
-class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
-  void loadingScreen()async{
+class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin {
+  void loadingScreen() async {
     await main();
-    Navigator.pushReplacementNamed(context, '/Auth', arguments: {
-
-    });
+    Navigator.pushReplacementNamed(context, '/Auth', arguments: {});
   }
 
   AnimationController controller;
@@ -27,64 +25,67 @@ class _LoadingState extends State<Loading> with SingleTickerProviderStateMixin{
 
     controller = AnimationController(
       duration: Duration(seconds: 3),
-     vsync: this,
+      vsync: this,
     );
 
-    animation =
-        controller.drive(ColorTween(begin: Color(0xff54b4d4) , end:Color(0xff048cbc)));
+    animation = controller
+        .drive(ColorTween(begin: Color(0xff54b4d4), end: Color(0xff048cbc)));
     controller.repeat();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor:Colors.white,
-        // appBar: AppBar(
-        //   backgroundColor: Theme.of(context).primaryColor,
-        //   title: Text(
-        //     'Daerah'.toUpperCase(),
-        //     style:
-        //     TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
-        //   ),
-        //   centerTitle: true,
-        //   elevation: 0,
-        // ),
+      backgroundColor: Colors.white,
+      // appBar: AppBar(
+      //   backgroundColor: Theme.of(context).primaryColor,
+      //   title: Text(
+      //     'Daerah'.toUpperCase(),
+      //     style:
+      //     TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+      //   ),
+      //   centerTitle: true,
+      //   elevation: 0,
+      // ),
 
       body: SafeArea(
         child: Center(
-           child: Column(
-             mainAxisAlignment: MainAxisAlignment.center,
-             crossAxisAlignment: CrossAxisAlignment.center,
-             children: [
-               Image(
-                 image: AssetImage('assets/ico_1024.png'),
-                 width: 100.0,
-                 height: 100.0,
-               ),
+            child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            Image(
+              image: AssetImage('assets/ico_1024.png'),
+              width: 100.0,
+              height: 100.0,
+            ),
 //               SizedBox(height: 10.0,),
-              Text(
-                'Daerah',
-                style: GoogleFonts.poppins(textStyle:
-                TextStyle(fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Color(0xff54b4d4))),
+            Text(
+              'Daerah',
+              style: GoogleFonts.poppins(
+                  textStyle: TextStyle(
+                      fontSize: 20,
+                      fontWeight: FontWeight.bold,
+                      color: Color(0xff54b4d4))),
+            ),
+            SizedBox(
+              height: 50.0,
+            ),
+            SizedBox(
+              child: LinearProgressIndicator(
+                valueColor: animation,
+                backgroundColor: Colors.white,
               ),
-               SizedBox(height: 50.0,),
-               SizedBox(
-                 child: LinearProgressIndicator(
-                   valueColor: animation,
-                   backgroundColor: Colors.white,
-                 ),
-                 width: 250,
-                 height: 5,
-               ),
-             ],
-           )
-          // SpinKitCircle(
-          //   color: Colors.blueAccent,
-          //   size: 80.0,
-          // ),
-        ),
+              width: 250,
+              height: 5,
+            ),
+          ],
+        )
+            // SpinKitCircle(
+            //   color: Colors.blueAccent,
+            //   size: 80.0,
+            // ),
+            ),
       ),
     );
   }

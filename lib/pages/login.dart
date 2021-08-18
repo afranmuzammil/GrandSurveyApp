@@ -7,10 +7,9 @@ import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-
 bool isHiddenPassWord = true;
-class LoginForm extends StatefulWidget {
 
+class LoginForm extends StatefulWidget {
   @override
   _LoginFormState createState() => _LoginFormState();
 }
@@ -34,9 +33,9 @@ class _LoginFormState extends State<LoginForm> {
 
   _saveData() async {
     //SharedPreferences prefs = await SharedPreferences.getInstance();
-    SharedPreferences  prefs = await SharedPreferences.getInstance();
+    SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-      prefs.setString("userMail",userIdSave);
+      prefs.setString("userMail", userIdSave);
       print("hai");
     });
   }
@@ -60,14 +59,14 @@ class _LoginFormState extends State<LoginForm> {
                 ),
 //               SizedBox(height: 10.0,),
 
-                Text(
-                  'LOGIN',
-                    style: GoogleFonts.poppins(textStyle:
-                    TextStyle(fontSize: 40,
-                      fontWeight: FontWeight.bold,
-                           color: Color(0xff54b4d4)))
-                  //Theme.of(context).textTheme.headline3,
-                ),
+                Text('LOGIN',
+                    style: GoogleFonts.poppins(
+                        textStyle: TextStyle(
+                            fontSize: 40,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xff54b4d4)))
+                    //Theme.of(context).textTheme.headline3,
+                    ),
                 //id field
                 TextFormField(
                   controller: idCon,
@@ -111,58 +110,60 @@ class _LoginFormState extends State<LoginForm> {
                 //login
                 Builder(
                     builder: (context) => OutlinedButton.icon(
-                       // color: Theme.of(context).primaryColor,
+                        // color: Theme.of(context).primaryColor,
                         style: TextButton.styleFrom(
-                          primary: Colors.black26,
-                          backgroundColor:Theme.of(context).primaryColor,
-                          onSurface: Colors.grey, 
-                            minimumSize: Size(380.0, 35.0)
-                        ),
-
-                        icon: Icon(Icons.login_outlined,color: Colors.white,size: 20),
-                        onPressed: () async{
+                            primary: Colors.black26,
+                            backgroundColor: Theme.of(context).primaryColor,
+                            onSurface: Colors.grey,
+                            minimumSize: Size(380.0, 35.0)),
+                        icon: Icon(Icons.login_outlined,
+                            color: Colors.white, size: 20),
+                        onPressed: () async {
                           // context.read<AuthenticationService>().signIn(
                           //   email: idCon.text,
                           //   password: passCon.text,
                           // ).then((value) => print("Error :$value"));
-                          if (formkey.currentState.validate())  {
+                          if (formkey.currentState.validate()) {
                             //Provider.of<Object>(context, listen: false);
-                            try{
-                              context.read<AuthenticationService>().signIn(
-                                email: idCon.text,
-                                password: passCon.text,
-                              ).then((value) {
-                                if(value=="signed in"){
-                                setState(() async{
-                                  userIdSave = idCon.text.trim().toString();
+                            try {
+                              context
+                                  .read<AuthenticationService>()
+                                  .signIn(
+                                    email: idCon.text,
+                                    password: passCon.text,
+                                  )
+                                  .then((value) {
+                                if (value == "signed in") {
+                                  setState(() async {
+                                    userIdSave = idCon.text.trim().toString();
 
-                                 // _saveData();
-                                   SharedPreferences prefs = await SharedPreferences.getInstance();
-                                   prefs.setString("displayMail", userIdSave);
+                                    // _saveData();
+                                    SharedPreferences prefs =
+                                        await SharedPreferences.getInstance();
+                                    prefs.setString("displayMail", userIdSave);
 
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Login success"),
+                                      ),
+                                    );
+
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                          builder: (context) => MyHomePage(
+                                              userIdSave: userIdSave),
+                                        ));
+                                  });
+                                } else {
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Login success"),
+                                      content: Text("Login Failed try again"),
                                     ),
                                   );
-
-                                  Navigator.push(
-                                      context,
-                                      MaterialPageRoute(
-                                        builder: (context) => MyHomePage(userIdSave: userIdSave),
-                                      ));
-
-                                });
-                              }
-                              else{
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Login Failed try again"),
-                                  ),
-                                );
-                              }});
-
-                            }catch(e){
+                                }
+                              });
+                            } catch (e) {
                               ScaffoldMessenger.of(context).showSnackBar(
                                 SnackBar(
                                   content: Text("Login Failed try again"),
@@ -180,24 +181,20 @@ class _LoginFormState extends State<LoginForm> {
                             //       ));
                             // });
                           }
-
                         },
-
                         label: Center(
                             child: Text(
                           'LOGIN',
                           style: TextStyle(color: Colors.white),
-
-                        )))
-
-                ),
+                        )))),
                 SizedBox(height: 10.0),
                 Text(
                   'Daerah',
-                  style: GoogleFonts.poppins(textStyle:
-                  TextStyle(fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: Color(0xff54b4d4))),
+                  style: GoogleFonts.poppins(
+                      textStyle: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold,
+                          color: Color(0xff54b4d4))),
                 ),
                 //skip Login
                 // Builder(
@@ -305,18 +302,15 @@ class _LoginFormState extends State<LoginForm> {
     });
   }
 
-
-  visibleEye(){
+  visibleEye() {
     if (isHiddenPassWord == true) {
       return Icon(
         Icons.visibility,
       );
-    }else if(isHiddenPassWord == false){
+    } else if (isHiddenPassWord == false) {
       return Icon(
         Icons.visibility_off,
       );
     }
   }
 }
-
-

@@ -368,7 +368,7 @@ class _EditPageState extends State<EditPage>
                               left: 16, right: 16, bottom: 16),
                           decoration: BoxDecoration(
                               border: Border.all(color: Colors.grey, width: 1),
-                              borderRadius: BorderRadius.circular(10)),
+                              borderRadius: BorderRadius.circular(5)),
                           child: FutureBuilder<DocumentSnapshot>(
                             future:  _getData(),
                             builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot) {

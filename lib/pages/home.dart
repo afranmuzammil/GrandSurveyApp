@@ -746,6 +746,7 @@ class _MyHomePageState extends State<MyHomePage>
                   print("dis unit is : $unitValue");
                   try {
                     if (snapshot.hasData) {
+                      refreshList();
                       return DropdownButton(
                         hint: Text(
                           "LIST OF UNIT NAMES",
@@ -854,6 +855,7 @@ class _MyHomePageState extends State<MyHomePage>
                       show = false;
                       isVisibleButtons = true;
                       floatingVisible = true;
+                      refreshList();
                       return Text(
                         unitCradData["UnitName"],
                         textAlign: TextAlign.center,
@@ -1146,7 +1148,7 @@ class _MyHomePageState extends State<MyHomePage>
                 //virsions
                 ListTile(
                   leading: Icon(Icons.swap_vert_rounded),
-                  title: Text("V : 1.0.1-beta",
+                  title: Text("V : 1.1.2-beta",
                       style: GoogleFonts.poppins(
                           textStyle: TextStyle(
                               fontSize: 14,

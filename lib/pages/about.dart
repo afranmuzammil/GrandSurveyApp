@@ -9,14 +9,14 @@ import 'package:google_fonts/google_fonts.dart';
 
 class About extends StatefulWidget {
   final String saveMail;
-  About({Key key,@required this.saveMail}) : super(key :key);
+
+  About({Key key, @required this.saveMail}) : super(key: key);
+
   @override
   _AboutState createState() => _AboutState(saveMail);
 }
 
-class _AboutState extends State<About>
-    with SingleTickerProviderStateMixin{
-
+class _AboutState extends State<About> with SingleTickerProviderStateMixin {
   final style = TextStyle(fontSize: 300, fontWeight: FontWeight.normal);
   final formKey = GlobalKey<FormState>();
 
@@ -26,8 +26,6 @@ class _AboutState extends State<About>
 
   BannerAd _ad;
   bool isloaded = false;
-
-
 
   @override
   void initState() {
@@ -53,11 +51,9 @@ class _AboutState extends State<About>
       vsync: this,
     );
 
-    animation =
-        controller.drive(ColorTween(begin: Color(0xff54b4d4) , end:Color(0xff048cbc)));
+    animation = controller
+        .drive(ColorTween(begin: Color(0xff54b4d4), end: Color(0xff048cbc)));
     controller.repeat();
-
-
   }
 
   @override
@@ -66,7 +62,6 @@ class _AboutState extends State<About>
     controller.dispose();
     super.dispose();
   }
-
 
   Widget checkForAd() {
     if (isloaded == true) {
@@ -83,60 +78,62 @@ class _AboutState extends State<About>
     }
   }
 
-
   String saveMail;
+
   _AboutState(this.saveMail);
 
   String pass = "redApple@1191";
   bool isHiddenPassWord = true;
   bool isIgnoring = true;
 
-
   DocumentSnapshot unitCradSnaps;
   var unitCradData;
 
-  Future<DocumentSnapshot> _getUnitCredentialsData() async{
-
+  Future<DocumentSnapshot> _getUnitCredentialsData() async {
     await Future.delayed(Duration(seconds: 2));
 
     print("from data $saveMail");
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitCredentials")
-        .doc(saveMail).collection(saveMail).doc(saveMail)
-        .get().then((value) {print("done: ${value["isadmin"]} "); return getunitCrad(value); });
+        .doc(saveMail)
+        .collection(saveMail)
+        .doc(saveMail)
+        .get()
+        .then((value) {
+      print("done: ${value["isadmin"]} ");
+      return getunitCrad(value);
+    });
     // print("done: $unitCradSnaps ");
     unitCradSnaps = variable;
     return unitCradSnaps;
   }
 
-
-
-  Future<DocumentSnapshot> getunitCrad(data) async{
-    await Future.delayed(Duration(seconds: 2)).then((value) => {unitCradData = data});
+  Future<DocumentSnapshot> getunitCrad(data) async {
+    await Future.delayed(Duration(seconds: 2))
+        .then((value) => {unitCradData = data});
     print("from unit cred : ${unitCradData["isadmin"]}");
     return unitCradData;
   }
 
-  setIgnoring(){
-    if(isIgnoring ==  unitCradData["isadmin"]){
-     return isIgnoring = false;
-    }else{
-     return isIgnoring = true;
+  setIgnoring() {
+    if (isIgnoring == unitCradData["isadmin"]) {
+      return isIgnoring = false;
+    } else {
+      return isIgnoring = true;
     }
   }
 
   final passController = new TextEditingController();
+
   @override
   Widget build(BuildContext context) {
-
     return Scaffold(
       backgroundColor: Theme.of(context).secondaryHeaderColor,
       appBar: AppBar(
         backgroundColor: Theme.of(context).primaryColor,
         title: Text(
           'Settings'.toUpperCase(),
-          style:
-          TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
+          style: TextStyle(color: Colors.white70, fontWeight: FontWeight.w500),
         ),
         centerTitle: true,
         elevation: 0,
@@ -144,14 +141,14 @@ class _AboutState extends State<About>
       body: SafeArea(
         child: Container(
             padding: EdgeInsets.all(10.0),
-            decoration:  BoxDecoration(
+            decoration: BoxDecoration(
                 border: Border.all(color: Colors.grey, width: 1),
                 borderRadius: BorderRadius.circular(15)),
             child: Column(
               children: [
                 Container(
                   padding: EdgeInsets.all(10.0),
-                  decoration:  BoxDecoration(
+                  decoration: BoxDecoration(
                       border: Border.all(color: Colors.grey, width: 1),
                       borderRadius: BorderRadius.vertical()),
                   child: Column(
@@ -164,44 +161,58 @@ class _AboutState extends State<About>
                         //         builder: (context) => About(),
                         //       ));
                         // },
-                        onLongPress: (){
+                        onLongPress: () {
                           showAboutDialog(
                             context: context,
                             applicationName: "Daerah",
                             applicationIcon: CircleAvatar(
-                              foregroundImage: AssetImage('assets/ico_1024.png'),
+                              foregroundImage:
+                                  AssetImage('assets/ico_1024.png'),
                               backgroundColor: Colors.white,
                             ),
-                            applicationVersion:"2.2.1-alpha",
+                            applicationVersion: "2.2.1-alpha",
                             children: [
-                              Text("This app was made for Students Islamic Organisation of India as a Grand Survey App"
+                              Text(
+                                  "This app was made for Students Islamic Organisation of India as a Grand Survey App"
                                   " and the Code is all open Source in Github repo",
-                                  style: GoogleFonts.poppins(textStyle: TextStyle(
-                                      fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
-                              ),
+                                  style: GoogleFonts.poppins(
+                                      textStyle: TextStyle(
+                                          fontSize: 14,
+                                          fontWeight: FontWeight.w500,
+                                          color: Colors.black54))),
                             ],
                           );
                         },
-                        leading: Icon(Icons.info_outline_rounded,color: Colors.black54,),
-                        title: Text("About Daerah",style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black87))),
+                        leading: Icon(
+                          Icons.info_outline_rounded,
+                          color: Colors.black54,
+                        ),
+                        title: Text("About Daerah",
+                            style: GoogleFonts.poppins(
+                                textStyle: TextStyle(
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w500,
+                                    color: Colors.black87))),
                       ),
                     ],
                   ),
                 ),
-                SizedBox(height: 20,),
+                SizedBox(
+                  height: 20,
+                ),
                 FutureBuilder<DocumentSnapshot>(
-                  future: _getUnitCredentialsData(),
-                    builder: (BuildContext context, AsyncSnapshot<DocumentSnapshot> snapshot){
-                      if(snapshot.hasData){
-                       return IgnorePointer(
+                    future: _getUnitCredentialsData(),
+                    builder: (BuildContext context,
+                        AsyncSnapshot<DocumentSnapshot> snapshot) {
+                      if (snapshot.hasData) {
+                        return IgnorePointer(
                           ignoring: setIgnoring(),
                           child: ListTile(
                             onTap: () {
                               return showDialog<void>(
                                 context: context,
                                 barrierDismissible: true,
-                                builder: (BuildContext context){
+                                builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('CopyRights'),
                                     content: SingleChildScrollView(
@@ -209,10 +220,23 @@ class _AboutState extends State<About>
                                         key: formKey,
                                         child: ListBody(
                                           children: <Widget>[
-                                            Icon(Icons.copyright_rounded,color: Colors.black54,size: 30,),
-                                            SizedBox(height: 20,),
-                                            Text('This App Belongs to SIO of India',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
+                                            Icon(
+                                              Icons.copyright_rounded,
+                                              color: Colors.black54,
+                                              size: 30,
+                                            ),
+                                            SizedBox(
+                                              height: 20,
+                                            ),
+                                            Text(
+                                              'This App Belongs to SIO of India',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 18),
+                                            ),
+                                            SizedBox(
+                                              height: 5.0,
+                                            ),
                                           ],
                                         ),
                                       ),
@@ -224,7 +248,6 @@ class _AboutState extends State<About>
                                           Navigator.of(context).pop();
                                           print("not Deleted");
                                         },
-
                                         style: TextButton.styleFrom(
                                           primary: Colors.white,
                                           backgroundColor: Colors.blue,
@@ -234,13 +257,12 @@ class _AboutState extends State<About>
                                   );
                                 },
                               );
-
                             },
-                            onLongPress: (){
-
+                            onLongPress: () {
                               return showDialog<void>(
                                 context: context,
-                                barrierDismissible: true, // user must tap button!
+                                barrierDismissible: true,
+                                // user must tap button!
                                 builder: (BuildContext context) {
                                   return AlertDialog(
                                     title: Text('Unit Registration'),
@@ -249,15 +271,25 @@ class _AboutState extends State<About>
                                         key: formKey,
                                         child: ListBody(
                                           children: <Widget>[
-                                            Text('Enter PassWord',style: TextStyle(fontWeight: FontWeight.w400,fontSize: 18),),
-                                            SizedBox(height: 5.0,),
+                                            Text(
+                                              'Enter PassWord',
+                                              style: TextStyle(
+                                                  fontWeight: FontWeight.w400,
+                                                  fontSize: 18),
+                                            ),
+                                            SizedBox(
+                                              height: 5.0,
+                                            ),
                                             TextFormField(
                                               obscureText: isHiddenPassWord,
                                               controller: passController,
                                               decoration: InputDecoration(
                                                 //border: InputBorder.none,
                                                 hintText: 'passWord',
-                                                prefixIcon: Icon(Icons.lock,size: 20,),
+                                                prefixIcon: Icon(
+                                                  Icons.lock,
+                                                  size: 20,
+                                                ),
                                                 // suffixIcon: InkWell(
                                                 // //  onTap: _togglePassView,
                                                 //   //child: PasswordShowIcon(),
@@ -281,18 +313,25 @@ class _AboutState extends State<About>
                                       TextButton(
                                         child: Text('ENTER'),
                                         onPressed: () {
-                                          if(formKey.currentState.validate()){
-                                            try{
-                                              context.read<AuthenticationService>().signIn(
-                                                email: "guestId@sio.com",
-                                                password: passController.text,
-                                              ).then((value) {
-                                                if(value=="signed in"){
-                                                  setState(() async{
+                                          if (formKey.currentState.validate()) {
+                                            try {
+                                              context
+                                                  .read<AuthenticationService>()
+                                                  .signIn(
+                                                    email: "guestId@sio.com",
+                                                    password:
+                                                        passController.text,
+                                                  )
+                                                  .then((value) {
+                                                if (value == "signed in") {
+                                                  setState(() async {
                                                     // _saveData();
-                                                    ScaffoldMessenger.of(context).showSnackBar(
+                                                    ScaffoldMessenger.of(
+                                                            context)
+                                                        .showSnackBar(
                                                       SnackBar(
-                                                        content: Text("Access Granted"),
+                                                        content: Text(
+                                                            "Access Granted"),
                                                       ),
                                                     );
 
@@ -300,41 +339,41 @@ class _AboutState extends State<About>
                                                     Navigator.push(
                                                         context,
                                                         MaterialPageRoute(
-                                                          builder: (context) => UnitRegistration(),
+                                                          builder: (context) =>
+                                                              UnitRegistration(),
                                                         ));
                                                     passController.clear();
                                                   });
-
-                                                }
-                                                else{
+                                                } else {
                                                   Navigator.of(context).pop();
-                                                  ScaffoldMessenger.of(context).showSnackBar(
+                                                  ScaffoldMessenger.of(context)
+                                                      .showSnackBar(
                                                     SnackBar(
-                                                      content: Text("Access Denied 101"),
+                                                      content: Text(
+                                                          "Access Denied 101"),
                                                     ),
                                                   );
                                                   passController.clear();
-                                                }});
-
-                                            }catch(e){
-                                              ScaffoldMessenger.of(context).showSnackBar(
+                                                }
+                                              });
+                                            } catch (e) {
+                                              ScaffoldMessenger.of(context)
+                                                  .showSnackBar(
                                                 SnackBar(
-                                                  content: Text("Access Denied 102"),
+                                                  content:
+                                                      Text("Access Denied 102"),
                                                 ),
                                               );
                                               passController.clear();
                                             }
-
                                           }
                                           //   Navigator.of(context).pop();
                                           print("deleted");
-
                                         },
                                         style: TextButton.styleFrom(
                                             primary: Colors.blue,
                                             backgroundColor: Colors.white,
-                                            onSurface: Colors.blue
-                                        ),
+                                            onSurface: Colors.blue),
                                       ),
                                       TextButton(
                                         child: Text('CLOSE'),
@@ -343,7 +382,6 @@ class _AboutState extends State<About>
                                           print("not Deleted");
                                           passController.clear();
                                         },
-
                                         style: TextButton.styleFrom(
                                           primary: Colors.white,
                                           backgroundColor: Colors.blue,
@@ -353,14 +391,22 @@ class _AboutState extends State<About>
                                   );
                                 },
                               );
-
                             },
-                            leading: Icon(Icons.copyright_rounded,color: Colors.black54,),
-                            title: Text("SIO-India",style: GoogleFonts.poppins(textStyle: TextStyle(
-                                fontSize: 10, fontWeight: FontWeight.w500,color: Colors.black87)),),
+                            leading: Icon(
+                              Icons.copyright_rounded,
+                              color: Colors.black54,
+                            ),
+                            title: Text(
+                              "SIO-India",
+                              style: GoogleFonts.poppins(
+                                  textStyle: TextStyle(
+                                      fontSize: 10,
+                                      fontWeight: FontWeight.w500,
+                                      color: Colors.black87)),
+                            ),
                           ),
                         );
-                      }else if(snapshot.hasError){
+                      } else if (snapshot.hasError) {
                         print('Error: ${snapshot.error}');
                         return Center(
                           child: Column(
@@ -375,12 +421,11 @@ class _AboutState extends State<About>
                               Padding(
                                 padding: const EdgeInsets.only(top: 16),
                                 child: Text('Error: ${snapshot.error}'),
-
                               )
                             ],
                           ),
                         );
-                      }else{
+                      } else {
                         return Center(
                           child: Column(
                             mainAxisAlignment: MainAxisAlignment.center,
@@ -406,13 +451,13 @@ class _AboutState extends State<About>
                       return Center(
                         child: Text("hello i am end return"),
                       );
-                    }
+                    }),
+                SizedBox(
+                  height: 50,
                 ),
-                SizedBox(height: 50,),
-               // checkForAd(),
+                // checkForAd(),
               ],
-            )
-        ),
+            )),
       ),
     );
   }
@@ -433,6 +478,3 @@ class _AboutState extends State<About>
     });
   }
 }
-
-
-

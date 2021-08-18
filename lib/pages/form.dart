@@ -414,7 +414,7 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
               padding: EdgeInsets.only(left: 16, right: 16),
               decoration: BoxDecoration(
                   border: Border.all(color: Colors.grey, width: 1),
-                  borderRadius: BorderRadius.circular(15)),
+                  borderRadius: BorderRadius.circular(5)),
               child: Form(
                 key: formKey,
                 child: Column(

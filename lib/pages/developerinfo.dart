@@ -76,7 +76,7 @@ class _devInfoState extends State<devInfo> {
                   ),
                   style: TextButton.styleFrom(
                     primary: Colors.black26,
-                    backgroundColor: Colors.blue,
+                    backgroundColor: Theme.of(context).primaryColor,
                     onSurface: Colors.blue,
                   ),
                 ),

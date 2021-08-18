@@ -283,7 +283,7 @@ class _HelpState extends State<Help>
                       ),
                       style: TextButton.styleFrom(
                         primary: Colors.black26,
-                        backgroundColor: Colors.blue,
+                        backgroundColor: Theme.of(context).primaryColor,
                         onSurface: Colors.blue,
                       ),
                     ),

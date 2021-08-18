@@ -306,7 +306,8 @@ class _MyHomePageState extends State<MyHomePage>
     await Future.delayed(Duration(milliseconds: 20)).then((value) => {
     if(saveMail == "afranadmin@sio.com"){
       print(saveMail),
-        isVisibleButtons = true
+        isVisibleButtons = true,
+        floatingVisible = true
     }
     // else if(unitCradData["isadmin"]){
     //   print(saveMail),
@@ -335,6 +336,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   //setting floating Button Clickable
+  bool floatingVisible = true;
    floatingClickable() async {
      await Future.delayed(Duration(seconds: 2)).then((value) =>{
      if(saveMail == "guest-user@sio.com")
@@ -479,7 +481,14 @@ class _MyHomePageState extends State<MyHomePage>
     await Future.delayed(Duration(seconds: 2)).then((value) => {unitData = data});
     //  var userData = await _getData();
     // print(" on: ${userData["Address"]}");
-    unitNameList = unitData["unitName"];
+    if(unitCradData["Super"]){
+      unitNameList = unitData["unitName"];
+    }else if(unitCradData["Super"] == false)
+    {
+      //print("from lits $saveMail");
+      unitNameList = unitData[unitCradData["UnitId"]];
+    }
+
     unitNameList.sort();
     unitListFun(unitNameList);
     // print(unitNames);
@@ -683,6 +692,7 @@ class _MyHomePageState extends State<MyHomePage>
             isListIgnoring = false;
             reload();
             show = false;
+            floatingVisible = false;
             print(" is Ignoting  value : $isListIgnoring");
             return FutureBuilder<DocumentSnapshot>(
                 future: _getUnitNamesData(),
@@ -784,6 +794,7 @@ class _MyHomePageState extends State<MyHomePage>
                       reload();
                       show = false;
                       isVisibleButtons = true;
+                      floatingVisible = true;
                       return Text(unitCradData["UnitName"],textAlign: TextAlign.center,style: GoogleFonts.poppins(textStyle: TextStyle(
                           fontSize: 20, fontWeight: FontWeight.w500,color: Colors.white70)),);
                     }else if(snapshot.hasError){
@@ -2603,69 +2614,74 @@ class _MyHomePageState extends State<MyHomePage>
         ),
       ),
 
-      floatingActionButton: FloatingActionButton(
-          backgroundColor: Color(0xff54b4d4),
-        onPressed: () {
-         // await Future.delayed(Duration(seconds: 2));
-          if(floatingButtonClickable == false){
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("A GuestUser can't add"),
-                action: SnackBarAction(
-                  label: "OK",
-                  onPressed: (){
-                    //Navigator.pop(context);
-                  },
-                ),
-              ),
-            );
-          }
-          else if(connectivityStatus == "Connected"){
-            print(connectivityStatus);
-          //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
-            Navigator.of(context).push(
-                PageRouteBuilder(
-                  transitionDuration: Duration(milliseconds: 400  ),
-                    transitionsBuilder: (BuildContext context, Animation<double> anim,
-                    Animation<double> secAnim,
-
-                    Widget child){
-                      anim = CurvedAnimation(parent: anim, curve: Curves.easeInCirc) ;
-                    return ScaleTransition(
-                      alignment: Alignment.bottomRight,
-                        scale: anim,
-                      child: child,
-                    );
-
+      floatingActionButton: Visibility(
+        visible: floatingVisible,
+        child: FloatingActionButton(
+          
+            backgroundColor: Color(0xff54b4d4),
+          onPressed: () {
+           // await Future.delayed(Duration(seconds: 2));
+            if(floatingButtonClickable == false){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("A GuestUser can't add"),
+                  action: SnackBarAction(
+                    label: "OK",
+                    onPressed: (){
+                      //Navigator.pop(context);
                     },
-                    pageBuilder: (BuildContext context,
-                        Animation<double> anim,
-                        Animation<double> secAnim ){
-                      return Forms(unitName: unitValue);
-                    }));
-          }else if(connectivityStatus == "NotConnected"){
-            ScaffoldMessenger.of(context).showSnackBar(
-              SnackBar(
-                content: Text("Check Your Internet"),
-                action: SnackBarAction(
-                  label: "OK",
-                  onPressed: (){
-                    //Navigator.pop(context);
-                  },
+                  ),
                 ),
-              ),
-            );
-          }
-          // else{
-          //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue,unitMail: userMail,)));
-          // }
+              );
+            }
+            else if(connectivityStatus == "Connected"){
+              print(connectivityStatus);
+              print("come in flotinhg");
+            //  Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue)));
+              Navigator.of(context).push(
+                  PageRouteBuilder(
+                    transitionDuration: Duration(milliseconds: 400  ),
+                      transitionsBuilder: (BuildContext context, Animation<double> anim,
+                      Animation<double> secAnim,
 
-          //Navigator.pushNamed(context, '/form', arguments: unitValue);
-          setState(() {
-           // unitValue = unitValue;
-          });
-        },
-        child: Icon(Icons.add_rounded, color: Colors.white70,size: 25,),
+                      Widget child){
+                        anim = CurvedAnimation(parent: anim, curve: Curves.easeInCirc) ;
+                      return ScaleTransition(
+                        alignment: Alignment.bottomRight,
+                          scale: anim,
+                        child: child,
+                      );
+
+                      },
+                      pageBuilder: (BuildContext context,
+                          Animation<double> anim,
+                          Animation<double> secAnim ){
+                        return Forms(unitName: unitValue);
+                      }));
+            }else if(connectivityStatus == "NotConnected"){
+              ScaffoldMessenger.of(context).showSnackBar(
+                SnackBar(
+                  content: Text("Check Your Internet"),
+                  action: SnackBarAction(
+                    label: "OK",
+                    onPressed: (){
+                      //Navigator.pop(context);
+                    },
+                  ),
+                ),
+              );
+            }
+            // else{
+            //   Navigator.of(context).push(MaterialPageRoute(builder: (context)=> Forms(unitName: unitValue,unitMail: userMail,)));
+            // }
+
+            //Navigator.pushNamed(context, '/form', arguments: unitValue);
+            setState(() {
+             // unitValue = unitValue;
+            });
+          },
+          child: Icon(Icons.add_rounded, color: Colors.white70,size: 25,),
+        ),
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       bottomNavigationBar: BottomAppBar(

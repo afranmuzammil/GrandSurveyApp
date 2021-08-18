@@ -628,6 +628,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
             "UnitId":userIdSave,
             "UnitPass":passCon.text.trim(),
             "isadmin":false,
+            "Super":false,
           };
           FirebaseFirestore.instance
               .collection("unitCredentials")

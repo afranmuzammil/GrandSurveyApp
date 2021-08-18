@@ -15,8 +15,8 @@ import 'package:form_app/pages/login.dart';
 import 'package:form_app/pages/visionsinfo.dart';
 import 'package:form_app/pages/ad_helper.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage>
   Animation<Color> animation;
   double progress = 0;
 
-  BannerAd _ad;
+  //BannerAd _ad;
   bool isloaded = false;
 
   @override
@@ -169,19 +169,19 @@ class _MyHomePageState extends State<MyHomePage>
     _getUnitCredentialsData();
     refreshList();
 
-    _ad = BannerAd(
-        adUnitId: AdHelper.bannerAdUnitId,
-        request: AdRequest(),
-        size: AdSize.banner,
-        listener: AdManagerBannerAdListener(onAdLoaded: (ad) {
-          print("ad lod${ad.adUnitId}");
-          setState(() {
-            isloaded = true;
-          });
-        }, onAdFailedToLoad: (_, error) {
-          print("Ad faild to Load with error : $error");
-        }));
-    _ad?.load();
+    // _ad = BannerAd(
+    //     adUnitId: AdHelper.bannerAdUnitId,
+    //     request: AdRequest(),
+    //     size: AdSize.banner,
+    //     listener: AdManagerBannerAdListener(onAdLoaded: (ad) {
+    //       print("ad lod${ad.adUnitId}");
+    //       setState(() {
+    //         isloaded = true;
+    //       });
+    //     }, onAdFailedToLoad: (_, error) {
+    //       print("Ad faild to Load with error : $error");
+    //     }));
+    //_ad?.load();
 
     super.initState();
     checkInternetStatus();
@@ -202,24 +202,24 @@ class _MyHomePageState extends State<MyHomePage>
     print("disp");
     controller.dispose();
     super.dispose();
-    _ad?.dispose();
-    _ad = null;
+    //_ad?.dispose();
+   // _ad = null;
   }
 
-  Widget checkForAd() {
-    if (isloaded == true) {
-      return Container(
-        child: AdWidget(
-          ad: _ad,
-        ),
-        width: AdSize.banner.width.toDouble(),
-        height: AdSize.banner.height.toDouble(),
-        alignment: Alignment.center,
-      );
-    } else {
-      return Text("AD here");
-    }
-  }
+  // Widget checkForAd() {
+  //   if (isloaded == true) {
+  //     return Container(
+  //       child: AdWidget(
+  //         ad: _ad,
+  //       ),
+  //       width: AdSize.banner.width.toDouble(),
+  //       height: AdSize.banner.height.toDouble(),
+  //       alignment: Alignment.center,
+  //     );
+  //   } else {
+  //     return Text("AD here");
+  //   }
+  // }
 
   //saving User id
   _saveData() async {
@@ -277,7 +277,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Future<DocumentSnapshot> _getUnitCredentialsData() async {
     await Future.delayed(Duration(seconds: 2));
-    print("from data $saveMail");
+   // print("from data $saveMail");
     DocumentSnapshot variable = await FirebaseFirestore.instance
         .collection("unitCredentials")
         .doc(saveMail)
@@ -285,7 +285,7 @@ class _MyHomePageState extends State<MyHomePage>
         .doc(saveMail)
         .get()
         .then((value) {
-      print("my : ${value["UnitId"]} ");
+     // print("my : ${value["UnitId"]} ");
       return getunitCrad(value);
     });
     // print("done: $unitCradSnaps ");
@@ -301,7 +301,7 @@ class _MyHomePageState extends State<MyHomePage>
     // unitNameList = unitData["unitName"];
     // unitNameList.sort();
     // unitListFun(unitNameList);
-    print("from unit cred : ${unitCradData["UnitId"]}");
+   // print("from unit cred : ${unitCradData["UnitId"]}");
     //  unitValue = unitCradData["UnitName"];
     return unitCradData;
   }
@@ -511,13 +511,15 @@ class _MyHomePageState extends State<MyHomePage>
         .then((value) => {unitData = data});
     //  var userData = await _getData();
     // print(" on: ${userData["Address"]}");
+    var s = unitCradData["UnitName"];
     if (unitCradData["Super"]) {
       unitNameList = unitData["unitName"];
-    } else if (unitCradData["Super"] == false) {
-      //print("from lits $saveMail");
-      unitNameList = unitData[unitCradData["UnitId"]];
-    }
+    } else if (unitCradData["Super"] == false &&unitCradData["Super"] == true) {
 
+      unitNameList = unitData[s.toString()];
+    }
+    // print("from lits ${unitCradData["unitId"]}");
+  //  unitNameList = unitData["unitName"];
     unitNameList.sort();
     unitListFun(unitNameList);
     // print(unitNames);
@@ -526,7 +528,7 @@ class _MyHomePageState extends State<MyHomePage>
 
   Future<List> unitListFun(list) async {
     unitNameList = list;
-    print(unitNameList);
+   // print(unitNameList);
     //setButtonsVisible();
     return unitNameList;
   }
@@ -595,7 +597,7 @@ class _MyHomePageState extends State<MyHomePage>
           .collection(selectType())
           .snapshots()
           .toList();
-      print("hello refresh is called");
+      //print("hello refresh is called");
       _getUnitNamesData();
     });
   }

@@ -2,7 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:form_app/pages/ad_helper.dart';
 import 'package:form_app/pages/unitregistration.dart';
-import 'package:google_mobile_ads/google_mobile_ads.dart';
+//import 'package:google_mobile_ads/google_mobile_ads.dart';
 import 'package:provider/provider.dart';
 import 'package:form_app/services/autentication_service.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -24,25 +24,25 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin {
   Animation<Color> animation;
   double progress = 0;
 
-  BannerAd _ad;
+  //BannerAd _ad;
   bool isloaded = false;
 
   @override
   void initState() {
     //foo();
-    _ad = BannerAd(
-        adUnitId: AdHelper.bannerAdUnitId,
-        request: AdRequest(),
-        size: AdSize.mediumRectangle,
-        listener: AdManagerBannerAdListener(onAdLoaded: (_) {
-          print("Banner AD Called");
-          setState(() {
-            isloaded = true;
-          });
-        }, onAdFailedToLoad: (_, error) {
-          print("Ad faild to Load with error : $error");
-        }));
-    _ad.load();
+    // _ad = BannerAd(
+    //     adUnitId: AdHelper.bannerAdUnitId,
+    //     request: AdRequest(),
+    //     size: AdSize.mediumRectangle,
+    //     listener: AdManagerBannerAdListener(onAdLoaded: (_) {
+    //       print("Banner AD Called");
+    //       setState(() {
+    //         isloaded = true;
+    //       });
+    //     }, onAdFailedToLoad: (_, error) {
+    //       print("Ad faild to Load with error : $error");
+    //     }));
+    //_ad.load();
 
     super.initState();
 
@@ -58,25 +58,25 @@ class _AboutState extends State<About> with SingleTickerProviderStateMixin {
 
   @override
   void dispose() {
-    _ad?.dispose();
+    //_ad?.dispose();
     controller.dispose();
     super.dispose();
   }
 
-  Widget checkForAd() {
-    if (isloaded == true) {
-      return Container(
-        child: AdWidget(
-          ad: _ad,
-        ),
-        width: _ad.size.width.toDouble(),
-        height: _ad.size.height.toDouble(),
-        //alignment: Alignment.center,
-      );
-    } else {
-      return Text("AD here");
-    }
-  }
+  // Widget checkForAd() {
+  //   if (isloaded == true) {
+  //     return Container(
+  //       child: AdWidget(
+  //         ad: _ad,
+  //       ),
+  //       width: _ad.size.width.toDouble(),
+  //       height: _ad.size.height.toDouble(),
+  //       //alignment: Alignment.center,
+  //     );
+  //   } else {
+  //     return Text("AD here");
+  //   }
+  // }
 
   String saveMail;
 

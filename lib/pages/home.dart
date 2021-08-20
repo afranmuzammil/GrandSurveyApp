@@ -332,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   //setting floating Button Clickable
-  bool floatingVisible = true;
+  bool floatingVisible = false;
 
   floatingClickable() async {
     await Future.delayed(Duration(seconds: 2)).then((value) => {
@@ -741,12 +741,12 @@ class _MyHomePageState extends State<MyHomePage>
             reload();
             show = false;
             floatingVisible = false;
-            print(" is Ignoting  value : $isListIgnoring");
+           // print(" is Ignoting  value : $isListIgnoring");
             return FutureBuilder<DocumentSnapshot>(
                 future: _getUnitNamesData(),
                 builder: (BuildContext context,
                     AsyncSnapshot<DocumentSnapshot> snapshot) {
-                  print("dis unit is : $unitValue");
+                 // print("dis unit is : $unitValue");
                   try {
                     if (snapshot.hasData) {
                       refreshList();

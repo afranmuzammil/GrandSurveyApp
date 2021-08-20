@@ -70,12 +70,11 @@ class _LoginFormState extends State<LoginForm> {
                 //id field
                 TextFormField(
                   controller: idCon,
-                //  cursorColor: Theme.of(context).primaryColor,
+                 cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
                       //border: InputBorder.none,
-
                       hintText: 'ENTER YOUR UNIT ID',
-                      prefixIcon: Icon(Icons.mail)),
+                      prefixIcon: Icon(Icons.mail,color: Color(0xff54b4d4),)),
                   validator: (value) {
                     if (value.isEmpty) {
                       return 'Please enter the Id u where provided';
@@ -88,12 +87,13 @@ class _LoginFormState extends State<LoginForm> {
                 ),
                 //password field
                 TextFormField(
+                  cursorColor: Theme.of(context).primaryColor,
                   obscureText: isHiddenPassWord,
                   controller: passCon,
                   decoration: InputDecoration(
                       //border: InputBorder.none,
                       hintText: 'ENTER UNIT PASSWORD',
-                      prefixIcon: Icon(Icons.lock),
+                      prefixIcon: Icon(Icons.lock,color: Color(0xff54b4d4)),
                       suffixIcon: InkWell(
                         onTap: _togglePassWordView,
                         child: visibleEye(),
@@ -146,7 +146,7 @@ class _LoginFormState extends State<LoginForm> {
 
                                     ScaffoldMessenger.of(context).showSnackBar(
                                       SnackBar(
-                                        content: Text("Login success"),
+                                        content: Text("Login success as $userIdSave"),
                                       ),
                                     );
 
@@ -308,11 +308,14 @@ class _LoginFormState extends State<LoginForm> {
     if (isHiddenPassWord == true) {
       return Icon(
         Icons.visibility,
+        color: Color(0xff54b4d4),
       );
     } else if (isHiddenPassWord == false) {
       return Icon(
         Icons.visibility_off,
+        color: Color(0xff54b4d4),
       );
+
     }
   }
 }

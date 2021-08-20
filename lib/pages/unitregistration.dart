@@ -471,103 +471,359 @@ class _UnitRegistrationState extends State<UnitRegistration>
                             ),
                             icon: Icon(Icons.app_registration,color: Colors.white,size: 20),
                             onPressed: () async{
-                              if (formKey.currentState.validate())  {
-                                //Provider.of<Object>(context, listen: false);
-                                try{
-                                  context.read<AuthenticationService>().signUp(
-                                    email: idCon.text,
-                                    password: passCon.text,
-                                  ).then((value) {
-                                    if(value == "Signed Up"){
-                                      setState(() async{
-                                        userIdSave = idCon.text.trim().toString();
-                                        print("on : ${unitName.text.trim()}");
-                                        unitNameList.add(unitName.text.trim());
-                                        //mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
-                                       createDataBase();
-                                        sendMail();
-                                        // SharedPreferences prefs = await SharedPreferences.getInstance();
-                                        // prefs.setString("displayMail", userIdSave);
-                                        ScaffoldMessenger.of(context).showSnackBar(
-                                          SnackBar(
-                                            content: Text("Registration success & Mail Sent"),
-                                          ),
-                                        );
-                                        return showDialog<void>(
-                                          context: context,
-                                          barrierDismissible: false, // user must tap button!
-                                          builder: (BuildContext context) {
-                                            return AlertDialog(
-                                              title: Text('congratulations!'.toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
-                                                  fontWeight: FontWeight.w600,
-                                                  color: Colors.black87)),),
-                                              backgroundColor: Colors.white,
+                              // if (formKey.currentState.validate())  {
+                              //   //Provider.of<Object>(context, listen: false);
+                              //   try{
+                              //     context.read<AuthenticationService>().signUp(
+                              //       email: idCon.text,
+                              //       password: passCon.text,
+                              //     ).then((value) {
+                              //       if(value == "Signed Up"){
+                              //         setState(() async{
+                              //           userIdSave = idCon.text.trim().toString();
+                              //           print("on : ${unitName.text.trim()}");
+                              //           unitNameList.add(unitName.text.trim());
+                              //           //mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
+                              //          createDataBase();
+                              //           sendMail();
+                              //           // SharedPreferences prefs = await SharedPreferences.getInstance();
+                              //           // prefs.setString("displayMail", userIdSave);
+                              //           ScaffoldMessenger.of(context).showSnackBar(
+                              //             SnackBar(
+                              //               content: Text("Registration success & Mail Sent"),
+                              //             ),
+                              //           );
+                              //           return showDialog<void>(
+                              //             context: context,
+                              //             barrierDismissible: false, // user must tap button!
+                              //             builder: (BuildContext context) {
+                              //               return AlertDialog(
+                              //                 title: Text('congratulations!'.toUpperCase(),style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 20,
+                              //                     fontWeight: FontWeight.w600,
+                              //                     color: Colors.black87)),),
+                              //                 backgroundColor: Colors.white,
+                              //
+                              //                 content: SingleChildScrollView(
+                              //                   child: ListBody(
+                              //                     children: <Widget>[
+                              //                       Text('You have Registered Successfully!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
+                              //                           fontWeight: FontWeight.w500,
+                              //                           color: Colors.black87)),),
+                              //                       SizedBox(height: 10.0,),
+                              //                       Text("You have Registered with UNIT NAME : ${unitName.text.trim()}, "
+                              //                           "UNIT ID : ${idCon.text.trim()} and PASSWORD : ${passCon.text.trim()},"
+                              //                           "And the mail has been sent to ${recipientMailCon.text.trim()}",
+                              //                         style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
+                              //                             fontWeight: FontWeight.w500,
+                              //                             color: Colors.black54)),),
+                              //                     ],
+                              //                   ),
+                              //                 ),
+                              //                 actions: <Widget>[
+                              //                   TextButton(
+                              //                     child: Text('OK',style: TextStyle(color: Colors.white70),),
+                              //                     onPressed: () {
+                              //                       Navigator.of(context).pop();
+                              //                       unitName.clear();
+                              //                       idCon.clear();
+                              //                       passCon.clear();
+                              //                       unitNameList.clear();
+                              //                       recipientMailCon.clear();
+                              //
+                              //                       print("Clicked");
+                              //                     },
+                              //                     style: TextButton.styleFrom(
+                              //                       primary: Colors.white70,
+                              //                       backgroundColor: Colors.blue,
+                              //                     ),
+                              //                   ),
+                              //                 ],
+                              //               );
+                              //             },
+                              //           );
+                              //         });
+                              //       }
+                              //       else{
+                              //         print("on: $value");
+                              //         ScaffoldMessenger.of(context).showSnackBar(
+                              //           SnackBar(
+                              //             content: Text("$value try again"),
+                              //           ),
+                              //         );
+                              //       }});
+                              //   }catch(e){
+                              //     print(e);
+                              //     ScaffoldMessenger.of(context).showSnackBar(
+                              //       SnackBar(
+                              //         content: Text("Registration Failed Connect to internet"),
+                              //       ),
+                              //     );
+                              //   }
+                              //   userIdSave = idCon.text.trim().toString();
+                              //   print("user name : $userIdSave");
+                              //   // setState(()   {
+                              //   //    Navigator.push(
+                              //   //       context,
+                              //   //       MaterialPageRoute(
+                              //   //         builder: (context) => MyHomePage(userIdSave: userIdSave),
+                              //   //       ));
+                              //   // });
+                              // }
+                              if (formKey.currentState.validate()) {
+                                return showDialog<void>(
+                                  context: context,
+                                  barrierDismissible: false,
+                                  // user must tap button!
+                                  builder: (BuildContext context) {
+                                    return AlertDialog(
+                                      title: Text(
+                                        'Please Conform!'.toUpperCase(),
+                                        style: GoogleFonts.poppins(
+                                            textStyle: TextStyle(fontSize: 20,
+                                                fontWeight: FontWeight.w600,
+                                                color: Colors.black87)),),
+                                      backgroundColor: Colors.white,
 
-                                              content: SingleChildScrollView(
-                                                child: ListBody(
-                                                  children: <Widget>[
-                                                    Text('You have Registered Successfully!',style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 18,
-                                                        fontWeight: FontWeight.w500,
-                                                        color: Colors.black87)),),
-                                                    SizedBox(height: 10.0,),
-                                                    Text("You have Registered with UNIT NAME : ${unitName.text.trim()}, "
-                                                        "UNIT ID : ${idCon.text.trim()} and PASSWORD : ${passCon.text.trim()},"
-                                                        "And the mail has been sent to ${recipientMailCon.text.trim()}",
-                                                      style: GoogleFonts.poppins(textStyle: TextStyle(fontSize: 16,
-                                                          fontWeight: FontWeight.w500,
-                                                          color: Colors.black54)),),
-                                                  ],
-                                                ),
-                                              ),
-                                              actions: <Widget>[
-                                                TextButton(
-                                                  child: Text('OK',style: TextStyle(color: Colors.white70),),
-                                                  onPressed: () {
-                                                    Navigator.of(context).pop();
-                                                    unitName.clear();
-                                                    idCon.clear();
-                                                    passCon.clear();
-                                                    unitNameList.clear();
-                                                    recipientMailCon.clear();
-
-                                                    print("Clicked");
-                                                  },
-                                                  style: TextButton.styleFrom(
-                                                    primary: Colors.white70,
-                                                    backgroundColor: Colors.blue,
-                                                  ),
-                                                ),
-                                              ],
-                                            );
-                                          },
-                                        );
-                                      });
-                                    }
-                                    else{
-                                      print("on: $value");
-                                      ScaffoldMessenger.of(context).showSnackBar(
-                                        SnackBar(
-                                          content: Text("$value try again"),
+                                      content: SingleChildScrollView(
+                                        child: ListBody(
+                                          children: <Widget>[
+                                            Text(
+                                              'Following details have been entered!',
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      fontSize: 18,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors.black87)),),
+                                            SizedBox(height: 10.0,),
+                                            Text("UNIT NAME : ${unitName.text
+                                                .trim()}, ",
+                                              style: GoogleFonts.poppins(
+                                                  textStyle: TextStyle(
+                                                      fontSize: 16,
+                                                      fontWeight: FontWeight
+                                                          .w500,
+                                                      color: Colors.black54)),),
+                                            Text( "UNIT ID : ${idCon.text
+                                                .trim()} ",style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight
+                                                        .w500,
+                                                    color: Colors.black54))),
+                                            Text("UNIT PASSWORD : ${passCon
+                                                .text.trim()},",style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight
+                                                        .w500,
+                                                    color: Colors.black54))),
+                                            Text( "Given Mail : ${recipientMailCon
+                                                .text.trim()}",
+                                                style: GoogleFonts.poppins(
+                                                textStyle: TextStyle(
+                                                    fontSize: 16,
+                                                    fontWeight: FontWeight
+                                                        .w500,
+                                                    color: Colors.black54))),
+                                          ],
                                         ),
-                                      );
-                                    }});
-                                }catch(e){
-                                  print(e);
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Registration Failed Connect to internet"),
-                                    ),
-                                  );
-                                }
-                                userIdSave = idCon.text.trim().toString();
-                                print("user name : $userIdSave");
-                                // setState(()   {
-                                //    Navigator.push(
-                                //       context,
-                                //       MaterialPageRoute(
-                                //         builder: (context) => MyHomePage(userIdSave: userIdSave),
-                                //       ));
-                                // });
+                                      ),
+                                      actions: <Widget>[
+                                        TextButton(
+                                          child: Text('Back'.toUpperCase(), style: TextStyle(
+                                              color: Colors.black45)),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            //print("not Deleted");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white,
+                                        //    backgroundColor: Colors.grey,
+                                            onSurface: Colors.grey,
+                                          ),
+                                        ),
+                                        TextButton(
+                                          child: Text('conform'.toUpperCase(),
+                                            style: TextStyle(
+                                                color: Colors.white),),
+                                          onPressed: () {
+                                            Navigator.of(context).pop();
+                                            if (formKey.currentState
+                                                .validate()) {
+                                              //Provider.of<Object>(context, listen: false);
+                                              try {
+                                                context.read<
+                                                    AuthenticationService>()
+                                                    .signUp(
+                                                  email: idCon.text,
+                                                  password: passCon.text,
+                                                )
+                                                    .then((value) {
+                                                  if (value == "Signed Up") {
+                                                    setState(() async {
+                                                      userIdSave =
+                                                          idCon.text.trim()
+                                                              .toString();
+                                                      print(
+                                                          "on : ${unitName.text
+                                                              .trim()}");
+                                                      unitNameList.add(
+                                                          unitName.text.trim());
+                                                      //mailBody="asslamualikumm ur unit:  ${unitName.text.trim()} had been rigus congo ";
+                                                      createDataBase();
+                                                      sendMail();
+                                                      // SharedPreferences prefs = await SharedPreferences.getInstance();
+                                                      // prefs.setString("displayMail", userIdSave);
+                                                      ScaffoldMessenger.of(
+                                                          context).showSnackBar(
+                                                        SnackBar(
+                                                          content: Text(
+                                                              "Registration success & Mail Sent"),
+                                                        ),
+                                                      );
+                                                      return showDialog<void>(
+                                                        context: context,
+                                                        barrierDismissible: false,
+                                                        // user must tap button!
+                                                        builder: (
+                                                            BuildContext context) {
+                                                          return AlertDialog(
+                                                            title: Text(
+                                                              'congratulations!'
+                                                                  .toUpperCase(),
+                                                              style: GoogleFonts
+                                                                  .poppins(
+                                                                  textStyle: TextStyle(
+                                                                      fontSize: 20,
+                                                                      fontWeight: FontWeight
+                                                                          .w600,
+                                                                      color: Colors
+                                                                          .black87)),),
+                                                            backgroundColor: Colors
+                                                                .white,
+
+                                                            content: SingleChildScrollView(
+                                                              child: ListBody(
+                                                                children: <
+                                                                    Widget>[
+                                                                  Text(
+                                                                    'You have Registered Successfully!',
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                        textStyle: TextStyle(
+                                                                            fontSize: 18,
+                                                                            fontWeight: FontWeight
+                                                                                .w500,
+                                                                            color: Colors
+                                                                                .black87)),),
+                                                                  SizedBox(
+                                                                    height: 10.0,),
+                                                                  Text(
+                                                                    "You have Registered with UNIT NAME : ${unitName
+                                                                        .text
+                                                                        .trim()}, "
+                                                                        "UNIT ID : ${idCon
+                                                                        .text
+                                                                        .trim()} and PASSWORD : ${passCon
+                                                                        .text
+                                                                        .trim()},"
+                                                                        "And the mail has been sent to ${recipientMailCon
+                                                                        .text
+                                                                        .trim()}",
+                                                                    style: GoogleFonts
+                                                                        .poppins(
+                                                                        textStyle: TextStyle(
+                                                                            fontSize: 16,
+                                                                            fontWeight: FontWeight
+                                                                                .w500,
+                                                                            color: Colors
+                                                                                .black54)),),
+                                                                ],
+                                                              ),
+                                                            ),
+                                                            actions: <Widget>[
+                                                              TextButton(
+                                                                child: Text(
+                                                                  'OK',
+                                                                  style: TextStyle(
+                                                                      color: Colors
+                                                                          .white70),),
+                                                                onPressed: () {
+                                                                  Navigator.of(
+                                                                      context)
+                                                                      .pop();
+                                                                  unitName
+                                                                      .clear();
+                                                                  idCon.clear();
+                                                                  passCon
+                                                                      .clear();
+                                                                  unitNameList
+                                                                      .clear();
+                                                                  recipientMailCon
+                                                                      .clear();
+
+                                                                  print(
+                                                                      "Clicked");
+                                                                },
+                                                                style: TextButton
+                                                                    .styleFrom(
+                                                                  primary: Colors
+                                                                      .white70,
+                                                                  backgroundColor: Colors
+                                                                      .blue,
+                                                                ),
+                                                              ),
+                                                            ],
+                                                          );
+                                                        },
+                                                      );
+                                                    });
+                                                  }
+                                                  else {
+                                                    print("on: $value");
+                                                    ScaffoldMessenger.of(
+                                                        context).showSnackBar(
+                                                      SnackBar(
+                                                        content: Text(
+                                                            "$value try again"),
+                                                      ),
+                                                    );
+                                                  }
+                                                });
+                                              } catch (e) {
+                                                print(e);
+                                                ScaffoldMessenger.of(context)
+                                                    .showSnackBar(
+                                                  SnackBar(
+                                                    content: Text(
+                                                        "Registration Failed Connect to internet"),
+                                                  ),
+                                                );
+                                              }
+                                              userIdSave =
+                                                  idCon.text.trim().toString();
+                                              print("user name : $userIdSave");
+                                              // setState(()   {
+                                              //    Navigator.push(
+                                              //       context,
+                                              //       MaterialPageRoute(
+                                              //         builder: (context) => MyHomePage(userIdSave: userIdSave),
+                                              //       ));
+                                              // });
+                                            }
+
+                                            print("Clicked");
+                                          },
+                                          style: TextButton.styleFrom(
+                                            primary: Colors.white70,
+                                            backgroundColor: Colors.lightGreen,
+                                          ),
+                                        ),
+                                      ],
+                                    );
+                                  },
+                                );
                               }
                             },
 

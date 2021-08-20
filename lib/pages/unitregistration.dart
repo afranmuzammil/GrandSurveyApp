@@ -671,7 +671,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
   void createBackend(){
     //religiousDatabase create
     Map<String, dynamic> religiousData = {
-      "unitName":"religiousData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -692,7 +692,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //educationDataBase create
     Map<String, dynamic> educationData = {
-      "unitName":"educationData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -709,7 +709,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //youthDatabase Create
     Map<String, dynamic> youthData = {
-      "unitName":"youthData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -730,7 +730,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //publicDatabase create
     Map<String, dynamic> publicData = {
-      "unitName":"publicData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -775,7 +775,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //officesDatabase create
     Map<String, dynamic> officesData = {
-      "unitName":"officesData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -824,7 +824,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //ngosDatabase create
     Map<String, dynamic> ngosData = {
-      "unitName":"ngosData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())
@@ -873,7 +873,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
     //hallsDatabase create
     Map<String, dynamic> hallsData = {
-      "unitName":"hallsData",
+      "unitName":"NotGiven",
     };
     FirebaseFirestore.instance
         .collection(unitName.text.trim())

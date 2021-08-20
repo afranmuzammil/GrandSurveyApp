@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 import 'package:flutter/material.dart';
 import 'package:path/path.dart' as Path;
 import 'package:geolocator/geolocator.dart';
+import 'package:draggable_scrollbar/draggable_scrollbar.dart';
 
 class Forms extends StatefulWidget {
   final String unitName;
@@ -402,12 +403,14 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
       body: SafeArea(
         child: Scrollbar(
           isAlwaysShown: true,
-          //  controller: _controllerOne,
+           controller: _controllerOne,
           showTrackOnHover: true,
           hoverThickness: 24,
           thickness: 10,
           radius: Radius.circular(8.0),
+          interactive: true,
           child: SingleChildScrollView(
+              controller: _controllerOne,
               child: Padding(
             padding: const EdgeInsets.all(16.0),
             child: Container(
@@ -449,17 +452,17 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                     Container(
                       padding: EdgeInsets.all(1.0),
                       decoration: BoxDecoration(
-                          border: Border.all(color: Colors.blue, width: 3),
+                          border: Border.all(color: Theme.of(context).primaryColor, width: 3),
                           borderRadius: BorderRadius.vertical()),
                       child: ListTile(
                         leading: Icon(Icons.warning_amber_outlined,
-                            color: Colors.blue),
-                        title: Text("ADDING IN:$unitValue UNIT",
+                            color: Theme.of(context).primaryColor),
+                        title: Text("ADDING IN : $unitValue UNIT",
                             style: GoogleFonts.poppins(
                                 textStyle: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.blue))),
+                                    color: Theme.of(context).primaryColor))),
                       ),
                     ),
 
@@ -476,7 +479,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                         setState(() {
                           placeValue = newValue;
                           if (placeValue == "RELIGIOUS PLACES") {
-                            isVisibleReligious = !isVisibleReligious;
+                            isVisibleReligious = true;
+                           // !isVisibleReligious;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
@@ -493,7 +497,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "EDUCATIONAL INSTITUTIONS") {
-                            isVisibleEducation = !isVisibleEducation;
+                            isVisibleEducation = true;
+                            //!isVisibleEducation;
                             isVisibleReligious = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
@@ -508,7 +513,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "YOUTH SPOTS") {
-                            isVisibleYouth = !isVisibleYouth;
+                            isVisibleYouth =true;
+                            //!isVisibleYouth;
                             isVisibleReligious = false;
                             isVisiblePublic = false;
                             isVisibleOffices = false;
@@ -526,7 +532,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "PUBLIC SPOTS") {
-                            isVisiblePublic = !isVisiblePublic;
+                            isVisiblePublic = true;
+                            //!isVisiblePublic;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisibleOffices = false;
@@ -544,7 +551,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "OFFICES") {
-                            isVisibleOffices = !isVisibleOffices;
+                            isVisibleOffices = true;
+                            //!isVisibleOffices;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
@@ -562,7 +570,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "NGOSorORGANISATIONS") {
-                            isVisibleNgos = !isVisibleNgos;
+                            isVisibleNgos = true;
+                            //!isVisibleNgos;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisiblePublic = false;
@@ -580,7 +589,8 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
                             // ngosDetailsVisible = false;
                             hallsDetailsVisible = false;
                           } else if (placeValue == "HALLS") {
-                            isVisibleHalls = !isVisibleHalls;
+                            isVisibleHalls = true;
+                            //!isVisibleHalls;
                             isVisibleReligious = false;
                             isVisibleEducation = false;
                             isVisiblePublic = false;

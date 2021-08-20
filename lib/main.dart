@@ -59,7 +59,8 @@ class MyForm extends StatelessWidget {
           // buttonColor: ,
           // appBarTheme: ,
           scrollbarTheme: ScrollbarThemeData(
-            //thumbColor:MaterialStateProperty.all(Colors.lightBlueAccent)
+              thumbColor:MaterialStateProperty.all(Colors.black26),
+             // trackColor:MaterialStateProperty.all(Colors.black26),
           )
         ),
         initialRoute: '/',

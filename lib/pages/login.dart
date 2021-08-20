@@ -70,8 +70,10 @@ class _LoginFormState extends State<LoginForm> {
                 //id field
                 TextFormField(
                   controller: idCon,
+                //  cursorColor: Theme.of(context).primaryColor,
                   decoration: InputDecoration(
                       //border: InputBorder.none,
+
                       hintText: 'ENTER YOUR UNIT ID',
                       prefixIcon: Icon(Icons.mail)),
                   validator: (value) {

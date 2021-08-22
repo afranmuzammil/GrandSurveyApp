@@ -71,7 +71,7 @@ class _EditPageState extends State<EditPage>
     );
 
     animation =
-        controller.drive(ColorTween(begin: Colors.red[400] , end:Colors.blue[400]));
+        controller.drive(ColorTween(begin: Color(0xff54b4d4), end: Color(0xff048cbc)));
     controller.repeat();
    }
 
@@ -135,7 +135,7 @@ class _EditPageState extends State<EditPage>
    File userImage;
    final picker = ImagePicker();
    Future getImage() async{
-     final image = await picker.getImage(source: ImageSource.gallery,imageQuality: 65,);
+     final image = await picker.pickImage(source: ImageSource.gallery,imageQuality: 65,);
      setState(() {
        userImage = File(image.path);
      });
@@ -309,7 +309,7 @@ class _EditPageState extends State<EditPage>
   bool valueHostal = false;
 
    bool isEnabled = false;
-
+  bool imageUpload = true;
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -1022,6 +1022,8 @@ class _EditPageState extends State<EditPage>
     if(unitName == null){
       unitName =unitValue;
     }
+
+
     return Container(
       child: Column(
         children: [
@@ -1064,6 +1066,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -1082,120 +1085,123 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-            Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+            IgnorePointer(
+              ignoring: imageUpload,
+              child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                  context: context,
-                  barrierDismissible: false,
-                    builder: (BuildContext context){
-                    return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                    context: context,
+                    barrierDismissible: false,
+                      builder: (BuildContext context){
+                      return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
-            ),
           ),
+            ),
           SizedBox(height: 20.0,),
 
           //<---- change----->
@@ -1516,6 +1522,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -1534,117 +1541,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -1940,6 +1950,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -1958,117 +1969,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -2473,6 +2487,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -2491,117 +2506,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -2981,6 +2999,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -2999,117 +3018,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -3382,6 +3404,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -3400,117 +3423,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -3783,6 +3809,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -3801,117 +3828,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -4203,6 +4233,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -4221,117 +4252,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),
@@ -4621,6 +4655,7 @@ class _EditPageState extends State<EditPage>
                 builder: (context)=>TextButton.icon(
                   onPressed: (){
                     getImage();
+                    imageUpload = false;
                   },
                   icon: Icon(
                     Icons.add_a_photo_outlined,
@@ -4639,117 +4674,120 @@ class _EditPageState extends State<EditPage>
           ),
           SizedBox(height: 10.0,),
           //upload Image button
-          Builder(
-            builder: (context) => TextButton(
-              // color: Theme.of(context).primaryColor,
-              style: TextButton.styleFrom(
-                primary: Colors.black26,
-                backgroundColor: Theme.of(context).primaryColor,
-                onSurface: Colors.blue,
-              ),
+          IgnorePointer(
+            ignoring: imageUpload,
+            child: Builder(
+              builder: (context) => TextButton(
+                // color: Theme.of(context).primaryColor,
+                style: TextButton.styleFrom(
+                  primary: Colors.black26,
+                  backgroundColor: Theme.of(context).primaryColor,
+                  onSurface: Colors.blue,
+                ),
 
-              onPressed: ()  {
-                showDialog<void>(
-                    context: context,
-                    barrierDismissible: false,
-                    builder: (BuildContext context){
-                      return  AlertDialog(
-                        title: Text('WARNING!'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: <Widget>[
-                              Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
-                              SizedBox(height: 10.0,),
-                              Text('By uploading This image u will delete previous image'),
-                            ],
+                onPressed: ()  {
+                  showDialog<void>(
+                      context: context,
+                      barrierDismissible: false,
+                      builder: (BuildContext context){
+                        return  AlertDialog(
+                          title: Text('WARNING!'),
+                          content: SingleChildScrollView(
+                            child: ListBody(
+                              children: <Widget>[
+                                Text('Do u Want to upload new image?',style: TextStyle(fontWeight: FontWeight.w500,fontSize: 18),),
+                                SizedBox(height: 10.0,),
+                                Text('By uploading This image u will delete previous image'),
+                              ],
+                            ),
                           ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: Text('Yes'),
-                            onPressed: () async{
-                              try{
-                                await firebase_storage.FirebaseStorage.instance
-                                    .refFromURL(userData["PlaceImage"])
-                                    .delete()
-                                    .then(
-                                        (_) =>
-                                        uploadImageToFirebase(context)
-                                );
-                                await Future.delayed(Duration(seconds: 2));
-                                print("upload done : $newImageLink");
-                                if(newImageLink!= null){
-                                  ScaffoldMessenger.of(context).showSnackBar(
-                                    SnackBar(
-                                      content: Text("Image Uploaded"),
-                                    ),
+                          actions: <Widget>[
+                            TextButton(
+                              child: Text('Yes'),
+                              onPressed: () async{
+                                try{
+                                  await firebase_storage.FirebaseStorage.instance
+                                      .refFromURL(userData["PlaceImage"])
+                                      .delete()
+                                      .then(
+                                          (_) =>
+                                          uploadImageToFirebase(context)
                                   );
-                                }else{
+                                  await Future.delayed(Duration(seconds: 2));
+                                  print("upload done : $newImageLink");
+                                  if(newImageLink!= null){
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Uploaded"),
+                                      ),
+                                    );
+                                  }else{
+                                    ScaffoldMessenger.of(context).showSnackBar(
+                                      SnackBar(
+                                        content: Text("Image Not upload try again"),
+                                      ),
+                                    );
+                                  }
+                                }catch(e){
                                   ScaffoldMessenger.of(context).showSnackBar(
                                     SnackBar(
-                                      content: Text("Image Not upload try again"),
+                                      content: Text("Could not Delete try again"),
                                     ),
                                   );
                                 }
-                              }catch(e){
-                                ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(
-                                    content: Text("Could not Delete try again"),
-                                  ),
-                                );
-                              }
-                              Navigator.of(context).pop();
-                              print("deleted");
+                                Navigator.of(context).pop();
+                                print("deleted");
 
-                            },
-                            // style: TextButton.styleFrom(
-                            //   primary: Colors.white,
-                            //   backgroundColor: Colors.redAccent,
-                            // ),
-                          ),
-                          TextButton(
-                            child: Text('No!'),
-                            onPressed: () {
-                              Navigator.of(context).pop();
-                              print("not Deleted");
-                            },
-                            style: TextButton.styleFrom(
-                              primary: Colors.white,
-                              backgroundColor: Colors.blue,
+                              },
+                              // style: TextButton.styleFrom(
+                              //   primary: Colors.white,
+                              //   backgroundColor: Colors.redAccent,
+                              // ),
                             ),
-                          ),
-                        ],
-                      );
-                    }
-                );
+                            TextButton(
+                              child: Text('No!'),
+                              onPressed: () {
+                                Navigator.of(context).pop();
+                                print("not Deleted");
+                              },
+                              style: TextButton.styleFrom(
+                                primary: Colors.white,
+                                backgroundColor: Colors.blue,
+                              ),
+                            ),
+                          ],
+                        );
+                      }
+                  );
 
-                // await firebase_storage.FirebaseStorage.instance
-                //     .refFromURL(userData["PlaceImage"])
-                //     .delete()
-                //     .then(
-                //         (_) =>
-                //             uploadImageToFirebase(context)
-                // );
-                // await Future.delayed(Duration(seconds: 2));
-                // print("upload done : $newImageLink");
-                // if(newImageLink!= null){
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Uploaded"),
-                //     ),
-                //   );
-                // }else{
-                //   ScaffoldMessenger.of(context).showSnackBar(
-                //     SnackBar(
-                //       content: Text("Image Not upload try again"),
-                //     ),
-                //   );
-                // }
+                  // await firebase_storage.FirebaseStorage.instance
+                  //     .refFromURL(userData["PlaceImage"])
+                  //     .delete()
+                  //     .then(
+                  //         (_) =>
+                  //             uploadImageToFirebase(context)
+                  // );
+                  // await Future.delayed(Duration(seconds: 2));
+                  // print("upload done : $newImageLink");
+                  // if(newImageLink!= null){
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Uploaded"),
+                  //     ),
+                  //   );
+                  // }else{
+                  //   ScaffoldMessenger.of(context).showSnackBar(
+                  //     SnackBar(
+                  //       content: Text("Image Not upload try again"),
+                  //     ),
+                  //   );
+                  // }
 
-              },
-              child: Text(
-                  'upload image',
-                  style: TextStyle(color: Colors.white)
+                },
+                child: Text(
+                    'upload image',
+                    style: TextStyle(color: Colors.white)
+                ),
               ),
             ),
           ),

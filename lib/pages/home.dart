@@ -564,8 +564,8 @@ class _MyHomePageState extends State<MyHomePage>
   }
 
   //url or Phone no click and lunch
-  void customLunch(command) async {
-    if (await canLaunch(command)) {
+   Future<void> customLunch( String command) async {
+    if (command !=null) {
       await launch(command);
     } else {
       print('could not launch $command');
@@ -576,7 +576,7 @@ class _MyHomePageState extends State<MyHomePage>
   static Future<void> openMap(var latitude, var longitude) async {
     String googleUrl =
         'https://www.google.com/maps/search/?api=1&query=$latitude,$longitude';
-    if (await canLaunch(googleUrl)) {
+    if (googleUrl!=null) {
       await launch(googleUrl);
     } else {
       throw 'Could not open the map.';

@@ -160,7 +160,7 @@ class _UnitRegistrationState extends State<UnitRegistration>
 
 
   void customLunch(command) async {
-    if (await canLaunch(command)) {
+    if (command!= null) {
       await launch(command);
     } else {
       print('could not launch $command');

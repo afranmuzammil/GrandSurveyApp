@@ -531,6 +531,8 @@ class _MyHomePageState extends State<MyHomePage>
     unitNameList = list;
    // print(unitNameList);
     //setButtonsVisible();
+   unitValue = list[0];
+    //print("unit list ${list[0]}");
     return unitNameList;
   }
 

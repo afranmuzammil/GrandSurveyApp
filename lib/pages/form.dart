@@ -45,7 +45,7 @@ class _FormsState extends State<Forms> with SingleTickerProviderStateMixin {
 
   Future getImage() async {
     final image = await picker.pickImage(
-      source: ImageSource.camera,
+      source: ImageSource.gallery,
       imageQuality: 65,
     );
     setState(() {

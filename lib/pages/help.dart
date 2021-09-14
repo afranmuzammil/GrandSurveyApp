@@ -141,7 +141,7 @@ class _HelpState extends State<Help>
                           border: Border.all(color: Colors.grey, width: 1),
                           borderRadius: BorderRadius.vertical()),
                       child: Text("Hay, You give me some Valuable feed back and"
-                          " report the bugs and issues u face in the app , "
+                          " report the bugs and issues you may face in the app , "
                           "and it will  be very helpful for the better development of the app,"
                           " Thank You, - Shaik Muzammil Ahmed",
                           style: GoogleFonts.poppins(textStyle: TextStyle(

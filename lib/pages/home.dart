@@ -526,12 +526,16 @@ class _MyHomePageState extends State<MyHomePage>
     // print(unitNames);
     return unitData;
   }
-
+  bool uvChange = true;
   Future<List> unitListFun(list) async {
     unitNameList = list;
    // print(unitNameList);
     //setButtonsVisible();
-   unitValue = list[0];
+    if(uvChange == true && unitCradData["isadmin"] == true){
+      unitValue = list[0];
+      uvChange=false;
+    }
+
     //print("unit list ${list[0]}");
     return unitNameList;
   }

@@ -51,15 +51,21 @@ class _devInfoState extends State<devInfo> {
                     decoration:  BoxDecoration(
                         border: Border.all(color: Colors.grey, width: 1),
                         borderRadius: BorderRadius.vertical()),
-                    child: Text("This is Open Source gitHub Application  which was built for,"
-                        " Islamic Organisation of India as a Grand Survey App, feel free to Contribute ,"
-                        " More info is in About section of GitHub Repo Please Click the Button to Visit it.  "
-                        "                                                                                "
-                        "          Thank You, "
-                        "                                                                                 "
-                        "                   Shaik Muzammil Ahmed",
-                        style: GoogleFonts.poppins(textStyle: TextStyle(
-                            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                    child:
+                    Column(
+                      children: [
+                        Text("This is Open Source gitHub Application  which was built for,"
+                            " Students Islamic Organisation of India as a Grand Survey App, feel free to Contribute ,"
+                            " More info is in About section of GitHub Repo Please Click the Button to Visit it.  "
+                            "                                                                                "
+                            "          Thank You, "
+                            "                                                                                 ",
+                            style: GoogleFonts.poppins(textStyle: TextStyle(
+                                fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))
+                        ),
+                        Text("Shaik Muzammil Ahmed",style: GoogleFonts.poppins(textStyle: TextStyle(
+                            fontSize: 14, fontWeight: FontWeight.w500,color: Colors.black54))),
+                      ],
                     )),
                 Divider(
                   height: 20,
